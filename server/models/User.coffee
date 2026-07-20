@@ -124,13 +124,21 @@ UserSchema.statics.search = (term, done) ->
 UserSchema.statics.findByEmail = (email, done=_.noop) ->
   emailLower = email?.toLowerCase()
   return Promise.resolve(null) if _.isEmpty(emailLower)
-  User.findOne({emailLower: emailLower}).exec(done)
+  query = User.findOne({emailLower: emailLower})
+  if done and done isnt _.noop
+    query.exec(done)
+  else
+    query.exec()
 
 UserSchema.statics.findByName = (name, done=_.noop) ->
   nameLower = name?.toLowerCase()
   slug = _.str.slugify(name)
   return Promise.resolve(null) if _.isEmpty(nameLower) and _.isEmpty(slug)
-  User.findOne({$or: [{nameLower}, {slug}]}).exec(done)
+  query = User.findOne({$or: [{nameLower}, {slug}]})
+  if done and done isnt _.noop
+    query.exec(done)
+  else
+    query.exec()
 
 emailNameMap =
   generalNews: 'announcement'
