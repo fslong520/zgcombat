@@ -1,0 +1,59 @@
+doctype html
+block begin
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=1024')
+    meta(http-equiv='Accept-CH', content='Viewport-Width')
+    // Dexecure
+    title CodeCombat - Learn how to code by playing a game
+    meta(name='description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
+    meta(property='og:title', content='CodeCombat: Learn to Code by Playing a Game')
+    meta(property='og:url', content='http://codecombat.com')
+    meta(property='og:type', content='game')
+    meta(property='og:image', content='http://codecombat.com/images/pages/home/play_img.png')
+    meta(property='og:site_name', content='CodeCombat')
+    meta(name='twitter:card', content='summary')
+    meta(name='twitter:title', content='CodeCombat: Learn to Code by Playing a Game')
+    meta(name='twitter:url', content='http://codecombat.com')
+    meta(name='twitter:site', content='CodeCombat')
+    meta(name='twitter:image:src', content='http://codecombat.com/images/pages/base/logo_square_250.png')
+    meta(name='twitter:description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
+    link(href='//fonts.googleapis.com/css?family=Merriweather', rel='stylesheet', type='text/css')
+    script.
+      var DEXECURE_URL = "/dexecure-c167a5675c.js";
+      "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
+      // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+    script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
+    script(src='/' + shaTag + '/javascripts/app.js', defer='')
+    script(src='/user-data?sha=' + shaTag)
+    // CodePlay Tags Header 
+
+    block setup
+    block script-start
+      script.
+        function onLoad() {
+          try {
+              // IE10 warning
+              var htmlElement = document.querySelector("html");
+              if (htmlElement) {
+                  if ($.browser.msie && $.browser.versionNumber < 11) {
+                      if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+                          alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+                      }
+                  }
+              }
+              // IE8 can't handle this
+              FastClick.attach(document.body);
+          } catch (error) { }
+          require('core/initialize');
+        }
+  body.clearfix(onload='onLoad();')
+    #fb-root
+    block content
+    #modal-wrapper.modal-content.hide
+    #module-load-progress.progress
+      .progress-bar
+    // CodePlay Tags Footer 
