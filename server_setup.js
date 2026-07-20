@@ -157,7 +157,7 @@ const setupFeaturesMiddleware = app => app.use(function(req, res, next) {
     features.noAds = true;
   }
 
-  if (/(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host')) || (req.session.featureMode === 'china')) {
+  if (/(cn\.codecombat\.com|aojiarui)/.test(req.get('host')) || (req.session.featureMode === 'china')) {
     features.china = true;
     features.freeOnly = true;
     features.noAds = true;
@@ -269,7 +269,7 @@ var setupQuickBailToMainHTML = function(app) {
       res.header('Expires', 0);
     }
 
-    if (/(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host'))) {
+    if (/(cn\.codecombat\.com|aojiarui)/.test(req.get('host'))) {
       features.china = true;
       if ((template === 'home.html') && (config.product === 'codecombat')) {
         template = 'home-cn.html';

@@ -33,7 +33,7 @@ config.proxy = process.env.COCO_PROXY
 
 config.timeout = parseInt(process.env.COCO_TIMEOUT) || (60 * 1000)
 
-config.chinaDomain = 'bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.codecombat.com'
+config.chinaDomain = 'ccombat.cn;contributors.codecombat.com'
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE || sassFalse
 
 config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 3000
