@@ -1,64 +1,186 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZGCombat - 编程游戏</title><style>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZGCombat - 编程学习平台</title>
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;font-family:"Open Sans","Microsoft YaHei","PingFang SC",sans-serif;min-height:100vh}
-.topbar{background:rgba(0,0,0,.3);padding:12px 40px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);flex-wrap:wrap;gap:10px}
-.topbar .logo{font-size:20px;font-weight:700;color:#5cb85c;text-decoration:none}
-.topbar .logo span{color:#fff}
-.topbar .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.topbar .nav a{color:#b8a9d4;text-decoration:none;font-size:13px;padding:6px 14px;border-radius:6px;transition:all .2s}
-.topbar .nav a:hover{color:#fff;background:rgba(255,255,255,.1)}
-.topbar .nav .btn-account{background:rgba(92,184,92,.2);color:#5cb85c;font-weight:600;padding:6px 18px}
-.topbar .nav .btn-account:hover{background:rgba(92,184,92,.35)}
-.hero{text-align:center;padding:80px 20px 50px}
-.hero h1{font-size:52px;font-weight:700;margin-bottom:10px;background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:18px;color:#b8a9d4;margin-bottom:40px;max-width:500px;margin:0 auto 40px}
-.btn-play{display:inline-block;padding:16px 64px;font-size:20px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff!important;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 32px rgba(92,184,92,.3)}
-.btn-play:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(92,184,92,.4)}
-.cards{max-width:960px;margin:50px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.card{background:rgba(255,255,255,.08);border-radius:14px;padding:28px 24px;text-align:center;text-decoration:none;color:#fff!important;display:block;transition:all .2s}
-.card:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
-.card .icon{font-size:36px;margin-bottom:10px}
-.card h3{font-size:16px;margin-bottom:4px;font-weight:600}
-.card p{font-size:12px;color:#b8a9d4;line-height:1.5}
-.footer{text-align:center;padding:30px;color:#555;font-size:12px}
+body{font-family:"Open Sans","Microsoft YaHei","PingFang SC",sans-serif;background:#f5f7fa;color:#333;min-height:100vh}
+/* Header */
+.header{background:#fff;border-bottom:1px solid #e8ecf1;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.header .logo{font-size:22px;font-weight:800;color:#5cb85c;text-decoration:none;letter-spacing:-.5px}
+.header .logo span{color:#2c3e50}
+.header .nav{display:flex;align-items:center;gap:6px}
+.header .nav a{padding:8px 18px;color:#555;text-decoration:none;font-size:14px;border-radius:8px;transition:all .2s}
+.header .nav a:hover{background:#f0f2f5;color:#2c3e50}
+.header .nav .btn-reg{padding:8px 24px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
+.header .nav .btn-reg:hover{background:#4cae4c}
+/* Hero */
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:80px 40px 100px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(92,184,92,.08) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(78,205,196,.08) 0%,transparent 50%);pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:720px;margin:0 auto}
+.hero h1{font-size:48px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.2}
+.hero h1 span{background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:18px;color:rgba(255,255,255,.7);margin-bottom:36px;line-height:1.7;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary-hero{padding:16px 48px;font-size:18px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff!important;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 8px 32px rgba(92,184,92,.3)}
+.btn-primary-hero:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(92,184,92,.4)}
+.btn-secondary-hero{padding:16px 40px;font-size:18px;font-weight:600;background:rgba(255,255,255,.12);color:#fff!important;border-radius:50px;text-decoration:none;transition:all .3s;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15)}
+.btn-secondary-hero:hover{background:rgba(255,255,255,.2)}
+/* Stats bar */
+.stats{background:#fff;padding:24px 40px;display:flex;justify-content:center;gap:60px;border-bottom:1px solid #e8ecf1;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-item .num{font-size:28px;font-weight:800;color:#5cb85c}
+.stat-item .label{font-size:13px;color:#888;margin-top:2px}
+/* Section */
+.section{padding:64px 40px;max-width:1100px;margin:0 auto}
+.section-title{text-align:center;margin-bottom:48px}
+.section-title h2{font-size:30px;font-weight:700;color:#2c3e50;margin-bottom:8px}
+.section-title p{color:#888;font-size:16px}
+/* Campaign grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:#fff;border-radius:16px;padding:28px 24px;text-decoration:none;color:inherit;display:block;border:1px solid #e8ecf1;transition:all .25s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08);border-color:transparent}
+.card .icon{font-size:36px;margin-bottom:12px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:4px;color:#2c3e50}
+.card p{font-size:13px;color:#888;line-height:1.6}
+.card .tag{display:inline-block;margin-top:12px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.tag-beginner{background:#e8f5e9;color:#5cb85c}
+.tag-intermediate{background:#fff3e0;color:#f39c12}
+.tag-advanced{background:#fce4ec;color:#e74c3c}
+/* Learning path */
+.path{background:#fff;border-radius:16px;border:1px solid #e8ecf1;padding:32px;margin-top:32px}
+.path h3{font-size:18px;font-weight:700;color:#2c3e50;margin-bottom:16px}
+.path-steps{display:flex;gap:0;align-items:flex-start;flex-wrap:wrap}
+.path-step{flex:1;min-width:150px;padding:16px;position:relative;text-align:center}
+.path-step .step-num{width:32px;height:32px;border-radius:50%;background:#5cb85c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin:0 auto 8px}
+.path-step .step-name{font-size:14px;font-weight:600;color:#2c3e50;margin-bottom:4px}
+.path-step .step-desc{font-size:12px;color:#888}
+.path-step::after{content:'→';position:absolute;right:-8px;top:22px;font-size:20px;color:#ccc}
+.path-step:last-child::after{display:none}
+/* Account section */
+.account-section{background:#fff;border-radius:16px;border:1px solid #e8ecf1;padding:32px;text-align:center;margin-top:32px}
+.account-section h3{font-size:18px;font-weight:700;color:#2c3e50;margin-bottom:8px}
+.account-section p{color:#888;font-size:14px;margin-bottom:20px}
+.account-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-account{display:inline-block;padding:12px 32px;font-size:15px;font-weight:600;border-radius:10px;text-decoration:none;transition:all .2s}
+.btn-login{background:#5cb85c;color:#fff!important}
+.btn-login:hover{background:#4cae4c}
+.btn-settings{background:#f0f2f5;color:#555!important}
+.btn-settings:hover{background:#e5e8ec}
+/* Footer */
+.footer{text-align:center;padding:32px 40px;color:#aaa;font-size:13px;border-top:1px solid #e8ecf1;margin-top:40px}
 .footer a{color:#5cb85c;text-decoration:none}
-</style></head><body>
-<div class="topbar">
+@media(max-width:768px){.header{padding:0 20px}.hero{padding:60px 20px 80px}.hero h1{font-size:32px}.section{padding:40px 20px}.stats{gap:30px}}
+</style>
+</head>
+<body>
+<div class="header">
   <a class="logo" href="/">ZG<span>Combat</span></a>
   <div class="nav">
-    <a href="/play">进入游戏</a>
-    <a href="/play">注册账号</a>
-    <a href="/play">账号设置</a>
+    <a href="/play">游戏</a>
+    <a href="/play/dungeon">地牢</a>
+    <a href="/play/forest">森林</a>
+    <a href="/play/desert">沙漠</a>
+    <a href="/play">学习进度</a>
+    <a href="/play" class="btn-reg">注册 / 登录</a>
   </div>
 </div>
 <div class="hero">
-  <h1>编程游戏</h1>
-  <p>通过闯关学习 Python 和 JavaScript，从零开始。</p>
-  <a class="btn-play" href="/play">开始游戏</a>
+  <div class="hero-content">
+    <h1>通过玩游戏<br><span>学会真正的编程</span></h1>
+    <p>在冒险中学习 Python 和 JavaScript，从零基础到独立编写游戏和网站。适合 8 岁以上的学习者。</p>
+    <div class="hero-buttons">
+      <a class="btn-primary-hero" href="/play">免费开始学习</a>
+      <a class="btn-secondary-hero" href="/play/dungeon">试玩关卡</a>
+    </div>
+  </div>
 </div>
-<div class="cards">
-  <a class="card" href="/play">
-    <div class="icon">🏰</div>
-    <h3>Kithgard 地牢</h3>
-    <p>移动、攻击，掌握基础编程命令</p>
-  </a>
-  <a class="card" href="/play">
-    <div class="icon">🌲</div>
-    <h3>Backwoods 森林</h3>
-    <p>循环与条件，应对复杂敌人</p>
-  </a>
-  <a class="card" href="/play">
-    <div class="icon">🏜️</div>
-    <h3>Sarven 沙漠</h3>
-    <p>变量与函数，挑战更强对手</p>
-  </a>
-  <a class="card" href="/play">
-    <div class="icon">⛰️</div>
-    <h3>Cloudrip 山巅</h3>
-    <p>高级编程概念，成为编程大师</p>
-  </a>
+<div class="stats">
+  <div class="stat-item"><div class="num">20+</div><div class="label">学习关卡</div></div>
+  <div class="stat-item"><div class="num">5</div><div class="label">战役章节</div></div>
+  <div class="stat-item"><div class="num">Python</div><div class="label">编程语言</div></div>
+  <div class="stat-item"><div class="num">JS</div><div class="label">JavaScript</div></div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <h2>选择你的冒险</h2>
+    <p>从地牢到山巅，一步步成长为编程大师</p>
+  </div>
+  <div class="grid">
+    <a class="card" href="/play/dungeon">
+      <div class="icon">🏰</div>
+      <h3>Kithgard 地牢</h3>
+      <p>从最基本的移动和攻击开始，了解编程的基本概念。适合零基础。</p>
+      <span class="tag tag-beginner">入门</span>
+    </a>
+    <a class="card" href="/play/forest">
+      <div class="icon">🌲</div>
+      <h3>Backwoods 森林</h3>
+      <p>学习循环和条件判断，编写更智能的代码应对复杂敌人。</p>
+      <span class="tag tag-beginner">入门</span>
+    </a>
+    <a class="card" href="/play/desert">
+      <div class="icon">🏜️</div>
+      <h3>Sarven 沙漠</h3>
+      <p>掌握变量和函数，编写可复用的高效代码挑战强敌。</p>
+      <span class="tag tag-intermediate">进阶</span>
+    </a>
+    <a class="card" href="/play/mountain">
+      <div class="icon">⛰️</div>
+      <h3>Cloudrip 山巅</h3>
+      <p>探索算法和数据结构，运用高级编程技巧解决难题。</p>
+      <span class="tag tag-advanced">高级</span>
+    </a>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <h2>学习路径</h2>
+    <p>清晰的学习路线，从零到一</p>
+  </div>
+  <div class="path">
+    <div class="path-steps">
+      <div class="path-step">
+        <div class="step-num">1</div>
+        <div class="step-name">基础语法</div>
+        <div class="step-desc">移动、攻击、变量</div>
+      </div>
+      <div class="path-step">
+        <div class="step-num">2</div>
+        <div class="step-name">循环与逻辑</div>
+        <div class="step-desc">while、if/else</div>
+      </div>
+      <div class="path-step">
+        <div class="step-num">3</div>
+        <div class="step-name">函数与抽象</div>
+        <div class="step-desc">定义函数、复用代码</div>
+      </div>
+      <div class="path-step">
+        <div class="step-num">4</div>
+        <div class="step-name">算法思维</div>
+        <div class="step-desc">递归、排序、搜索</div>
+      </div>
+      <div class="path-step">
+        <div class="step-num">5</div>
+        <div class="step-name">项目实战</div>
+        <div class="step-desc">开发自己的游戏</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="account-section">
+    <h3>账号管理</h3>
+    <p>注册账号以保存学习进度，或随时查看学习情况</p>
+    <div class="account-btns">
+      <a class="btn-account btn-login" href="/play">注册 / 登录</a>
+      <a class="btn-account btn-settings" href="/play">学习进度</a>
+    </div>
+  </div>
 </div>
 <div class="footer">
-  ZGCombat · 内部学习平台 · <a href="https://github.com/codecombat/codecombat" target="_blank">开源项目</a>
+  ZGCombat · 编程学习平台 · <a href="https://github.com/codecombat/codecombat" target="_blank">开源项目</a>
 </div>
 </body></html>
