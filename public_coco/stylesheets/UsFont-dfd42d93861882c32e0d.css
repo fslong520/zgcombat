@@ -1,0 +1,120 @@
+/*! hash:2d0c129255aa44cb015d, chunkhash:6a11cad903371cb9eb98, name:UsFont, filebase:UsFont-dfd42d93861882c32e0d.css, query:, file:stylesheets/UsFont-dfd42d93861882c32e0d.css */
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/import-glob-loader/index.js!./app/styles/common/fontUS.sass ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/* @import url(//dbbpm1bnahe9k.cloudfront.net/webfont.css); */
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12.use[3]!./node_modules/import-glob-loader/index.js!./app/styles/common/fontUS.sass (1) ***!
+  \*************************************************************************************************************************************************************************************************************************/
+@font-face {
+  font-display: swap;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/google/open-sans-v40-cyrillic_cyrillic-ext_greek_greek-ext_hebrew_latin_latin-ext_vietnamese-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/open-sans-v40-cyrillic_cyrillic-ext_greek_greek-ext_hebrew_latin_latin-ext_vietnamese-regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/google/open-sans-v40-cyrillic_cyrillic-ext_greek_greek-ext_hebrew_latin_latin-ext_vietnamese-700.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Open Sans Condensed";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/google/OpenSans-CondBold-webfont.woff") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Arvo";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/arvo-v22-latin-regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Arvo";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/google/arvo-v22-latin-700.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-500.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-700.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/roboto-mono-v23-cyrillic_cyrillic-ext_greek_latin_latin-ext_vietnamese-regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/google/work-sans-v19-latin_latin-ext_vietnamese-300.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/work-sans-v19-latin_latin-ext_vietnamese-regular.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/google/work-sans-v19-latin_latin-ext_vietnamese-600.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/google/work-sans-v19-latin_latin-ext_vietnamese-700.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/google/space-mono-v13-latin_latin-ext_vietnamese-regular.woff2") format("woff2");
+}
