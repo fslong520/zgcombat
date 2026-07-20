@@ -17,17 +17,17 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 .header .nav a:hover{color:#e8e8f0;background:rgba(255,255,255,.06)}
 .header .nav .btn-reg{padding:5px 18px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
 .header .nav .btn-reg:hover{background:#4cae4c}
-.hero{background:linear-gradient(160deg,#0d0e1f 0%,#15162a 50%,#0d0e1f 100%);height:calc(100vh - 56px);display:flex;align-items:center;position:relative;overflow:hidden}
+.hero{height:calc(100vh - 56px);display:flex;align-items:center;position:relative;overflow:hidden}
 /* Carousel background */
 .carousel{position:absolute;inset:0;pointer-events:none;z-index:0}
 .carousel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease}
 .carousel img.active{opacity:.08}
 .carousel img:nth-child(1){opacity:.08}
-@keyframes crossfade{0%,28%{opacity:.25}33%,61%{opacity:0}66%,94%{opacity:0}100%{opacity:.25}}
+@keyframes crossfade{0%,28%{opacity:.5}33%,61%{opacity:0}66%,94%{opacity:0}100%{opacity:.5}}
 .carousel img:nth-child(1){animation:crossfade 18s infinite}
 .carousel img:nth-child(2){animation:crossfade 18s infinite 6s}
 .carousel img:nth-child(3){animation:crossfade 18s infinite 12s}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,31,.85) 0%,rgba(13,14,31,.6) 50%,rgba(13,14,31,.4) 100%);pointer-events:none;z-index:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,31,.7) 0%,rgba(13,14,31,.35) 50%,rgba(13,14,31,.15) 100%);pointer-events:none;z-index:1}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(92,184,92,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(92,184,92,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:1}
 .hero-glow{position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(92,184,92,.07) 0%,transparent 60%);pointer-events:none;z-index:1}
 .hero-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:2;width:100%;padding:0 32px}
