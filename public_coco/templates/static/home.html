@@ -7,124 +7,70 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#0d0e1f;color:#e0e0e0;min-height:100vh;overflow-x:hidden}
-/* Header */
 .header{background:rgba(13,14,31,.95);border-bottom:1px solid rgba(255,255,255,.06);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
 .header .logo{font-size:20px;font-weight:800;color:#5cb85c;text-decoration:none;font-family:"JetBrains Mono","Fira Code",monospace}
 .header .logo span{color:#e0e0e0}
 .header .nav{display:flex;align-items:center;gap:4px}
-.header .nav a{padding:6px 16px;color:#8888aa;text-decoration:none;font-size:13px;border-radius:8px;transition:all .15s cubic-bezier(.23,1,.32,1)}
+.header .nav a{padding:6px 16px;color:#8888aa;text-decoration:none;font-size:13px;border-radius:8px;transition:all .15s}
 .header .nav a:hover{color:#e0e0e0;background:rgba(255,255,255,.06)}
 .header .nav .btn-reg{padding:6px 20px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
 .header .nav .btn-reg:hover{background:#4cae4c;transform:translateY(-1px)}
-/* Hero */
-.hero{background:linear-gradient(160deg,#0d0e1f 0%,#1a1b2e 50%,#0d0e1f 100%);padding:80px 32px 0;position:relative;overflow:hidden}
+.hero{background:linear-gradient(160deg,#0d0e1f 0%,#1a1b2e 50%,#0d0e1f 100%);padding:80px 32px 60px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;top:-30%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(92,184,92,.06) 0%,transparent 70%);pointer-events:none}
-.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1}
-.hero-text h1{font-size:42px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px}
+.hero-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1}
+.hero-text h1{font-size:40px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px}
 .hero-text h1 span{color:#5cb85c}
-.hero-text p{font-size:15px;color:#8888aa;line-height:1.7;margin-bottom:28px;max-width:480px}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{padding:12px 36px;font-size:15px;font-weight:700;background:#5cb85c;color:#fff!important;border-radius:10px;text-decoration:none;transition:all .15s cubic-bezier(.23,1,.32,1)}
+.hero-text p{font-size:14px;color:#8888aa;line-height:1.7;margin-bottom:24px;max-width:440px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{padding:12px 36px;font-size:15px;font-weight:700;background:#5cb85c;color:#fff!important;border-radius:10px;text-decoration:none;transition:all .15s}
 .btn-primary:hover{transform:translateY(-1px);background:#4cae4c;box-shadow:0 4px 20px rgba(92,184,92,.3)}
-.btn-secondary{padding:12px 32px;font-size:15px;font-weight:600;color:#e0e0e0!important;border-radius:10px;text-decoration:none;border:1px solid rgba(255,255,255,.12);transition:all .15s cubic-bezier(.23,1,.32,1)}
-.btn-secondary:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2)}
-/* Code block */
+.btn-secondary{padding:12px 32px;font-size:15px;font-weight:600;color:#e0e0e0!important;border-radius:10px;text-decoration:none;border:1px solid rgba(255,255,255,.12);transition:all .15s}
+.btn-secondary:hover{background:rgba(255,255,255,.06)}
 .code-block{background:#0a0b16;border-radius:12px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
-.code-header{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.04)}
+.code-header{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.04)}
 .code-dot{width:10px;height:10px;border-radius:50%}
 .code-dot.r{background:#ff5f57}
 .code-dot.y{background:#ffbd2e}
 .code-dot.g{background:#28c840}
-.code-file{font-size:11px;color:#8888aa;font-family:"JetBrains Mono","Fira Code",monospace;margin-left:12px}
-.code-body{padding:16px 20px;font-family:"JetBrains Mono","Fira Code",monospace;font-size:13px;line-height:1.8;overflow-x:auto}
+.code-file{font-size:11px;color:#8888aa;font-family:"JetBrains Mono","Fira Code",monospace;margin-left:10px}
+.code-body{padding:14px 18px;font-family:"JetBrains Mono","Fira Code",monospace;font-size:13px;line-height:1.8;overflow-x:auto}
 .code-body .kw{color:#c678dd}
 .code-body .fn{color:#61afef}
 .code-body .str{color:#98c379}
-.code-body .cm{color:#5c6370}
-.code-body .op{color:#abb2bf}
-.code-body .num{color:#d19a66}
-.code-body .built{color:#e5c07b}
-/* Stats */
-.stats{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);padding:20px 32px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
-.stat-item{text-align:center}
-.stat-item .num{font-size:24px;font-weight:800;color:#5cb85c;font-family:"JetBrains Mono","Fira Code",monospace}
-.stat-item .label{font-size:12px;color:#8888aa;margin-top:2px}
-/* Section */
-.section{padding:64px 32px;max-width:1100px;margin:0 auto}
-.section-title{text-align:center;margin-bottom:40px}
-.section-title h2{font-size:26px;font-weight:700;color:#fff;margin-bottom:6px}
-.section-title p{font-size:14px;color:#8888aa}
-/* Lang showcase */
-.lang-show{display:flex;justify-content:center;gap:12px;margin-bottom:48px;flex-wrap:wrap}
-.lang-tag{display:flex;align-items:center;gap:6px;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;font-family:"JetBrains Mono","Fira Code",monospace;background:rgba(92,184,92,.1);color:#5cb85c;border:1px solid rgba(92,184,92,.2)}
-.lang-tag.cpp{background:rgba(198,120,221,.1);color:#c678dd;border-color:rgba(198,120,221,.2)}
-.lang-tag.js{background:rgba(229,192,123,.1);color:#e5c07b;border-color:rgba(229,192,123,.2)}
+.lang-bar{display:flex;justify-content:center;gap:12px;padding:20px 32px;flex-wrap:wrap}
+.lang-tag{display:flex;align-items:center;gap:6px;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:600;font-family:"JetBrains Mono","Fira Code",monospace}
+.lang-tag.py{background:rgba(92,184,92,.1);color:#5cb85c;border:1px solid rgba(92,184,92,.2)}
+.lang-tag.cpp{background:rgba(198,120,221,.1);color:#c678dd;border:1px solid rgba(198,120,221,.2)}
+.lang-tag.js{background:rgba(229,192,123,.1);color:#e5c07b;border:1px solid rgba(229,192,123,.2)}
 .lang-tag .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .lang-tag.py .dot{background:#5cb85c}
 .lang-tag.cpp .dot{background:#c678dd}
 .lang-tag.js .dot{background:#e5c07b}
-/* Campaign grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.card{background:rgba(255,255,255,.04);border-radius:12px;padding:24px 20px;text-decoration:none;color:inherit;display:block;border:1px solid rgba(255,255,255,.06);transition:all .15s cubic-bezier(.23,1,.32,1)}
-.card:hover{background:rgba(255,255,255,.08);transform:translateY(-2px);border-color:rgba(92,184,92,.2)}
-.card .icon{font-size:28px;margin-bottom:8px}
-.card h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.card p{font-size:12px;color:#8888aa;line-height:1.6;margin-bottom:8px}
-.card .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600}
-.tag-beginner{background:rgba(92,184,92,.15);color:#5cb85c}
-.tag-intermediate{background:rgba(229,192,123,.15);color:#e5c07b}
-.tag-advanced{background:rgba(198,120,221,.15);color:#c678dd}
-/* Learning path */
-.path-wrap{background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.06);padding:28px}
-.path-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:20px}
-.path-steps{display:flex;gap:0;align-items:flex-start;flex-wrap:wrap}
-.path-step{flex:1;min-width:140px;padding:12px;position:relative;text-align:center}
-.path-step .step-circle{width:36px;height:36px;border-radius:50%;border:2px solid rgba(92,184,92,.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#5cb85c;margin:0 auto 8px;font-family:"JetBrains Mono","Fira Code",monospace;transition:all .2s}
-.path-step:hover .step-circle{border-color:#5cb85c;background:rgba(92,184,92,.1)}
-.path-step .step-name{font-size:13px;font-weight:600;color:#e0e0e0;margin-bottom:2px}
-.path-step .step-desc{font-size:11px;color:#8888aa}
-.path-step::after{content:'→';position:absolute;right:-6px;top:20px;font-size:16px;color:rgba(255,255,255,.1)}
-.path-step:last-child::after{display:none}
-/* Multi-language highlight */
-.multi-lang{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-.code-snip{background:rgba(255,255,255,.03);border-radius:8px;padding:12px 16px;font-family:"JetBrains Mono","Fira Code",monospace;font-size:12px;line-height:1.6;border:1px solid rgba(255,255,255,.06);flex:1;min-width:200px}
-.code-snip .lang-label{font-size:10px;color:#8888aa;margin-bottom:4px;font-weight:600}
-.code-snip.py-snip{border-left:2px solid #5cb85c}
-.code-snip.cpp-snip{border-left:2px solid #c678dd}
-.code-snip.js-snip{border-left:2px solid #e5c07b}
-/* Account */
-.account-box{background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.06);padding:32px;text-align:center;margin-top:32px}
-.account-box h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
-.account-box p{font-size:13px;color:#8888aa;margin-bottom:20px}
-.account-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-/* Footer */
-.footer{text-align:center;padding:28px 32px;color:#555;font-size:12px;border-top:1px solid rgba(255,255,255,.04)}
+.cta{text-align:center;padding:60px 32px 80px}
+.cta h2{font-size:26px;font-weight:700;color:#fff;margin-bottom:6px}
+.cta p{font-size:14px;color:#8888aa;margin-bottom:24px}
+.footer{text-align:center;padding:24px 32px;color:#555;font-size:12px;border-top:1px solid rgba(255,255,255,.04)}
 .footer a{color:#5cb85c;text-decoration:none}
-/* Responsive */
-@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:24px;padding-top:40px}.hero-text h1{font-size:28px}.header{padding:0 16px}.header .nav a{padding:4px 10px;font-size:12px}.section{padding:40px 16px}.stats{gap:24px}.path-step{min-width:100px}}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:24px;padding-top:30px}.hero-text h1{font-size:28px}.header{padding:0 16px}.header .nav a{padding:4px 10px;font-size:12px}}
 </style>
 </head>
 <body>
 <div class="header">
   <a class="logo" href="/">ZG<span>Combat</span></a>
   <div class="nav">
-    <a href="/play">游戏</a>
-    <a href="/play/dungeon">地牢</a>
-    <a href="/play/forest">森林</a>
-    <a href="/play/desert">沙漠</a>
-    <a href="/play">学习进度</a>
-    <a href="/play" class="btn-reg">注册 / 登录</a>
+    <a href="/play">进入游戏</a>
+    <a href="/play">注册</a>
+    <a href="/play">登录</a>
   </div>
 </div>
-
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-text">
       <h1>编程 <span>即力量</span></h1>
-      <p>在冒险中学习 Python、JavaScript 和 C++。从零基础到独立编程，适合 8 岁以上的学习者。</p>
+      <p>在冒险中学习 Python、JavaScript 和 C++。闯关解锁新地图，从零开始逐步进阶。</p>
       <div class="hero-btns">
-        <a class="btn-primary" href="/play">免费开始学习</a>
-        <a class="btn-secondary" href="/play/dungeon">试玩地牢</a>
+        <a class="btn-primary" href="/play">开始冒险</a>
+        <a class="btn-secondary" href="/play/dungeon">试玩第一关</a>
       </div>
     </div>
     <div class="code-block">
@@ -143,92 +89,17 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
     </div>
   </div>
 </div>
-
-<div class="stats">
-  <div class="stat-item"><div class="num">20+</div><div class="label">关卡</div></div>
-  <div class="stat-item"><div class="num">5</div><div class="label">战役</div></div>
-  <div class="stat-item"><div class="num">3</div><div class="label">编程语言</div></div>
-  <div class="stat-item"><div class="num">C++</div><div class="label">竞赛支持</div></div>
+<div class="lang-bar">
+  <div class="lang-tag py"><span class="dot"></span> Python</div>
+  <div class="lang-tag cpp"><span class="dot"></span> C++</div>
+  <div class="lang-tag js"><span class="dot"></span> JavaScript</div>
 </div>
-
-<div class="section">
-  <div class="section-title">
-    <h2>选择你的语言</h2>
-    <p>Python、JavaScript、C++ — 同一关卡，三种实现</p>
-  </div>
-  <div class="lang-show">
-    <div class="lang-tag py"><span class="dot"></span> Python</div>
-    <div class="lang-tag js"><span class="dot"></span> JavaScript</div>
-    <div class="lang-tag cpp"><span class="dot"></span> C++</div>
-  </div>
+<div class="cta">
+  <h2>准备好开始了吗？</h2>
+  <p>地图逐步解锁，完成关卡才能前进。支持三种编程语言。</p>
+  <a class="btn-primary" href="/play">进入游戏</a>
 </div>
-
-<div class="section">
-  <div class="section-title">
-    <h2>战役路线</h2>
-    <p>从地牢到山巅，一步步成为编程大师</p>
-  </div>
-  <div class="grid">
-    <a class="card" href="/play/dungeon">
-      <div class="icon">🏰</div>
-      <h3>Kithgard 地牢</h3>
-      <p>移动、攻击、变量——编程第一步。零基础入门。</p>
-      <span class="tag tag-beginner">入门</span>
-    </a>
-    <a class="card" href="/play/forest">
-      <div class="icon">🌲</div>
-      <h3>Backwoods 森林</h3>
-      <p>循环与条件判断，编写更聪明的代码。</p>
-      <span class="tag tag-beginner">入门</span>
-    </a>
-    <a class="card" href="/play/desert">
-      <div class="icon">🏜️</div>
-      <h3>Sarven 沙漠</h3>
-      <p>函数与抽象，编写可复用代码挑战强敌。</p>
-      <span class="tag tag-intermediate">进阶</span>
-    </a>
-    <a class="card" href="/play/mountain">
-      <div class="icon">⛰️</div>
-      <h3>Cloudrip 山巅</h3>
-      <p>算法与数据结构，冲击编程竞赛巅峰。</p>
-      <span class="tag tag-advanced">高级</span>
-    </a>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title">
-    <h2>学习路径</h2>
-    <p>清晰路线，从零到独立编程</p>
-  </div>
-  <div class="path-wrap">
-    <div class="path-steps">
-      <div class="path-step"><div class="step-circle">1</div><div class="step-name">基础语法</div><div class="step-desc">移动、攻击、变量</div></div>
-      <div class="path-step"><div class="step-circle">2</div><div class="step-name">循环与逻辑</div><div class="step-desc">while、if/else</div></div>
-      <div class="path-step"><div class="step-circle">3</div><div class="step-name">函数与抽象</div><div class="step-desc">定义函数、复用</div></div>
-      <div class="path-step"><div class="step-circle">4</div><div class="step-name">算法思维</div><div class="step-desc">排序、搜索、递归</div></div>
-      <div class="path-step"><div class="step-circle">5</div><div class="step-name">项目实战</div><div class="step-desc">开发自己的游戏</div></div>
-    </div>
-    <div class="multi-lang">
-      <div class="code-snip py-snip"><div class="lang-label">🐍 Python</div><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):<br>&nbsp;&nbsp;<span class="fn">attack</span>(<span class="str">"ogre"</span>)</div>
-      <div class="code-snip cpp-snip"><div class="lang-label">⚡ C++</div><span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;<span class="num">5</span>;i++)<br>&nbsp;&nbsp;<span class="fn">attack</span>(<span class="str">"ogre"</span>);</div>
-      <div class="code-snip js-snip"><div class="lang-label">🟨 JavaScript</div><span class="kw">for</span>(<span class="kw">let</span> i=<span class="num">0</span>;i&lt;<span class="num">5</span>;i++)<br>&nbsp;&nbsp;<span class="fn">attack</span>(<span class="str">"ogre"</span>)</div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="account-box">
-    <h3>账号管理</h3>
-    <p>注册账号保存进度，多语言支持（Python / JavaScript / C++）</p>
-    <div class="account-btns">
-      <a class="btn-primary" href="/play">注册 / 登录</a>
-      <a class="btn-secondary" href="/play">学习进度</a>
-    </div>
-  </div>
-</div>
-
 <div class="footer">
-  ZGCombat · 编程学习平台 · <a href="https://github.com/codecombat/codecombat" target="_blank">开源项目</a>
+  ZGCombat · <a href="https://github.com/codecombat/codecombat" target="_blank">开源项目</a>
 </div>
 </body></html>
