@@ -283,8 +283,8 @@ var setupQuickBailToMainHTML = function(app) {
     return renderMain(template, req, res);
   });
 
-  app.get('/', function(req, res) { res.redirect('/play'); });
-  app.get('/home', function(req, res) { res.redirect('/play'); });
+  app.get('/', fast('home.html'));
+  app.get('/home', fast('home.html'));
   app.get('/play', fast('overworld.html'));
   app.get('/play/level/:slug', fast('main.html'));
   app.get('/play/:slug', fast('main.html'));
