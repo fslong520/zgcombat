@@ -6,29 +6,27 @@
 <title>ZGCombat - 编程学习平台</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#0d0e1f;color:#e8e8f0;min-height:100vh;overflow-x:hidden}
-.header{background:rgba(13,14,31,.92);border-bottom:1px solid rgba(255,255,255,.06);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
-.header .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#e8e8f0;font-size:18px;font-weight:700}
-.header .logo img{height:28px;width:auto}
+html,body{height:100%}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#0d0e1f;color:#e8e8f0;overflow:hidden}
+.header{background:rgba(13,14,31,.92);border-bottom:1px solid rgba(255,255,255,.06);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:100}
+.header .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#e8e8f0;font-size:17px;font-weight:700}
+.header .logo img{height:26px;width:auto}
 .header .logo span{color:#5cb85c}
 .header .nav{display:flex;align-items:center;gap:4px}
-.header .nav a{padding:6px 16px;color:#a0a0c0;text-decoration:none;font-size:13px;border-radius:8px;transition:all .15s}
+.header .nav a{padding:5px 14px;color:#a0a0c0;text-decoration:none;font-size:12px;border-radius:8px;transition:all .15s}
 .header .nav a:hover{color:#e8e8f0;background:rgba(255,255,255,.06)}
-.header .nav .btn-reg{padding:6px 20px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
-.header .nav .btn-reg:hover{background:#4cae4c;transform:translateY(-1px)}
-.hero{background:linear-gradient(160deg,#0d0e1f 0%,#15162a 50%,#0d0e1f 100%);padding:80px 32px;position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center}
+.header .nav .btn-reg{padding:5px 18px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
+.header .nav .btn-reg:hover{background:#4cae4c}
+.hero{background:linear-gradient(160deg,#0d0e1f 0%,#15162a 50%,#0d0e1f 100%);height:calc(100vh - 56px);display:flex;align-items:center;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;opacity:.04;background-image:url('/images/pages/base/background.jpg');background-size:cover;background-position:center;pointer-events:none}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(92,184,92,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(92,184,92,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.hero-glow{position:absolute;top:-20%;right:-5%;width:600px;height:600px;background:radial-gradient(circle,rgba(92,184,92,.07) 0%,transparent 60%);pointer-events:none}
-.hero-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1;width:100%}
-.hero-text h1{font-size:44px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero-glow{position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(92,184,92,.07) 0%,transparent 60%);pointer-events:none}
+.hero-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1;width:100%;padding:0 32px}
+.hero-text h1{font-size:40px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:12px}
 .hero-text h1 span{background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-text p{font-size:14px;color:#b0b0cc;line-height:1.8;margin-bottom:24px;max-width:460px}
-.hero-info{display:flex;gap:24px;margin-bottom:28px;flex-wrap:wrap}
-.hero-info span{font-size:13px;color:#8888b0;font-family:"JetBrains Mono","Fira Code",monospace}
-.hero-info span em{font-style:normal;color:#5cb85c;font-weight:700}
-.hero-langs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
-.lang-tag{display:flex;align-items:center;gap:5px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:"JetBrains Mono","Fira Code",monospace}
+.hero-text p{font-size:14px;color:#b0b0cc;line-height:1.7;margin-bottom:20px;max-width:440px}
+.hero-langs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.lang-tag{display:flex;align-items:center;gap:5px;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:"JetBrains Mono","Fira Code",monospace}
 .lang-tag.py{background:rgba(92,184,92,.12);color:#5cb85c;border:1px solid rgba(92,184,92,.25)}
 .lang-tag.cpp{background:rgba(198,120,221,.12);color:#c678dd;border:1px solid rgba(198,120,221,.25)}
 .lang-tag.js{background:rgba(229,192,123,.12);color:#e5c07b;border:1px solid rgba(229,192,123,.25)}
@@ -37,35 +35,34 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 .lang-tag.cpp .dot{background:#c678dd}
 .lang-tag.js .dot{background:#e5c07b}
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn-primary{padding:13px 40px;font-size:15px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff!important;border-radius:10px;text-decoration:none;transition:all .2s;box-shadow:0 4px 24px rgba(92,184,92,.25)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(92,184,92,.35)}
-.btn-secondary{padding:13px 32px;font-size:15px;font-weight:600;color:#e8e8f0!important;border-radius:10px;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:all .15s}
-.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25)}
-.code-block{background:#090a16;border-radius:12px;border:1px solid rgba(255,255,255,.06);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3);transform:perspective(800px) rotateY(-3deg);transition:transform .3s}
+.btn-primary{padding:11px 36px;font-size:14px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff!important;border-radius:10px;text-decoration:none;transition:all .2s;box-shadow:0 4px 20px rgba(92,184,92,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(92,184,92,.3)}
+.btn-secondary{padding:11px 28px;font-size:14px;font-weight:600;color:#e8e8f0!important;border-radius:10px;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:all .15s}
+.btn-secondary:hover{background:rgba(255,255,255,.08)}
+.code-block{background:#090a16;border-radius:12px;border:1px solid rgba(255,255,255,.06);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3);transform:perspective(800px) rotateY(-3deg);transition:transform .3s}
 .code-block:hover{transform:perspective(800px) rotateY(0)}
-.code-header{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.04)}
-.code-dot{width:10px;height:10px;border-radius:50%}
+.code-header{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.04)}
+.code-dot{width:9px;height:9px;border-radius:50%}
 .code-dot.r{background:#ff5f57}
 .code-dot.y{background:#ffbd2e}
 .code-dot.g{background:#28c840}
 .code-file{font-size:11px;color:#a0a0c0;font-family:"JetBrains Mono","Fira Code",monospace;margin-left:10px}
-.code-body{padding:14px 18px;font-family:"JetBrains Mono","Fira Code",monospace;font-size:13px;line-height:1.8;overflow-x:auto}
+.code-body{padding:12px 16px;font-family:"JetBrains Mono","Fira Code",monospace;font-size:12px;line-height:1.7;overflow-x:auto}
 .code-body .kw{color:#c678dd}
 .code-body .fn{color:#61afef}
 .code-body .str{color:#98c379}
 .code-body .num{color:#d19a66}
 .code-body .type{color:#e5c07b}
-.footer{text-align:center;padding:20px 32px;font-size:12px;border-top:1px solid rgba(255,255,255,.04);color:#888}
-.footer a{color:#b0b0cc;text-decoration:none}
-.footer .beian{margin-top:4px;color:#666;font-size:11px}
-@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:24px;padding-top:20px}.hero-text h1{font-size:28px}.code-block{transform:none}.header{padding:0 16px}.header .nav a{padding:4px 10px;font-size:12px}}
+.footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:10px 32px;font-size:11px;color:#666;background:rgba(13,14,31,.8);backdrop-filter:blur(8px);z-index:100}
+.footer a{color:#8888b0;text-decoration:none}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:16px;padding:0 20px}.hero-text h1{font-size:28px}.code-block{transform:none;display:none}.header{padding:0 16px}.header .nav a{padding:4px 10px;font-size:12px}body{overflow-y:auto}.hero{height:auto;min-height:100vh;padding:40px 0}.footer{position:relative}}
 </style>
 </head>
 <body>
 <div class="header">
   <a class="logo" href="/"><img src="/images/pages/base/logo.png" alt="">ZG<span>Combat</span></a>
   <div class="nav">
-    <a href="/play">进入游戏</a>
+    <a href="/play">游戏</a>
     <a href="/play">注册</a>
     <a href="/play">登录</a>
   </div>
@@ -77,7 +74,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
   <div class="hero-inner">
     <div class="hero-text">
       <h1>编程 <span>即力量</span></h1>
-      <p>400+ 闯关关卡，5 大章节。地图逐步解锁，从零开始学习 Python、JavaScript、C++。</p>
+      <p>400+ 闯关关卡，5 大章节。地图逐步解锁，从零学习 Python、JavaScript、C++。</p>
       <div class="hero-langs">
         <span class="lang-tag py"><span class="dot"></span> Python</span>
         <span class="lang-tag cpp"><span class="dot"></span> C++</span>
@@ -111,7 +108,6 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
   </div>
 </div>
 <div class="footer">
-  ZGCombat · 编程学习平台
-  <div class="beian">© 2026 ZGCombat · 仅供内部学习使用</div>
+  ZGCombat · 编程学习平台 · 仅供内部学习使用
 </div>
 </body></html>
