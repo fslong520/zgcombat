@@ -16,7 +16,8 @@
       FastClick.attach(document.body);
   } catch (error) { }
   require('core/initialize');
-}// Prevent SPA from navigating to old homepage
+}setTimeout(function(){document.title='ZGCombat - 编程游戏'},100);setTimeout(function(){document.title='ZGCombat - 编程游戏'},1500);
+// Prevent SPA from navigating to old homepage
 (function() {
   function shouldRedirect(url) {
     return url === '/' || url === '/home' || url === '';
