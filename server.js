@@ -63,6 +63,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     console.error('Failed to initialize auth:', e.message);
   }
 
+  // Stub endpoints for missing resources - MUST come BEFORE /db/* catch-all
+  app.get('/db/mandate', function(req, res) { res.json({}); });
+  app.get('/db/user-credits/:level', function(req, res) { res.json({credits: {}}); });
+  app.get('/db/user-credits', function(req, res) { res.json({credits: {}}); });
+
   try {
     routeLoader.setup(app);
     console.info('Route modules loaded successfully');

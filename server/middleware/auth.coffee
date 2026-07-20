@@ -341,5 +341,5 @@ module.exports =
     if not email
       throw new errors.UnprocessableEntity 'No email provided.'
 
-    user = yield User.findByEmail(email)
+    user = yield User.findOne({emailLower: email?.toLowerCase()}).exec()
     res.status(200).send { exists: user? }
