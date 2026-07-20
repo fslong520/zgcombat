@@ -18,20 +18,18 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 .header .nav .btn-reg{padding:5px 18px;background:#5cb85c;color:#fff!important;border-radius:8px;font-weight:600}
 .header .nav .btn-reg:hover{background:#4cae4c}
 .hero{background:linear-gradient(160deg,#0d0e1f 0%,#15162a 50%,#0d0e1f 100%);height:calc(100vh - 56px);display:flex;align-items:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;opacity:.04;background-image:url('/images/pages/base/background.jpg');background-size:cover;background-position:center;pointer-events:none}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(92,184,92,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(92,184,92,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.hero-glow{position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(92,184,92,.07) 0%,transparent 60%);pointer-events:none}
-/* Decorative floating elements */
-.hero-deco{position:absolute;pointer-events:none;z-index:0}
-.hero-deco-1{top:12%;left:5%;opacity:.08;font-size:120px}
-.hero-deco-2{bottom:15%;right:8%;opacity:.06;font-size:80px}
-.hero-deco-3{top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;border-radius:50%;border:1px solid rgba(92,184,92,.04);pointer-events:none}
-.hero-deco-4{top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(92,184,92,.03)}
-.hero-deco-5{top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;border-radius:50%;border:1px solid rgba(92,184,92,.02)}
-/* Character art */
-.hero-char{position:absolute;right:5%;bottom:0;height:70%;opacity:.15;pointer-events:none;z-index:0}
-.hero-char img{height:100%;width:auto}
-.hero-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1;width:100%;padding:0 32px}
+/* Carousel background */
+.carousel{position:absolute;inset:0;pointer-events:none;z-index:0}
+.carousel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease}
+.carousel img.active{opacity:.08}
+.carousel img:nth-child(1){opacity:.08}
+@keyframes crossfade{0%,20%{opacity:.08}25%,45%{opacity:0}50%,70%{opacity:0}75%,95%{opacity:0}100%{opacity:.08}}
+.carousel img:nth-child(1){animation:crossfade 18s infinite}
+.carousel img:nth-child(2){animation:crossfade 18s infinite 6s}
+.carousel img:nth-child(3){animation:crossfade 18s infinite 12s}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(92,184,92,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(92,184,92,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:1}
+.hero-glow{position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(92,184,92,.07) 0%,transparent 60%);pointer-events:none;z-index:1}
+.hero-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:2;width:100%;padding:0 32px}
 .hero-text h1{font-size:40px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:12px}
 .hero-text h1 span{background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-text p{font-size:14px;color:#b0b0cc;line-height:1.7;margin-bottom:20px;max-width:440px}
@@ -63,7 +61,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 .code-body .str{color:#98c379}
 .code-body .num{color:#d19a66}
 .footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:10px 32px;font-size:11px;color:#666;background:rgba(13,14,31,.8);backdrop-filter:blur(8px);z-index:100}
-@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:16px;padding:0 20px}.hero-text h1{font-size:28px}.code-block{transform:none;display:none}.hero-char{display:none}.header{padding:0 16px}body{overflow-y:auto}.hero{height:auto;min-height:100vh;padding:40px 0}.footer{position:relative}}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:16px;padding:0 20px}.hero-text h1{font-size:28px}.code-block{transform:none;display:none}.header{padding:0 16px}body{overflow-y:auto}.hero{height:auto;min-height:100vh;padding:40px 0}.footer{position:relative}}
 </style>
 </head>
 <body>
@@ -76,15 +74,13 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
   </div>
 </div>
 <div class="hero">
-  <div class="hero-bg"></div>
+  <div class="carousel">
+    <img src="/images/pages/home/anya-and-nando-pet.webp" alt="">
+    <img src="/images/pages/home/character_jumbotron.png" alt="">
+    <img src="/images/pages/courses/banners/forest-anya.png" alt="">
+  </div>
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <div class="hero-deco hero-deco-1">{ }</div>
-  <div class="hero-deco hero-deco-2">&lt;/&gt;</div>
-  <div class="hero-deco hero-deco-3"></div>
-  <div class="hero-deco hero-deco-4"></div>
-  <div class="hero-deco hero-deco-5"></div>
-  <div class="hero-char"><img src="/images/pages/home/anya-and-nando-pet.webp" alt=""></div>
   <div class="hero-inner">
     <div class="hero-text">
       <h1>编程 <span>即力量</span></h1>
