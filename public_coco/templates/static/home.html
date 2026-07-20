@@ -69,8 +69,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 <div class="header">
   <a class="logo" href="/"><img src="/images/pages/base/logo.png" alt="">ZG<span>Combat</span></a>
   <div class="nav">
-    <a href="/play" class="btn-reg">注册</a>
-    <a href="/play" class="btn-reg">登录</a>
+    <span id="navAuth"><a href="/play" class="btn-reg">注册</a><a href="/play" class="btn-reg" style="margin-left:4px">登录</a></span>
   </div>
 </div>
 <div class="hero">
@@ -121,4 +120,25 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;backg
 <div class="footer">
   ZGCombat · 编程学习平台 · 仅供内部学习使用
 </div>
+<script>
+(function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/auth/whoami', true);
+  xhr.withCredentials = true;
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        var user = JSON.parse(xhr.responseText);
+        if (user && user._id && !user.anonymous) {
+          document.getElementById('navAuth').innerHTML =
+            '<span style="color:#a0a0c0;font-size:13px;margin-right:8px">' +
+            (user.name || user.email || '用户') + '</span>' +
+            '<a href="/play" class="btn-reg">进入游戏</a>';
+        }
+      } catch(e) {}
+    }
+  };
+  xhr.send();
+})();
+</script>
 </body></html>
