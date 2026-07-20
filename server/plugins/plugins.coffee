@@ -142,8 +142,10 @@ module.exports.PermissionsPlugin = (schema) ->
         return permission.access
     return public_access
 
-module.exports.VersionedPlugin = (schema) ->
+module.exports.VersionedPlugin = (schema, options = {}) ->
   schema.uses_coco_versions = true
+
+  ref = options?.modelName or @modelName or null
 
   schema.add(
     version:
@@ -151,8 +153,8 @@ module.exports.VersionedPlugin = (schema) ->
       minor: {type: Number, 'default': 0}
       isLatestMajor: {type: Boolean, 'default': true}
       isLatestMinor: {type: Boolean, 'default': true}
-    original: {type: mongoose.Schema.ObjectId, ref: @modelName}
-    parent: {type: mongoose.Schema.ObjectId, ref: @modelName}
+    original: {type: mongoose.Schema.ObjectId}
+    parent: {type: mongoose.Schema.ObjectId}
     creator: {type: mongoose.Schema.ObjectId, ref: 'User'}
     created: {type: Date, 'default': Date.now}
     commitMessage: {type: String}

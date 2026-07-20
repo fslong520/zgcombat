@@ -15,6 +15,18 @@ const serverSetup = require('./server_setup');
 const co = require('co');
 const config = require('./server_config');
 const Promise = require('bluebird');
+const mongoose = require('mongoose');
+mongoose.Promise = Promise; // Fix Mongoose 4 mpromise incompatibility with co/yield
+const routeLoader = require('./server/routes/base');
+
+// Global error handlers to prevent server crashes from unhandled errors
+process.on('uncaughtException', function(err) {
+  console.error('UNCAUGHT EXCEPTION:', err.message);
+  console.error(err.stack?.split('\n').slice(0,5).join('\n'));
+});
+process.on('unhandledRejection', function(err) {
+  console.error('UNHANDLED REJECTION:', err?.message || err);
+});
 
 module.exports.startServer = function(done) {
   const app = createAndConfigureApp();
@@ -32,5 +44,45 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   }
   serverSetup.setExpressConfigurationOptions(app);
   serverSetup.setupMiddleware(app);
+
+  // Establish MongoDB connection BEFORE loading routes (Mongoose 5.x requires it)
+  try {
+    const database = require('./server/commons/database');
+    database.connect();
+    console.info('Database connection initiated');
+  } catch (e) {
+    console.error('Failed to connect to database:', e.message);
+  }
+
+  // Setup Passport serialization for auth
+  try {
+    const auth = require('./server/commons/auth');
+    if (typeof auth.setup === 'function') auth.setup();
+    console.info('Passport auth initialized');
+  } catch (e) {
+    console.error('Failed to initialize auth:', e.message);
+  }
+
+  try {
+    routeLoader.setup(app);
+    console.info('Route modules loaded successfully');
+  } catch (e) {
+    console.error('Failed to load route modules:', e.message);
+  }
+
+  // Serve /user-data as JavaScript snippet for client-side initialization
+  app.get('/user-data', function(req, res) {
+    res.setHeader('Content-Type', 'application/javascript');
+    const serverConfig = {
+      codeNinjas: false,
+      static: true,
+      picoCTF: false,
+      showCodePlayAds: false,
+      production: false,
+      buildInfo: { sha: config.buildInfo.sha || 'dev' }
+    };
+    res.send('window.userObject = {};\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+  });
+
   return app;
 });

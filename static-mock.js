@@ -44,13 +44,19 @@ exports.me = {
   showChinaResourceInfo () { return false },
   showOpenResourceLink () { return true },
   useStripe () { return true },
+  isOnPremiumServer () { return false },
+  isInHourOfCode () { return false },
+  isPremium () { return true },
+  finishedAnyLevels () { return false },
 }
 
 exports.view = {
   isMobile () { return false },
   isOldBrowser () { return false },
   isChinaOldBrowser () { return false },
-  isIPadBrowser () { return false }
+  isIPadBrowser () { return false },
+  forumLink () { return 'https://discourse.codecombat.com/' },
+  showAds () { return false }
 }
 
 exports.getQueryVariable = () => null

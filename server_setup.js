@@ -204,9 +204,15 @@ exports.setupMiddleware = function(app) {
   setupQuickBailToMainHTML(app);
 
   setupExpressMiddleware(app);
+
+  // Passport middleware must come AFTER cookie-session (setup in setupExpressMiddleware)
+  const passport = require('passport');
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   setupFeaturesMiddleware(app);
 
-  setupCountryRedirectMiddleware(app, 'china', config.chinaDomain);
+  if (config.isProduction) { setupCountryRedirectMiddleware(app, 'china', config.chinaDomain); }
 
   setupOneSecondDelayMiddleware(app);
   setupRedirectMiddleware(app);

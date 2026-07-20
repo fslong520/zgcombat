@@ -104,59 +104,51 @@ module.exports.GatewayTimeout = class GatewayTimeout extends NetworkError
 # NOTE: These are the legacy error response handlers; prefer not to use them.
 # They are generally sent from Handler using eg. sendForbiddenError
 
-module.exports.custom = (res, code=500, message='Internal Server Error') ->
-  log.debug "#{code}: #{message}"
-  res.status(code).send message
+sendJsonError = (res, code, message) ->
+  res.status(code).json({error: message, message: message})
   res.end()
 
+module.exports.custom = (res, code=500, message='Internal Server Error') ->
+  log.debug "#{code}: #{message}"
+  sendJsonError(res, code, message)
+
 module.exports.unauthorized = (res, message='Unauthorized') ->
-  # TODO: The response MUST include a WWW-Authenticate header field
   log.debug "401: #{message}"
-  res.status(401).send message
-  res.end()
+  sendJsonError(res, 401, message)
 
 module.exports.forbidden = (res, message='Forbidden') ->
   log.debug "403: #{message}"
-  res.status(403).send message
-  res.end()
+  sendJsonError(res, 403, message)
   
 module.exports.paymentRequired = (res, message='Payment required') ->
   log.debug "402: #{message}"
-  res.status(402).send message
-  res.end()
+  sendJsonError(res, 402, message)
 
 module.exports.notFound = (res, message='Not found.') ->
-  res.status(404).send message
-  res.end()
+  sendJsonError(res, 404, message)
 
 module.exports.badMethod = (res, allowed=['GET', 'POST', 'PUT', 'PATCH'], message='Method Not Allowed') ->
   log.debug "405: #{message}"
   allowHeader = _.reduce allowed, ((str, current) -> str += ', ' + current)
-  res.set 'Allow', allowHeader # TODO not sure if these are always the case
-  res.status(405).send message
-  res.end()
+  res.set 'Allow', allowHeader
+  sendJsonError(res, 405, message)
 
 module.exports.conflict = (res, message='Conflict. File exists') ->
   log.debug "409: #{message}"
-  res.status(409).send message
-  res.end()
+  sendJsonError(res, 409, message)
 
 module.exports.badInput = (res, message='Unprocessable Entity. Bad Input.') ->
   log.debug "422: #{message}"
-  res.status(422).send message
-  res.end()
+  sendJsonError(res, 422, message)
 
 module.exports.serverError = (res, message='Internal Server Error') ->
   log.debug "500: #{message}"
-  res.status(500).send message
-  res.end()
+  sendJsonError(res, 500, message)
 
 module.exports.gatewayTimeoutError = (res, message='Gateway timeout') ->
   log.debug "504: #{message}"
-  res.status(504).send message
-  res.end()
+  sendJsonError(res, 504, message)
 
 module.exports.clientTimeout = (res, message='The server did not receive the client response in a timely manner') ->
   log.debug "408: #{message}"
-  res.status(408).send message
-  res.end()
+  sendJsonError(res, 408, message)

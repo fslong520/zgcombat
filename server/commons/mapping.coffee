@@ -1,4 +1,5 @@
 module.exports.handlers =
+  'campaign': 'handlers/campaign_handler'
   'analytics_log_event': 'handlers/analytics_log_event_handler'
   'analytics_perday': 'handlers/analytics_perday_handler'
   'analytics_string': 'handlers/analytics_string_handler'
@@ -47,6 +48,7 @@ module.exports.routes =
   [
     'routes/admin'
     'routes/contact'
+    'routes/index'
     'routes/db'
     'routes/file'
     'routes/folder'
@@ -67,4 +69,5 @@ module.exports.modules = modules = # by collection name
 
 mongoose.modelNameByCollection = (collection) ->
   return require('../models/LevelSession') if collection is 'level.sessions'
+  return require('../models/Campaign') if collection is 'campaigns'
   mongoose.model modules[collection] if collection of modules

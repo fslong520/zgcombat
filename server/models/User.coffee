@@ -175,7 +175,7 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
 UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower')
   
 UserSchema.methods.updateServiceSettings = co.wrap ->
-  return unless isProduction or GLOBAL.testing
+  return unless isProduction or global.testing
   return if @updatedMailChimp
   if @emailChanged() and customerID = @get('stripe')?.customerID
     unless stripe?.customers
@@ -340,11 +340,7 @@ UserSchema.methods.sendWelcomeEmail = ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 
 UserSchema.methods.hasSubscription = ->
-  return false unless stripeObject = @get('stripe')
-  return true if stripeObject.sponsorID
-  return true if stripeObject.subscriptionID
-  return true if stripeObject.free is true
-  return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
+  return true
 
 UserSchema.methods.isPremium = ->
   return true if @isInGodMode()
@@ -363,10 +359,7 @@ UserSchema.methods.level = ->
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
 
 UserSchema.methods.isEnrolled = ->
-  coursePrepaid = @get('coursePrepaid')
-  return false unless coursePrepaid
-  return true unless coursePrepaid.endDate
-  return coursePrepaid.endDate > new Date().toISOString()
+  return true
 
 UserSchema.methods.prepaidType = ->
   # TODO: remove once legacy prepaidIDs are migrated to objects

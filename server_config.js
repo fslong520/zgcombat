@@ -70,4 +70,41 @@ config.TRACE_ROUTES = (process.env.TRACE_ROUTES != null)
 // (In production, CloudFlare compresses things for us!)
 config.forceCompression = (process.env.COCO_FORCE_COMPRESSION != null)
 
+config.mongo = {
+  host: process.env.COCO_MONGO_HOST || 'localhost',
+  port: process.env.COCO_MONGO_PORT || 27017,
+  db: process.env.COCO_MONGO_DB || 'codecombat',
+  username: process.env.COCO_MONGO_USERNAME || '',
+  password: process.env.COCO_MONGO_PASSWORD || '',
+  readpref: process.env.COCO_MONGO_READPREF || 'primary',
+  mongoose_replica_string: process.env.COCO_MONGO_REPLICA_STRING || undefined,
+  analytics_host: process.env.COCO_ANALYTICS_MONGO_HOST || 'localhost',
+  analytics_port: process.env.COCO_ANALYTICS_MONGO_PORT || 27017,
+  analytics_db: process.env.COCO_ANALYTICS_MONGO_DB || 'codecombat_analytics',
+  analytics_replica_string: process.env.COCO_ANALYTICS_REPLICA_STRING || undefined,
+  analytics_collection: process.env.COCO_ANALYTICS_COLLECTION || 'analytics.log.event',
+  level_session_replica_string: process.env.COCO_LEVEL_SESSION_REPLICA_STRING || undefined,
+  level_session_aux_replica_string: process.env.COCO_LEVEL_SESSION_AUX_REPLICA_STRING || undefined,
+}
+
+config.redis = {
+  host: process.env.REDIS_HOST || process.env.COCO_REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || process.env.COCO_REDIS_PORT || 6379,
+}
+
+config.mail = {
+  mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY || '00000000000000000000000000000000-us1',
+  mailChimpWebhook: '/mail/webhook',
+  username: process.env.COCO_MAIL_USERNAME || '',
+  supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM || 'premium@codecombat.com',
+  supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY || 'support@codecombat.com',
+  cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP || '',
+  cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP || '',
+  stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY || '',
+}
+
+config.stripe = {
+  secretKey: process.env.COCO_STRIPE_SECRET_KEY || 'sk_test_placeholder',
+}
+
 module.exports = config
