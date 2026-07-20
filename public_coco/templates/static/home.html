@@ -1,36 +1,34 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZGCombat - 编程游戏</title><link rel="stylesheet" href="/dev/stylesheets/app.css"><script src="/dev/javascripts/app.js" defer async data-ace-base="/javascripts/ace"></script><script src="/user-data?sha=dev"></script><script>function onLoad(){try{FastClick.attach(document.body)}catch(e){}}</script><style>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZGCombat - 编程游戏</title><style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;font-family:"Open Sans","Microsoft YaHei",sans-serif;min-height:100vh}
+body{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;font-family:"Open Sans","Microsoft YaHei","PingFang SC",sans-serif;min-height:100vh}
 .topbar{background:rgba(0,0,0,.3);padding:12px 40px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);flex-wrap:wrap;gap:10px}
 .topbar .logo{font-size:20px;font-weight:700;color:#5cb85c;text-decoration:none}
 .topbar .logo span{color:#fff}
-.topbar .nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.topbar .nav a{color:#b8a9d4;text-decoration:none;font-size:13px;padding:6px 14px;border-radius:6px;transition:background .2s}
+.topbar .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.topbar .nav a{color:#b8a9d4;text-decoration:none;font-size:13px;padding:6px 14px;border-radius:6px;transition:all .2s}
 .topbar .nav a:hover{color:#fff;background:rgba(255,255,255,.1)}
-.topbar .nav .btn-account{background:rgba(92,184,92,.2);color:#5cb85c;font-weight:600}
+.topbar .nav .btn-account{background:rgba(92,184,92,.2);color:#5cb85c;font-weight:600;padding:6px 18px}
 .topbar .nav .btn-account:hover{background:rgba(92,184,92,.35)}
 .hero{text-align:center;padding:80px 20px 50px}
-.hero h1{font-size:52px;font-weight:700;margin-bottom:10px;background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:18px;color:#b8a9d4;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
-.btn-play{display:inline-block;padding:16px 64px;font-size:20px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 32px rgba(92,184,92,.3)}
+.hero h1{font-size:52px;font-weight:700;margin-bottom:10px;background:linear-gradient(135deg,#5cb85c,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:18px;color:#b8a9d4;margin-bottom:40px;max-width:500px;margin:0 auto 40px}
+.btn-play{display:inline-block;padding:16px 64px;font-size:20px;font-weight:700;background:linear-gradient(135deg,#5cb85c,#4ecdc4);color:#fff!important;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 32px rgba(92,184,92,.3)}
 .btn-play:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(92,184,92,.4)}
-.campaigns{max-width:960px;margin:50px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.campaign-card{background:rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center;transition:background .2s,transform .2s;text-decoration:none;color:#fff;display:block}
-.campaign-card:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
-.campaign-card .icon{font-size:36px;margin-bottom:10px}
-.campaign-card h3{font-size:16px;margin-bottom:4px;font-weight:600}
-.campaign-card p{font-size:12px;color:#b8a9d4;line-height:1.5}
+.cards{max-width:960px;margin:50px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:rgba(255,255,255,.08);border-radius:14px;padding:28px 24px;text-align:center;text-decoration:none;color:#fff!important;display:block;transition:all .2s}
+.card:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
+.card .icon{font-size:36px;margin-bottom:10px}
+.card h3{font-size:16px;margin-bottom:4px;font-weight:600}
+.card p{font-size:12px;color:#b8a9d4;line-height:1.5}
 .footer{text-align:center;padding:30px;color:#555;font-size:12px}
-</style></head><body onload="onLoad()">
+.footer a{color:#5cb85c;text-decoration:none}
+</style></head><body>
 <div class="topbar">
   <a class="logo" href="/">ZG<span>Combat</span></a>
   <div class="nav">
-    <a href="/play">游戏</a>
-    <a href="/play/dungeon">地牢</a>
-    <a href="/play/forest">森林</a>
-    <a href="/play/desert">沙漠</a>
-    <a href="/user/settings">账号设置</a>
-    <a href="/play" class="btn-account">登录 / 注册</a>
+    <a href="/play">进入游戏</a>
+    <a href="/play">注册账号</a>
+    <a href="/play">账号设置</a>
   </div>
 </div>
 <div class="hero">
@@ -38,29 +36,29 @@ body{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;font-
   <p>通过闯关学习 Python 和 JavaScript，从零开始。</p>
   <a class="btn-play" href="/play">开始游戏</a>
 </div>
-<div class="campaigns">
-  <a class="campaign-card" href="/play/dungeon">
+<div class="cards">
+  <a class="card" href="/play">
     <div class="icon">🏰</div>
     <h3>Kithgard 地牢</h3>
     <p>移动、攻击，掌握基础编程命令</p>
   </a>
-  <a class="campaign-card" href="/play/forest">
+  <a class="card" href="/play">
     <div class="icon">🌲</div>
     <h3>Backwoods 森林</h3>
     <p>循环与条件，应对复杂敌人</p>
   </a>
-  <a class="campaign-card" href="/play/desert">
+  <a class="card" href="/play">
     <div class="icon">🏜️</div>
     <h3>Sarven 沙漠</h3>
     <p>变量与函数，挑战更强对手</p>
   </a>
-  <a class="campaign-card" href="/play/mountain">
+  <a class="card" href="/play">
     <div class="icon">⛰️</div>
     <h3>Cloudrip 山巅</h3>
     <p>高级编程概念，成为编程大师</p>
   </a>
 </div>
 <div class="footer">
-  ZGCombat · 内部学习平台 · <a href="https://github.com/codecombat/codecombat" style="color:#5cb85c;text-decoration:none">开源项目</a>
+  ZGCombat · 内部学习平台 · <a href="https://github.com/codecombat/codecombat" target="_blank">开源项目</a>
 </div>
 </body></html>
