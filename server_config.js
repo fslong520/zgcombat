@@ -103,8 +103,6 @@ config.mail = {
   stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY || '',
 }
 
-config.stripe = {
-  secretKey: process.env.COCO_STRIPE_SECRET_KEY || 'sk_test_placeholder',
-}
+config.stripe = undefined
 
 module.exports = config

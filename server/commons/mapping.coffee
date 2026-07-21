@@ -17,8 +17,8 @@ module.exports.handlers =
   'level_session': 'handlers/level_session_handler'
   'level_system': 'handlers/level_system_handler'
   'patch': 'handlers/patch_handler'
-  'payment': 'handlers/payment_handler'
-  'purchase': 'handlers/purchase_handler'
+  # 'payment': 'handlers/payment_handler' # Disabled - payment code removed
+  # 'purchase': 'handlers/purchase_handler' # Disabled - payment code removed
   'thang_type': 'handlers/thang_type_handler'
   'user': 'handlers/user_handler'
   'user_code_problem': 'handlers/user_code_problem_handler'
@@ -26,8 +26,8 @@ module.exports.handlers =
   'mail_sent': 'handlers/mail_sent_handler'
   'earned_achievement': 'handlers/earned_achievement_handler'
   'poll': 'handlers/poll_handler'
-  'prepaid': 'handlers/prepaid_handler'
-  'subscription': 'handlers/subscription_handler'
+  # 'prepaid': 'handlers/prepaid_handler' # Disabled - payment code removed
+  # 'subscription': 'handlers/subscription_handler' # Disabled - payment code removed
   'user_polls_record': 'handlers/user_polls_record_handler'
 
 module.exports.handlerUrlOverrides =
@@ -58,7 +58,7 @@ module.exports.routes =
     'routes/sprites'
     'routes/queue'
     'routes/stacklead'
-    'routes/stripe'
+    # 'routes/stripe' # Disabled - payment code removed
   ]
 
 mongoose = require 'mongoose'

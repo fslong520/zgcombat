@@ -13,16 +13,12 @@ let PlayHeroesModal
 require('app/styles/play/modal/play-heroes-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/modal/play-heroes-modal')
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const CocoCollection = require('collections/CocoCollection')
 const ThangType = require('models/ThangType')
 const AudioPlayer = require('lib/AudioPlayer')
 const utils = require('core/utils')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
-const SubscribeModal = require('views/core/SubscribeModal')
 const Purchase = require('models/Purchase')
 const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
@@ -107,12 +103,12 @@ module.exports = (PlayHeroesModal = (function () {
       hero.unlockLevelName = utils.i18n(hero.attributes, 'unlockLevelName')
       const original = hero.get('original')
       hero.free = ['captain', 'knight', 'champion', 'duelist', 'wolf-pup-hero', 'cougar-hero', 'polar-bear-cub-hero', 'frog-hero', 'turtle-hero', 'blue-fox-hero', 'panther-cub-hero', 'brown-rat-hero', 'duck-hero', 'tiger-cub-hero'].includes(hero.attributes.slug)
-      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian', 'pugicorn-hero', 'raven-hero', 'baby-griffin-hero'].includes(hero.attributes.slug)
-      hero.premium = !hero.free && !hero.unlockBySubscribing
-      hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
+      hero.unlockBySubscribing = false
+      hero.premium = false
+      hero.locked = !me.ownsHero(original)
       if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
       if ((me.isStudent() || me.isTeacher()) && this.isJunior) { hero.locked = false }
-      hero.purchasable = hero.locked && me.isPremium()
+      hero.purchasable = false
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
         hero.restricted = !((needle = hero.get('original'), allowedHeroes.includes(needle)))
@@ -309,19 +305,10 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     askToBuyGemsOrSubscribe (unlockButton) {
+      // Payment gating disabled - just show earn gems prompt
       let popoverTemplate
       this.$el.find('.unlock-button').popover('destroy')
-      if (me.isStudent()) {
-        popoverTemplate = earnGemsPromptTemplate({})
-      } else if (me.canBuyGems()) {
-        popoverTemplate = buyGemsPromptTemplate({})
-      } else {
-        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-          popoverTemplate = subscribeForGemsPrompt({})
-        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
-          popoverTemplate = earnGemsPromptTemplate({})
-        }
-      }
+      popoverTemplate = earnGemsPromptTemplate({})
 
       unlockButton.popover({
         animation: true,
@@ -337,8 +324,8 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     onBuyGemsPromptButtonClicked (e) {
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
+      // Payment gating disabled - no-op
+      return
     }
 
     onClickedSomewhere (e) {
@@ -347,8 +334,8 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
+      // Payment gating disabled - no-op
+      return
     }
 
     // - Exiting
@@ -356,16 +343,7 @@ module.exports = (PlayHeroesModal = (function () {
     saveAndHide () {
       this.codeLanguage = this.changeLanguageView.codeLanguage
       this.codeFormat = this.changeLanguageView.codeFormat
-      this.subscriberCodeLanguageList = [{ id: 'cpp' }, { id: 'java' }]
       let changed
-      if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
-        this.openModalView(new SubscribeModal())
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: experimental language' })
-        }
-        return
-      }
-
       let hero = this.selectedHero != null ? this.selectedHero.get('original') : undefined
       if ((this.visibleHero != null ? this.visibleHero.loaded : undefined) && !this.visibleHero.locked) { if (hero == null) { hero = this.visibleHero != null ? this.visibleHero.get('original') : undefined } }
       if (!hero) {

@@ -348,9 +348,11 @@ UserSchema.methods.sendWelcomeEmail = ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 
 UserSchema.methods.hasSubscription = ->
+  return true if @isTeacher()
   return true
 
 UserSchema.methods.isPremium = ->
+  return true if @isTeacher()
   return true if @isInGodMode()
   return true if @isAdmin()
   return true if @hasSubscription()
@@ -367,6 +369,7 @@ UserSchema.methods.level = ->
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
 
 UserSchema.methods.isEnrolled = ->
+  return true if @isTeacher()
   return true
 
 UserSchema.methods.prepaidType = ->

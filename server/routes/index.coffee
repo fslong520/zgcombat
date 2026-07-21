@@ -18,9 +18,9 @@ module.exports.setup = (app) ->
   app.get('/api/users/:handle/classrooms', mw.api.getUserClassrooms)
   app.put('/api/users/:handle/hero-config', mw.api.putUserHeroConfig)
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
-  app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
-  app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
-  app.put('/api/users/:handle/license', mw.api.putUserLicense)
+  # app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Disabled - payment code removed
+  # app.put('/api/users/:handle/subscription', mw.api.putUserSubscription) # Disabled - payment code removed
+  # app.put('/api/users/:handle/license', mw.api.putUserLicense) # Disabled - payment code removed
   app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
   app.get('/api/user-lookup/name/:name', mw.api.getUserLookupByName)
   app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
@@ -169,7 +169,7 @@ module.exports.setup = (app) ->
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
   app.get('/db/level.system/:handle/patches', mw.patchable.patches(LevelSystem))
 
-  app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
+  # app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code')) # Disabled - payment code removed
 
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
@@ -187,7 +187,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
-  app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
+  # app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint) # Disabled - payment code removed
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
@@ -197,19 +197,19 @@ module.exports.setup = (app) ->
   app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
 
-  app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
-  app.get('/db/prepaid/:handle/creator', mw.prepaids.fetchCreator)
-  app.get('/db/prepaid/:handle/joiners', mw.prepaids.fetchJoiners)
-  app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses)
-  app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
-  app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
-  app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
-  app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
-  app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
-  app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
+  # app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator) # Disabled - payment code removed
+  # app.get('/db/prepaid/:handle/creator', mw.prepaids.fetchCreator) # Disabled - payment code removed
+  # app.get('/db/prepaid/:handle/joiners', mw.prepaids.fetchJoiners) # Disabled - payment code removed
+  # app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses) # Disabled - payment code removed
+  # app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools) # Disabled - payment code removed
+  # app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post) # Disabled - payment code removed
+  # app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses) # Disabled - payment code removed
+  # app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem) # Disabled - payment code removed
+  # app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner) # Disabled - payment code removed
+  # app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke) # Disabled - payment code removed
 
-  app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
-  app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
+  # app.get('/db/products', mw.auth.checkHasUser(), mw.products.get) # Disabled - payment code removed
+  # app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct) # Disabled - payment code removed
 
   app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)

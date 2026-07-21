@@ -1,3 +1,4 @@
+# AnalyticsStripeInvoice model disabled - internal only
 mongoose = require 'mongoose'
 
 AnalyticsStripeInvoiceSchema = new mongoose.Schema({
@@ -6,4 +7,4 @@ AnalyticsStripeInvoiceSchema = new mongoose.Schema({
   properties: mongoose.Schema.Types.Mixed
 }, {strict: false})
 
-module.exports = AnalyticsStripeInvoice = mongoose.model('analytics.stripe.invoice', AnalyticsStripeInvoiceSchema)
+module.exports = mongoose.model('analytics.stripe.invoice', AnalyticsStripeInvoiceSchema)

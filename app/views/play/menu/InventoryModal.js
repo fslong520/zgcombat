@@ -15,18 +15,14 @@ require('app/styles/play/menu/inventory-modal.sass')
 require('app/styles/play/modal/play-items-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/menu/inventory-modal')
-const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const ThangTypeLib = require('lib/ThangTypeLib')
 const CocoCollection = require('collections/CocoCollection')
 const ItemDetailsView = require('views/play/modal/ItemDetailsView')
 const Purchase = require('models/Purchase')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
-const SubscribeModal = require('views/core/SubscribeModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const utils = require('core/utils')
@@ -177,7 +173,7 @@ module.exports = (InventoryModal = (function () {
       // sort into one of the five groups
       let locked = !me.ownsItem(item.get('original'))
 
-      const subscriber = (!me.isStudent()) && (!me.isPremium()) && item.get('subscriber')
+      const subscriber = false
       const restrictedGear = this.calculateRestrictedGearPerSlot()
       const allRestrictedGear = _.flatten(_.values(restrictedGear))
       const restricted = (needle1 = item.get('original'), allRestrictedGear.includes(needle1))
@@ -414,10 +410,8 @@ module.exports = (InventoryModal = (function () {
     }
 
     onClickSubscribeItemViewed (e) {
-      this.openModalView(new SubscribeModal())
-      const itemElem = this.$el.find('.item.active')
-      const item = this.items.get(itemElem != null ? itemElem.data('item-id') : undefined)
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'inventory modal: ' + ((item != null ? item.get('slug') : undefined) || 'unknown') }) : undefined)
+      // Payment gating disabled - no-op
+      return
     }
 
     // - Select/equip higher-level, all encompassing methods the callbacks all use
@@ -893,19 +887,10 @@ module.exports = (InventoryModal = (function () {
     }
 
     askToBuyGemsOrSubscribe (unlockButton) {
+      // Payment gating disabled - just show earn gems prompt
       let popoverTemplate
       this.$el.find('.unlock-button').popover('destroy')
-      if (me.isStudent()) {
-        popoverTemplate = earnGemsPromptTemplate({})
-      } else if (me.canBuyGems()) {
-        popoverTemplate = buyGemsPromptTemplate({})
-      } else {
-        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-          popoverTemplate = subscribeForGemsPrompt({})
-        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
-          popoverTemplate = earnGemsPromptTemplate({})
-        }
-      }
+      popoverTemplate = earnGemsPromptTemplate({})
 
       unlockButton.popover({
         animation: true,
@@ -921,14 +906,13 @@ module.exports = (InventoryModal = (function () {
     }
 
     onBuyGemsPromptButtonClicked (e) {
-      this.playSound('menu-button-click')
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
+      // Payment gating disabled - no-op
+      return
     }
 
     onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
+      // Payment gating disabled - no-op
+      return
     }
 
     onClickedSomewhere (e) {
