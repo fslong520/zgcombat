@@ -22,10 +22,11 @@ html(lang='en')
     link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     link(href='//fonts.googleapis.com/css?family=Merriweather', rel='stylesheet', type='text/css')
+    // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
     script.
-      var DEXECURE_URL = "/dexecure-c167a5675c.js";
-      "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
-      // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+      // Stub for third-party services that may not be available in local dev
+      window.FS = window.FS || { shutdown: function(){}, restart: function(){}, identify: function(){}, setUserVars: function(){}, event: function(){}, anonymize: function(){} };
+      window.StripeCheckout = window.StripeCheckout || { configure: function(){ return { open: function(){}, openAsync: function(){ return Promise.resolve({}); } }; } };
     script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
     script(src='/' + shaTag + '/javascripts/app.js', defer='')
     script(src='/user-data?sha=' + shaTag)
@@ -48,7 +49,7 @@ html(lang='en')
               // IE8 can't handle this
               FastClick.attach(document.body);
           } catch (error) { }
-          require('core/initialize');
+          try { require('core/initialize'); } catch(e) {}
         }
   body.clearfix(onload='onLoad();')
     #fb-root

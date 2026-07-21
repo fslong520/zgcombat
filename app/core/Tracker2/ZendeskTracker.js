@@ -29,11 +29,11 @@ export default class ZendeskTracker extends BaseTracker {
   }
 
   hideZendesk () {
-    window.zE('messenger', 'hide')
+    if (typeof window.zE === 'function') window.zE('messenger', 'hide')
   }
 
   showZendesk () {
-    window.zE('messenger', 'show')
+    if (typeof window.zE === 'function') window.zE('messenger', 'show')
   }
 
   watchForRouteChange (store) {

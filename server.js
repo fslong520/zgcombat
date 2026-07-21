@@ -3,6 +3,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
+// Register CoffeeScript require hook BEFORE any .coffee requires
+require('coffee-script/register');
+
 (function(setupLodash) {
   global._ = require('lodash');
   _.str = require('underscore.string');
@@ -67,6 +70,25 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/db/mandate', function(req, res) { res.json({}); });
   app.get('/db/user-credits/:level', function(req, res) { res.json({credits: {}}); });
   app.get('/db/user-credits', function(req, res) { res.json({credits: {}}); });
+  app.put('/db/user/setUserCountryGeo', function(req, res) { res.json({country: 'CN', geo: {timeZone: 'Asia/Shanghai'}}); });
+  app.put('/db/user/:userId/extra-provisions', function(req, res) { res.json({provisionType: 'none'}); });
+  app.post('/db/user/announcements/new', function(req, res) { res.json([]); });
+  app.get('/db/user/announcements', function(req, res) { res.json([]); });
+  app.post('/db/oauth2identity/by-user', function(req, res) { res.json([]); });
+  app.get('/db/oauth2identity/count', function(req, res) { res.json({count: 0}); });
+
+  // Payment/subscription stubs - return empty/success responses
+  app.get('/db/payment', function(req, res) { res.json({}); });
+  app.get('/db/prepaid', function(req, res) { res.json([]); });
+  app.get('/db/prepaid/:code', function(req, res) { res.json({}); });
+  app.get('/db/purchase', function(req, res) { res.json({}); });
+  app.get('/db/subscription', function(req, res) { res.json({}); });
+  app.get('/db/products', function(req, res) { res.json([]); });
+  app.post('/db/user/:userId/subscribe', function(req, res) { res.json({}); });
+  app.post('/stripe/webhook', function(req, res) { res.json({received: true}); });
+  app.post('/db/payment', function(req, res) { res.json({}); });
+  app.post('/db/purchase', function(req, res) { res.json({}); });
+  app.put('/db/user/:userId/subscription', function(req, res) { res.json({}); });
 
   try {
     routeLoader.setup(app);
@@ -84,6 +106,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       picoCTF: false,
       showCodePlayAds: false,
       production: false,
+      stripe: false,
       buildInfo: { sha: config.buildInfo.sha || 'dev' }
     };
     res.send('window.userObject = {};\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');

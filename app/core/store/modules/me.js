@@ -134,23 +134,11 @@ export default {
     },
 
     hasSubscription (state) {
-      if (state.payPal && state.payPal.billingAgreementID) {
-        return true
-      }
-
-      if (state.stripe && (state.stripe.sponsorID || state.stripe.subscriptionID || state.stripe.free === true)) {
-        return true
-      }
-
-      if (state.stripe && typeof state.stripe.free === 'string') {
-        return new Date() < new Date(state.stripe.free)
-      }
-
-      return false
+      return true
     },
 
     isPremium (state, getters) {
-      return getters.isAdmin || getters.hasSubscription || getters.isInGodMode
+      return true
     },
   },
 

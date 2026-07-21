@@ -208,18 +208,9 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
-  hasSubscription: ->
-    return false unless stripe = @get('stripe')
-    return true if stripe.sponsorID
-    return true if stripe.subscriptionID
-    return true if stripe.free is true
-    return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+  hasSubscription: -> true
 
-  isPremium: ->
-    return true if me.isInGodMode()
-    return true if me.isAdmin()
-    return true if me.hasSubscription()
-    return false
+  isPremium: -> true
     
   isForeverPremium: ->
     return @get('stripe')?.free is true
@@ -240,7 +231,7 @@ module.exports = class User extends CocoModel
         @trigger 'email-verify-error'
     })
 
-  isEnrolled: -> @prepaidStatus() is 'enrolled'
+  isEnrolled: -> true
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
     coursePrepaid = @get('coursePrepaid')

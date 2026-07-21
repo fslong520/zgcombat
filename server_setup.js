@@ -89,6 +89,9 @@ const setupExpressMiddleware = function(app) {
     app.use('/dev', express.static(publicPath, {maxAge: 0}));  // CloudFlare overrides maxAge, and we don't want local development caching.
   }
 
+  // Font files get 1-day cache to avoid Chrome 'Slow network' warnings
+  app.use('/fonts', express.static(path.join(publicPath, 'fonts'), {maxAge: '1d'}));
+
   app.use(express.static(publicPath, {maxAge: 0}));
 
   setupProxyMiddleware(app); // TODO: Flatten setup into one function. This doesn't fit its function name.
