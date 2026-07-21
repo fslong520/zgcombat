@@ -1,6 +1,9 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1024"><meta http-equiv="Accept-CH" content="Viewport-Width"><!-- Dexecure--><title>ZGCombat - 编程游戏</title><link rel="shortcut icon" href="/images/favicon.ico"><link rel="stylesheet" href="/dev/stylesheets/app.css"><style>.picoctf-show,.other-products,.beta-container{display:none!important}.navbar-nav .dropdown-menu{display:none!important}body{overflow-x:hidden}</style><script>var DEXECURE_URL = "/dexecure-c167a5675c.js";
-"serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
-// Placeholder for iPad, which inspects the user object at the bottom of an injected page.</script><script src="/dev/javascripts/app.js" defer async data-ace-base="/javascripts/ace" defer=""></script><script src="/user-data?sha=dev"></script><!-- CodePlay Tags Header --><script>window.alreadyLoadedView = "play/CampaignView";</script><script>function onLoad() {
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1024"><meta http-equiv="Accept-CH" content="Viewport-Width"><!-- Dexecure--><title>ZGCombat - 编程游戏</title><link rel="shortcut icon" href="/images/favicon.ico"><link rel="stylesheet" href="/dev/stylesheets/app.css"><style>.picoctf-show,.other-products,.beta-container{display:none!important}.navbar-nav .dropdown-menu{display:none!important}body{overflow-x:hidden}</style><script>
+// Placeholder for iPad, which inspects the user object at the bottom of an injected page.</script><script>
+window.FS = window.FS || { shutdown: function(){}, restart: function(){}, identify: function(){}, setUserVars: function(){}, event: function(){}, anonymize: function(){} };
+window.StripeCheckout = window.StripeCheckout || { configure: function(){ return { open: function(){}, openAsync: function(){ return Promise.resolve({}); } }; } };
+</script>
+<script src="/dev/javascripts/app.js" defer async data-ace-base="/javascripts/ace" defer=""></script><script src="/user-data?sha=dev"></script><!-- CodePlay Tags Header --><script>window.alreadyLoadedView = "play/CampaignView";</script><script>function onLoad() {
 
   try {
       // IE10 warning
@@ -15,7 +18,7 @@
       // IE8 can't handle this
       FastClick.attach(document.body);
   } catch (error) { }
-  require('core/initialize');
+  try { require('core/initialize'); } catch(e) {}
 }setTimeout(function(){document.title='ZGCombat - 编程游戏'},100);setTimeout(function(){document.title='ZGCombat - 编程游戏'},1500);
 // Prevent SPA from navigating to old homepage
 (function() {
