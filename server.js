@@ -168,6 +168,23 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         return res.status(200).json([]);
       }
 
+      // Collection "names" endpoint: /db/<collection>/names?ids[]=... returns an ARRAY
+      // of the referenced docs. Used by ThangNamesCollection to load a level's ThangTypes
+      // (LevelLoader.populateLevel). Without this, the SPA receives `{}` (a single empty
+      // doc) instead of a list, so none of the level's ThangTypes are loaded and every
+      // thang fails with "could not find ThangType" / "Couldn't find placeholder ThangType
+      // for the hero!".
+      if (id === 'names') {
+        const rawIds = req.query.ids;
+        const idList = Array.isArray(rawIds) ? rawIds : (rawIds != null ? [rawIds] : []);
+        const oids = idList.filter(x => /^[a-f0-9]{24}$/i.test(x)).map(x => new ObjectId(x));
+        if (oids.length) {
+          const docs = await coll.find({ $or: [{ _id: { $in: oids } }, { original: { $in: oids } }] }, opts).toArray();
+          return res.status(200).json(docs);
+        }
+        return res.status(200).json([]);
+      }
+
       if (id && id !== '-') {
         let doc = null;
         if (/^[a-f0-9]{24}$/i.test(id)) {
