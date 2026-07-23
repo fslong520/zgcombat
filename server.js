@@ -313,6 +313,25 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/file/db/:collection/:id/:name', function (req, res) {
     serveGridFSFile(req, res, 'db/' + req.params.collection + '/' + req.params.id, req.params.name);
   });
+  // Catch-all for other /file/<path> requests (e.g. /file/interface/*.mp3,
+  // /file/music/*.mp3). The upstream serves these from S3 / GridFS; our restored
+  // coco database has none of them. Rather than 404 (which makes CreateJS/SoundJS
+  // log "Unable to decode audio data" and throw), serve the silent-WAV / transparent
+  // PNG placeholder so preloading succeeds and the UI stays silent-but-functional.
+  app.get('/file/*', function (req, res) {
+    const full = (req.params[0] || req.path.replace(/^\/file\//, '')) + '';
+    const name = full.split('/').pop();
+    const ext = name.split('.').pop().toLowerCase();
+    if (AUDIO_EXTS.indexOf(ext) !== -1) {
+      res.setHeader('Content-Type', 'audio/wav');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.status(200).end(SILENT_WAV);
+    }
+    const type = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
+    res.setHeader('Content-Type', type);
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.status(200).end(TRANSPARENT_PNG);
+  });
   // /db/<collection>/<id>/toFile/<name> are files the upstream generates on the
   // fly (e.g. thang doll renderings via node-canvas). We can't regenerate them,
   // so answer with the placeholder.
