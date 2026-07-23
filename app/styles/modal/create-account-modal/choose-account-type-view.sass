@@ -1,0 +1,226 @@
+@import "app/styles/style-flat-variables"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/common/common.scss"
+
+@if not $is-codecombat
+  #choose-account-type-view
+    text-align: center
+
+    .constrain-text-width
+      text-align: center
+      margin: 0 auto
+      width: 350px
+      margin-bottom: 10px
+
+    button.ozaria-primary-button
+      width: 290px
+      min-height: 46px
+
+    .row.or-row
+      margin: 20px auto
+
+    .form-group
+      align-items: center
+
+    input, label.control-label span
+      width: 290px
+      display: block
+      text-align: left
+
+    input
+      color: $color-tertiary-brand
+
+    label.control-label span
+      margin-top: 20px
+      @include font-p-2-paragraph-medium-gray
+
+@if $is-codecombat
+  #choose-account-type-view
+    width: 100%
+
+    .choose-account-shell
+      padding: 20px 20px 16px
+      margin: 0
+      gap: 16px
+      justify-content: flex-start
+      // Chooser has no inner .modal-body wrapper, so it is its own scroller when
+      // the four cards exceed the capped modal height (laptop + mobile).
+      min-height: 0
+      overflow-y: auto
+
+    .choose-type-header
+      display: flex
+      flex-direction: column
+      gap: 10px
+      align-items: center
+      text-align: center
+
+    .choose-type-title
+      margin: 0
+      color: #17314d
+      font-size: 30px
+      font-weight: 700
+      line-height: 1.08
+
+      @media (max-width: 767px)
+        font-size: 28px
+        // Keep the title clear of the absolute close button
+        padding: 0 36px
+
+    .choose-type-subtitle
+      margin: 0
+      max-width: 460px
+      // purple accent subtitle per the new design
+      color: #7a65fc
+      font-size: 16px
+      line-height: 1.45
+
+    .choose-type-grid
+      width: 100%
+      max-width: 760px
+      margin: 0 auto
+      display: grid
+      grid-template-columns: minmax(0, 1fr)
+      gap: 20px
+
+      @media (min-width: 768px)
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+        gap: 20px 28px
+
+    .path-option
+      appearance: none
+      border: none
+      background: transparent
+      padding: 0
+      display: flex
+      flex-direction: column
+      gap: 12px
+      align-items: stretch
+      text-align: left
+
+      transition: transform 0.12s ease, filter 0.12s ease
+
+      &:hover,
+      &:focus-visible
+        text-decoration: none
+
+      &:hover
+        transform: translateY(-2px)
+        filter: brightness(1.02)
+
+      &:active
+        transform: scale(0.98)
+
+      &:focus-visible
+        outline: 3px solid rgba(118, 90, 255, 0.35)
+        outline-offset: 6px
+        border-radius: 28px
+
+    // Image + hover-description overlay share this frame
+    .path-option-media
+      position: relative
+      display: block
+      width: 100%
+      border-radius: 16px
+      overflow: hidden
+      box-shadow: 0 12px 28px rgba(28, 42, 74, 0.14)
+
+    .path-option-image
+      display: block
+      width: 100%
+      aspect-ratio: 4 / 3
+      max-height: 190px
+      object-fit: cover
+
+    // Description appears over the photo on hover/focus: dark blurred veil,
+    // white text (per the new design). Hidden by default; also hidden on touch
+    // devices, where there is no hover to reveal it.
+    .path-option-description
+      position: absolute
+      inset: 0
+      display: flex
+      align-items: center
+      justify-content: center
+      padding: 16px 20px
+      background: rgba(24, 24, 34, 0.66)
+      backdrop-filter: blur(7px)
+      -webkit-backdrop-filter: blur(7px)
+      color: white
+      font-size: 16px
+      line-height: 1.5
+      text-align: center
+      opacity: 0
+      transition: opacity 0.15s ease
+
+    .path-option:hover .path-option-description,
+    .path-option:focus-visible .path-option-description
+      opacity: 1
+
+    @media (hover: none)
+      .path-option:hover .path-option-description
+        opacity: 0
+
+    .path-option-cta
+      display: flex
+      justify-content: center
+      align-items: center
+      min-height: 48px
+      width: min(100%, 260px)
+      margin: 0 auto
+      padding: 12px 18px
+      border-radius: 8px
+      background: #7a65fc
+      color: white
+      font-size: 17px
+      font-weight: 700
+      line-height: 1.2
+      text-align: center
+      transition: filter 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease
+
+    // Purple CTA reacts on card hover/focus so it reads as a live button, not a
+    // static bar (previously only the outer .path-option animated).
+    .path-option:hover .path-option-cta,
+    .path-option:focus-visible .path-option-cta
+      filter: brightness(1.06)
+      box-shadow: 0 10px 24px rgba(111, 93, 255, 0.35)
+
+    .path-option:active .path-option-cta
+      filter: brightness(0.98)
+      box-shadow: 0 4px 12px rgba(111, 93, 255, 0.28)
+
+    .choose-type-footer
+      margin: 4px 0 0
+      text-align: center
+      color: #5a6b7b
+      font-size: 14px
+      line-height: 1.5
+
+      .login-link
+        color: #7a65fc
+        font-weight: 700
+        text-decoration: underline
+        cursor: pointer
+
+    // Tighten vertical rhythm on phones so more than ~2 cards fit on a 390px screen
+    @media (max-width: 767px)
+      .choose-account-shell
+        padding: 20px 16px 16px
+        gap: 14px
+
+      .choose-type-grid
+        gap: 14px
+
+      .path-option
+        gap: 6px
+
+      .path-option-media
+        border-radius: 12px
+        box-shadow: 0 8px 18px rgba(28, 42, 74, 0.13)
+
+      .path-option-image
+        aspect-ratio: 2 / 1
+
+      .path-option-cta
+        min-height: 44px
+        padding: 10px 16px
+        font-size: 16px
