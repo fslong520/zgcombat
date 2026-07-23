@@ -189,6 +189,33 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }
   });
 
+  // Versioned fetch: the SPA requests /db/<collection>/<id>/version/0 to get
+  // the current (latest) document. Our restored DB has no per-version snapshots,
+  // so version/0 (and any version) resolves to the current document. Without
+  // this route those requests 404 even though the document exists by id.
+  app.get('/db/:collection/:id/version/:version', async function (req, res) {
+    try {
+      const mongoColl = DB_COLLECTIONS[req.params.collection];
+      if (!mongoColl || !cocoDb) { return res.status(200).json({}); }
+      const coll = cocoDb.collection(mongoColl);
+      const project = toProjection(req.query.project);
+      const opts = project ? { projection: project } : {};
+      const id = req.params.id;
+      let doc = null;
+      if (/^[a-f0-9]{24}$/i.test(id)) {
+        const oid = new ObjectId(id);
+        doc = await coll.findOne({ _id: oid }, opts);
+        if (!doc) { doc = await coll.findOne({ original: oid }, opts); }
+      }
+      if (!doc) { doc = await coll.findOne({ slug: id }, opts); }
+      if (!doc) { doc = await coll.findOne({ name: id }, opts); }
+      return res.status(200).json(doc || {});
+    } catch (e) {
+      console.error('[db] version route error', req.method, req.path, e.message);
+      return res.status(200).json({});
+    }
+  });
+
   // Helper: resolve a campaign doc by _id / original / slug / name.
   async function resolveCampaign(id) {
     const c = cocoDb.collection('campaigns');
