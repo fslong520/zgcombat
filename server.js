@@ -289,23 +289,116 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     res.setHeader('Cache-Control', 'public, max-age=3600');
     return res.status(200).end(TRANSPARENT_PNG);
   };
-  const serveGridFSFile = function (req, res, path, filename) {
-    if (!cocoDb) { return sendPlaceholder(req, res); }
+  // Proxy /file/<path> assets from the upstream CodeCombat CDN and cache them on
+  // disk so subsequent requests (and offline use) are served locally. The upstream
+  // server stores these files in S3; our restored coco database has none of them.
+  const LOCAL_ASSET_DIR = path.join(__dirname, 'codecombat_assets'); // pre-downloaded by download_assets.js (committed)
+  const FILE_CACHE_DIR = path.join(__dirname, 'file_cache'); // runtime cache (TTS, etc.) — gitignored
+  const UPSTREAM_FILE_BASE = 'https://codecombat.com/file/';
+  const inFlightFetches = new Map(); // relPath -> Promise<Buffer>
+
+  function contentTypeFor(name) {
+    const ext = (name.split('.').pop() || '').toLowerCase();
+    switch (ext) {
+      case 'mp3': case 'mpeg': return 'audio/mpeg';
+      case 'ogg': case 'oga': return 'audio/ogg';
+      case 'wav': return 'audio/wav';
+      case 'm4a': return 'audio/mp4';
+      case 'aac': return 'audio/aac';
+      case 'webm': return 'audio/webm';
+      case 'jpg': case 'jpeg': return 'image/jpeg';
+      case 'png': return 'image/png';
+      case 'gif': return 'image/gif';
+      case 'svg': return 'image/svg+xml';
+      default: return 'application/octet-stream';
+    }
+  }
+
+  // Fetch /file/<relPath> from the upstream CDN and cache it under FILE_CACHE_DIR.
+  function fetchUpstream(relPath) {
+    if (inFlightFetches.has(relPath)) { return inFlightFetches.get(relPath); }
+    const p = (async () => {
+      const r = await fetch(UPSTREAM_FILE_BASE + relPath);
+      if (!r.ok) { throw new Error('upstream ' + r.status + ' for ' + relPath); }
+      const buf = Buffer.from(await r.arrayBuffer());
+      const cacheFile = path.resolve(FILE_CACHE_DIR, relPath);
+      if (!cacheFile.startsWith(FILE_CACHE_DIR + path.sep)) { throw new Error('unsafe path'); }
+      await fs.promises.mkdir(path.dirname(cacheFile), { recursive: true });
+      await fs.promises.writeFile(cacheFile, buf);
+      return buf;
+    })();
+    inFlightFetches.set(relPath, p);
+    p.finally(() => inFlightFetches.delete(relPath)).catch(() => {});
+    return p;
+  }
+
+  // Serve /file/<relPath>: committed local assets -> runtime cache (TTS) ->
+  // upstream CDN (+runtime cache) -> silent/transparent placeholder.
+  // The local asset set is discovered & downloaded by download_assets.js (no
+  // hardcoded list); only dynamically-generated text-to-speech files fall through
+  // to the upstream proxy.
+  function serveFileAsset(relPath, req, res) {
+    const ext = (relPath.split('.').pop() || '').toLowerCase();
+    const isAudio = AUDIO_EXTS.indexOf(ext) !== -1;
+
+    // 1) committed local assets (pre-downloaded, served offline)
+    const localFile = path.resolve(LOCAL_ASSET_DIR, relPath);
+    if (localFile.startsWith(LOCAL_ASSET_DIR + path.sep)) {
+      try {
+        const buf = fs.readFileSync(localFile);
+        res.setHeader('Content-Type', contentTypeFor(relPath));
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.status(200).end(buf);
+      } catch (e) { /* not in local set */ }
+    }
+
+    // 2) runtime cache (e.g. text-to-speech fetched on demand)
+    const cacheFile = path.resolve(FILE_CACHE_DIR, relPath);
+    if (cacheFile.startsWith(FILE_CACHE_DIR + path.sep)) {
+      try {
+        const buf = fs.readFileSync(cacheFile);
+        res.setHeader('Content-Type', contentTypeFor(relPath));
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.status(200).end(buf);
+      } catch (e) { /* not cached yet */ }
+    }
+
+    // 3) upstream CDN (+ cache to FILE_CACHE_DIR)
+    fetchUpstream(relPath).then(function (buf) {
+      res.setHeader('Content-Type', contentTypeFor(relPath));
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.status(200).end(buf);
+    }).catch(function () {
+      // Upstream unreachable: keep the UI functional with a silent/transparent placeholder.
+      if (isAudio) {
+        res.setHeader('Content-Type', 'audio/wav');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.status(200).end(SILENT_WAV);
+      }
+      const type = (ext === 'jpg' || ext === 'jpeg') ? 'image/jpeg' : 'image/png';
+      res.setHeader('Content-Type', type);
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.status(200).end(TRANSPARENT_PNG);
+    });
+  }
+
+  const serveGridFSFile = function (req, res, p, filename) {
+    const relPath = 'db/' + req.params.collection + '/' + req.params.id + '/' + filename;
+    if (!cocoDb) { return serveFileAsset(relPath, req, res); }
     let bucket;
-    try { bucket = new GridFSBucket(cocoDb, { bucketName: 'media' }); } catch (e) { return sendPlaceholder(req, res); }
-    // mongodb driver v6 only supports the promise API for cursors (no callbacks),
-    // so use .toArray() as a promise.
-    bucket.find({ filename: filename, 'metadata.path': path }).toArray()
+    try { bucket = new GridFSBucket(cocoDb, { bucketName: 'media' }); }
+    catch (e) { return serveFileAsset(relPath, req, res); }
+    bucket.find({ filename: filename, 'metadata.path': p }).toArray()
       .then(function (files) {
-        if (!files || !files.length) { return sendPlaceholder(req, res); }
+        if (!files || !files.length) { return serveFileAsset(relPath, req, res); }
         const f = files[0];
         res.setHeader('Content-Type', f.contentType || 'image/png');
         res.setHeader('Cache-Control', 'public, max-age=3600');
         const dl = bucket.openDownloadStream(f._id);
-        dl.on('error', function () { return sendPlaceholder(req, res); });
+        dl.on('error', function () { return serveFileAsset(relPath, req, res); });
         return dl.pipe(res);
       })
-      .catch(function () { return sendPlaceholder(req, res); });
+      .catch(function () { return serveFileAsset(relPath, req, res); });
   };
   app.get('/file/db/:collection/:id/:filename', function (req, res) {
     serveGridFSFile(req, res, 'db/' + req.params.collection + '/' + req.params.id, req.params.filename);
@@ -313,24 +406,14 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/file/db/:collection/:id/:name', function (req, res) {
     serveGridFSFile(req, res, 'db/' + req.params.collection + '/' + req.params.id, req.params.name);
   });
-  // Catch-all for other /file/<path> requests (e.g. /file/interface/*.mp3,
-  // /file/music/*.mp3). The upstream serves these from S3 / GridFS; our restored
-  // coco database has none of them. Rather than 404 (which makes CreateJS/SoundJS
-  // log "Unable to decode audio data" and throw), serve the silent-WAV / transparent
-  // PNG placeholder so preloading succeeds and the UI stays silent-but-functional.
+  // Catch-all for /file/<path> (e.g. /file/interface/*.mp3, /file/music/*.mp3).
+  // Proxy real assets from the upstream CDN and cache them locally; fall back to
+  // the silent-WAV / transparent-PNG placeholder only if the upstream is unreachable.
   app.get('/file/*', function (req, res) {
-    const full = (req.params[0] || req.path.replace(/^\/file\//, '')) + '';
-    const name = full.split('/').pop();
-    const ext = name.split('.').pop().toLowerCase();
-    if (AUDIO_EXTS.indexOf(ext) !== -1) {
-      res.setHeader('Content-Type', 'audio/wav');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-      return res.status(200).end(SILENT_WAV);
-    }
-    const type = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
-    res.setHeader('Content-Type', type);
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    return res.status(200).end(TRANSPARENT_PNG);
+    let relPath = (req.params[0] || req.path.replace(/^\/file\//, '')) + '';
+    relPath = relPath.replace(/^\/+/, '');
+    if (/(\.\.(\/|$))|\0/.test(relPath)) { return sendPlaceholder(req, res); }
+    serveFileAsset(relPath, req, res);
   });
   // /db/<collection>/<id>/toFile/<name> are files the upstream generates on the
   // fly (e.g. thang doll renderings via node-canvas). We can't regenerate them,

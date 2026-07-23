@@ -132,3 +132,6 @@ scripts/analytics/mongodb/.mainAuth.json
 storybook-static/
 # Local preview/dev environment
 .brev/
+
+# Runtime proxy cache for /file/* (text-to-speech, etc.)
+file_cache/
