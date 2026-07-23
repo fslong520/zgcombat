@@ -1,23 +1,35 @@
-// Enumerate every /file/... audio asset the frontend actually references,
-// then download them from the upstream CodeCombat CDN into ./codecombat_assets
-// so they can be served locally (offline) instead of proxied at runtime.
+// Enumerate EVERY /file/... audio asset the frontend references anywhere in
+// the project, then download them from the upstream CodeCombat CDN into
+// ./codecombat_assets so they can be served locally (offline).
 //
-// Discovery is NOT hardcoded: we scan (a) the app/ source for interface-sound
-// names and music tracks, and (b) every thang.type / level / campaign doc in
-// MongoDB for the relative `db/...` asset paths stored in soundTriggers,
-// script noteChains, etc. Only text-to-speech URLs (built from arbitrary
-// phrases) are intentionally omitted, since they can't be enumerated — the
-// server proxies those on demand.
+// Discovery is data-driven, NOT hardcoded:
+//   (a) Scan ALL source files under app/ for any sound reference:
+//         - interface-sound names passed to playInterfaceSound / preloadInterfaceSounds
+//           (both `f(x)` and CoffeeScript paren-free `f x` styles)
+//         - names passed to playSound / preloadSound / preloadSoundReference
+//         - any literal  /file/(interface|music|db)/...   string
+//         - any literal  *.mp3 / *.ogg / *.wav  filename string
+//   (b) Walk EVERY MongoDB collection recursively, accepting any relative
+//       audio path of the form db/<collection>/<hex>/... , interface/... ,
+//       music/... (no longer limited to thang.types/levels/campaigns).
+//   (c) Enumerate music_level_1..N and try both .mp3 AND .ogg for every base.
+//
+// Only text-to-speech URLs (built from arbitrary phrases at runtime) are
+// intentionally omitted — the server proxies those on demand.
+//
+// Every attempt is logged per-item to ./download_report.txt so the user can
+// review exactly which sounds were fetched vs. which genuinely 404 upstream.
 //
 // Usage: node download_assets.js            (skips files already present)
 //        node download_assets.js --force    (re-download everything)
 
 const fs = require('fs');
 const path = require('path');
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const ROOT = __dirname;
 const ASSET_DIR = path.join(ROOT, 'codecombat_assets');
+const REPORT = path.join(ROOT, 'download_report.txt');
 const UPSTREAM = 'https://codecombat.com/file/';
 const FORCE = process.argv.includes('--force');
 const CONCURRENCY = 12;
@@ -25,15 +37,26 @@ const CONCURRENCY = 12;
 const seen = new Set();
 const relpaths = [];
 
+// Normalize + accept a relative path if it looks like a servable /file/* asset.
 function add(p) {
   if (!p || typeof p !== 'string') return;
-  p = p.replace(/^\/file\//, '').replace(/^\/+/, '');
+  p = p.replace(/^\/file\//, '').replace(/^\/+/, '').trim();
   if (!p) return;
-  const ok = /^(db\/(thang\.type|level|campaign)\/[0-9a-f]{24}\/.+?\.(mp3|ogg|wav))$/i.test(p) ||
-            /^(interface\/.+?\.(mp3|ogg))$/i.test(p) ||
-            /^(music\/.+?\.(mp3|ogg))$/i.test(p);
+  const ok = /^(db\/[^/]+\/[0-9a-f]{24}\/.+?\.(mp3|ogg|wav))$/i.test(p) ||
+            /^(interface\/.+?\.(mp3|ogg|wav))$/i.test(p) ||
+            /^(music\/.+?\.(mp3|ogg|wav))$/i.test(p);
   if (!ok) return;
   if (!seen.has(p)) { seen.add(p); relpaths.push(p); }
+}
+
+// Given a "base" (path without extension), try both extensions so we never
+// silently skip the one the browser actually requests.
+function addBase(base) {
+  if (!base) return;
+  base = base.replace(/^\/file\//, '').replace(/^\/+/, '').replace(/\.(mp3|ogg|wav)$/i, '');
+  if (!base) return;
+  add(base + '.mp3');
+  add(base + '.ogg');
 }
 
 // ---- (a) scan app/ source for sound references ----------------------------
@@ -41,53 +64,85 @@ function scanCodeFile(file) {
   let s;
   try { s = fs.readFileSync(file, 'utf8'); } catch (e) { return; }
 
-  // preloadInterfaceSounds(['a', 'b', ...])
-  const re1 = /preloadInterfaceSounds\(\s*\[([\s\S]*?)\]\s*\)/g;
+  // preloadInterfaceSounds(['a', 'b', ...])  (paren style)
+  const rePre = /preloadInterfaceSounds\(\s*\[([\s\S]*?)\]\s*\)/g;
   let m;
-  while ((m = re1.exec(s))) {
+  while ((m = rePre.exec(s))) {
     const inner = m[1].match(/'([^']+)'|"([^"]+)"/g) || [];
-    inner.forEach((x) => {
-      const n = x.slice(1, -1);
-      add('interface/' + n + '.mp3');
-      add('interface/' + n + '.ogg');
-    });
+    inner.forEach((x) => addBase('interface/' + x.slice(1, -1)));
   }
 
-  // playSound('name') / playInterfaceSound('name') / preloadSound('name' or '/file/...')
-  const re2 = /(?:playSound|playInterfaceSound|preloadSound)\(\s*'([^']+)'/g;
-  while ((m = re2.exec(s))) {
+  // playInterfaceSound('x') / playInterfaceSound 'x'  (coffee paren-free)
+  // --- these are definitely interface sounds
+  const reIface = /playInterfaceSound\s*[\(]?\s*['"]([^'"]+)['"]/g;
+  while ((m = reIface.exec(s))) { addBase('interface/' + m[1]); }
+
+  // playSound('x') / preloadSound('x') / preloadSoundReference(...)
+  // --- resolution: if it's a path already, use it; a bare name here is a
+  //     thang-event name resolved via MongoDB soundTriggers (not interface).
+  const reName = /(?:playSound|preloadSound|preloadSoundReference)\s*[\(]?\s*['"]([^'"]+)['"]/g;
+  while ((m = reName.exec(s))) {
     const n = m[1];
-    if (n[0] === '/') { add(n); }
-    else { add('interface/' + n + '.mp3'); add('interface/' + n + '.ogg'); }
+    if (n.startsWith('/file/') || n.startsWith('db/') || n.startsWith('interface/') || n.startsWith('music/')) {
+      add(n);
+    }
+    // bare thang-event names are skipped here (covered by the MongoDB scan)
   }
 
-  // explicit /file/interface/... or /file/music/... literals
-  const re3 = /(\/file\/(?:interface|music)\/[^'"\s]+?\.(mp3|ogg|wav))/g;
-  while ((m = re3.exec(s))) { add(m[1]); }
+  // explicit /file/(interface|music|db)/... literals
+  const reLit = /(\/file\/(?:interface|music|db)\/[^'"\s)]+?\.(mp3|ogg|wav))/gi;
+  while ((m = reLit.exec(s))) { add(m[1]); }
 
-  // /music/<x>.mp3 literals
-  const re4 = /(['"])(\/music\/[^'"]+?\.(mp3|ogg|wav))\1/g;
-  while ((m = re4.exec(s))) { add(m[2].replace(/^\//, '')); }
+  // any standalone *.mp3 / *.ogg / *.wav filename literal
+  const reExt = /['"]([^'"]+?\.(mp3|ogg|wav))['"]/gi;
+  while ((m = reExt.exec(s))) { add(m[1]); }
+
+  // 'audio-player:play-sound' triggers -> interface sound names (literal trigger)
+  const reTrig = /audio-player:play-sound['"][^}]*?trigger:\s*['"]([^'"]+)['"]/g;
+  while ((m = reTrig.exec(s))) { addBase('interface/' + m[1]); }
+
+  // Local string arrays in audio-related files (e.g. jinbles = ['ident_1','ident_2'])
+  // -> treat each token as a candidate interface sound. Only when the array is
+  // assigned to an audio-ish variable name, so we skip noise like the ROT13
+  // `swears` list in AudioPlayer.coffee.
+  if (/AudioPlayer|LevelLoader|Lank|\/sound/i.test(file)) {
+    const reArr = /([a-zA-Z_$][\w$]*)\s*=\s*\[\s*(?:'([^']+)'\s*,?\s*)+]/g;
+    let am;
+    while ((am = reArr.exec(s))) {
+      const varName = am[1];
+      if (/swear/i.test(varName)) continue; // skip the ROT13 profanity list
+      if (!/jingle|sound|sfx|preload|interface|audi|music|list|name|track/i.test(varName)) continue;
+      const toks = am[0].match(/'([^']+)'/g) || [];
+      toks.forEach((t) => {
+        const n = t.slice(1, -1);
+        if (/^[a-z][a-z0-9_]*$/.test(n)) addBase('interface/' + n);
+      });
+    }
+  }
 }
 
 function walkCode(dir) {
   let entries;
-  try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch (e) { return; }
+  try { entries = fs.readFileSync && fs.readdirSync(dir, { withFileTypes: true }); } catch (e) { return; }
   for (const ent of entries) {
-    if (ent.name === 'node_modules' || ent.name === 'public_coco' || ent.name === 'bower_components' || ent.name === '.git') continue;
+    if (['node_modules', 'public_coco', 'bower_components', '.git', 'codecombat_assets', 'file_cache'].includes(ent.name)) continue;
     const full = path.join(dir, ent.name);
     if (ent.isDirectory()) { walkCode(full); }
-    else if (/\.(coffee|js|jsx|ts|pug|sass|scss|html)$/.test(ent.name)) { scanCodeFile(full); }
+    else if (/\.(coffee|js|jsx|ts|pug|jade|sass|scss|less|html|vue|json)$/.test(ent.name)) { scanCodeFile(full); }
   }
 }
 
-// ---- (b) scan MongoDB for relative db/... asset paths ---------------------
+// ---- (b) scan EVERY MongoDB collection recursively -------------------------
 function walkDoc(o) {
   if (typeof o === 'string') {
-    let m = o.match(/db\/(thang\.type|level|campaign)\/[0-9a-f]{24}\/[^\s'"]+?\.(mp3|ogg|wav)/i);
+    let m = o.match(/db\/[^/]+\/[0-9a-f]{24}\/[^\s'"\\]+?\.(mp3|ogg|wav)/i);
     if (m) add(m[0]);
-    let m2 = o.match(/\/file\/(db\/(thang\.type|level|campaign)\/[0-9a-f]{24}\/[^\s'"]+?\.(mp3|ogg|wav))/i);
+    let m2 = o.match(/\/file\/(db\/[^/]+\/[0-9a-f]{24}\/[^\s'"\\]+?\.(mp3|ogg|wav))/i);
     if (m2) add(m2[1]);
+    let m3 = o.match(/(?:^|[^\w\/])(interface\/[^\s'"\\]+?\.(mp3|ogg|wav))/i);
+    if (m3) add(m3[1]);
+    let m4 = o.match(/(?:^|[^\w\/])(music\/[^\s'"\\]+?\.(mp3|ogg|wav))/i);
+    if (m4) add(m4[1]);
   } else if (Array.isArray(o)) { o.forEach(walkDoc); }
   else if (o && typeof o === 'object') { for (const k in o) walkDoc(o[k]); }
 }
@@ -124,20 +179,30 @@ async function runPool(tasks) {
 }
 
 async function main() {
-  console.log('Scanning app/ source for interface + music references...');
+  const report = [];
+  report.push('download_assets run @ ' + new Date().toISOString() + (FORCE ? ' (--force)' : ''));
+
+  console.log('Scanning app/ source for sound references...');
   walkCode(path.join(ROOT, 'app'));
 
-  // Music tracks are built from difficulty; enumerate a safe range.
-  for (let n = 1; n <= 12; n++) { add('music/music_level_' + n + '.mp3'); add('music/music_level_' + n + '.ogg'); }
+  // Music tracks: enumerate the known level-music range (CodeCombat ships
+  // ~12 level tracks). Beyond that, specific music is discovered from the DB.
+  for (let n = 1; n <= 12; n++) { addBase('music/music_level_' + n); }
 
-  console.log('Connecting to MongoDB to scan thang.types / levels / campaigns...');
+  console.log('Connecting to MongoDB to scan ALL collections...');
   const client = new MongoClient('mongodb://127.0.0.1:27017');
   await client.connect();
   const db = client.db('coco');
-  for (const coll of ['thang.types', 'levels', 'campaigns']) {
-    const cursor = db.collection(coll).find({}, { projection: { _id: 0 } });
-    let doc;
-    while ((doc = await cursor.next())) { walkDoc(doc); }
+  const colls = (await db.listCollections({}, { nameOnly: true }).toArray()).map((c) => c.name);
+  console.log('  ' + colls.length + ' collections: ' + colls.join(', '));
+  for (const coll of colls) {
+    try {
+      const cursor = db.collection(coll).find({}, { projection: { _id: 0 } });
+      let doc;
+      let count = 0;
+      while ((doc = await cursor.next())) { walkDoc(doc); count++; }
+      if (count) report.push(`  scanned collection "${coll}": ${count} docs`);
+    } catch (e) { report.push(`  ERROR scanning "${coll}": ${e.message}`); }
   }
   await client.close();
 
@@ -150,10 +215,19 @@ async function main() {
   const cached = results.filter((r) => r.status === 'cached').length;
   const fail = results.filter((r) => r.status !== 'ok' && r.status !== 'cached');
   console.log(`\nDone. ok=${ok} cached=${cached} failed=${fail.length} total=${results.length}`);
+
+  report.push(`Discovered ${relpaths.length} unique paths; ok=${ok} cached=${cached} failed=${fail.length}`);
   if (fail.length) {
-    console.log('\nFailures (first 40):');
-    fail.slice(0, 40).forEach((r) => console.log('  ', r.status, r.code || r.msg || '', r.rel));
+    console.log('\nFailures (' + fail.length + '):');
+    report.push('\n--- FAILED (genuinely missing upstream) ---');
+    fail.forEach((r) => {
+      const line = `  ${r.status} ${r.code || r.msg || ''}  ${r.rel}`;
+      console.log(line);
+      report.push(line);
+    });
   }
+  fs.writeFileSync(REPORT, report.join('\n') + '\n');
+  console.log('\nPer-item report written to ' + REPORT);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
