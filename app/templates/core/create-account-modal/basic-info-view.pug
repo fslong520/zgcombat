@@ -7,7 +7,7 @@ mixin error-area
       .alert.alert-danger= error
 
 mixin use-social-signon
-  if view.utils.isCodeCombat
+  if view.utils.iszgcombat
     if !view.showLibraryIdInsteadOfUsername
       .hr-text
         hr
@@ -139,15 +139,15 @@ form#basic-info-form.modal-body.basic-info
                 span(data-i18n="general.password")
               input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
               small.form-text.text-muted(data-i18n="signup.password_requirements")
-          if view.utils.isCodeCombat
+          if view.utils.iszgcombat
             +error-area
-        if view.utils.isCodeCombat && me.useSocialSignOn()
+        if view.utils.iszgcombat && me.useSocialSignOn()
           .individual-flow-social
             +use-social-signon
-        else if !view.utils.isCodeCombat && me.useSocialSignOn()
+        else if !view.utils.iszgcombat && me.useSocialSignOn()
           +use-social-signon
     else
-      if !view.utils.isCodeCombat && me.useSocialSignOn()
+      if !view.utils.iszgcombat && me.useSocialSignOn()
         +use-social-signon
       div.form-container
         if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
@@ -235,9 +235,9 @@ form#basic-info-form.modal-body.basic-info
               input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
               small.form-text.text-muted(data-i18n="signup.password_requirements")
 
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           +error-area
-      if view.utils.isCodeCombat && me.useSocialSignOn()
+      if view.utils.iszgcombat && me.useSocialSignOn()
         +use-social-signon
 
   if view.utils.isOzaria
@@ -245,18 +245,18 @@ form#basic-info-form.modal-body.basic-info
   // In reverse order for tabbing purposes
   .history-nav-buttons(class=view.signupState.get('path') === 'individual' ? 'individual' : undefined)
     if view.signupState.get('path') === 'teacher'
-      button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
+      button.next-button.btn.btn-lg(type='submit' class=view.utils.iszgcombat ? "btn-navy" : "ozaria-primary-button")
         span(data-i18n="common.next")
     else if view.signupState.get('subModalContinue')
-      button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
+      button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.iszgcombat ? "btn-navy" : "ozaria-primary-button")
         span(data-i18n="common.continue")
     else
-      button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
-        if view.utils.isCodeCombat
+      button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.iszgcombat ? "btn-navy" : "ozaria-primary-button")
+        if view.utils.iszgcombat
           span(data-i18n="login.sign_up")
         else
           span(data-i18n="common.next")
 
 
-    button.back-button.btn.btn-lg(type='button' class=view.utils.isCodeCombat ? "btn-navy-alt" : "ozaria-secondary-button")
+    button.back-button.btn.btn-lg(type='button' class=view.utils.iszgcombat ? "btn-navy-alt" : "ozaria-secondary-button")
       span(data-i18n="common.back")

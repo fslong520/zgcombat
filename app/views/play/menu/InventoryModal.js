@@ -972,12 +972,12 @@ module.exports = (InventoryModal = (function () {
     onEquipmentChanged () {
       let heroSlug, left
       const heroClass = (left = (this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) != null ? left : 'Warrior'
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         let left1
         heroSlug = (left1 = (this.selectedHero != null ? this.selectedHero.get('slug') : undefined)) != null ? left1 : ''
       }
       const gender = ThangTypeLib.getGender(this.selectedHero)
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         this.$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass(`${gender} ${heroClass} ${heroSlug}`)
       } else {
         this.$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass(`${gender} ${heroClass}`)
@@ -1009,7 +1009,7 @@ module.exports = (InventoryModal = (function () {
     addDollImage (slot, dollImages, heroClass, gender, item) {
       let heroSlug, imageKeys, left, needle
       heroClass = (left = (this.selectedHero != null ? this.selectedHero.get('heroClass') : undefined)) != null ? left : 'Warrior'
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         let left1
         heroSlug = (left1 = (this.selectedHero != null ? this.selectedHero.get('slug') : undefined)) != null ? left1 : ''
       }
@@ -1037,7 +1037,7 @@ module.exports = (InventoryModal = (function () {
           console.log(`Hmm, should have ${slot} ${imageKey} paper doll image, but don't have it.`)
         } else {
           let imageEl
-          if (utils.isCodeCombat) {
+          if (utils.iszgcombat) {
             imageEl = $('<img>').attr('src', `/file/${imageURL}`).addClass(`doll-image ${slot} ${heroClass} ${heroSlug} ${gender} ${_.string.underscored(imageKey).replace(/_/g, '-')}`).attr('draggable', false)
           } else {
             imageEl = $('<img>').attr('src', `/file/${imageURL}`).addClass(`doll-image ${slot} ${heroClass} ${gender} ${_.string.underscored(imageKey).replace(/_/g, '-')}`).attr('draggable', false)

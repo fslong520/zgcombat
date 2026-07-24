@@ -50,12 +50,12 @@ mixin anonymous-welcome-message()
 
 mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, cocoCourseInstances, ozCourseInstances, hackstackCourseInstances)
   // Define course type booleans for this courseInstance
-  - var isOzariaCourse = view.utils.isCodeCombat && ozCourseInstances.includes(courseInstance)
+  - var isOzariaCourse = view.utils.iszgcombat && ozCourseInstances.includes(courseInstance)
   - var isHackstackCourse = hackstackCourseInstances.includes(courseInstance)
   - var isJuniorCourse = juniorCourseInstances.includes(courseInstance)
   - var isCocoCourse = cocoCourseInstances.includes(courseInstance)
 
-  - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && !isJuniorCourse) { return }
+  - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.iszgcombat && !isJuniorCourse) { return }
   - var courseID = courseInstance.get('courseID')
   - var course = view.store.state.courses.byId[courseID]
   // internal play-test course which we removed later
@@ -72,7 +72,7 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
               a.view-levels-btn(data-href=courseUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
             if view.courseInstanceHasProject(courseInstance)
               a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
-            if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
+            if view.utils.iszgcombat && classroom.hasAssessments({courseId: course._id})
               =" "
               a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
             if view.showVideosLinkForCourse(course._id)
@@ -103,7 +103,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
   if stats.courseComplete
     .text-success
       span.glyphicon.glyphicon-ok
-      if view.utils.isCodeCombat
+      if view.utils.iszgcombat
         - i18nContent = "courses.course_complete"
       else
         - i18nContent = "courses.unit_complete"
@@ -115,7 +115,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
       - var projectLevel = stats.levels.project;
       if arenaLevel
         - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
             span(data-i18n="courses.play_arena")
         else
@@ -123,14 +123,14 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
             span(data-i18n="courses.play_arena")
       else if projectLevel
         - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance});
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
             span(data-i18n="courses.view_project")
         else
           button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project" disabled=isLocked)
             span(data-i18n="courses.view_project")
       else
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
         else
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
@@ -141,11 +141,11 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
       if view.utils.isOzaria && isLocked
         button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
           span(data-i18n="common.locked")
-      else if view.utils.isCodeCombat && nextLevel != stats.levels.first
+      else if view.utils.iszgcombat && nextLevel != stats.levels.first
         a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
           span(data-i18n="common.continue")
       else
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
             span(data-i18n="courses.start")
         else
@@ -196,7 +196,7 @@ mixin classrooms_content()
         div(class=classroomClass).rtl-allowed
           if justAdded
             #just-added-text.text-center(data-i18n="courses.class_added")
-          if view.utils.isCodeCombat
+          if view.utils.iszgcombat
             h5(dir="auto")
               span.spr= classroom.get('name')
               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
@@ -234,7 +234,7 @@ mixin classrooms_content()
 
           - var allCoursesComplete = true
           - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
-          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { groupedCourseInstances = [] }
+          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.iszgcombat) { groupedCourseInstances = [] }
           - var lastProductType = null
           for courseInstance in groupedCourseInstances
             - var currentProductType = juniorCourseInstances.includes(courseInstance) ? 'junior' : (cocoCourseInstances.includes(courseInstance) ? 'coco' : (ozCourseInstances.includes(courseInstance) ? 'oz' : 'hackstack'))
@@ -248,7 +248,7 @@ mixin classrooms_content()
           if allCoursesPlayed && allCoursesComplete && me.isTecmilenio()
             .text-success
               span.glyphicon.glyphicon-ok
-              if view.utils.isCodeCombat
+              if view.utils.iszgcombat
                 - i18nContent = "courses.all_courses_completed"
               else
                 - i18nContent = "courses.all_units_completed"
@@ -262,7 +262,7 @@ mixin classrooms_content()
     #announcement
       h5(data-i18n="learn_without_classroom_title")
       p
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           b(data-i18n="[html]courses.ask_teacher_for_code_coco")
         else
           b(data-i18n="[html]courses.ask_teacher_for_code_ozar")
@@ -271,7 +271,7 @@ mixin classrooms_content()
     h3(data-i18n="courses.join_class")
 
     form#join-class-form.form-inline
-      if view.utils.isCodeCombat
+      if view.utils.iszgcombat
         - product = coco
       else
         - product = ozar
@@ -458,7 +458,7 @@ mixin ozar_main_content()
 
 block content
   .container
-    if view.utils.isCodeCombat
+    if view.utils.iszgcombat
       +coco_main_content()
     else
       +ozar_main_content()

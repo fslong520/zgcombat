@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       includesText: [
-        'Full access to CodeCombat and Ozaria',
+        'Full access to zgcombat and Ozaria',
         'Teacher Dashboard for record keeping and progress tracking',
         'Curriculum guide to help you understand what your child is learning and assist them'
       ],

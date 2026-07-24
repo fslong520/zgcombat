@@ -74,7 +74,7 @@ Optional Materials:
 
 Explain to students that they are entering a Web Development course and that it will be quite different from what they are used to in the Computer Science or Game Development course. There are no heroes in this course, and they will not be using **programming languages** in this course specifically. Explain the difference between **programming languages** and **markup languages**.
 
-Pull up a website that is likely familiar to your class. It could be the school website, a Google Classroom, or even the CodeCombat homepage.  Scroll through the webpage and make a list on the board of what students think the parts of the website are. These could include things like buttons, a home logo, or menus. Students may also point things out that are more specific to a certain website, like the existence of a feed on a social media website. Write these down as well.
+Pull up a website that is likely familiar to your class. It could be the school website, a Google Classroom, or even the zgcombat homepage.  Scroll through the webpage and make a list on the board of what students think the parts of the website are. These could include things like buttons, a home logo, or menus. Students may also point things out that are more specific to a certain website, like the existence of a feed on a social media website. Write these down as well.
 
 Once you have made a full list of the parts of a website, introduce students to **HTML** and **tags** (see definitions in the Key Terms section on Page 1). Explain that all the parts of a webpage that they listed are outlined using these kinds of tags.
 

@@ -59,7 +59,7 @@ This allows them to have the same form-handling logic, but different templates.
 // "Teacher signup started" event for reaching the Create Teacher form.
 const startSignupTracking = function () {
   const properties = {
-    category: utils.isCodeCombat ? 'Homepage' : 'Home',
+    category: utils.iszgcombat ? 'Homepage' : 'Home',
     user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
   }
   return (window.tracker != null
@@ -123,14 +123,14 @@ module.exports = (CreateAccountModal = (function () {
         case 'individual-basic': this.signupState.set({ path: 'individual', screen: 'basic-info' }); break
         case 'teacher':
           startSignupTracking()
-          if (utils.isCodeCombat) {
+          if (utils.iszgcombat) {
             this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' })
           } else {
             this.navigateToTeacherOnboarding()
           }
           break
         default:
-          if (utils.isCodeCombat && /^\/play/.test(location.pathname) && me.showIndividualRegister()) {
+          if (utils.iszgcombat && /^\/play/.test(location.pathname) && me.showIndividualRegister()) {
             this.signupState.set({ path: 'individual', screen: 'segment-check' })
           }
       }
@@ -144,7 +144,7 @@ module.exports = (CreateAccountModal = (function () {
         'choose-path' (path) {
           if (path === 'teacher') {
             startSignupTracking()
-            if (utils.isCodeCombat) {
+            if (utils.iszgcombat) {
               if (window.tracker != null) {
                 window.tracker.trackEvent('Teachers Create Account Loaded', { category: 'Teachers' })
               } // This is a legacy event name

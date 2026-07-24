@@ -30,7 +30,7 @@ Segue o tópico da colaboração mundial através da tecnologia. Peça serviços
 - Classificações em sites como Amazon, Yelp, Etsy
 - Comunidades de agregação e classificação de notícias, como Reddit
 - Serviço que informalmente compartilha recursos, como AirBnB, Getaround
-- Projetos de código aberto, incluindo CodeCombat e Linux, muitas vezes através GitHub
+- Projetos de código aberto, incluindo zgcombat e Linux, muitas vezes através GitHub
 - Reddit Place, um projeto para criar uma imagem gerada de forma colaborativa
 
 Embora esses serviços forneçam grandes oportunidades para colaborar em problemas difíceis, a maneira como esses serviços permitem a colaboração é um problema por si só. Os desafios podem ser técnicos, sociais ou psicológicos.

@@ -22,7 +22,7 @@ Ao usar a compactação com perdas, o tamanho do arquivo é reduzido, removendo 
 ## Compactação com perda
 
 
-Este é um close-up de um mapa de Backwoods Forest, mantido por um dos heróis da CodeCombat, Anya.
+Este é um close-up de um mapa de Backwoods Forest, mantido por um dos heróis da zgcombat, Anya.
 
 <img alt="high res image" src="/images/pages/teachers/resources/markdown/compression-high-res.jpg" class="res-image" />
 

@@ -125,7 +125,7 @@ module.exports = (ThangTypeColorsTabView = (function () {
 
     getColorConfig () {
       let colorConfig = {}
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         colorConfig[this.currentColorGroupTreema.keyForParent] = this.currentColorConfig
         return colorConfig
       }

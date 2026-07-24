@@ -13,9 +13,9 @@ block modal-header
     This allows for the header color to switch without the subview templates
     needing to contain the header
 
-  if view.utils.isCodeCombat && ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
+  if view.utils.iszgcombat && ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
     +ozaria-close-button
-  else if view.utils.isCodeCombat && view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
+  else if view.utils.iszgcombat && view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
     .modal-header.ozaria-modal-header(class=view.signupState.get('path'))
       div
         +modal-header-content
@@ -30,7 +30,7 @@ mixin ozaria-close-button
     span.glyphicon.glyphicon-remove(aria-hidden="true")
 
 mixin modal-header-content
-  if view.utils.isCodeCombat
+  if view.utils.iszgcombat
     h3
       case view.signupState.get('path')
         when 'student'
@@ -96,15 +96,15 @@ block modal-footer
     needing to contain the footer
   //- The chooser screen renders its own sign-in link, so the shared footer is
     skipped there entirely (it would duplicate the link and leave an empty bar).
-  if !(view.utils.isCodeCombat && view.signupState.get('screen') === 'choose-account-type')
-    .modal-footer(class=view.utils.isCodeCombat ? `screen-${view.signupState.get('screen')} path-${view.signupState.get('path')}` : view.signupState.get('path'))
+  if !(view.utils.iszgcombat && view.signupState.get('screen') === 'choose-account-type')
+    .modal-footer(class=view.utils.iszgcombat ? `screen-${view.signupState.get('screen')} path-${view.signupState.get('path')}` : view.signupState.get('path'))
       +modal-footer-content
 
 mixin modal-footer-content
-  if view.signupState.get('screen') !== 'confirmation' && (view.utils.isCodeCombat || view.signupState.get('screen') !== 'teacher-signup-component')
+  if view.signupState.get('screen') !== 'confirmation' && (view.utils.iszgcombat || view.signupState.get('screen') !== 'teacher-signup-component')
     .modal-footer-content
       .small-details.rtl-allowed
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           span.spr(data-i18n="signup.login_switch")
           a.login-link(href="#")
             span(data-i18n="signup.sign_in")

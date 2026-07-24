@@ -1,7 +1,7 @@
 execution = require './execution'
 
 module.exports = defaults =
-  thisValue: null  # TODO: don't use this. Aether doesn't use it at compile time and CodeCombat uses it just at runtime, and it makes cloning original options weird/unintuitive/slow.
+  thisValue: null  # TODO: don't use this. Aether doesn't use it at compile time and zgcombat uses it just at runtime, and it makes cloning original options weird/unintuitive/slow.
   globals: []
   language: "javascript"
   functionName: null  # In case we need it for error messages

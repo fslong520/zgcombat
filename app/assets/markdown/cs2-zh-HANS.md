@@ -174,7 +174,7 @@ if teacher.claps == 2:
 
 >If does the code only if it’s true. You can see if all kinds of things are true, like if your weapon is ready or if the enemy is close. Sometimes you need == or >, but sometimes you only need the ().
 
-**如果要你设计一个CodeCombat关卡，它会是怎样的？**
+**如果要你设计一个zgcombat关卡，它会是怎样的？**
 
 >会有很多食人魔，你需要攻击他们，但不能攻击人类。你还需要通过建造障碍物和火焰陷阱来保护村子。
 >
@@ -664,7 +664,7 @@ Have students navigate to the last level, **Power Peak**. They should take a few
 #### Good to Know
 
 - Some students may be uncomfortable with competition, especially given that the rankings are visible to the class. Consider using Pair Programming - competition is often more comfortable when you have a partner.
-- Students will only compete against the AI and other students in the same CodeCombat class (not strangers).
+- Students will only compete against the AI and other students in the same zgcombat class (not strangers).
 - Once students have beaten one of the AIs, they will be put into the class rankings.
 - Red teams only fight against blue teams, and there will be top rankings for each.
 - Once students have submitted code, other students can click the “Fight” link next to any student in the ranking to challenge that student!
@@ -678,10 +678,10 @@ Have students navigate to the last level, **Power Peak**. They should take a few
 
 Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-**In CodeCombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
+**In zgcombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
 
 Sample Responses:
-> CodeCombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
+> zgcombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
 
 > In this game, I get to look through the whole level first and plan out how I want to beat it. Then I get to design a way to make my plan work. It feels different than making it up as I go along in regular video games.
 

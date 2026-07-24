@@ -12,7 +12,7 @@ In this activity the students will use a simulation of the relationship between 
 
 Explain to the students that computers can be used to model real life situations, such as the interaction between predators and prey in the wild.
 
-Instruct the students to open the CodeCombat level "Peasants and Munchkins":
+Instruct the students to open the zgcombat level "Peasants and Munchkins":
 https://codecombat.com/play/level/peasants-and-munchkins
 
 In this simulation, we've modeled the predators as Ogres and the prey as Peasants. The prey search for food (coins) while the predators search for the prey.

@@ -1,6 +1,6 @@
 <template>
   <modal
-    title="Subscribe to EdTech Adventures with CodeCombat"
+    title="Subscribe to EdTech Adventures with zgcombat"
     @close="$emit('close')"
   >
     <div class="container subscribe">

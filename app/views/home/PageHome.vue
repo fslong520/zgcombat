@@ -21,7 +21,7 @@
       <div class="hero-grid">
         <header class="mast">
           <div class="badge"><span class="prompt">&gt;_</span> LEARN TO CODE BY PLAYING</div>
-          <h1 class="mast-title">CodeCombat</h1>
+          <h1 class="mast-title">zgcombat</h1>
           <p class="mast-sub">
             <span class="type-text">{{ typed }}</span><span class="caret">▋</span>
           </p>
@@ -31,7 +31,7 @@
             </a>
           </div>
           <p class="lede">
-            CodeCombat 是一款以游戏化关卡为载体、面向青少年的计算机科学学习平台。
+            zgcombat 是一款以游戏化关卡为载体、面向青少年的计算机科学学习平台。
             在编写真实代码操控角色闯关中，循序渐进掌握编程与计算思维。
           </p>
         </header>

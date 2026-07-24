@@ -53,7 +53,7 @@
       ]"
       :buttons="[{
         text: $t('pd_page.download_syllabus'),
-        href: 'https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf'
+        href: 'https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Syllabus.pdf'
       }]"
       :modal="{
         subtitle: $t('pd_page.modal_subtitle'),

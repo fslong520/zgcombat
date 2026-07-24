@@ -15,7 +15,7 @@ const ThangType = require('models/ThangType')
 const { me } = require('core/auth')
 const LeaderboardCollection = require('collections/LeaderboardCollection')
 const { teamDataFromLevel } = require('./utils')
-const { isCodeCombat } = require('core/utils')
+const { iszgcombat } = require('core/utils')
 
 module.exports = (LadderPlayModal = (function () {
   LadderPlayModal = class LadderPlayModal extends ModalView {
@@ -48,7 +48,7 @@ module.exports = (LadderPlayModal = (function () {
       this.session = session
       this.team = team
       this.otherTeam = this.team === 'ogres' ? 'humans' : 'ogres'
-      if (isCodeCombat) {
+      if (iszgcombat) {
         if (this.level.isType('ladder')) { this.otherTeam = 'humans' }
       }
       this.wizardType = ThangType.loadUniversalWizard()
@@ -82,7 +82,7 @@ module.exports = (LadderPlayModal = (function () {
       me.patch()
       if (this.session) {
         this.session.set('codeLanguage', aceConfig.language)
-        if (isCodeCombat) {
+        if (iszgcombat) {
           return this.session.save({ codeLanguage: aceConfig.language }, { patch: true, type: 'PUT' })
         } else {
           return this.session.patch()
@@ -187,7 +187,7 @@ module.exports = (LadderPlayModal = (function () {
     }
 
     checkTutorialLevelExists (cb) {
-      if (isCodeCombat) {
+      if (iszgcombat) {
         return // We don't have any tutorials, currently. TODO: should remove this or update to create more tutorials.
       }
       const levelID = this.level.get('slug') || this.level.id

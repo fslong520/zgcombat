@@ -24,7 +24,7 @@
             Implementation Training Options
           </p>
           <p class="small-text">
-            Educators can be provided with a 60 min Onboarding Training and guidance on how to use CodeCombat or Ozaria to support specific institutional and instructional goals. Contact us for more information and pricing.
+            Educators can be provided with a 60 min Onboarding Training and guidance on how to use zgcombat or Ozaria to support specific institutional and instructional goals. Contact us for more information and pricing.
           </p>
         </div>
         <button
@@ -58,7 +58,7 @@
             Includes
           </p>
           <ul>
-            <li>Full access to CodeCombat and Ozaria</li>
+            <li>Full access to zgcombat and Ozaria</li>
             <li>Dedicated school success manager available via phone or email for implementation support</li>
             <li>Technical support via email or chat</li>
             <li>Purchase order plus other payment options available</li>
@@ -74,7 +74,7 @@
     />
     <modal-get-licenses
       v-if="openImplementationModal"
-      email-message="Hi! I want to learn more about options for educators training on how to use CodeCombat or Ozaria"
+      email-message="Hi! I want to learn more about options for educators training on how to use zgcombat or Ozaria"
       @close="openImplementationModal = false"
     />
   </div>

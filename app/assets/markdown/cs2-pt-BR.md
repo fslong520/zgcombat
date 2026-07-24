@@ -147,7 +147,7 @@ ircule para ajudar. Chame a atenção dos alunos para as instruções e dicas. O
 > Se o código só for verdadeiro. Você pode ver se todos os tipos de coisas são verdadeiras, como se sua arma estivesse pronta ou se o inimigo estivesse próximo. Às vezes você precisa == ou>, mas às vezes você só precisa do ().
 
 
-** Se você pudesse criar um nível de CodeCombat, como seria? **
+** Se você pudesse criar um nível de zgcombat, como seria? **
 > Haveria muitos ogros e você tem que atacá-los, mas não os humanos. E você protegeria a aldeia construindo muros e fogueiras.
 
 
@@ -540,7 +540,7 @@ Peça aos alunos que naveguem até o último nível, **Pico de Poder**, e conclu
 
 #### Rankings
 
-Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
+Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your zgcombat class (not strangers).
 
 Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead:
 

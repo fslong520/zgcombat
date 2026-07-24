@@ -101,7 +101,7 @@ module.exports = class LevelSetupManager extends CocoClass
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
-      unless (utils.isOzaria and _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal) or (utils.isCodeCombat and _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType)
+      unless (utils.isOzaria and _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal) or (utils.iszgcombat and _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
 
     lastHeroesEarned = me.get('earned')?.heroes ? []

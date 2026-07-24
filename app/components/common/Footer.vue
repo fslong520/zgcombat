@@ -1,9 +1,9 @@
 <script> // eslint-disable-line vue/multi-word-component-names
-import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from 'core/utils'
+import { cocoBaseURL, getQueryVariable, iszgcombat, isOzaria, ozBaseURL } from 'core/utils'
 import { mapGetters } from 'vuex'
 
 /**
- * Unified footer component between CodeCombat and Ozaria.
+ * Unified footer component between zgcombat and Ozaria.
  */
 export default Vue.extend({
   data () {
@@ -14,8 +14,8 @@ export default Vue.extend({
       preferredLocale: 'me/preferredLocale'
     }),
 
-    isCodeCombat () {
-      return isCodeCombat
+    iszgcombat () {
+      return iszgcombat
     },
 
     isOzaria () {

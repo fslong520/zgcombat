@@ -41,7 +41,7 @@ export default {
     <template slot="body">
       <img
         class="coco-logo"
-        alt="CodeCombat logo"
+        alt="zgcombat logo"
         src="/images/pages/base/logo.png"
       >
       <h3>{{ $t('modal_timetap_confirmation.congratulations') }}</h3>

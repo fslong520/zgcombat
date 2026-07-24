@@ -36,7 +36,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     'click #edit-level-btn': 'onEditLevelButton'
     'click #play-btn': 'onClickPlayButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
-    'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
+    'click #play-more-codecombat-btn': 'onClickPlayMorezgcombatButton'
 
   initialize: (@options, @sessionID) ->
     super(@options)
@@ -48,7 +48,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
-    if utils.isCodeCombat
+    if utils.iszgcombat
       $(window).keydown (event) ->
         # prevent space from scrolling on the page since it can be used as a control in the game.
         if (event.keyCode == 32 && event.target == document.body)
@@ -199,8 +199,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     @tryCopy()
     window.tracker?.trackEvent('Play GameDev Level - Copy URL', @eventProperties)
 
-  onClickPlayMoreCodeCombatButton: ->
-    window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties)
+  onClickPlayMorezgcombatButton: ->
+    window.tracker?.trackEvent('Play GameDev Level - Click Play More zgcombat', @eventProperties)
 
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
@@ -283,6 +283,6 @@ module.exports = class PlayGameDevLevelView extends RootView
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
-    if utils.isCodeCombat
+    if utils.iszgcombat
       $(window).off("keydown")
     super()

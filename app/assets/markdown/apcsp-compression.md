@@ -30,7 +30,7 @@ When using Lossy compression, the file size is reduced by removing information f
 
 ## Lossy compression
 
-This is a close up of a map of Backwoods Forest, held by one of CodeCombat’s heroes, Anya.
+This is a close up of a map of Backwoods Forest, held by one of zgcombat’s heroes, Anya.
 
 <img alt="high res image" src="/images/pages/teachers/resources/markdown/compression-high-res.jpg" class="res-image" />
 

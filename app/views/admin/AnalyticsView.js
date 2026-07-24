@@ -288,11 +288,11 @@ module.exports = (AnalyticsView = (function () {
               product = 'usa lifetime'
             } else if (/_lifetime_subscription/.test(payment.productID)) {
               product = 'intl lifetime'
-            } else if (utils.isCodeCombat && ((payment.productID === 'basic_subscription') || !payment.productID) && (price === 9900) && (payment.created > lifetimeToAnnualChange)) {
+            } else if (utils.iszgcombat && ((payment.productID === 'basic_subscription') || !payment.productID) && (price === 9900) && (payment.created > lifetimeToAnnualChange)) {
               product = 'usa annual'
             } else if (payment.productID === 'basic_subscription') {
               product = 'usa monthly'
-            } else if (utils.isCodeCombat && (/_basic_subscription/.test(payment.productID) || !payment.productID) && ([3960, 3999].includes(price)) && (payment.created > lifetimeToAnnualChange)) {
+            } else if (utils.iszgcombat && (/_basic_subscription/.test(payment.productID) || !payment.productID) && ([3960, 3999].includes(price)) && (payment.created > lifetimeToAnnualChange)) {
               product = 'intl annual'
             } else if (/_basic_subscription/.test(payment.productID)) {
               product = 'intl monthly'
@@ -361,7 +361,7 @@ module.exports = (AnalyticsView = (function () {
             } else if (price === 0) {
               product = 'free'
             } else if ((payment.service === 'paypal') && (payment.gems === 42000) && (price < 5999)) {
-              if (utils.isCodeCombat && (payment.created > lifetimeToAnnualChange)) {
+              if (utils.iszgcombat && (payment.created > lifetimeToAnnualChange)) {
                 product = 'intl annual'
               } else {
                 product = 'intl lifetime'
@@ -440,7 +440,7 @@ module.exports = (AnalyticsView = (function () {
                   serviceCarryForwardMap[group].push({ remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) / lifetimeDurationMonths })
                 }
                 data.groups.push(0)
-              } else if (utils.isCodeCombat && ['DRR intl annual', 'DRR usa annual'].includes(group)) {
+              } else if (utils.iszgcombat && ['DRR intl annual', 'DRR usa annual'].includes(group)) {
                 if (serviceCarryForwardMap[group] == null) { serviceCarryForwardMap[group] = [] }
                 if (dayGroupCountMap[day][group]) {
                   serviceCarryForwardMap[group].push({ remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] != null ? dayGroupCountMap[day][group] : 0) / annualDurationMonths })
@@ -519,7 +519,7 @@ module.exports = (AnalyticsView = (function () {
                 this.monthMrrMap[month].gems += revenue.groups[i]
               } else if (['DRR usa monthly', 'DRR intl monthly'].includes(group)) {
                 this.monthMrrMap[month].monthly += revenue.groups[i]
-              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.isCodeCombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
+              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.iszgcombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
                 this.monthMrrMap[month].yearly += revenue.groups[i]
               } else if (group === 'DRR Total') {
                 this.monthMrrMap[month].total += revenue.groups[i]
@@ -543,7 +543,7 @@ module.exports = (AnalyticsView = (function () {
                 this.weekMrrMap[week].gems += revenue.groups[i]
               } else if (['DRR usa monthly', 'DRR intl monthly'].includes(group)) {
                 this.weekMrrMap[week].monthly += revenue.groups[i]
-              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.isCodeCombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
+              } else if (['DRR usa lifetime', 'DRR intl lifetime'].includes(group) || (utils.iszgcombat && ['DRR usa annual', 'DRR intl annual'].includes(group))) {
                 this.weekMrrMap[week].yearly += revenue.groups[i]
               } else if (group === 'DRR Total') {
                 this.weekMrrMap[week].total += revenue.groups[i]

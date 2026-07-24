@@ -114,7 +114,7 @@ module.exports = (CourseDetailsView = (function () {
           this.levelConceptMap[level.get('original')][concept] = true
         }
         //  I'm not sure about this modification. Aren't the methods below give the same response?
-        if ((utils.isCodeCombat && level.isLadder()) || (utils.isOzaria && level.isType('course-ladder'))) {
+        if ((utils.iszgcombat && level.isLadder()) || (utils.isOzaria && level.isType('course-ladder'))) {
           this.arenaLevel = level
         }
       }

@@ -76,7 +76,7 @@ module.exports = class RootView extends CocoView
   logoutAccount: ->
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
-    category = if utils.isCodeCombat then 'Homepage' else 'Home'
+    category = if utils.iszgcombat then 'Homepage' else 'Home'
     window.tracker?.trackEvent 'Log Out', category: category if @id is 'home-view'
     if me.isTarena()
       logoutUser({
@@ -118,7 +118,7 @@ module.exports = class RootView extends CocoView
     switch @id
       when 'home-view'
         properties = {
-          category: if utils.isCodeCombat then 'Homepage' else 'Home'
+          category: if utils.iszgcombat then 'Homepage' else 'Home'
         }
         window.tracker?.trackEvent('Started Signup', properties)
         eventAction = $(e.target)?.data('event-action')
@@ -146,7 +146,7 @@ module.exports = class RootView extends CocoView
     loginMessage = e.target.dataset.loginMessage
     nextUrl = e.target.dataset.nextUrl
     if @id is 'home-view'
-      properties = { category: if utils.isCodeCombat then 'Homepage' else 'Home' }
+      properties = { category: if utils.iszgcombat then 'Homepage' else 'Home' }
       window.tracker?.trackEvent 'Login', properties
 
       eventAction = $(e.target)?.data('event-action')
@@ -228,11 +228,11 @@ module.exports = class RootView extends CocoView
       if $select.is('ul') # base-flat template
         $select.append(
           $('<li data-code="' + code + '"><a class="language-dropdown-item" href="#">' + localeInfo.nativeDescription + '</a></li>'))
-        if utils.isCodeCombat and code is 'pt-BR'
+        if utils.iszgcombat and code is 'pt-BR'
           $select.append($('<li role="separator" class="divider"</li>'))
       else # base template
         $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
-        if utils.isCodeCombat and code is 'pt-BR'
+        if utils.iszgcombat and code is 'pt-BR'
           $select.append(
             $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
         $select.val(initialVal)

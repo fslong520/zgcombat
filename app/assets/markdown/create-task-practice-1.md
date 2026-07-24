@@ -16,11 +16,11 @@
 
 Programming is a creative process that brings ideas to life. Programs can help solve problems, enable innovations, or express personal interests. For the Create Performance Task, students will develop a program of their choice, in a programming language of their choice.
 
-CodeCombat's Computer Science (CS) courses teach programming through a series of puzzles (levels) the students solve with code. Designing and implementing an original creative program requires a different approach than solving a specific, given problem - and that's where CodeCombat's Game Development (GD) and Web Development (WD) courses shine: each course leads up to a final project, where the student creates her own original work. These projects serve as a great opportunity to practice for the AP CSP Create Task, which requires the student to submit a program of their own creation, either to solve a problem they're interested in, or as a creative expression. (Learning Objectives 5.1.1 and 5.1.2)
+zgcombat's Computer Science (CS) courses teach programming through a series of puzzles (levels) the students solve with code. Designing and implementing an original creative program requires a different approach than solving a specific, given problem - and that's where zgcombat's Game Development (GD) and Web Development (WD) courses shine: each course leads up to a final project, where the student creates her own original work. These projects serve as a great opportunity to practice for the AP CSP Create Task, which requires the student to submit a program of their own creation, either to solve a problem they're interested in, or as a creative expression. (Learning Objectives 5.1.1 and 5.1.2)
 
-By playing CodeCombat's Game and Web Development courses, students will gain valuable practice in applying the iterative "design - implement - test" process, creating their own abstractions and algorithms, and collaborating with peers as co-creators and play testers. Multiple practice opportunities throughout CodeCombat’s AP CS Principles syllabus will allow students to focus on various components of the Create task. This guide focuses on the first of those practice opportunities in Game Development 1.
+By playing zgcombat's Game and Web Development courses, students will gain valuable practice in applying the iterative "design - implement - test" process, creating their own abstractions and algorithms, and collaborating with peers as co-creators and play testers. Multiple practice opportunities throughout zgcombat’s AP CS Principles syllabus will allow students to focus on various components of the Create task. This guide focuses on the first of those practice opportunities in Game Development 1.
 
-Side note: Students may choose to develop their final project within CodeCombat, or they may use another programming environment that they're familiar with.
+Side note: Students may choose to develop their final project within zgcombat, or they may use another programming environment that they're familiar with.
 
 **AP CS Principles Create Task Requirements**
 
@@ -48,7 +48,7 @@ Refer to the [AP CS Principles Course Description](https://secure-media.collegeb
 * Teacher Overview of Performance Task: Create (page 79)
 * Student Handout for Performance Task: Create (page 113)
 
-**CodeCombat Create Task Practice Opportunities**
+**zgcombat Create Task Practice Opportunities**
 
 <a id="t.9a8106a5bd908eba5d08c136ecaf1af3b83ae6bf"></a><a id="t.0"></a>
 
@@ -402,7 +402,7 @@ The [Game Development 1 5-Day Project Guide](https://codecombat.com/teachers/res
 
 ## Days 1-3
 
-Days 1 through 3 focus on teaching students how to build a game in CodeCombat using **pieces**, **mechanics**, and **goals**.
+Days 1 through 3 focus on teaching students how to build a game in zgcombat using **pieces**, **mechanics**, and **goals**.
 
 The levels the students play will teach the implementation details, but it's important for you to guide the discussion around the levels. Let the students know up front that, they'll soon be designing their own game, and they'll need to use the techniques and concepts they're learning when they make their own games.
 

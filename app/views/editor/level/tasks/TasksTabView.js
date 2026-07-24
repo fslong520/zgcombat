@@ -192,7 +192,7 @@ const notIntros = ['hero', 'course', 'hero-ladder', 'course-ladder', 'game-dev']
 const heroBased = ['hero', 'course', 'hero-ladder', 'course-ladder']
 const ladder = ['hero-ladder', 'course-ladder', 'ladder']
 
-if (utils.isCodeCombat) {
+if (utils.iszgcombat) {
   defaultTasks = [
     { name: 'Set level type.', complete (level) { return level.get('type') } },
     { name: 'Name the level.' },
@@ -294,7 +294,7 @@ if (utils.isCodeCombat) {
   ]
 }
 
-if (utils.isCodeCombat) {
+if (utils.iszgcombat) {
   deprecatedTaskNames = [
     'Add Io/Clojure/Lua/CoffeeScript.',
     'Add Lua/CoffeeScript/Java.',
@@ -381,7 +381,7 @@ if (utils.isCodeCombat) {
   ]
 }
 
-if (utils.isCodeCombat) {
+if (utils.iszgcombat) {
   renamedTaskNames = {
     'Release to adventurers.': 'Release to adventurers via MailChimp.',
     'Release to everyone.': 'Release to everyone via MailChimp.'
@@ -396,7 +396,7 @@ var tasksForLevel = function (level) {
   const inappropriateTasks = {}
   for (task of Array.from(defaultTasks)) {
     var needle
-    if (utils.isCodeCombat && (task.name === 'Create two sample projects') && (level.get('shareable') !== 'project')) {
+    if (utils.iszgcombat && (task.name === 'Create two sample projects') && (level.get('shareable') !== 'project')) {
       inappropriateTasks[task.name] = task
     } else if (task.types && (((needle = level.get('realType') || level.get('type', true)), !Array.from(task.types).includes(needle)))) {
       inappropriateTasks[task.name] = task

@@ -58,7 +58,7 @@ html(lang='en')
       })();
     - var product = me.getProduct()
     - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
-    - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'
+    - var productCap = product == 'codecombat' ? 'zgcombat' : 'Ozaria'
     meta(charset='utf-8')
     meta(name='viewport', content="width=device-width,initial-scale=1.0,viewport-fit=cover", data-vue-meta="true", data-vmid="viewport")
     meta(http-equiv='Accept-CH', content='Viewport-Width')
@@ -74,13 +74,13 @@ html(lang='en')
     meta(property='og:type', content='game')
     if product == 'codecombat'
       meta(property='og:image', content='https://codecombat.com/images/pages/home/play_img.png')
-      meta(property='og:image:alt', content='CodeCombat')
+      meta(property='og:image:alt', content='zgcombat')
     else
       meta(property='og:image', content='https://www.ozaria.com/images/pages/home/play_img.png')
     meta(property='og:site_name', content=productCap)
     meta(name='twitter:card', content='summary')
     if product == 'codecombat'
-      meta(name='twitter:title', content='CodeCombat: Learn to Code by Playing a Game')
+      meta(name='twitter:title', content='zgcombat: Learn to Code by Playing a Game')
       meta(name='twitter:url', content='https://codecombat.com')
     else
       meta(name='twitter:title', content='Ozaria - Computer science that captivates')
@@ -230,7 +230,7 @@ html(lang='en')
               if (htmlElement) {
                   if ($.browser.msie && $.browser.edge != true) {
                     if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
-                      alert("CodeCombat does not support Internet Explorer, but runs on all other major browsers.");
+                      alert("zgcombat does not support Internet Explorer, but runs on all other major browsers.");
                       }
                   }
               }

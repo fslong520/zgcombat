@@ -39,7 +39,7 @@
                 higher
                 [on the AP CSP exam]. So when I had 13 out of my 17 [students] get a three or higher a lot of them
                 said
-                what definitely helped them was learning CodeCombat and Python.”`"
+                what definitely helped them was learning zgcombat and Python.”`"
                 name="Andrew Forsman"
                 title="Engineering Teacher"
                 image="/images/pages/schools/avatar/avatar_andrew.webp"

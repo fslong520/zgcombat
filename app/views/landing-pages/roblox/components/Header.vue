@@ -28,7 +28,7 @@
       </p>
       <CTAButton
         class="cta-button"
-        href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+        href="https://www.roblox.com/games/11704713454/zgcombat-Worlds"
       >
         {{ $t('new_home.play_now') }}
       </CTAButton>

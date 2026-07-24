@@ -53,7 +53,7 @@ export default {
         alt="&quot;30 Day Money back Guarantee Transparent&quot; by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html"
       >
       <div class="money-back-guarantee-text">
-        Enroll with the confidence that you have 30 days to see if CodeCombat is right for you
+        Enroll with the confidence that you have 30 days to see if zgcombat is right for you
       </div>
     </div>
     <div class="row">

@@ -22,7 +22,7 @@
         As a next step you can expect one of our remote learning advisors to reach out to confirm details for your next class session including more about your teacher. This typically happens within the first 24 hrs after signup.
       </div>
       <div class="section">
-        Thank you for choosing CodeCombat and you can always reach us with any questions at <a href="mailto:classes@codecombat.com">classes@codecombat.com</a>
+        Thank you for choosing zgcombat and you can always reach us with any questions at <a href="mailto:classes@codecombat.com">classes@codecombat.com</a>
       </div>
     </div>
   </div>

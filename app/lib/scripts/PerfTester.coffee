@@ -16,7 +16,7 @@ class Agent
         delete window.bored
         res()
       @iframe.contentWindow.location.href = url
-  waitForCodeCombatLoaded: () ->
+  waitForzgcombatLoaded: () ->
     new Promise (res, rej) =>
       console.log "Hooking Router"
       # @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->

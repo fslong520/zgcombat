@@ -31,7 +31,7 @@ Segue to the topic of worldwide collaboration through technology. Ask for servic
 - Ratings on sites like Amazon, Yelp, Etsy
 - News aggregation and rating communities, such as Reddit
 - Service which informally share resources, like AirBnB, Getaround
-- Open source projects, including CodeCombat and Linux, often through GitHub
+- Open source projects, including zgcombat and Linux, often through GitHub
 - Sharing computational resources, like Electric Sheep and SETI@Home
 - Reddit Place, a project for creating a collaboratively generated image
 

@@ -100,7 +100,7 @@ module.exports = (EditStudentModal = (function () {
             return noty({ text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000 })
           }
         })
-      } else { // CodeCombat
+      } else { // zgcombat
         if (me.id !== this.classroom.get('ownerID')) { return }
         const selectedUsers = new Users([this.user])
         const modal = new ManageLicenseModal({ classroom: this.classroom, selectedUsers, users: this.students, tab: 'revoke' })
@@ -141,7 +141,7 @@ module.exports = (EditStudentModal = (function () {
           }
         })
         return (window.tracker != null ? window.tracker.trackEvent('Teachers Class Enrollment Enroll Student', { category: 'Teachers', classroomID: this.classroom.id, userID: this.user.id }) : undefined)
-      } else { // CodeCombat
+      } else { // zgcombat
         if (!this.classroom.hasWritePermission()) { return }
         const selectedUsers = new Users([this.user])
         const modal = new ManageLicenseModal({ classroom: this.classroom, selectedUsers, users: this.students })

@@ -50,7 +50,7 @@ module.exports = (SegmentCheckView = (function () {
         ),
       })
       if (this.signupState.get('classCode')) {
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           this.checkClassCode(this.signupState.get('classCode'))
         } else {
           this.fetchAndApplyClassCode()
@@ -81,7 +81,7 @@ module.exports = (SegmentCheckView = (function () {
       forms.clearFormAlerts(this.$el)
       const classCode = this.getClassCode()
       this.signupState.set({ classCode }, { silent: true })
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         return this.checkClassCodeDebounced()
       } else {
         return this.fetchAndApplyClassCodeDebounced()

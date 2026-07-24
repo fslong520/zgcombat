@@ -112,11 +112,11 @@
           .row.text-center
             .col.col-lg-12
               .row-button
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
 
     #sample-lesson-slides.width-container.row
       .col.col-lg-12
@@ -181,7 +181,7 @@
                     h1.text-h1
                       span 94%
                     h4.text-h4(data-i18n="new_home.teachers_love_codecombat_blurb3")
-              a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
+              a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/zgcombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
               p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
 
     #more-information.container-fluid
@@ -271,7 +271,7 @@ export default Vue.extend({
       i18nData: {
         course_overview: `<a href='https://apcentral.collegeboard.org/courses/ap-computer-science-principles/course' target='_blank'>${$.i18n.t('apcsp_marketing.course_overview')}</a>`,
         outcomes: `<a href='https://apcentral.collegeboard.org/media/pdf/ap-csp-and-stem-cs-pipelines.pdf' target='_blank'>${$.i18n.t('apcsp_marketing.outcomes')}</a>`,
-        coco_requirements: `<a href='https://codecombat.zendesk.com/hc/en-us/articles/1500009110462-What-are-the-system-requirements-for-CodeCombat-' target='_blank'>${$.i18n.t('apcsp_marketing.coco_requirements')}</a>`,
+        coco_requirements: `<a href='https://codecombat.zendesk.com/hc/en-us/articles/1500009110462-What-are-the-system-requirements-for-zgcombat-' target='_blank'>${$.i18n.t('apcsp_marketing.coco_requirements')}</a>`,
         interpolation: { escapeValue: false }
       },
       hasLicense: false

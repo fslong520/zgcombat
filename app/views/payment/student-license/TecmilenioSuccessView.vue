@@ -15,7 +15,7 @@
         Su compra está completa.
       </div>
       <div class="tec__info">
-        El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.
+        El alumno recibirá más información de su profesor para acceder a la licencia de zgcombat.
       </div>
     </div>
   </div>

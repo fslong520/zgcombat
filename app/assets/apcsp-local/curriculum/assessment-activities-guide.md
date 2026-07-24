@@ -34,7 +34,7 @@ Projects, Challenge Levels and Activities with coding provide opportunities for 
 
 ## Activity Guide
 
-This guide explains the activities provided in the CodeCombat AP CS Principles curriculum. These are general guidelines for how the activities are run and how they provide learning and assessment opportunities.
+This guide explains the activities provided in the zgcombat AP CS Principles curriculum. These are general guidelines for how the activities are run and how they provide learning and assessment opportunities.
 
 Jump to: [Computational Artifact Activity](#computational-artifact-activity) | [Inquiry Activity](#inquiry-activity) | [Project Activity](#project-activity) | [Research Activity](#research-activity) 
 
@@ -66,7 +66,7 @@ Inquiry activities set the stage with a topic **prompt**. They can be provided d
 Assess students based on classroom participation during discussion and have them answer **assessment questions** after the activity.
 
 #### **Project Activity**
-Project activities involve creating a game or website through the CodeCombat site. Students take the skills they have been honing through the game in order to build something their own that they can share with friends and family. This provides strong context for the students, where they can see how the tools they learn help them to build programs and websites that they have experienced themselves.
+Project activities involve creating a game or website through the zgcombat site. Students take the skills they have been honing through the game in order to build something their own that they can share with friends and family. This provides strong context for the students, where they can see how the tools they learn help them to build programs and websites that they have experienced themselves.
 
 ##### Teaching
 Projects are open-ended, so help students come up with ideas for what to build. Encourage them to think creatively, consider all the tools they have and pick one or two that they particularly like and see what they can do. Encourage experimentation and collaboration, and walk them through the Design, Implement, Test loop.

@@ -3,12 +3,12 @@
 
 **Visão Geral para os Professores**
 
-Os alunos farão duplas e experimentarão os dois papéis usados na programação em pares, enquanto jogam nos níveis do CodeCombat.
+Os alunos farão duplas e experimentarão os dois papéis usados na programação em pares, enquanto jogam nos níveis do zgcombat.
 
 Um ótimo momento para apresentar a Programação em Pares é durante um nível desafiador como o Haunted Kithmaze no curso de Introdução à Ciência da Computação. Você também pode sugerir a Programação em Pares nos níveis posteriores, onde pode haver uma grande lacuna de domínio - permitir que um aluno que tenha uma firme compreensão do conceito seja o Navegador da dupla.
 
 **O que você precisa**
-* Alguns níveis do curso CodeCombat que ainda não foram concluídos, que podem ser usados para a atividade de programação em pares
+* Alguns níveis do curso zgcombat que ainda não foram concluídos, que podem ser usados para a atividade de programação em pares
 * Uma estação de trabalho (computador, teclado, mouse)
 * Um estudante para ser o motorista
 * Um estudante para ser o navegador

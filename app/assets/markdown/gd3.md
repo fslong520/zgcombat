@@ -27,7 +27,7 @@ This guide is written with Python-language classrooms in mind, but can easily be
 
 ### Summary
 
-This module begins the process of giving students more fine-grained control of their games. Up until now, games built within CodeCombat will have used the basic structure of the game: there are units on a 2D plane with a certain basic set of physics, the units interact with one another, and you control one unit with mouse or keyboard. With more fine-grained control, students will later be able to create any sort of physical behavior or interaction, from gravity-less asteroid drifting, to Mario-style platform jumping.
+This module begins the process of giving students more fine-grained control of their games. Up until now, games built within zgcombat will have used the basic structure of the game: there are units on a 2D plane with a certain basic set of physics, the units interact with one another, and you control one unit with mouse or keyboard. With more fine-grained control, students will later be able to create any sort of physical behavior or interaction, from gravity-less asteroid drifting, to Mario-style platform jumping.
 
 ### Introduction to the Game Loop
 
@@ -369,7 +369,7 @@ Students should also review the rest of the provided code:
 
 This level introduces gems, top score saving and infinite play. The gems code is fairly similar to previous levels: the collect event (when completed by the player) adds to the game score whenever a gem is collected. The game property `topScore` is fetched from the db when the game is set up, and is updated when the game ends with `setTopScore`.
 
-The `onDefeatPlayer` method, which the user completes, requires special attention. The way the CodeCombat game system works, the game is "over" when goals are completed, that is either succeeded or failed. However, this level allows the game to continue indefinitely, for however long the player can go without colliding with a fence. The game is "won" when the player survives for 20 seconds, but in order to allow the player to go further, this goal is not marked complete until the player is defeated, and is marked as successful or failed depending on the `game.time`. This is why the manual goal is set to success or failure in the player's `defeat` event handler.
+The `onDefeatPlayer` method, which the user completes, requires special attention. The way the zgcombat game system works, the game is "over" when goals are completed, that is either succeeded or failed. However, this level allows the game to continue indefinitely, for however long the player can go without colliding with a fence. The game is "won" when the player survives for 20 seconds, but in order to allow the player to go further, this goal is not marked complete until the player is defeated, and is marked as successful or failed depending on the `game.time`. This is why the manual goal is set to success or failure in the player's `defeat` event handler.
 
 #### Runner Part 3
 
@@ -385,7 +385,7 @@ Group Activity: Have students group up and each adjust the level to various amou
 
 **Why is `onUpdateOgre` structured the way it is?**
 
-This function is a hybrid of CodeCombat and user logic. Because the ogre `behavior` property is set to `”AttacksNearest”`, the ogre will move toward the player and attack when close enough. However, for this game we want the Ogre to move at a given pace to the right to a specific point (x = 18) and then stop moving further to the right. So, this update function runs after CodeCombat has moved the ogre some distance up or down and to the right in the direction of the player, and overrides whatever the game set to `unit.pos.x` with a value based on an independently tracked and updated `unit.baseX` property. So for example, in a single “frame”, the unit’s state will evolve like so:
+This function is a hybrid of zgcombat and user logic. Because the ogre `behavior` property is set to `”AttacksNearest”`, the ogre will move toward the player and attack when close enough. However, for this game we want the Ogre to move at a given pace to the right to a specific point (x = 18) and then stop moving further to the right. So, this update function runs after zgcombat has moved the ogre some distance up or down and to the right in the direction of the player, and overrides whatever the game set to `unit.pos.x` with a value based on an independently tracked and updated `unit.baseX` property. So for example, in a single “frame”, the unit’s state will evolve like so:
 
 Starting position: { x: 5, y: 5, baseX: 5 }
 

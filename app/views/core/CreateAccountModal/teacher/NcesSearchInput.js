@@ -73,7 +73,7 @@ const NcesSearchInput = Vue.extend({
     },
 
     searchNces (term) {
-      if (utils.isCodeCombat && me.get('country') && (me.get('country') !== 'united-states')) { return }
+      if (utils.iszgcombat && me.get('country') && (me.get('country') !== 'united-states')) { return }
       // don't do any of the NCES-based autocomplete stuff
       // unless the user manually specifies "United States" as the country, then turn it back on
       this.suggestions = []

@@ -761,7 +761,7 @@ module.exports = Surface = class Surface extends CocoClass
     showPathFor = switch
       when not @options.paths then []
       when @world.showPathFor then @world.showPathFor
-      when utils.isCodeCombat then [@heroLank?.thang?.id]
+      when utils.iszgcombat then [@heroLank?.thang?.id]
       else []
     return unless showPathFor.length
     @hidePaths()

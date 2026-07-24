@@ -1,6 +1,6 @@
-title: CodeCombat and Ozaria Accessibility Conformance Report
+title: zgcombat and Ozaria Accessibility Conformance Report
 product:
-  name: CodeCombat and Ozaria
+  name: zgcombat and Ozaria
   version: ''
   description: >-
     Computer science curriculum software using game-based learning to teach kids
@@ -14,7 +14,7 @@ author:
   website: ''
 vendor:
   name: 'Nick Winter, co-founder'
-  company_name: CodeCombat
+  company_name: zgcombat
   address: '2261 Market Street #4388, San Francisco, CA 94114'
   email: schools@codecombat.com
   phone: 833-488-8383
@@ -23,14 +23,14 @@ report_date: 3/14/2023
 last_modified_date: 1/20/2025
 version: 3
 notes: >-
-  This report covers both CodeCombat (codecombat.com) and Ozaria (ozaria.com).
+  This report covers both zgcombat (codecombat.com) and Ozaria (ozaria.com).
   Both are web applications sharing the same codebase and including multiple
   media formats: standard web content, web-based game content, video content,
   and text-based lesson slide content. Criteria support apply to both products
   unless otherwise noted.
 evaluation_methods_used: >-
   Conformance to the listed accessibility standards has been evaluated by
-  CodeCombat using a combination of static analysis tools and manual testing
+  zgcombat using a combination of static analysis tools and manual testing
   with assistive technologies.
 
 
@@ -100,7 +100,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The CodeCombat and Ozaria platforms contain minimal prerecorded
+                The zgcombat and Ozaria platforms contain minimal prerecorded
                 media content. Where audio content exists, such as in-game
                 dialogue voiceovers, it is always accompanied by text
                 transcriptions. Any video-only content is supplemented with text
@@ -188,7 +188,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                Outside of the game, the CodeCombat and Ozaria platforms ensure
+                Outside of the game, the zgcombat and Ozaria platforms ensure
                 that all information, structure, and relationships conveyed
                 through visual presentation are programmatically determinable or
                 available as text. The platforms use semantic HTML markup, ARIA
@@ -220,7 +220,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                Content in both CodeCombat and Ozaria follows a logical reading
+                Content in both zgcombat and Ozaria follows a logical reading
                 sequence that preserves meaning when rendered by assistive
                 technologies. The DOM order matches the visual presentation,
                 ensuring that screen readers present content in a logical and
@@ -250,7 +250,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide instructions for understanding and
+                zgcombat and Ozaria provide instructions for understanding and
                 operating content in a manner that does not rely solely on
                 sensory characteristics of components such as shape, color,
                 size, visual location, orientation, or sound. Narrated
@@ -282,12 +282,12 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria do not use color as the only visual means
+                zgcombat and Ozaria do not use color as the only visual means
                 of conveying information, indicating an action, prompting a
                 response, or distinguishing a visual element. Components such as
                 shape, color, size, visual location, orientation, and sound are
                 used in combination to indicate how a user should proceed. For
-                example, in CodeCombat when a user has successfully completed a
+                example, in zgcombat when a user has successfully completed a
                 level, the user is prompted to click on a green, rectangular
                 button with "Done" text. There is an animated, pulsing glow to
                 the button once a user should click on it. There is also an
@@ -318,7 +318,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria include audio that plays automatically and
+                zgcombat and Ozaria include audio that plays automatically and
                 provide settings to stop audio from playing. It is also possible
                 to turn the background music on or off independently from the
                 main audio.
@@ -343,7 +343,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide full keyboard accessibility for
+                zgcombat and Ozaria provide full keyboard accessibility for
                 all core functionality. The platforms support standard keyboard
                 navigation through tabbing and arrow keys, with all interactive
                 elements being keyboard-accessible. Users can navigate menus,
@@ -438,7 +438,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria include a mechanism for the user to
+                zgcombat and Ozaria include a mechanism for the user to
                 pause/stop the in-game animation. There are no time limits in
                 any of the educational activities.
           - name: electronic-docs
@@ -500,7 +500,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria strictly adhere to safe animation
+                zgcombat and Ozaria strictly adhere to safe animation
                 practices. No content in either platform contains flashing
                 elements that exceed three flashes per second or approach the
                 general flash and red flash thresholds. All animations and
@@ -530,7 +530,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                In both Ozaria and CodeCombat, a 'skip' or 'escape' mechanism is
+                In both Ozaria and zgcombat, a 'skip' or 'escape' mechanism is
                 available to bypass blocks of content that are repeated on
                 multiple Web pages.
           - name: electronic-docs
@@ -551,9 +551,9 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria web pages and in-game levels have titles
+                zgcombat and Ozaria web pages and in-game levels have titles
                 that describe the topic and purpose. For example, when playing
-                the first level of CodeCombat the top of the page includes a
+                the first level of zgcombat the top of the page includes a
                 header that reads "Introduction to Computer Science" and a
                 subheader that reads "1. Dungeons of Kithgard", which is
                 repeated in the page's title metadata.
@@ -561,8 +561,8 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The lesson slides for CodeCombat and Ozaria include page titles.
-                For example, the first lesson of the CodeCombat course
+                The lesson slides for zgcombat and Ozaria include page titles.
+                For example, the first lesson of the zgcombat course
                 "Introduction to Computer Science" is titled "Algorithms and
                 Programming (CS1): Lesson 1 - Syntax &amp; Sequences", which
                 describes the topic of the lesson.
@@ -580,12 +580,12 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria are designed to be navigated sequentially,
+                zgcombat and Ozaria are designed to be navigated sequentially,
                 with in-game levels that increase in difficulty and coding
                 concepts taught to users. Both have an in-game map that shows
                 the progression of the levels, with focus given to the level
                 that a user should begin next according to the game sequence. In
-                CodeCombat for example, visual elements like a flag illustration
+                zgcombat for example, visual elements like a flag illustration
                 indicates which level they should begin next and a floating,
                 pulsating arrow appears to encourage a user to click on the
                 level to begin. Completed levels are marked on the map with a
@@ -614,7 +614,7 @@ chapters:
                 All curricular resources that include links to external sources
                 use appropriate descriptions so that one can determine what
                 information that is found at the targeted URI without having to
-                visit the URI. Additionally, all buttons found in CodeCombat and
+                visit the URI. Additionally, all buttons found in zgcombat and
                 Ozaria that navigate away from the experience use descriptions
                 that provide context about the targeted URI. 
           - name: electronic-docs
@@ -639,7 +639,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria do not require multipoint or path-based
+                zgcombat and Ozaria do not require multipoint or path-based
                 gestures for any functionality. All interactions can be
                 completed with single-point actions. Game controls and coding
                 interfaces are designed to work with simple pointer operations
@@ -704,7 +704,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                All user interface components in CodeCombat and Ozaria ensure
+                All user interface components in zgcombat and Ozaria ensure
                 that their accessible names match their visible labels. This
                 includes:
 
@@ -739,7 +739,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The functionality of CodeCombat and Ozaria does not require
+                The functionality of zgcombat and Ozaria does not require
                 operation by device motion or user motion. Neither platform
                 requires device or user motion for any functionality. All
                 features can be operated through standard user interface
@@ -749,7 +749,7 @@ chapters:
               level: supports
               notes: >-
                 The functionality of the curricular content provided for
-                CodeCombat and Ozaria does not require operation by device
+                zgcombat and Ozaria does not require operation by device
                 motion or user motion. All content can be accessed through
                 standard interface controls.
           - name: software
@@ -766,9 +766,9 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria are translated into a variety of
+                zgcombat and Ozaria are translated into a variety of
                 languages, with the current language of the page available for
-                programmatic determination. Both CodeCombat and Ozaria implement
+                programmatic determination. Both zgcombat and Ozaria implement
                 proper language declarations in their HTML, ensuring the default
                 language of each page can be programmatically determined. The
                 platforms use the 'lang' attribute in the HTML tag to explicitly
@@ -795,7 +795,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                In CodeCombat and Ozaria, focus events are handled predictably
+                In zgcombat and Ozaria, focus events are handled predictably
                 without initiating unexpected context changes. When users
                 navigate through interface elements:
 
@@ -832,7 +832,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The in-game code editors of CodeCombat and Ozaria include a
+                The in-game code editors of zgcombat and Ozaria include a
                 "RUN" button for a user to test out their code and progress in
                 the game. By clicking the "RUN" button, the user code is
                 implemented and the in-game animation plays. The context remains
@@ -872,10 +872,10 @@ chapters:
               level: supports
               notes: >-
                 After clicking the "RUN" button, the in-game code editors of
-                CodeCombat and Ozaria automatically detect input errors from the
+                zgcombat and Ozaria automatically detect input errors from the
                 user and provide hints for how the user can correct the error.
                 The code that is in error is identified and the error is
-                described to the user in text. In CodeCombat for example, when
+                described to the user in text. In zgcombat for example, when
                 an error is detected the line of code that contains the error is
                 highlighted in color and a pop-up window appears titled "Fix
                 Your Code" with textual hints for correcting the mistake.
@@ -899,9 +899,9 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide in-game step-by-step instructions
+                zgcombat and Ozaria provide in-game step-by-step instructions
                 to the user on how to successfully complete a level and progress
-                in the game. When beginning a level in CodeCombat, for example,
+                in the game. When beginning a level in zgcombat, for example,
                 textual instruction appears towards the bottom of the screen in
                 a blue box. Auto narration reads the text that is displayed. The
                 goals of the level are displayed in the upper left-hand corner
@@ -925,7 +925,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria are built using modern web standards,
+                zgcombat and Ozaria are built using modern web standards,
                 ensuring proper HTML structure throughout:
 
 
@@ -1008,13 +1008,13 @@ chapters:
               level: not-applicable
               notes: >-
                 Live recordings aren't required for our core experiences in
-                CodeCombat and Ozaria.
+                zgcombat and Ozaria.
           - name: electronic-docs
             adherence:
               level: not-applicable
               notes: >-
                 Live recordings aren't required for our core experiences in the
-                curriculum provided for CodeCombat and Ozaria.
+                curriculum provided for zgcombat and Ozaria.
           - name: software
             adherence:
               level: not-applicable
@@ -1056,7 +1056,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The CodeCombat platform is designed to function effectively in
+                The zgcombat platform is designed to function effectively in
                 both portrait and landscape orientations. The responsive design
                 ensures that content and functionality remain accessible
                 regardless of device orientation. While certain game elements
@@ -1085,7 +1085,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                All input fields in CodeCombat and Ozaria that collect user
+                All input fields in zgcombat and Ozaria that collect user
                 information have clearly defined purposes that can be
                 programmatically determined. Form fields use appropriate
                 autocomplete attributes where applicable, and input purposes are
@@ -1112,7 +1112,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                All text and interactive elements in CodeCombat and Ozaria
+                All text and interactive elements in zgcombat and Ozaria
                 maintain WCAG 2.1 compliant contrast ratios. Regular text
                 maintains a minimum contrast ratio of 4.5:1 against its
                 background, while large text maintains at least 3:1 contrast.
@@ -1200,7 +1200,7 @@ chapters:
                 Game interfaces, when possible, maintain usability while
                 adapting to different screen sizes and zoom levels, with the
                 exception of content requiring two-dimensional layout for
-                gameplay purposes. Outside of CodeCombat Junior, some game
+                gameplay purposes. Outside of zgcombat Junior, some game
                 content requires a larger screen.
           - name: electronic-docs
             adherence:
@@ -1306,7 +1306,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide multiple navigation methods for
+                zgcombat and Ozaria provide multiple navigation methods for
                 accessing content, including:
 
 
@@ -1354,7 +1354,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                All curricular resources provided for CodeCombat and Ozaria
+                All curricular resources provided for zgcombat and Ozaria
                 include headings and labels for each major section of the
                 lesson. For example, consistently across the lesson slides
                 sections are labelled "Quest #", "Warm-Up", "Warm-Up Solution",
@@ -1470,11 +1470,11 @@ chapters:
                 documents.
 
 
-                For example, in CodeCombat's lesson plans, the first page
+                For example, in zgcombat's lesson plans, the first page
                 includes sections like "Agenda" and "Resources" and the content
                 within these sections includes hyperlinks to particular items.
                 The lesson plan template was established and remains consistent
-                across lesson plans developed for multiple CodeCombat courses
+                across lesson plans developed for multiple zgcombat courses
                 like "Introduction to Computer Science" and "Computer Science
                 2".
           - name: software
@@ -1528,13 +1528,13 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria have a custom interpreter and code engine
+                zgcombat and Ozaria have a custom interpreter and code engine
                 that automatically detects errors and provides feedback to the
                 user with suggestions for how to correct the error. After
                 clicking the "RUN" button, the in-game code editors detect input
                 errors from the user and provide hints for how the user can
                 correct the error. The code that is in error is identified and
-                the error is described to the user in text. In CodeCombat for
+                the error is described to the user in text. In zgcombat for
                 example, when an error is detected the line of code that
                 contains the error is highlighted in color and a pop-up window
                 appears titled "Fix Your Code" with textual hints for correcting
@@ -1562,7 +1562,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria implement robust error prevention for
+                zgcombat and Ozaria implement robust error prevention for
                 important data operations:
 
 
@@ -1596,7 +1596,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide comprehensive status message
+                zgcombat and Ozaria provide comprehensive status message
                 handling that can be programmatically determined through ARIA
                 roles and properties:
 
@@ -1658,14 +1658,14 @@ chapters:
             adherence:
               level: does-not-support
               notes: >-
-                CodeCombat and Ozaria do not provide sign language
+                zgcombat and Ozaria do not provide sign language
                 interpretation for all prerecorded audio content in synchronized
                 media.
           - name: electronic-docs
             adherence:
               level: does-not-support
               notes: >-
-                The curricular elements of CodeCombat and Ozaria do not provide
+                The curricular elements of zgcombat and Ozaria do not provide
                 sign language interpretation for all prerecorded audio content
                 in synchronized media. There is audio content for videos
                 included in lesson slides for example.
@@ -1802,8 +1802,8 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                In CodeCombat and Ozaria the background sounds can be turned
-                off. For example in CodeCombat, there are user controls
+                In zgcombat and Ozaria the background sounds can be turned
+                off. For example in zgcombat, there are user controls
                 displayed below the visual field for the level. Clicking the
                 music note icon will turn off the background music. Users can
                 also click the "Game Menu" at the top of the screen to view
@@ -1813,7 +1813,7 @@ chapters:
               level: not-applicable
               notes: >-
                 Background audio is not part of the experience of the lesson
-                slides and lesson plans for CodeCombat and Ozaria curricula.
+                slides and lesson plans for zgcombat and Ozaria curricula.
           - name: software
             adherence:
               level: not-applicable
@@ -1950,7 +1950,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                When playing CodeCombat and Ozaria, timing is not an essential
+                When playing zgcombat and Ozaria, timing is not an essential
                 part of the event or activity presented by the content. Users
                 can take as much time as they need to complete a level and must
                 click "Done" before progressing in the game.
@@ -1959,7 +1959,7 @@ chapters:
               level: supports
               notes: >-
                 Timing is not an essential part of the curricular content for
-                CodeCombat and Ozaria.
+                zgcombat and Ozaria.
           - name: software
             adherence:
               level: not-applicable
@@ -2076,8 +2076,8 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria include the option to pause/stop in-game
-                motion animation. For example in CodeCombat, there are user
+                zgcombat and Ozaria include the option to pause/stop in-game
+                motion animation. For example in zgcombat, there are user
                 controls displayed below the visual field for the level. After
                 clicking the "RUN" button, the playback bar updates as the
                 animation plays. Clicking the circular button will pause the
@@ -2093,7 +2093,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The curricular content for CodeCombat and Ozaria does not
+                The curricular content for zgcombat and Ozaria does not
                 include motion animation triggered by interaction.
           - name: software
             adherence:
@@ -2109,7 +2109,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide information about the user's
+                zgcombat and Ozaria provide information about the user's
                 location within a set of levels of the game. Both provide a game
                 map that users can easily navigate to and select a level to
                 play. When playing a level, the title that appears at the top of
@@ -2134,7 +2134,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The curricular content for CodeCombat and Ozaria includes Pacing
+                The curricular content for zgcombat and Ozaria includes Pacing
                 Guides which provide an overview of the lesson slides for the
                 course. Each Pacing Guide includes links to each lesson slide
                 deck and the recommended sequence.
@@ -2184,7 +2184,7 @@ chapters:
               notes: >-
                 All links in curriculum materials use self-descriptive text that
                 clearly indicates their purpose and destination without
-                requiring additional context. CodeCombat and Ozaria curriculum
+                requiring additional context. zgcombat and Ozaria curriculum
                 contains mechanisms that allow the purpose of each link to be
                 identified from link text alone. For example, the first lesson
                 slide deck for Ozaria is titled "Oz_Chap 1_Lesson Slides" and
@@ -2222,10 +2222,10 @@ chapters:
                 heading structure.
 
 
-                As an example of how CodeCombat and Ozaria both use section
+                As an example of how zgcombat and Ozaria both use section
                 headings to organize the content, in-game levels have titles
                 that appear at the top of the page indicating the course and
-                level. When playing the second level in CodeCombat, for example,
+                level. When playing the second level in zgcombat, for example,
                 a header at the top reads "Introduction to Computer Science" and
                 a subheader reads "2. Gems in the Deep." The "Introduction to
                 Computer Science" header is consistent for each level, while the
@@ -2241,7 +2241,7 @@ chapters:
                 sections and subsections. All content is properly sectioned with
                 descriptive headers that aid in navigation and comprehension.
                 Section headings are used to organize the content in the
-                curricular materials. For example, page 1 of CodeCombat lesson
+                curricular materials. For example, page 1 of zgcombat lesson
                 plans are organized into the following sections: Learning
                 Objectives, Student Goals, Play Levels, Overview, Agenda,
                 Resources, and Preparation. Furthermore, section headings are
@@ -2300,7 +2300,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria support multiple input methods
+                zgcombat and Ozaria support multiple input methods
                 simultaneously:
 
 
@@ -2337,7 +2337,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide a Code Bank and Hints section for
+                zgcombat and Ozaria provide a Code Bank and Hints section for
                 users to reference definitions and helpful instruction about
                 code statements used in the experience of the game. In Ozaria
                 for example, the Code Bank is found on the left-hand side of the
@@ -2350,7 +2350,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                The lesson slides for CodeCombat include a mechanism for
+                The lesson slides for zgcombat include a mechanism for
                 identifying specific definitions of words or phrases. Each
                 lesson slide deck concludes with a "Summary of Key Terms" slide
                 that provides a list of vocabulary and its definitions.
@@ -2398,8 +2398,8 @@ chapters:
                 Ozaria provides voice-overs to the dialogue that occurs between
                 characters so that a user's reading ability doesn't get in the
                 way of their ability to learn about computer science and coding
-                concepts, whereas CodeCombat minimizes long-form written text.
-                CodeCombat and Ozaria have been written with lower-elementary
+                concepts, whereas zgcombat minimizes long-form written text.
+                zgcombat and Ozaria have been written with lower-elementary
                 reading skills in mind. The text has been tested using the
                 Flesh-Kincaid grade level assessment methodology. The average
                 text used in both platforms is a 3rd grade reading level or
@@ -2463,7 +2463,7 @@ chapters:
 
                 Users maintain control over their experience with options to
                 disable automatic behaviors where appropriate. However, there
-                are some tutorial messages in CodeCombat that can progress based
+                are some tutorial messages in zgcombat that can progress based
                 on user actions that are not explicit confirmations (for
                 example, fixing the bug that the tutorial message was pointing
                 out).
@@ -2487,8 +2487,8 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                In both CodeCombat and Ozaria, context-sensitive help is
-                available. In CodeCombat for example, a blue "Help" button can
+                In both zgcombat and Ozaria, context-sensitive help is
+                available. In zgcombat for example, a blue "Help" button can
                 be found in the top right-hand corner of the screen. Clicking
                 this button provides textual and visual supporting documentation
                 to help complete the level successfully. Furthermore, when users
@@ -2527,7 +2527,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide a code editor for users to submit,
+                zgcombat and Ozaria provide a code editor for users to submit,
                 test, and correct their code. Code entered by the user is
                 checked for input errors and the user is provided the
                 opportunity to correct any errors. The code editor helps in
@@ -2584,7 +2584,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                Screen readers are supported for CodeCombat and Ozaria for the
+                Screen readers are supported for zgcombat and Ozaria for the
                 web components and user dashboards. For the in-game component,
                 Ozaria has screen reader compatibility through a
                 keyboard-and-narrated-text overlay that allows users to convert
@@ -2598,7 +2598,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide multiple features to support users
+                zgcombat and Ozaria provide multiple features to support users
                 with limited vision:
 
 
@@ -2624,12 +2624,12 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide visual mode of operation that does
+                zgcombat and Ozaria provide visual mode of operation that does
                 not require user perception of color. The navigational buttons
                 like "Start Level" and "Done" are labelled and a consistent
                 shape. Animations and audio provide further assistance in making
                 it clear to the user that they must click these buttons to
-                proceed. The color scheme for both Ozaria and CodeCombat's user
+                proceed. The color scheme for both Ozaria and zgcombat's user
                 interfaces have been carefully considered to ensure that both
                 contrast is high and appropriate colors are used for colorblind
                 individuals. Furthermore, in the code editor, the color scheme
@@ -2641,7 +2641,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide complete functionality without
+                zgcombat and Ozaria provide complete functionality without
                 requiring user hearing. All audio content has text equivalents:
 
 
@@ -2664,7 +2664,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria support users with limited hearing
+                zgcombat and Ozaria support users with limited hearing
                 through:
 
 
@@ -2686,7 +2686,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                Speech input is not required for any functionality in CodeCombat
+                Speech input is not required for any functionality in zgcombat
                 or Ozaria. All interactions can be completed through:
 
 
@@ -2749,7 +2749,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria provide features making the use by
+                zgcombat and Ozaria provide features making the use by
                 individuals with limited cognitive, language, and learning
                 abilities simpler and easier. All non-text content that is
                 presented to the user has a text alternative that serves the
@@ -2766,7 +2766,7 @@ chapters:
                 further accessibility options.
 
 
-                For both Ozaria and CodeCombat, users can take as much time and
+                For both Ozaria and zgcombat, users can take as much time and
                 tries as they need to complete a level. Users click the "Done"
                 button when they are ready to proceed. The in-game visual field
                 can be made larger to ease in readability by clicking the
@@ -3277,7 +3277,7 @@ chapters:
             adherence:
               level: supports
               notes: >-
-                CodeCombat and Ozaria's documentation includes comprehensive
+                zgcombat and Ozaria's documentation includes comprehensive
                 guides on using built-in accessibility features:
 
 

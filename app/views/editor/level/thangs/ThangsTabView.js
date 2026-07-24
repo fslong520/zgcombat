@@ -528,7 +528,7 @@ module.exports = (ThangsTabView = (function () {
         } = singleSelected.thang
 
         const thang = _.find((left = this.level.get('thangs')) != null ? left : [], { id: singleSelected.thang.id })
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           path = `${this.pathForThang(thang)}/components/original=${LevelComponent.PhysicalID}`
         } else {
           const positionComponent = _.find(thang.components || [], c => LevelComponent.positionIDs.includes(c.original))
@@ -1012,7 +1012,7 @@ module.exports = (ThangsTabView = (function () {
         components = _.cloneDeep((left = thangType.get('components')) != null ? left : [])
       }
       if (!components.length) { components = this.createEssentialComponents(thangType.get('components')) }
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         const physical = _.find(components, c => (c.config != null ? c.config.pos : undefined) != null)
         if (physical) {
           physical.config.pos = { x: pos.x, y: pos.y, z: physical.config.pos.z }
@@ -1133,7 +1133,7 @@ module.exports = (ThangsTabView = (function () {
     }
 
     getPID (selectedThang) {
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         return LevelComponent.PhysicalID
       } else {
         const positionComponent = _.find(this.getThangByID(selectedThang.id).components || [], c => LevelComponent.positionIDs.includes(c.original))
@@ -1190,7 +1190,7 @@ module.exports = (ThangsTabView = (function () {
       for (const singleSelected of this.gameUIState.get('selected')) {
         let pid
         const selectedThang = singleSelected.thang
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           pid = LevelComponent.PhysicalID
         } else {
           const shapeComponent = _.find(this.getThangByID(selectedThang.id).components || [], c => LevelComponent.shapeIDs.includes(c.original))
@@ -1225,7 +1225,7 @@ module.exports = (ThangsTabView = (function () {
       for (const singleSelected of this.gameUIState.get('selected')) {
         let cid
         const selectedThang = singleSelected.thang
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           cid = LevelComponent.CollidesID
         } else {
           const collisionComponent = _.find(this.getThangByID(selectedThang.id).components || [], c => LevelComponent.collisionIDs.includes(c.original))

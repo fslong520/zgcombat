@@ -29,14 +29,14 @@
             v-if="isDshPartner"
             class="dsh-info"
           >
-            <b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!
+            <b>Digital Schoolhouse</b> has partnered with zgcombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game zgcombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!
           </p>
           <div
             v-else-if="isTecmilenioPartner"
             class="tecmilenio-info"
           >
             <p class="tecmilenio-info-txt">
-              Tecmilenio se asoció con CodeCombat para ofrecer educación en programación en Python, basada en juegos, por el precio con descuento de $12.52 USD. Todos los estudiantes de Tecmilenio que reciban este enlace deberán comprar el software CodeCombat.
+              Tecmilenio se asoció con zgcombat para ofrecer educación en programación en Python, basada en juegos, por el precio con descuento de $12.52 USD. Todos los estudiantes de Tecmilenio que reciban este enlace deberán comprar el software zgcombat.
             </p>
             <p class="tecmilenio-info-txt">
               En la siguiente página, se le pedirá que ingrese el correo del estudiante de Tecmilenio. Ejemplo: al02962166@tecmilenio.mx. Asegúrese de que esta información sea correcta, ya que nos permite saber que el estudiante ha pagado por su licencia el estudiante.

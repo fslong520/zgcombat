@@ -257,7 +257,7 @@ module.exports = (CampaignEditorView = (function () {
         // Coco: Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
         // Ozar: Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
         // (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-        const ctype = utils.isCodeCombat ? 'hero' : 'course'
+        const ctype = utils.iszgcombat ? 'hero' : 'course'
         // we set level.campaign only if this field is not already set
         if (this.campaign.get('type') === ctype && !campaignLevel.campaign) { campaignLevel.campaign = this.campaign.get('slug') }
         campaignLevels[levelOriginal] = campaignLevel
@@ -267,7 +267,7 @@ module.exports = (CampaignEditorView = (function () {
 
       for (level of Array.from(_.values(campaignLevels))) {
         if (/test/.test(this.campaign.get('slug'))) { continue } // Don't overwrite level stuff for testing Campaigns
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           model = this.levels.findWhere({ original: level.original })
         } else {
           model = this.supermodel.getModelByOriginal(Level, level.original)
@@ -625,7 +625,7 @@ module.exports = (CampaignEditorView = (function () {
 // This is a override method to RootView, so that only CampaignView is listenting to signup button click
 
 // CocoLevelsNode searches each time you update term; OzarLevelsNode searches once at the beginning
-// I think there are too many CodeCombat levels to use the latter approach; won't find them all
+// I think there are too many zgcombat levels to use the latter approach; won't find them all
 class CocoLevelsNode extends TreemaObjectNode {
   constructor (...args) {
     super(...args)
@@ -708,7 +708,7 @@ class OzarLevelsNode extends TreemaObjectNode {
   }
 }
 
-const LevelsNode = utils.isCodeCombat ? CocoLevelsNode : OzarLevelsNode
+const LevelsNode = utils.iszgcombat ? CocoLevelsNode : OzarLevelsNode
 LevelsNode.initClass()
 
 class LevelNode extends TreemaObjectNode {
@@ -732,7 +732,7 @@ class LevelNode extends TreemaObjectNode {
       el = 'span'
     } else if (data.adventurer) {
       status += ' (adventurer)'
-    } else if (utils.isCodeCombat && (data.releasePhase === 'beta')) {
+    } else if (utils.iszgcombat && (data.releasePhase === 'beta')) {
       status += ' (beta)'
       el = 'span'
     }

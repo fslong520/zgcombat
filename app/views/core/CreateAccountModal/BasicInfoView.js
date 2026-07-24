@@ -22,7 +22,7 @@ const User = require('models/User')
 const State = require('models/State')
 const store = require('core/store')
 const globalVar = require('core/globalVar')
-const { capitalizeFirstLetter, isCodeCombat, isOzaria } = require('core/utils')
+const { capitalizeFirstLetter, iszgcombat, isOzaria } = require('core/utils')
 const _ = require('lodash')
 const userUtils = require('../../../lib/user-utils')
 
@@ -81,7 +81,7 @@ module.exports = (BasicInfoView = (function () {
       })
       // fake this utils for unique usage in pug
       this.utils = {
-        isCodeCombat,
+        iszgcombat,
         isOzaria
       }
       this.listenTo(this.state, 'change:checkEmailState', function () { return this.renderSelectors('.email-check') })
@@ -112,8 +112,8 @@ module.exports = (BasicInfoView = (function () {
         return this.signupState.get('signupForm')[param] = value
       })
 
-      this.hideEmail = isCodeCombat ? userUtils.shouldHideEmail() : false
-      this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
+      this.hideEmail = iszgcombat ? userUtils.shouldHideEmail() : false
+      this.showLibraryIdInsteadOfUsername = iszgcombat ? userUtils.shouldShowLibraryLoginModal() : false
     }
 
     afterRender () {
@@ -492,7 +492,7 @@ module.exports = (BasicInfoView = (function () {
         }).then(() => {
           const trackerCalls = []
 
-          let loginMethod = 'CodeCombat'
+          let loginMethod = 'zgcombat'
           if (this.signupState.get('ssoUsed') === 'gplus') {
             loginMethod = 'GPlus'
             trackerCalls.push(

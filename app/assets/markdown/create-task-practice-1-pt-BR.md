@@ -2,11 +2,11 @@
 
 A programação é um processo criativo que traz ideias para a vida. Os programas podem ajudar a resolver problemas, permitir inovações ou expressar interesses pessoais. Para a criação de tarefas, os alunos desenvolverão um programa de sua escolha, em uma linguagem de programação de sua escolha.
 
-Os cursos de Ciência da Computação (CS) do CodeCombat ensinam programação através de uma série de quebra-cabeças (níveis) que os alunos resolvem com o código. Projetar e implementar um programa criativo original requer uma abordagem diferente da solução de um problema determinado e específico - e é aí que os cursos de Desenvolvimento de Desenvolvimento (GD) e Desenvolvimento da Web (WD) da CodeCombat brilham: cada curso conduz a um projeto final, onde o aluno cria seu próprio trabalho original. Esses projetos servem como uma ótima oportunidade para a prática da Criação de Tarefas do AP CSP, que exige que o aluno envie um programa de sua própria criação, seja para solucionar um problema no qual está interessado ou como uma expressão criativa.
+Os cursos de Ciência da Computação (CS) do zgcombat ensinam programação através de uma série de quebra-cabeças (níveis) que os alunos resolvem com o código. Projetar e implementar um programa criativo original requer uma abordagem diferente da solução de um problema determinado e específico - e é aí que os cursos de Desenvolvimento de Desenvolvimento (GD) e Desenvolvimento da Web (WD) da zgcombat brilham: cada curso conduz a um projeto final, onde o aluno cria seu próprio trabalho original. Esses projetos servem como uma ótima oportunidade para a prática da Criação de Tarefas do AP CSP, que exige que o aluno envie um programa de sua própria criação, seja para solucionar um problema no qual está interessado ou como uma expressão criativa.
 
-Ao jogar os cursos  de Desenvolvimento de Games e de Web do CodeCombat, os alunos ganharão uma prática valiosa na aplicação do processo de "projeto - implementação - teste" iterativo, criando suas próprias abstrações e algoritmos, e colaborando com colegas como co - criadores e testadores. Múltiplas oportunidades de prática ao longo do programa de Princípios da CSC do CodeCombat permitirão que os alunos se concentrem em vários componentes da tarefa Criar. Este guia foca a primeira dessas oportunidades de prática no Desenvolvimento de Jogos 1.
+Ao jogar os cursos  de Desenvolvimento de Games e de Web do zgcombat, os alunos ganharão uma prática valiosa na aplicação do processo de "projeto - implementação - teste" iterativo, criando suas próprias abstrações e algoritmos, e colaborando com colegas como co - criadores e testadores. Múltiplas oportunidades de prática ao longo do programa de Princípios da CSC do zgcombat permitirão que os alunos se concentrem em vários componentes da tarefa Criar. Este guia foca a primeira dessas oportunidades de prática no Desenvolvimento de Jogos 1.
 
-Nota: Os alunos podem optar por desenvolver seu projeto final no CodeCombat ou usar outro ambiente de programação com o qual estejam familiarizados.
+Nota: Os alunos podem optar por desenvolver seu projeto final no zgcombat ou usar outro ambiente de programação com o qual estejam familiarizados.
 
 **Requisitos de Princípios de Ciências da Computação**
 
@@ -33,7 +33,7 @@ Referências em [Princípios de Ciências da Computação](https://secure-media.
 * Visão geral do professor sobre tarefas de desempenho: Criar (página 79)
 * Folheto do aluno para tarefa de desempenho: Criar (página 113)
 
-**CodeCombat cria oportunidades práticas de tarefas**
+**zgcombat cria oportunidades práticas de tarefas**
 
 <a id="t.9a8106a5bd908eba5d08c136ecaf1af3b83ae6bf"></a><a id="t.0"></a>
 
@@ -385,7 +385,7 @@ O [Guia desenvolvimento de jogos](https://codecombat.com/teachers/resources/gd1-
 ## Dias 1-3
 
 
-Os dias 1 a 3 se concentram em ensinar os alunos a criar um jogo no CodeCombat usando ** partes **, ** mecânicas ** e ** metas **.
+Os dias 1 a 3 se concentram em ensinar os alunos a criar um jogo no zgcombat usando ** partes **, ** mecânicas ** e ** metas **.
 
 Os níveis que os alunos jogam ensinarão os detalhes da implementação, mas é importante orientar a discussão em torno dos níveis. Deixe os alunos saberem de antemão que, em breve, estarão projetando seu próprio jogo, e precisarão usar as técnicas e os conceitos que estão aprendendo quando fizerem seus próprios jogos.
 

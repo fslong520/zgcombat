@@ -39,7 +39,7 @@
                   style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
                   allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                   allowfullscreen="true"
-                  :title="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+                  :title="`zgcombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
                 />
               </div>
             </div>
@@ -56,7 +56,7 @@
                   class="img-responsive season-img results-img"
                   :src="season.imagePath"
                   loading="lazy"
-                  :alt="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+                  :alt="`zgcombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
                 >
               </a>
             </div>
@@ -66,7 +66,7 @@
                 class="img-responsive season-img"
                 :src="season.image"
                 loading="lazy"
-                :alt="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+                :alt="`zgcombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
               >
             </div>
           </div>

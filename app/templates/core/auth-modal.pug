@@ -37,11 +37,11 @@ mixin auth-form-content
             dir="auto"
           )
       .form-group
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           +recover-account
-        label.control-label(for=view.utils.isCodeCombat ? "password": "password-input")
+        label.control-label(for=view.utils.iszgcombat ? "password": "password-input")
           span(data-i18n="general.password")
-          = view.utils.isCodeCombat ? ':' : ''
+          = view.utils.iszgcombat ? ':' : ''
         .input-border
           input#password-input.input-large.form-control(
             name="password"
@@ -53,15 +53,15 @@ mixin auth-form-content
           +recover-account
 
       input#login-btn.btn.btn-block.btn-success(
-        class=view.utils.isCodeCombat ? "btn-lg btn-illustrated" : ""
-        value=translate(view.utils.isCodeCombat ? "login.log_in" : "login.sign_in")
+        class=view.utils.iszgcombat ? "btn-lg btn-illustrated" : ""
+        value=translate(view.utils.iszgcombat ? "login.log_in" : "login.sign_in")
         type="submit"
       )
 
     .wait.secret
       h3(data-i18n="login.logging_in")
 
-  if view.utils.isCodeCombat && me.useSocialSignOn()
+  if view.utils.iszgcombat && me.useSocialSignOn()
     - var showClever = !/^\/play/.test(window.location.pathname);
     div(class="auth-network-logins" + (showClever ? " three-choices" : " two-choices"))
       // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
@@ -85,7 +85,7 @@ mixin auth-form-content
         span ClassLink
 
   .extra-pane
-    if view.utils.isCodeCombat
+    if view.utils.iszgcombat
       .switch-explanation(data-i18n="login.signup_switch")
       .btn.btn-lg.btn-illustrated.btn-warning#switch-to-signup-btn(data-i18n="login.sign_up")
     else
@@ -95,7 +95,7 @@ mixin auth-form-content
 
 .modal-dialog(class=(view.utils.isOzaria ? "style-ozaria" : ""))
   .modal-content
-    if view.utils.isCodeCombat
+    if view.utils.iszgcombat
       img(src="/images/pages/modal/auth/login-background.png", draggable="false").auth-modal-background
       h1(data-i18n="login.log_in")
       #close-modal
@@ -125,5 +125,5 @@ mixin auth-form-content
           p.or(data-i18n="login.or")
           .line
       +auth-form-content
-  if view.utils.isCodeCombat
+  if view.utils.iszgcombat
     +auth-form-content

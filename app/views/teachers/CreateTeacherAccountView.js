@@ -359,7 +359,7 @@ module.exports = (CreateTeacherAccountView = (function () {
         }).then(() => {
           const trackerCalls = []
 
-          let loginMethod = 'CodeCombat'
+          let loginMethod = 'zgcombat'
           if (this.gplusAttrs) {
             loginMethod = 'GPlus'
             trackerCalls.push(

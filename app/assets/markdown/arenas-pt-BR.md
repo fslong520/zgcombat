@@ -30,7 +30,7 @@ Os alunos devem escolher uma equipe para participar: Vermelha ou Azul. É import
 * Equipes alternativas quando os jogadores terminam.
 
 #### Rankings
-Depois que os alunos vencerem um dos AIs, eles serão colocados no ranking das classes. As equipes vermelhas só lutam contra equipes azuis e haverá classificações de topo para cada uma. Os alunos só competirão contra o AI e outros estudantes em sua classe CodeCombat . Depois que os alunos enviarem o código para qualquer equipe, outros alunos poderão clicar no link "Lutar" ao lado de qualquer aluno do ranking para contestar esse aluno.
+Depois que os alunos vencerem um dos AIs, eles serão colocados no ranking das classes. As equipes vermelhas só lutam contra equipes azuis e haverá classificações de topo para cada uma. Os alunos só competirão contra o AI e outros estudantes em sua classe zgcombat . Depois que os alunos enviarem o código para qualquer equipe, outros alunos poderão clicar no link "Lutar" ao lado de qualquer aluno do ranking para contestar esse aluno.
 Note que os rankings de classe são claramente visíveis. Se alguns alunos forem intimidados pela competição ou por serem classificados publicamente, dê a eles a opção de um exercício de escrita:
 Escreva um passo a passo ou guia para o seu nível favorito.
 Escreva uma resenha do jogo ou um nível favorito.

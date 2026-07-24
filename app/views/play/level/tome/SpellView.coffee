@@ -828,7 +828,7 @@ module.exports = class SpellView extends CocoView
     # name: displayed left-justified in popup, and what's being matched
     # tabTrigger: fallback for name field
     return unless @autocomplete and @autocompleteOn
-    @autocomplete.addCodeCombatSnippets @options.level, @, e
+    @autocomplete.addzgcombatSnippets @options.level, @, e
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
@@ -998,7 +998,7 @@ module.exports = class SpellView extends CocoView
     isWebDev = @options.level.isType('web-dev')
     lineLengthWrappingComments = (line) =>
       if @singleLineCommentOnlyRegex().test(line)
-        # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+        # 85% of zgcombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
         return Math.min(line.length, 60)
       return line.length
     lineLengthWithoutComments = (line) =>
@@ -1015,7 +1015,7 @@ module.exports = class SpellView extends CocoView
       # No (complete) lines of code yet, so let's guess at how long a line will be
       # A long Junior line might be like this (28 characters):
       # for (let i = 0; i < 5; ++i) {
-      # A long CodeCombat line might be like this (39 characters):
+      # A long zgcombat line might be like this (39 characters):
       #     var enemy = hero.findNearestEnemy();
       longestLineChars = (if isJunior then 30 else 40) + wrapperIndentationChars
     longestLineChars = Math.max(longestLineChars, 40) if isWebDev

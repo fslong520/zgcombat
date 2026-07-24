@@ -364,7 +364,7 @@ module.exports = class World
       bounds.bottom = Math.min(bounds.bottom, rect.y - rect.height / 2)
       bounds.top = Math.max(bounds.top, rect.y + rect.height / 2)
     if @product is 'codecombat-junior'
-      # For a default-sized CodeCombat Junior level, trim the space created by extra lands
+      # For a default-sized zgcombat Junior level, trim the space created by extra lands
       bounds.left = 0 if bounds.left is -6
       bounds.bottom = 0 if bounds.bottom is -6
       if ((bounds.right - 2) % 8) is 0 and not hasBeach

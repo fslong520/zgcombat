@@ -12,12 +12,12 @@
 
 ## What is a Web Quiz?
 
-A web quiz is an online quiz with multiple questions that changes responses based on the user’s answers. Students will apply the material from this unit and prior ones in order to create such a quiz on CodeCombat. Each student will design, develop, and submit his or her own quiz about programming.
+A web quiz is an online quiz with multiple questions that changes responses based on the user’s answers. Students will apply the material from this unit and prior ones in order to create such a quiz on zgcombat. Each student will design, develop, and submit his or her own quiz about programming.
 
 ### What you need:
-Computers with access to CodeCombat. Each student should have his or her own computer.
+Computers with access to zgcombat. Each student should have his or her own computer.
 
-In this multi-day project, students will use JavaScript in conjunction with HTML and CSS to create a web-based quiz on CodeCombat. The quiz should be related to the course, but the students may choose exactly what it covers. They should also design the quiz themselves and be able to explain their design decisions. The students may use each other as resources if they get stuck and can also help each other test their quizzes. 
+In this multi-day project, students will use JavaScript in conjunction with HTML and CSS to create a web-based quiz on zgcombat. The quiz should be related to the course, but the students may choose exactly what it covers. They should also design the quiz themselves and be able to explain their design decisions. The students may use each other as resources if they get stuck and can also help each other test their quizzes. 
 
 In addition to the quiz, students should submit a 1-2 page write up explaining their quiz, how it works, and how they implemented it.
 

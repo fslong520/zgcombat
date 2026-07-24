@@ -58,7 +58,7 @@ module.exports = (StudentSolutionsView = (function () {
 
     initialize () {
       this.validLanguages = ['python', 'javascript']
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         Promise.all(this.validLanguages.map(loadAetherLanguage)).then(() => {
           if (typeof esper !== 'undefined') {
             ({
@@ -221,11 +221,11 @@ module.exports = (StudentSolutionsView = (function () {
       }
 
       // TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         programmableComponentOriginal = '524b7b5a7fc0f6d51900000e'
       }
       const heroPlaceholder = _.find(level.get('thangs'), { id: 'Hero Placeholder' })
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         comp = _.find(heroPlaceholder != null ? heroPlaceholder.components : undefined, { original: programmableComponentOriginal })
       } else {
         comp = _.find(heroPlaceholder != null ? heroPlaceholder.components : undefined, c => Array.from(LevelComponent.ProgrammableIDs).includes(c))

@@ -1,5 +1,5 @@
 ##### Getting Started
-# Start Using CodeCombat in 10 Minutes!
+# Start Using zgcombat in 10 Minutes!
 #### Get your class up and running with these steps.
 
 ##### STEP 1
@@ -15,10 +15,10 @@ Once your teacher account is setup, you’ll be able to access your [Teacher Das
 
 ### What if I already have an account?
 
-If you already have a CodeCombat account as a Student or Individual but want to convert it to a Teacher account, visit the [Update to Teacher Account](/teachers/update-account) page. Once you’ve converted, your student account will be removed from any classrooms you may have previously joined.
+If you already have a zgcombat account as a Student or Individual but want to convert it to a Teacher account, visit the [Update to Teacher Account](/teachers/update-account) page. Once you’ve converted, your student account will be removed from any classrooms you may have previously joined.
 
-### What are the technical requirements for CodeCombat?
-CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari,  Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.
+### What are the technical requirements for zgcombat?
+zgcombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari,  Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.
 
 *We do not currently support iPads or Android Tablets at this time.*
 
@@ -31,7 +31,7 @@ Click the blue “Create a New Class” button, then choose a class name that wi
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/create-new-class-modal.png" title="Create a New Class" alt="create-new-class-modal" width="400px" />
 
-If you signed up with Google, you can now link your Google Classrooms to CodeCombat. To do so:
+If you signed up with Google, you can now link your Google Classrooms to zgcombat. To do so:
 - Click “Create a Class.”
 - Click “Link Google Classroom” & accept permissions.
 - Finish class creation by selecting a programming language (JavaScript or Python).
@@ -69,16 +69,16 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*If your school uses Google Apps for Education*, students can connect using the red "Google" button at the top of the screen instead of manually entering their information. They can then sign in to CodeCombat using the G+ Connect button in the future.
+*If your school uses Google Apps for Education*, students can connect using the red "Google" button at the top of the screen instead of manually entering their information. They can then sign in to zgcombat using the G+ Connect button in the future.
 
 After students have created their account, they are shown their username and instructed to write down this information.
 
-That’s it! Students can now use their login credentials to start playing CodeCombat!
+That’s it! Students can now use their login credentials to start playing zgcombat!
 
 ### Option 2: Students Join via a Class Code
 *Easiest option if you students don’t have email addresses*
 
-Direct your students to [CodeCombat](https://codecombat.com) and have them click “Create Account” on the top navigation bar. Students should select the green "Sign up as a Student" button.
+Direct your students to [zgcombat](https://codecombat.com) and have them click “Create Account” on the top navigation bar. Students should select the green "Sign up as a Student" button.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/student-account.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
 _Make sure your students click “Sign up as a Student” when prompted._
@@ -98,16 +98,16 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*If your school uses Google Apps for Education*, students can connect using the red "Google" button at the top of the screen instead of manually entering their information. They can then sign in to CodeCombat using the G+ Connect button in the future.
+*If your school uses Google Apps for Education*, students can connect using the red "Google" button at the top of the screen instead of manually entering their information. They can then sign in to zgcombat using the G+ Connect button in the future.
 
 After students have created their account, they are shown their username and instructed to write down this information.
 
-That’s it! Students can now use their login credentials to start playing CodeCombat!
+That’s it! Students can now use their login credentials to start playing zgcombat!
 
 ##### STEP 4
 ## Introduction to Computer Science
 
-All students are automatically granted access to the first course in CodeCombat, Introduction to Computer Science. This is a course that introduces students to concepts such as basic syntax, variables, and while loops. Generally this course takes about 1-3 hours for a middle school class.
+All students are automatically granted access to the first course in zgcombat, Introduction to Computer Science. This is a course that introduces students to concepts such as basic syntax, variables, and while loops. Generally this course takes about 1-3 hours for a middle school class.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/course-guides.png" title="Course Guides" alt="course-guides" width="400px"/>
 _Course Guides allow you to preview course levels and view solutions._
@@ -141,7 +141,7 @@ To manually assign a license to a student, click on the *License Status* tab whi
 
 ### How do I get Licenses for my students?
 
-If you would like to purchase more licenses, click on *Student Licenses* in the Teacher Dashboard navigation bar, and follow the instructions under "Get More Licenses". One of CodeCombat’s specialists  will be in contact with you shortly to discuss your needs.
+If you would like to purchase more licenses, click on *Student Licenses* in the Teacher Dashboard navigation bar, and follow the instructions under "Get More Licenses". One of zgcombat’s specialists  will be in contact with you shortly to discuss your needs.
 
 ##### STEP 7
 ## Assigning Courses

@@ -131,11 +131,11 @@ else
             .form-group.checkbox
               label.control-label(for="email_generalNews", data-i18n="account_settings.email_announcements") Announcements
               input#email_generalNews(name="email_generalNews", type="checkbox", checked=subs.generalNews)
-              span.help-block(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
+              span.help-block(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at zgcombat.
 
           hr
           h4(data-i18n="account_settings.email_notifications") Notifications
-          span(data-i18n="account_settings.email_notifications_summary") Controls for personalized, automatic email notifications related to your CodeCombat activity.
+          span(data-i18n="account_settings.email_notifications_summary") Controls for personalized, automatic email notifications related to your zgcombat activity.
 
           .form
             .form-group.checkbox
@@ -167,9 +167,9 @@ else
                   span(data-i18n="classes.archmage_title_description")
                     | (Coder)
                 input#email_archmageNews(name="email_archmageNews", type="checkbox", checked=subs.archmageNews)
-                span(data-i18n="contribute.archmage_subscribe_desc").help-block Get emails about general news and announcements about CodeCombat.
+                span(data-i18n="contribute.archmage_subscribe_desc").help-block Get emails about general news and announcements about zgcombat.
 
-              .form-group.checkbox(class=view.utils.isCodeCombat ? "hidden" : "")
+              .form-group.checkbox(class=view.utils.iszgcombat ? "hidden" : "")
                 label.control-label(for="email_artisanNews")
                   span(data-i18n="classes.artisan_title")
                     | Artisan

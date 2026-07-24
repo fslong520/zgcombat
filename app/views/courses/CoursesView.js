@@ -132,7 +132,7 @@ module.exports = (CoursesView = (function () {
       this.urls = require('core/urls')
 
       this.wsBus = globalVar.application.wsBus // shortcut
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         this.ladderImageMap = {}
         this.ladders = this.supermodel.loadCollection(new LadderCollection()).model
         this.listenToOnce(this.ladders, 'sync', this.onLaddersLoaded)
@@ -485,7 +485,7 @@ module.exports = (CoursesView = (function () {
         })
       }
 
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         const academicaCS1CourseInstance = _.find(this.courseInstances.models != null ? this.courseInstances.models : [], ci => ci.get('_id') === '610047c74bc544001e26ea12')
         if (academicaCS1CourseInstance) {
           const academicaGlobalClassroom = _.find(this.classrooms.models != null ? this.classrooms.models : [], c => c.get('_id') === '610047c673801a001f85fd43')

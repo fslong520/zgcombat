@@ -310,7 +310,7 @@ module.exports = class Autocomplete
     prefix = util.retrievePrecedingIdentifier line, pos.column, identifierRegex unless prefix?
     prefix
 
-  addCodeCombatSnippets: (level, spellView, e) ->
+  addzgcombatSnippets: (level, spellView, e) ->
     snippetEntries = []
     source = spellView.getSource()
     haveFindNearestEnemy = false
@@ -367,7 +367,7 @@ module.exports = class Autocomplete
             content = content.replace thisToken[lang], 'hero'
       return {doc, content, name}
 
-    # Add directional versions of CodeCombat Junior function snippets (just to autocomplete, not to visible methods/blocks area)
+    # Add directional versions of zgcombat Junior function snippets (just to autocomplete, not to visible methods/blocks area)
     goProp = _.find(e.propGroups.Hero or [], (prop) -> prop.prop is 'go')
     shouldAddExtraDirectionalAutocompletes = goProp and not _.find(e.propGroups.Hero, (prop) -> prop.prop is "go('up', 1)")
     if shouldAddExtraDirectionalAutocompletes

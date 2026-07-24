@@ -10,7 +10,7 @@ _Time: 1 or 2 x 50 to 60-minute sessions_
 
 The Arena levels, when used as course-end capstones, provide opportunities for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
-There are four Arenas in CodeCombat:
+There are four Arenas in zgcombat:
 
 | Arena                  | Course                           | Concepts                                                   | 
 |------------------------|----------------------------------|------------------------------------------------------------|
@@ -84,7 +84,7 @@ Have students navigate to the arena level. They should take a few minutes to com
  
 #### Good to Know
 - Some students may be uncomfortable with competition, especially given that the rankings are visible to the class. Consider using Pair Programming - competition is often more comfortable when you have a partner.
-- Students will only compete against the AI and other students in the same CodeCombat class (not strangers).
+- Students will only compete against the AI and other students in the same zgcombat class (not strangers).
 - Once students have beaten one of the AIs, they will be put into the class rankings.
 - Red teams only fight against blue teams, and there will be top rankings for each.
 - Once students have submitted code, other students can click the “Fight” link next to any student in the ranking to challenge that student!
@@ -98,10 +98,10 @@ Have students navigate to the arena level. They should take a few minutes to com
 
 Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-**In CodeCombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
+**In zgcombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
 
 Sample Responses:
-> CodeCombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
+> zgcombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
 
 > In this game, I get to look through the whole level first and plan out how I want to beat it. Then I get to design a way to make my plan work. It feels different than making it up as I go along in regular video games.
 

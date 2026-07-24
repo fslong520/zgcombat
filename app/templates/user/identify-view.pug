@@ -5,7 +5,7 @@ block content
   if callbackURL && callbackSource && callbackID
     h3 Share your username?
     p
-      | #{callbackSource} would like to know that you are #{me.get('name') || 'you'} on CodeCombat.
+      | #{callbackSource} would like to know that you are #{me.get('name') || 'you'} on zgcombat.
       if me.get('anonymous')
         br
         button.btn.btn-lg.btn-default.header-font.login-button(data-i18n="login.log_in")

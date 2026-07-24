@@ -23,7 +23,7 @@ module.exports = (HoC2018InterstitialModal = (function () {
     initialize () {
       this.propsData = {
         clickStudent: () => this.hide(),
-        clickTeacher: () => application.router.navigate('/teachers/hour-of-code' + (utils.isCodeCombat ? `?activity=${this.options.activity || 'ai-league'}` : ''), { trigger: true }),
+        clickTeacher: () => application.router.navigate('/teachers/hour-of-code' + (utils.iszgcombat ? `?activity=${this.options.activity || 'ai-league'}` : ''), { trigger: true }),
         showVideo: false
       }
     }

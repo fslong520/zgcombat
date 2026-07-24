@@ -12,7 +12,7 @@ Nesta atividade, os alunos usarão uma simulação da relação entre predadores
 
 Explique aos alunos que os computadores podem ser usados para modelar situações da vida real, como a interação entre predadores e presas na natureza.
 
-Instrua os alunos a abrir o nível CodeCombat "Camponeses e Munchkins":
+Instrua os alunos a abrir o nível zgcombat "Camponeses e Munchkins":
 https://codecombat.com/play/level/peasants-and-munchkins
 
 Nesta simulação, modelamos os predadores como Ogros e a presa como camponeses. As presas procuram comida (moedas) enquanto os predadores procuram pela presa.

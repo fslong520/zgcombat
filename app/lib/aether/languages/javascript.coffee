@@ -1,4 +1,4 @@
-_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
+_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts zgcombat to browserify it--TODO
 
 jshintHolder = {}
 acorn_loose = require 'acorn-loose'

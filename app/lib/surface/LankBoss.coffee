@@ -44,7 +44,7 @@ module.exports = class LankBoss extends CocoClass
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @targetMark?.destroy()
       @selectionMark?.destroy()
     lankLayer.destroy() for lankLayer in _.values @layerAdapters
@@ -151,7 +151,7 @@ module.exports = class LankBoss extends CocoClass
   update: (frameChanged) ->
     @adjustLankExistence() if frameChanged
     lank.update frameChanged for lank in @lankArray
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @updateSelection()
     @layerAdapters['Default'].updateLayerOrder()
     @cacheObstacles()
@@ -190,9 +190,9 @@ module.exports = class LankBoss extends CocoClass
     if utils.isOzaria
       @updateScreenReaderOzaria();
     else
-      @updateScreenReaderCodeCombat()
+      @updateScreenReaderzgcombat()
 
-  updateScreenReaderCodeCombat: ->
+  updateScreenReaderzgcombat: ->
     # Testing ASCII map for screen readers
     return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
     ascii = $('#ascii-surface')
@@ -288,13 +288,13 @@ module.exports = class LankBoss extends CocoClass
 
   play: ->
     lank.play() for lank in @lankArray
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @selectionMark?.play()
       @targetMark?.play()
 
   stop: ->
     lank.stop() for lank in @lankArray
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @selectionMark?.stop()
       @targetMark?.stop()
 

@@ -738,7 +738,7 @@ module.exports = class PlayLevelView extends RootView
 
   onWindowResize: (e) =>
     @endHighlight()
-    # See CodeCombat Devices x Layouts spreadsheet https://docs.google.com/spreadsheets/d/1AJ4vh-XwYF95RW0QLBXEGyi-xqVET6qCcaqyT_PZLJ4/edit#gid=0
+    # See zgcombat Devices x Layouts spreadsheet https://docs.google.com/spreadsheets/d/1AJ4vh-XwYF95RW0QLBXEGyi-xqVET6qCcaqyT_PZLJ4/edit#gid=0
     windowWidth = $(window).innerWidth()
     windowHeight = $(window).innerHeight()
     windowAspectRatio = windowWidth / windowHeight
@@ -791,7 +791,7 @@ module.exports = class PlayLevelView extends RootView
       when product is 'codecombat-junior' then 28
       # Cinematic playback probably doesn't need to show long lines at full width, especially comments
       when cinematic then 40
-      # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+      # 85% of zgcombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
       else 60
     maxCodeChars = @tome?.spellView?.codeChars?.max
     maxCodeChars ?= if product is 'codecombat-junior' then 40 else 80

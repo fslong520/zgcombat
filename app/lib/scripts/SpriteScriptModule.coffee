@@ -47,7 +47,7 @@ module.exports = class SpritesScriptModule extends ScriptModule
     textIsLocalized = text isnt sprite.say.text
     soundIsLocalized = sound isnt sprite.say.sound
     hasSound = sound and (soundIsLocalized or wantsEnglish)
-    if text and not hasSound and utils.isCodeCombat
+    if text and not hasSound and utils.iszgcombat
       # Ozaria plays these kinds of things a different way, when constructing tutorial messages
       plainText = utils.markdownToPlainText text
       textLanguage = if textIsLocalized or lang is 'en-GB' then lang else 'en-US'

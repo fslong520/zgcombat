@@ -15,7 +15,7 @@ Once your teacher account is setup, you’ll be able to access your [Teacher Das
 
 ### What if I already have an account?
 
-If you would like to login with an existing CodeCombat username, email address or Google Sign-in you can. However, classrooms are specific to each program so you will need to create a new class on Ozaria and invite your students to it.
+If you would like to login with an existing zgcombat username, email address or Google Sign-in you can. However, classrooms are specific to each program so you will need to create a new class on Ozaria and invite your students to it.
 
 ### What are the technical requirements for Ozaria?
 Ozaria runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari,  Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later units. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
@@ -40,7 +40,7 @@ If you signed up with Google, you can now link your Google Classrooms to Ozaria.
 You’re done! Students now have accounts and can sign in using Google single sign-on (SSO).
 That’s it! You can now add students in less than a minute!
 
-*If you previously linked a Google Classroom to CodeCombat, you will not be able to link the same classroom to Ozaria at this time. For more information, please reach out to [support@ozaria.com](support@ozaria.com).*
+*If you previously linked a Google Classroom to zgcombat, you will not be able to link the same classroom to Ozaria at this time. For more information, please reach out to [support@ozaria.com](support@ozaria.com).*
 
 
 ### Should I choose Python or JavaScript?
@@ -74,13 +74,13 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*Students can also use an existing CodeCombat.com account to login into Ozaria.com*. When inviting students via email just remember to enter the email they currently use for CodeCombat.
+*Students can also use an existing zgcombat.com account to login into Ozaria.com*. When inviting students via email just remember to enter the email they currently use for zgcombat.
 
 *If your school uses Google Apps for Education*, students can connect using the "Sign in with Google" button when they click "Login" at the top of the screen instead of manually entering their information. They can then sign in to Ozaria using the G+ Connect button in the future.
 
 After students have created their account, they are shown their username and instructed to write down this information.
 
-That’s it! Students can now use their login credentials to start playing CodeCombat!
+That’s it! Students can now use their login credentials to start playing zgcombat!
 
 ### Option 2: Students Join via a Class Code
 *Easiest option if you students don’t have email addresses*
@@ -105,7 +105,7 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*Students can also use an existing CodeCombat.com account to login into Ozaria.com*.
+*Students can also use an existing zgcombat.com account to login into Ozaria.com*.
 
 *If your school uses Google Apps for Education*, students can connect using the "Sign in with Google" button when they click “Login” at the top of the screen instead of manually entering their information. They can then sign in to Ozaria using the "Sign in with Google" button in the future.
 

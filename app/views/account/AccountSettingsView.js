@@ -237,7 +237,7 @@ module.exports = (AccountSettingsView = (function () {
           return _.delay(function () {
             if (globalVar.application.isIPadApp) { __guard__(__guard__(__guard__(typeof window !== 'undefined' && window !== null ? window.webkit : undefined, x2 => x2.messageHandlers), x1 => x1.notification), x => x.postMessage({ name: 'signOut' })) }
             Backbone.Mediator.publish('auth:logging-out', {})
-            if (utils.isCodeCombat) { // maybe ozaria also want it?
+            if (utils.iszgcombat) { // maybe ozaria also want it?
               if (this.id === 'home-view') {
                 if (window.tracker != null) {
                   window.tracker.trackEvent('Log Out', { category: 'Homepage' })

@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-md-3 info-data">
-      <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}CodeCombat</h2>
+      <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}zgcombat</h2>
       <ul
         v-if="isTecmilenioPartner"
         class="info-list"

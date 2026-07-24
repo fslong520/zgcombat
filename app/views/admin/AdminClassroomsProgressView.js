@@ -46,7 +46,7 @@ module.exports = (AdminClassroomsProgressView = (function () {
       if (!me.isAdmin()) { return super.initialize() }
       this.licenseEndMonths = utils.getQueryVariable('licenseEndMonths', 12)
       this.licenseLimit = utils.getQueryVariable('licenseLimit')
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         this.startDay = utils.getQueryVariable('startDay', '2017-08-01')
         this.endDay = utils.getQueryVariable('endDay', '2018-08-01')
       } else {

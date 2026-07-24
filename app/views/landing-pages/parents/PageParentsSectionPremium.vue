@@ -38,7 +38,7 @@ export default {
     description: {
       type: String,
       required: false,
-      default: 'sign up for self-paced access to CodeCombat'
+      default: 'sign up for self-paced access to zgcombat'
     }
   },
 

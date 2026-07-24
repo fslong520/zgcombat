@@ -139,7 +139,7 @@ module.exports = class LevelChatView extends CocoView
     splitContent = content.split('\[Show Me\]')
     preContent = splitContent[0]
     if splitContent.length > 1
-      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primary' else 'ai-btn-active'
+      btnCls = if utils.iszgcombat then  'btn-illustrated btn-primary' else 'ai-btn-active'
       buttonText = @getFixCodeButtonText(@diffShown)
       buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{buttonText}</button></p>"
       postContent = splitContent[1]
@@ -174,7 +174,7 @@ module.exports = class LevelChatView extends CocoView
         tr.addClass('me')
         avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarImg = if utils.isCodeCombat then '/images/level/baby-griffin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
+        avatarImg = if utils.iszgcombat then '/images/level/baby-griffin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
         avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='#{avatarImg}' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
       mbody.append(avatarTd)

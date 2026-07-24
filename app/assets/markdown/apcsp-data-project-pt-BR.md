@@ -23,7 +23,7 @@ Pergunte aos alunos por casos em que eles viram dados fornecidos como evidência
 
 **Planilhas **
 
-Dê aos alunos uma introdução ao software de planilhas de sua escolha, como o Microsoft Excel ou o Planilhas Google. Pegue uma amostra de dados e mostre como fórmulas podem ser usadas para transformar dados, e gráficos podem ser usados para visualizar dados. Para fórmulas, certifique-se de demonstrar funções que são corolários àquelas que eles aprenderam no CodeCombat, como as funções lógicas listadas na lista de funções do Google Planilhas (OR, IF, etc).
+Dê aos alunos uma introdução ao software de planilhas de sua escolha, como o Microsoft Excel ou o Planilhas Google. Pegue uma amostra de dados e mostre como fórmulas podem ser usadas para transformar dados, e gráficos podem ser usados para visualizar dados. Para fórmulas, certifique-se de demonstrar funções que são corolários àquelas que eles aprenderam no zgcombat, como as funções lógicas listadas na lista de funções do Google Planilhas (OR, IF, etc).
 
 **Encontrando dados**
 

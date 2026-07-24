@@ -5,14 +5,14 @@
 - sessões de programação de 5 x 45 a 60 minutos
 #### Bem-vindo ao curso de Desenvolvimento de Jogos 1!
 
-No Desenvolvimento de Jogos 1, os alunos aprenderão como pensar em jogos e design de jogos através de discussões em sala de aula. Eles então levarão esse conhecimento para os níveis de desenvolvimento do jogo CodeCombat, onde aprenderão os comandos específicos usados para construir um jogo. Isso levará a um projeto final em que cada aluno projeta e cria seu próprio jogo exclusivo e coleta o feedback de seus colegas para fazer melhorias.
+No Desenvolvimento de Jogos 1, os alunos aprenderão como pensar em jogos e design de jogos através de discussões em sala de aula. Eles então levarão esse conhecimento para os níveis de desenvolvimento do jogo zgcombat, onde aprenderão os comandos específicos usados para construir um jogo. Isso levará a um projeto final em que cada aluno projeta e cria seu próprio jogo exclusivo e coleta o feedback de seus colegas para fazer melhorias.
 
 ### Visão Geral do Curso
 
 
 Durante o curso Desenvolvimento de Jogos 1, os alunos aprenderão como criar seus próprios jogos usando PEÇAS, MECÂNICAS e OBJETIVOS.
 
-- Dia 1 - 3: aprender os conceitos básicos de design de jogos e os comandos usados para criar um jogo dentro do CodeCombat.
+- Dia 1 - 3: aprender os conceitos básicos de design de jogos e os comandos usados para criar um jogo dentro do zgcombat.
 - Dia 4: os alunos irão projetar e implementar seu próprio jogo!
 - Dia 5: Mostrar e Dizer - os alunos compartilharão seus jogos com toda a turma.
 
@@ -96,7 +96,7 @@ Este nível introduz o comando`game.spawnXY(type, x, y)` .
      - Clique no botão esquerdo do mouse para atirar.
      - Um inimigo atacará se vir o jogador.
 - Em Desenvolvimento de Jogos 1, os alunos não estarão criando novas mecânicas. Eles precisam passar para Ciências da Computação 2 e Desenvolvimento de Jogos 2 para aprender isso!
-- CodeCombat fornece alguns mecanismos básicos que os alunos podem usar e configurar em seus jogos.
+- zgcombat fornece alguns mecanismos básicos que os alunos podem usar e configurar em seus jogos.
 
 #### Jogando o Nível
 
@@ -134,7 +134,7 @@ Este nível introduz nossa primeira **mecânica** básica do jogo :
      - Derrote os inimigos.
      - Pegue a bandeira e devolva-a para sua base.
      - Jogue a bola no aro.
-- Quando você cria seus jogos no CodeCombat, nós fornecemos algumas metas básicas que você pode usar. Em cursos avançados, os alunos criarão metas personalizadas!
+- Quando você cria seus jogos no zgcombat, nós fornecemos algumas metas básicas que você pode usar. Em cursos avançados, os alunos criarão metas personalizadas!
 
 #### Jogando o Nível
 

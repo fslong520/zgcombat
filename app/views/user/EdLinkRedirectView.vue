@@ -16,10 +16,10 @@
       v-else-if="cocoLoginFailed"
       class="error"
     >
-      Login failed on CodeCombat, please contact support@codecombat.com
+      Login failed on zgcombat, please contact support@codecombat.com
     </div>
     <div v-else>
-      Logging you into CodeCombat....
+      Logging you into zgcombat....
     </div>
   </div>
 </template>

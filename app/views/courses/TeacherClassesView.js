@@ -50,12 +50,12 @@ const translateWithMarkdown = label => marked.inlineLexer($.i18n.t(label), [])
 
 // TODO: if this proves useful, make a simple admin page with a Treema for editing office hours in db
 const officeHours = [
-  { time: moment('2018-02-28 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/307c335ddb1ee6ef7510d14dfea9e911', host: 'David', name: 'CodeCombat for Beginner Teachers' },
-  { time: moment('2018-03-07 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/a1a6f5f4eb7a0a387c24e00bf0acd2b8', host: 'Nolan', name: 'CodeCombat: Beyond Block-Based Coding' },
-  { time: moment('2018-03-15 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/16f0a6b4122087667c24e00bf0acd2b8', host: 'Sean', name: 'Building Student Engagement with CodeCombat' },
-  { time: moment('2018-03-21 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/4e7eb093f8689e21c5b9141539e44ee6', host: 'Liz', name: 'CodeCombat for Beginner Teachers' },
-  { time: moment('2022-08-25 16:00-04').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_q4hJZhMPTlKCT-cDG-rN5Q', host: 'Kerry, Gabby, & Tom', name: 'CodeCombat & Ozaria Demo Day' },
-  { time: moment('2022-10-20 16:00-05').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ', host: 'Alex, Adam, & Rob', name: 'CodeCombat & Ozaria Spooktacular Demo Day' },
+  { time: moment('2018-02-28 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/307c335ddb1ee6ef7510d14dfea9e911', host: 'David', name: 'zgcombat for Beginner Teachers' },
+  { time: moment('2018-03-07 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/a1a6f5f4eb7a0a387c24e00bf0acd2b8', host: 'Nolan', name: 'zgcombat: Beyond Block-Based Coding' },
+  { time: moment('2018-03-15 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/16f0a6b4122087667c24e00bf0acd2b8', host: 'Sean', name: 'Building Student Engagement with zgcombat' },
+  { time: moment('2018-03-21 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/4e7eb093f8689e21c5b9141539e44ee6', host: 'Liz', name: 'zgcombat for Beginner Teachers' },
+  { time: moment('2022-08-25 16:00-04').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_q4hJZhMPTlKCT-cDG-rN5Q', host: 'Kerry, Gabby, & Tom', name: 'zgcombat & Ozaria Demo Day' },
+  { time: moment('2022-10-20 16:00-05').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_NU2XXsQORZ-_lkx7rxUplQ', host: 'Alex, Adam, & Rob', name: 'zgcombat & Ozaria Spooktacular Demo Day' },
   { time: moment('2023-02-16 14:00-08').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_Hdt7MY_3TtqR4JB96mM-RQ', host: 'Ben & Liz', name: 'Using Esports to Teach Coding' }
 ]
 

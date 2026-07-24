@@ -107,7 +107,7 @@ export default {
       .container.carousel-tabs-container
         ul.carousel-tabs.nav.nav-tabs(role="tablist")
           li.carousel-tab.active(data-selector="#solutions", data-slide-num="0", @click="() => onCarouselDirectMove(0)")
-            h2(data-i18n="new_home.game_based_learning") Ozaria & CodeCombat
+            h2(data-i18n="new_home.game_based_learning") Ozaria & zgcombat
           li.carousel-tab(data-selector="#solutions", data-slide-num="1", @click="() => onCarouselDirectMove(1)")
             h2(data-i18n="new_home.text_based_coding") Professional Development
           li.carousel-tab(data-selector="#solutions", data-slide-num="2", @click="() => onCarouselDirectMove(2)")
@@ -118,7 +118,7 @@ export default {
             .item.active(data-slide=0)
               .row
                 .col-md-6.col-sm-12
-                  h4 Ozaria & CodeCombat
+                  h4 Ozaria & zgcombat
                   p ESSER and GEER funds can be used for any expense geared toward learning loss mitigation, and for educational technology (hardware, software, and connectivity) that aids in the regular and substantive educational interaction between students and their classroom instructors. Additionally, all expenses authorized by the Elementary and Secondary Education Act (ESEA) and the Perkins V Act are eligible.
                   ul
                     li With our built-in #[strong scaffolded support] and #[strong self-paced learning] activities, our programs do the #[strong differentiating] for you.

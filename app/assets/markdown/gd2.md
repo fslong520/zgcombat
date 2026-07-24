@@ -36,8 +36,8 @@ In order to expand the student’s options when building their own games, stude
 
 Sample Responses:
 
-*   CodeCombat characters can attack nearest, defend, or run away
-*   CodeCombat skeletons run away when the player is carrying a light orb
+*   zgcombat characters can attack nearest, defend, or run away
+*   zgcombat skeletons run away when the player is carrying a light orb
 *   Minecraft animals will tend to be complacent until they are attacked
 *   Minecraft enemies will tend to explore until they see the character. When close enough, the creeper will explode.
 
@@ -256,7 +256,7 @@ def randomResult():
 
 This function returns between 0 and 1024\. Using Math, we can create algorithms which return all sorts of random results.
 
-**What other things in CodeCombat can you do when an enemy is defeated?**
+**What other things in zgcombat can you do when an enemy is defeated?**
 
 Sample Responses:
 
@@ -269,7 +269,7 @@ Sample Responses:
 
 **What are various ways that games are considered “won” or “lost”? How would that look in code?**
 
-Encourage thinking about goals which don’t include the ones provided by CodeCombat so far (defeat enemies, survive, collect, get to a location).
+Encourage thinking about goals which don’t include the ones provided by zgcombat so far (defeat enemies, survive, collect, get to a location).
 
 Sample Responses:
 

@@ -24,7 +24,7 @@ Note que estas NÃO são abstrações válidas criadas pelo aluno:
 * Variáveis dos parâmetros do jogo no nível final de Corredor
 * Funções que são chamadas apenas uma vez ou em um lugar, como `spawnOgre`
 
-Funções de eventos são abstrações e exemplos muito bons de abstrações, mas elas são criadas e fornecidas pelo CodeCombat. Se um aluno enviar um manipulador de eventos como uma abstração, eles poderão obter um ponto para a linha 8 (explica como a abstração selecionada gerencia a complexidade do programa), mas não a linha 7 (segmento de código selecionado é uma abstração desenvolvida pelo aluno).
+Funções de eventos são abstrações e exemplos muito bons de abstrações, mas elas são criadas e fornecidas pelo zgcombat. Se um aluno enviar um manipulador de eventos como uma abstração, eles poderão obter um ponto para a linha 8 (explica como a abstração selecionada gerencia a complexidade do programa), mas não a linha 7 (segmento de código selecionado é uma abstração desenvolvida pelo aluno).
 
 As variáveis também são uma abstração, mas uma que é fornecida por linguagens de programação. O nível final de Corredor gira em torno de várias variáveis que abstraem os parâmetros que afetam o comportamento do jogo. Estas são abstrações, mas não são abstrações geradas por estudantes.
 

@@ -77,7 +77,7 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
-    if utils.isCodeCombat
+    if utils.iszgcombat
       $('#modal-wrapper .modal').off 'shown.bs.modal', @modalShown
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
     try
@@ -266,7 +266,7 @@ module.exports = class CocoView extends Backbone.View
     # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
 
     openDirectContactModal = =>
-      if utils.isCodeCombat
+      if utils.iszgcombat
         DirectContactModal = require('app/views/core/DirectContactModal').default
       else
         DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
@@ -274,7 +274,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView(new DirectContactModal())
 
     openContactModal = =>
-      if utils.isCodeCombat
+      if utils.iszgcombat
         ContactModal = require('app/views/core/ContactModal')
       else
         ContactModal = require('ozaria/site/views/core/ContactModal')
@@ -309,7 +309,7 @@ module.exports = class CocoView extends Backbone.View
     confirmOOOMessage =>
       if (me.isTeacher(true) and window.zE) or me.showChinaResourceInfo()
         openDirectContactModal()
-      else if utils.isCodeCombat
+      else if utils.iszgcombat
         openContactModal()
       else
         location.href = 'mailto:support@codecombat.com'

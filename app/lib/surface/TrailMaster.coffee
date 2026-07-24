@@ -55,7 +55,7 @@ module.exports = class TrailMaster extends CocoClass
     return key
 
   colorForThang: (team, alpha=1.0) ->
-    if utils.isCodeCombat
+    if utils.iszgcombat
       rgb = [0, 255, 0]
       rgb = [255, 0, 0] if team is 'humans'
       rgb = [0, 0, 255] if team is 'ogres'

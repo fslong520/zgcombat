@@ -172,7 +172,7 @@
                 <div class="content-curated-list-cta">
                   <div class="content-text-curated-list">
                     <p class="content-code-combats-curated">
-                      CodeCombat's Curated List
+                      zgcombat's Curated List
                     </p>
                     <p class="content-our-curated-list-of">
                       Our curated list of searchable STEM grant resources can be
@@ -221,7 +221,7 @@
               <div class="content-explore-next-steps">
                 <p class="content-let-sexplore-how-we">
                   Let's explore how we can use funding to kickstart your
-                  CodeCombat experience.
+                  zgcombat experience.
                 </p>
                 <div class="content-button-explore-next-steps">
                   <a
@@ -335,7 +335,7 @@ export default {
         nextSteps: {
           name: 'nextSteps',
           title: 'Got a grant? Explore next steps!',
-          blurb: 'Want to use grant funding to kickstart your CodeCombat classroom? We\'re here to help.',
+          blurb: 'Want to use grant funding to kickstart your zgcombat classroom? We\'re here to help.',
           inputs: [
             ...defaultInputs,
             {

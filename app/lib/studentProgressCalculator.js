@@ -109,6 +109,6 @@ module.exports = {
     }
     csvContent = csvContent.substring(0, csvContent.length - 1)
     const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
-    return window.saveAs(file, 'CodeCombat.csv')
+    return window.saveAs(file, 'zgcombat.csv')
   }
 }

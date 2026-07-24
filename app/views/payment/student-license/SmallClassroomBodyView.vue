@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       includesTextArray: [
-        'Full access to CodeCombat and Ozaria',
+        'Full access to zgcombat and Ozaria',
         'Customer support via email or chat'
       ]
     }

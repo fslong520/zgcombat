@@ -11,7 +11,7 @@
     <div class="template__image template__image--2">
       <img
         src="/images/pages/home-v2/loc-image.png"
-        alt="Girl playing CodeCombat"
+        alt="Girl playing zgcombat"
         class="template__img img-responsive"
       >
     </div>

@@ -342,7 +342,7 @@ export default Vue.extend({
         </h1>
         <br>
         <h2 class="scenario-name-subhead">
-          with CodeCombat AI Junior
+          with zgcombat AI Junior
         </h2>
       </div>
       <div class="student-name-container">

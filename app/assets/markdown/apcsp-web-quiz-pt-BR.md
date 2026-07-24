@@ -12,13 +12,13 @@
 
 	## O que é um Questionário na Web?
 
-Um questionário na Web é um questionário on-line com várias perguntas que altera as respostas com base nas respostas do usuário. Os alunos aplicarão o material desta unidade e os anteriores, a fim de criar um questionário no CodeCombat. Cada aluno irá projetar, desenvolver e enviar seu próprio teste sobre programação.
+Um questionário na Web é um questionário on-line com várias perguntas que altera as respostas com base nas respostas do usuário. Os alunos aplicarão o material desta unidade e os anteriores, a fim de criar um questionário no zgcombat. Cada aluno irá projetar, desenvolver e enviar seu próprio teste sobre programação.
 
 ### O que você precisa:
 
-Computadores com acesso ao CodeCombat. Cada aluno deve ter seu próprio computador.
+Computadores com acesso ao zgcombat. Cada aluno deve ter seu próprio computador.
 
-Neste projeto de vários dias, os alunos usarão o JavaScript em conjunto com HTML e CSS para criar um questionário baseado na Web no CodeCombat. O questionário deve estar relacionado ao curso, mas os alunos podem escolher exatamente o que ele cobre. Eles também devem projetar o questionário e ser capazes de explicar suas decisões de design. Os alunos se ajudar caso encontrem dificuldades e também podem usar os colegas para testar seus questionários.  
+Neste projeto de vários dias, os alunos usarão o JavaScript em conjunto com HTML e CSS para criar um questionário baseado na Web no zgcombat. O questionário deve estar relacionado ao curso, mas os alunos podem escolher exatamente o que ele cobre. Eles também devem projetar o questionário e ser capazes de explicar suas decisões de design. Os alunos se ajudar caso encontrem dificuldades e também podem usar os colegas para testar seus questionários.  
 
 Além do teste, os alunos devem fazer uma folha com 1-2 páginas explicando seu questionário, como ele funciona e como o implementaram.
 

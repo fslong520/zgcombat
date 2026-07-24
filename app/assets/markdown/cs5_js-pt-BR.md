@@ -169,7 +169,7 @@ Qual foi o desafio:
 ### Sumário
 
 
-Neste módulo, o CodeCombat fornece funções predefinidas que podem ser usadas para desenhar formas e posicionar itens a uma certa distância um do outro. Essas funções já estão escritas e devem ser usadas para passar os níveis.
+Neste módulo, o zgcombat fornece funções predefinidas que podem ser usadas para desenhar formas e posicionar itens a uma certa distância um do outro. Essas funções já estão escritas e devem ser usadas para passar os níveis.
 
 Nesses níveis, os alunos aprenderão sobre esses métodos e praticarão o uso deles. Embora os alunos possam não entender exatamente como as funções funcionam, eles chamarão as funções e usarão os valores de retorno para posicionar soldados e desenhar formas.
 
@@ -186,7 +186,7 @@ Nesses níveis, os alunos aprenderão sobre esses métodos e praticarão o uso d
 #### Explique (3 mins)
 
 
-**Funções predefinidas** são funções que já foram escritas para uso pelos programadores. Os alunos usam funções pré-definidas em muitos módulos anteriores do CodeCombat. Mesmo nos primeiros módulos, os alunos aprenderam como fazer isso chamando métodos como `hero.findEnemies ()`. Embora os alunos não saibam o funcionamento interno da função `findEnemies ()`, eles sabem como chamá-lo e como manipular o valor de retorno.
+**Funções predefinidas** são funções que já foram escritas para uso pelos programadores. Os alunos usam funções pré-definidas em muitos módulos anteriores do zgcombat. Mesmo nos primeiros módulos, os alunos aprenderam como fazer isso chamando métodos como `hero.findEnemies ()`. Embora os alunos não saibam o funcionamento interno da função `findEnemies ()`, eles sabem como chamá-lo e como manipular o valor de retorno.
 
 Neste módulo, os alunos praticarão o uso de funções adicionais predefinidas. Muitas das funções predefinidas nesses níveis são escritas no código inicial para os alunos verem. Parte do código utiliza trigonometria e os alunos podem não entender o que isso significa ou exatamente como funciona. Note que isso é esperado. O foco não é fazer com que os alunos entendam a trigonometria, mas sim praticar as funções de chamada e lidar com a saída.
 
@@ -296,7 +296,7 @@ Qual foi o desafio:
 ### Sumário
 
 
-Os alunos usaram as strings e os arrays extensivamente no CodeCombat até o momento. Neste módulo, os alunos aprenderão que as strings são praticamente matrizes de **caracteres** ou letras únicas. Com esse conhecimento, os alunos percorrerão as strings uma letra por vez para encontrar um determinado elemento (caractere) ou índice.
+Os alunos usaram as strings e os arrays extensivamente no zgcombat até o momento. Neste módulo, os alunos aprenderão que as strings são praticamente matrizes de **caracteres** ou letras únicas. Com esse conhecimento, os alunos percorrerão as strings uma letra por vez para encontrar um determinado elemento (caractere) ou índice.
 
 Esses níveis ensinam os alunos a indexar e pesquisar através de strings para detectar espiões, abrir baús de tesouro e escapar da magia negra.
 

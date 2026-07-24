@@ -112,7 +112,7 @@
             </div>
 
             <a
-              href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+              href="https://www.roblox.com/games/11704713454/zgcombat-Worlds"
               target="_blank"
             >
               <picture>
@@ -213,7 +213,7 @@
         <div class="row row-faq">
           <div class="col-md-12">
             <button-main
-              href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-"
+              href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-zgcombat-Worlds-Roblox-"
               target="_blank"
               :button-text="$t('contact.faq')"
               class="button-main"
@@ -302,13 +302,13 @@
             </span>
             <span v-else>
               You're in! First, <a
-                href="https://www.roblox.com/groups/14987146/CodeCombat#!/about"
+                href="https://www.roblox.com/groups/14987146/zgcombat#!/about"
                 target="_blank"
               >join
-                the CodeCombat Roblox group</a>, then <a
-                href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
+                the zgcombat Roblox group</a>, then <a
+                href="https://www.roblox.com/games/11704713454/zgcombat-Worlds"
                 target="_blank"
-              >play CodeCombat Worlds</a>!
+              >play zgcombat Worlds</a>!
             </span>
           </span>
           <button

@@ -3,12 +3,12 @@
 
 **Overview for Teachers**
 
-Students will pair up and experiment with the two roles used for pair programming, while playing through CodeCombat levels.
+Students will pair up and experiment with the two roles used for pair programming, while playing through zgcombat levels.
 
 A great time to introduce Pair Programming is during an early challenging level like Haunted Kithmaze in the Introduction to Computer Science course. You can also suggest Pair Programming during later levels where there may be a larger mastery gap -- allow a student who has a firm grasp of the concept to be the Navigator.
 
 **What you need**
-* A few CodeCombat course levels which have not been completed yet, which can be used for the pair programming activity
+* A few zgcombat course levels which have not been completed yet, which can be used for the pair programming activity
 * One workstation (computer, keyboard, mouse)
 * One student to be the Driver
 * One student to be the Navigator

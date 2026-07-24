@@ -1,5 +1,5 @@
 ##### 开启旅程
-# 10分钟上手CodeCombat教学版！
+# 10分钟上手zgcombat教学版！
 #### 让您的班级通过下列步骤开启编程的奇妙旅程：
 
 ##### 第1步
@@ -15,10 +15,10 @@
 
 ### 如果已经有帐号了，该怎么操作？
 
-如果您已经拥有CodeCombat的学生帐号或独立用户帐号，想转为教师帐号，您可以访问[升级为教师帐号](/teachers/update-account)页面。帐号升级完成后，您的学生帐号将会从原有已参加的班级里被删除掉。
+如果您已经拥有zgcombat的学生帐号或独立用户帐号，想转为教师帐号，您可以访问[升级为教师帐号](/teachers/update-account)页面。帐号升级完成后，您的学生帐号将会从原有已参加的班级里被删除掉。
 
-### CodeCombat有哪些软硬件要求？
-CodeCombat需要计算机具有至少4GB内存，需要 谷歌浏览器Chrome、Safari、Firefox、 Edge 等较新的浏览器支持。电脑内存不足时，可能在课程后期出现少许图像显示问题。
+### zgcombat有哪些软硬件要求？
+zgcombat需要计算机具有至少4GB内存，需要 谷歌浏览器Chrome、Safari、Firefox、 Edge 等较新的浏览器支持。电脑内存不足时，可能在课程后期出现少许图像显示问题。
 
 *目前尚不支持 iPad 和安卓 Pad。*
 
@@ -77,12 +77,12 @@ _学生输入班级代码后，就会在页面中看到该班级名称和教师�
 
 <img src="/images/pages/teachers/resources/markdown/getting-started-zh-HANS/create-student-account.png" title="创建学生账号" alt="创建学生账号" width="400px"/>
 
-学生完成帐号创建后，就可以使用CodeCombat了！ 
+学生完成帐号创建后，就可以使用zgcombat了！ 
 
 ##### 第4步
 ## 计算机科学课程入门
 
-所有学生都会自动获得权限，可以访问并学习CodeCombat的“计算机科学入门”这门课程。这一课程将为学生介绍基本语法、变量、while循环等概念。对于小学生来说，这一课程通常需要大约5至10小时的学习时间。
+所有学生都会自动获得权限，可以访问并学习zgcombat的“计算机科学入门”这门课程。这一课程将为学生介绍基本语法、变量、while循环等概念。对于小学生来说，这一课程通常需要大约5至10小时的学习时间。
 
 <img src="/images/pages/teachers/resources/markdown/getting-started-zh-HANS/course-guides.png" title="课程指导" alt="课程指导" width="400px"/>
 _课程指南会为您提供课程关卡预览和关卡解决方案。_
@@ -114,7 +114,7 @@ _在“课程进度”选项卡中，可以查看到学生在每一门课程中�
 
 ### 如何为我的学生获得许可？
 
-如果您想购买更多许可，请点击教师面板导航栏中的“学生许可”，点击“联系我们”，发送邮件给我们（china@codecombat.com）。CodeCombat会尽快安排客服专员与您联系。
+如果您想购买更多许可，请点击教师面板导航栏中的“学生许可”，点击“联系我们”，发送邮件给我们（china@codecombat.com）。zgcombat会尽快安排客服专员与您联系。
 
 ##### 第7步
 ## 分配课程

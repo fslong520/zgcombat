@@ -10,7 +10,7 @@
 #### Visão Geral
 Agora que os alunos têm uma base sólida nos tipos mais úteis de fluxo de controle (condicionais, funções e eventos), eles estão preparados para aprimorar suas habilidades de lógica condicional. A maioria das diferenças nos programas que os alunos querem escrever e os programas que sabem escrever começam a cair em Ciência da Computação 3.
 
-Neste curso, os alunos continuarão praticando suas funções, eventos e condicionais aninhadas. Além disso, eles entrarão em operadores e palavras-chave mais sofisticadas. A concatenação de strings permite que os jogadores modifiquem strings dinamicamente em seu código para produzir o texto que quiserem. A aritmética ajudará os jogadores a se sentirem mais à vontade com o uso da matemática na programação. Todas as coisas no CodeCombat são objetos (essa é a parte "objeto" da programação orientada a objetos) e essas coisas têm atributos acessíveis, como a posição de Munchkin ou o valor de uma moeda; ambos são importantes para começar a visualizar a estrutura interna dos objetos que compõem seu mundo de jogo. Juntamente com as propriedades, os alunos desbloqueiam a mecânica de jogo adicional de manipulação de entrada em tempo real com bandeiras. Eles então aprendem a usar funções que retornam valores, para dividir cálculos em partes menores. Os operadores booleanos *igualdade*, * desigualdade *, *ou* e * e* permitem que eles expressem condicionais compostas. Combinando-os com a aritmética e as propriedades do computador, os jogadores finalmente exploram o movimento relativo, direcionando seu herói para locais dinâmicos. Eles também aprendem a trabalhar com o tempo de maneira programática e a manipular seus loops while com as instruções * break * e * continue *.
+Neste curso, os alunos continuarão praticando suas funções, eventos e condicionais aninhadas. Além disso, eles entrarão em operadores e palavras-chave mais sofisticadas. A concatenação de strings permite que os jogadores modifiquem strings dinamicamente em seu código para produzir o texto que quiserem. A aritmética ajudará os jogadores a se sentirem mais à vontade com o uso da matemática na programação. Todas as coisas no zgcombat são objetos (essa é a parte "objeto" da programação orientada a objetos) e essas coisas têm atributos acessíveis, como a posição de Munchkin ou o valor de uma moeda; ambos são importantes para começar a visualizar a estrutura interna dos objetos que compõem seu mundo de jogo. Juntamente com as propriedades, os alunos desbloqueiam a mecânica de jogo adicional de manipulação de entrada em tempo real com bandeiras. Eles então aprendem a usar funções que retornam valores, para dividir cálculos em partes menores. Os operadores booleanos *igualdade*, * desigualdade *, *ou* e * e* permitem que eles expressem condicionais compostas. Combinando-os com a aritmética e as propriedades do computador, os jogadores finalmente exploram o movimento relativo, direcionando seu herói para locais dinâmicos. Eles também aprendem a trabalhar com o tempo de maneira programática e a manipular seus loops while com as instruções * break * e * continue *.
 
 
 _Este guia foi escrito para ualas em linguagem Python em mente, mas pode ser facilmente adaptado para JavaScript._
@@ -39,7 +39,7 @@ _Este guia foi escrito para ualas em linguagem Python em mente, mas pode ser fac
 
 **Propriedade** - dados sobre ou pertencentes a um objeto. Você chega a ele especificando o objeto, depois um ponto, depois o nome da propriedade, como `item.pos`.
 
-**Bandeiras** - Dispositivos de entrada em tempo real. Até agora, os programas CodeCombat dos alunos não foram interativos - não houve entradas do jogador em tempo real enquanto o nível estava sendo executado. Agora, com as flags ou bandeiras, os alunos têm uma maneira de enviar informações para seus programas: clicar em um mouse cria uma bandeira que o herói pode responder com a função `hero.findFlag ()`.
+**Bandeiras** - Dispositivos de entrada em tempo real. Até agora, os programas zgcombat dos alunos não foram interativos - não houve entradas do jogador em tempo real enquanto o nível estava sendo executado. Agora, com as flags ou bandeiras, os alunos têm uma maneira de enviar informações para seus programas: clicar em um mouse cria uma bandeira que o herói pode responder com a função `hero.findFlag ()`.
 
 **Retornar** - Uma instrução de retorno permite que uma função calcule um valor de resultado e retorne-o ao local que chamou a função. Quando suas funções podem retornar seus resultados, é mais fácil dividir os cálculos de produção de dados em etapas menores.
 
@@ -64,7 +64,7 @@ _Este guia foi escrito para ualas em linguagem Python em mente, mas pode ser fac
 ### Sumário
 **A concatenação de strings** é usada para adicionar ou combinar duas strings juntas. Strings são estruturas de `" texto dentro de aspas "`. Os alunos usarão o operador **de concatenação de strings**, `+` para construir uma string mais longa dentre duas strings mais curtas, ou para combinar uma string e uma variável.
 
-No CodeCombat, usar strings e `hero.say ()` é útil para se comunicar com amigos no jogo. Esses níveis prepararão o aluno para uma comunicação mais sofisticada usando strings concatenadas.
+No zgcombat, usar strings e `hero.say ()` é útil para se comunicar com amigos no jogo. Esses níveis prepararão o aluno para uma comunicação mais sofisticada usando strings concatenadas.
 
 ### Metas
 - Concatene duas strings com `" string1 "+" string2 "`
@@ -165,7 +165,7 @@ teacher.write("How much " + noun + " w" + ould + " a " + noun + verb + " " + ver
 ```
 
 #### Reflita (2 mins)
-** Quando você usou strings antes no CodeCombat? ** (Para atacar por nome, como `hero.attack (" Treg ")`; to `buildXY` por tipo, como` hero.buildXY ("fence", 34, 30) `; para dizer senhas, como` hero.say ("Hush!") `; Etc.)
+** Quando você usou strings antes no zgcombat? ** (Para atacar por nome, como `hero.attack (" Treg ")`; to `buildXY` por tipo, como` hero.buildXY ("fence", 34, 30) `; para dizer senhas, como` hero.say ("Hush!") `; Etc.)
 **Que tipo de texto você pode colocar em uma string?** (Qualquer texto que você quiser!)
 **O que significa concatenação de strings?** (Adicionando uma string ao final de outra string).
 
@@ -258,7 +258,7 @@ Além de executar operações em números, as operações também podem ser exec
 x = 3
 5 * x  # resposta: 15
 ```
-Uma operação adicional que pode ser executada com código é **módulo**. Essa operação não precisa ser usada nesses níveis do CodeCombat, mas ainda pode ser útil ou interessante para os alunos. Módulo é usado para encontrar o restante depois de dividir dois números:
+Uma operação adicional que pode ser executada com código é **módulo**. Essa operação não precisa ser usada nesses níveis do zgcombat, mas ainda pode ser útil ou interessante para os alunos. Módulo é usado para encontrar o restante depois de dividir dois números:
 
 ```
 5 % 3  # resposta: 2
@@ -633,7 +633,7 @@ Se você não tiver caixas para essa atividade, basta desenhar uma imagem de uma
 #### Reflita (2 mins)
 **Como um valor de retorno é usado ?** (valores de retorno são usados para que funções possam ser criadas para realizar cálculos e retorná-los para outra função. Isso permite que o código seja melhor organizado.)
 
-**Quais são algumas funções embutidas do CodeCombat que você usa com os valores `return`?** (` hero.findNearestEnemy () `,` hero.isReady ("cleave") `,` hero.distanceTo (target) `,` hero.findNearestItem () `)
+**Quais são algumas funções embutidas do zgcombat que você usa com os valores `return`?** (` hero.findNearestEnemy () `,` hero.isReady ("cleave") `,` hero.distanceTo (target) `,` hero.findNearestItem () `)
 
 ** Por que uma declaração de retorno imediatamente sai de uma função? ** (Porque se você chamar `retornar` duas vezes, você não saberia qual valor usar.)
 
@@ -830,7 +830,7 @@ Um operador que é usado na lógica booleana é o operador **booleano ou**. Ao u
 - 
 ### Atividade instrutiva: Simon diz - Ou (10 mins)
 #### Explique (2 mins)
-**Booleanos** são tipos de dados que possuem dois valores possíveis, `True` e` False`. Embora os estudantes não tenham aprendido extensivamente sobre valores booleanos, eles os usaram muitas vezes no CodeCombat antes.
+**Booleanos** são tipos de dados que possuem dois valores possíveis, `True` e` False`. Embora os estudantes não tenham aprendido extensivamente sobre valores booleanos, eles os usaram muitas vezes no zgcombat antes.
 
 Por exemplo, todo laço `while` visto até agora foi definido como` True`, assim:
 ```
@@ -943,7 +943,7 @@ if enemy.type == "thrower" or enemy.type == "munchkin":
 **Como você usou `or` nessas lições?**
 > Usei 'or' para pegar moedas ou pedras preciosas, mas não objetos nocivos. Eu também usei para atacar apenas certos tipos de inimigos.
 
- **Qual é a propriedade `type`? Que tipos de coisas você viu no CodeCombat até agora?**
+ **Qual é a propriedade `type`? Que tipos de coisas você viu no zgcombat até agora?**
 > A propriedade `type` é uma string informando que tipo de objeto é algo, como` "munchkin" `,` "thrower" `,` "burl" `,` "gem" `,` "coin" `, e `" veneno "`.
 
 
@@ -1035,7 +1035,7 @@ Sinta-se à vontade para ser criativo com as condições e instruções durante 
 
 #### Reflita (2 mins)
 **Para que serve o operador `e/AND`?** (Para executar uma ação se duas condicionais forem` True`)
-**Qual é o código que você escreveu no CodeCombat que você pode usar `e/AND` para simplificar?** (Verificar se existe um inimigo e se o cleave está pronto, ou se a cleave está pronta e o inimigo está próximo o suficiente).
+**Qual é o código que você escreveu no zgcombat que você pode usar `e/AND` para simplificar?** (Verificar se existe um inimigo e se o cleave está pronto, ou se a cleave está pronta e o inimigo está próximo o suficiente).
 
 
 ### Hora da Programação (35-45 mins)
@@ -1065,7 +1065,7 @@ Circule para ajudar. Chame a atenção dos alunos para as instruções e dicas. 
 **Dada uma variável 'inimigo', você pode pensar em uma maneira de usar booleano `e` para checar se há um inimigo e para checar se o inimigo está a menos de 10 metros, em uma linha?**
 > `if enemy and hero.distanceTo(enemy) < 10:`
 
-**Faça um exemplo de `if`, seja no CodeCombat ou na vida real, que use` e` e `ou` na mesma linha para combinar três valores booleanos.**
+**Faça um exemplo de `if`, seja no zgcombat ou na vida real, que use` e` e `ou` na mesma linha para combinar três valores booleanos.**
 > `if fridge.hasFood() and (me.isHungry() or me.isBored()): me.open(fridge)`
 
 
@@ -1159,7 +1159,7 @@ Certifique-se de que os alunos entendam que a posição para a qual você se mud
 #### Reflita (2 mins)
 **O que aconteceria se o aluno se movesse enquanto a professora estivesse se movendo em torno dela?** (O professor andaria em uma forma diferente dependendo de onde o aluno estava quando cada `moveXY` começou).
 **Quais são os dois novos conceitos do Curso 3 que você deve combinar para fazer o movimento relativo?** (Propriedades e aritmética do computador).
-**No CodeCombat, quais são as direções -x, + x, -y e + y?** (Esquerda, direita, para baixo e para cima).
+**No zgcombat, quais são as direções -x, + x, -y e + y?** (Esquerda, direita, para baixo e para cima).
 
 ### Hora da Programação (30-45 mins)
 
@@ -1189,7 +1189,7 @@ Lembre os alunos de pensar sobre a direção que você moveu quando `x` e` y` fo
 >For `hero.moveUp()`: `hero.moveXY(hero.pos.x, hero.pos.y + 12)`
 >For `hero.moveDown()`: `hero.moveXY(hero.pos.x, hero.pos.y - 12)`
 
-**Invente uma história: por que você acha que os yaks são tão violentos no CodeCombat que atacariam se você chegasse perto demais deles?**
+**Invente uma história: por que você acha que os yaks são tão violentos no zgcombat que atacariam se você chegasse perto demais deles?**
 > Provavelmente, eles aprenderam a se defender contra caçadores de ogros para que eles tenham uma resposta de luta embutida quando se aproximarem de qualquer coisa com duas pernas. Antes que os ogros viessem, eles viriam até você e pediriam comida, mas agora eles viviam em paranóia e medo depois que os ogros começaram a caçá-los.
 
 
@@ -1581,7 +1581,7 @@ Os alunos devem abordar esses níveis com os hábitos e a mentalidade de um bom 
 #### Rankings
 
 
-Quando os alunos vencerem o computador padrão, eles serão colocados no ranking de classe. As equipes vermelhas só lutam contra equipes azuis e haverá classificações de topo para cada uma. Os alunos só competirão com o computador e outros alunos da sua turma CodeCombat .
+Quando os alunos vencerem o computador padrão, eles serão colocados no ranking de classe. As equipes vermelhas só lutam contra equipes azuis e haverá classificações de topo para cada uma. Os alunos só competirão com o computador e outros alunos da sua turma zgcombat .
 
 Note que os rankings de classe são claramente visíveis. Se alguns alunos forem intimidados pela competição ou por serem classificados publicamente, dê a eles a opção de um exercício de escrita:
 

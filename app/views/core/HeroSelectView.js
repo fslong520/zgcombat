@@ -32,7 +32,7 @@ module.exports = (HeroSelectView = (function () {
       super(options)
       let currentHeroOriginal, defaultHeroOriginal
       this.options = options
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         defaultHeroOriginal = ThangTypeConstants.heroes.captain
         currentHeroOriginal = me.get('heroConfig')?.thangType || defaultHeroOriginal
       } else {
@@ -47,7 +47,7 @@ module.exports = (HeroSelectView = (function () {
         selectedHeroOriginal: currentHeroOriginal
       })
 
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then(heroes => {
           if (this.destroyed) { return }
           this.heroes = heroes.filter(function (hero) {

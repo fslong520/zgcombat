@@ -37,11 +37,11 @@
         p.text-navy {{ $t('impact.quote_attribution') }}
 
     .col-xs-6
-      img.img-responsive(src="/images/pages/impact/image5.png" alt="Students using CodeCombat in a classroom")
+      img.img-responsive(src="/images/pages/impact/image5.png" alt="Students using zgcombat in a classroom")
 
   .row
     .col-md-12.read-full-story
-      a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
+      a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/zgcombat_CaseStudy_BobbyDukeMS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
 
   #more-partner-stories.row.row-dark
     .row.width-container
@@ -58,7 +58,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_1') }}
               p {{ $t('impact.partners_school_1') }}
-        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_PrestonHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/zgcombat_CaseStudy_PrestonHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
       .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
@@ -69,7 +69,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_2') }}
               p {{ $t('impact.partners_school_2') }}
-        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_RiverRidgeHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/zgcombat_CaseStudy_RiverRidgeHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
       .col-md-4.partner-story-tile.col-xs-12
         .row
           .row
@@ -80,7 +80,7 @@
             .col-xs-9
               h4.text-teal {{ $t('impact.partners_heading_3') }}
               p {{ $t('impact.partners_school_3') }}
-        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/CodeCombat_CaseStudy_RiverdaleHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
+        a.btn.btn-lg.btn-primary(href="/images/pages/impact/pdf/zgcombat_CaseStudy_RiverdaleHS.pdf" target="_blank") {{ $t('impact.read_full_story') }}
 
   //- html structure copied and modified from home page
   #teachers-love-codecombat.width-container.row.text-center
@@ -102,7 +102,7 @@
             h1.text-forest 94%
             img(src="/images/pages/home/pink_rectangle.png")
             h4.text-navy(data-i18n="new_home.teachers_love_codecombat_blurb3")
-      a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/CodeCombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
+      a.btn.btn-primary.btn-lg(href="/images/pages/impact/pdf/zgcombat_ImplementationStudy_Summary.pdf" target="_blank") {{ $t('impact.download_study') }}
       p.mcrel-blurb.text-navy(data-i18n="new_home.teachers_love_codecombat_subblurb")
 
   #teacher-student-spotlight.row.row-dark

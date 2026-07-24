@@ -150,7 +150,7 @@ export default ({
             return application.tracker.identifyAfterNextPageLoad()
           }
         }).then(() => {
-          if (utils.isCodeCombat) {
+          if (utils.iszgcombat) {
             const trialRequestIdentifyData = _.pick(state.trialRequestProperties, ['siteOrigin', 'marketingReferrer', 'referrer', 'notes', 'numStudentsTotal', 'numStudents', 'purchaserRole', 'role', 'phoneNumber', 'country', 'state', 'city', 'district', 'organization', 'nces_students', 'nces_name', 'nces_id', 'nces_phone', 'nces_district_students', 'nces_district_schools', 'nces_district_id', 'nces_district'])
             trialRequestIdentifyData.educationLevel_elementary = _.contains(state.trialRequestProperties.educationLevel, 'Elementary')
             trialRequestIdentifyData.educationLevel_middle = _.contains(state.trialRequestProperties.educationLevel, 'Middle')
@@ -192,7 +192,7 @@ export default ({
         }).then(() => {
           const trackerCalls = []
 
-          let loginMethod = 'CodeCombat'
+          let loginMethod = 'zgcombat'
           if (state.ssoUsed === 'gplus') {
             loginMethod = 'GPlus'
             trackerCalls.push(

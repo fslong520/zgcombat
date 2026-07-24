@@ -182,7 +182,7 @@ Circulate to assist. Draw students' attention to the instructions and tips. Remi
 ## Using Predefined Functions
 ### Summary
 
-In this module, CodeCombat provides predefined functions that can be used to draw shapes and position items a certain distance from each other. These functions are already written and must be used in order to pass the levels.
+In this module, zgcombat provides predefined functions that can be used to draw shapes and position items a certain distance from each other. These functions are already written and must be used in order to pass the levels.
 
 In these levels, the students will learn about these methods and practice using them. Although the students may not understand exactly how the functions work, they will call the functions and use the return values to position soldiers and draw shapes.
 
@@ -201,7 +201,7 @@ In these levels, the students will learn about these methods and practice using 
 
 #### Explain (3 mins)
 
-**Predefined functions** are functions that are already written for programmers to use. The students have use predefined functions in many prior CodeCombat modules. Even in very early modules, the students learned how to do this by calling methods such as `hero.findEnemies()`. Although the students do not know the inner workings of the `findEnemies()` function, they know how to call it and how to handle the return value.
+**Predefined functions** are functions that are already written for programmers to use. The students have use predefined functions in many prior zgcombat modules. Even in very early modules, the students learned how to do this by calling methods such as `hero.findEnemies()`. Although the students do not know the inner workings of the `findEnemies()` function, they know how to call it and how to handle the return value.
 
 In this module, the students will practice using additional predefined functions. Many of the predefined functions in these levels are written out in the starter code for the students to see. Some of the code utilizes trigonometry and the students may not understand what it means or exactly how it works. Note that this is expected. The focus is not to get the students to understand trigonometry, but instead to practice calling functions and handling their output.
 
@@ -314,7 +314,7 @@ If students are having trouble, remind them to read all of the comments carefull
 ## String Searching
 ### Summary
 
-The students have used both strings and arrays extensively in CodeCombat thus far. In this module, the students will learn that strings are virtually arrays of **characters**, or single letters. With that knowledge, students will loop through strings one letter at a time to find a certain element (character) or index.
+The students have used both strings and arrays extensively in zgcombat thus far. In this module, the students will learn that strings are virtually arrays of **characters**, or single letters. With that knowledge, students will loop through strings one letter at a time to find a certain element (character) or index.
 
 These levels teach the students how to index and search through strings in order to detect spies, open treasure chests, and escape black magic.
 
@@ -740,7 +740,7 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 **What is the benefit of having a `push()` function?**
 >The push() function allows the array to change size dynamically so that items can be added as necessary based on a certain condition.
 
-**What are other scenarios that you think `push()` could be helpful for in CodeCombat?**
+**What are other scenarios that you think `push()` could be helpful for in zgcombat?**
 >I think that `push()` could be helpful for filtering enemies into arrays based on their types then looping through the arrays to attack enemies in different ways.
 
 ##### Module 33
@@ -852,7 +852,7 @@ Circulate to assist. Draw students' attention to the instructions and tips. Poin
 **What did you use same array searching for in these levels?**
 >I used it to find matching coins and twins. I also used it to find the two elements in an array that had a minimum distance from each other.
 
-**Knowing that you can use same array searching to find more than just duplicates, what else do you think it would be useful for in CodeCombat?**
+**Knowing that you can use same array searching to find more than just duplicates, what else do you think it would be useful for in zgcombat?**
 >I think that same array searching could be useful to find the minimum or maximum distance between two people or objects. I also think that it could be used to find comparisons for any other property that has a numerical value, like cost.
 
 ##### Module 34

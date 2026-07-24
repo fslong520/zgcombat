@@ -10,7 +10,7 @@
 #### Overview
 Now that students have a solid foundation in the most useful types of control flow (conditionals, functions, and events), they're prepared to level up both their conditional logic skills and their control flow control. Most of the differences in the programs the students want to write and the programs they know how to write start to fall away in Computer Science 3.
 
-In this course, students will keep practicing their functions, events, and nested conditionals. On top of those, they'll get into more sophisticated operators and keywords. String concatenation will let players modify strings dynamically in their code to produce whatever text they want. Arithmetic will help players become more comfortable with using math in programming. All things in CodeCombat are objects, (that's the "object" part of object-oriented programming,) and these things have accessible attributes, such as a Munchkin's position or a coin's value; both are important to begin visualizing the internal structure of the objects that make up their game world. Alongside properties, students unlock the additional game mechanic of real-time input handling with flags. They then learn to use functions that return values, to break up computations into smaller pieces. The boolean *equality*, *inequality*, *or*, and *and* operators let them express compound conditionals. Combining those with computer arithmetic and properties lets players finally explore relative movement, directing their hero to dynamic locations. They also learn to work with time programmatically, and to manipulate their while-loops with the *break* and *continue* statements.
+In this course, students will keep practicing their functions, events, and nested conditionals. On top of those, they'll get into more sophisticated operators and keywords. String concatenation will let players modify strings dynamically in their code to produce whatever text they want. Arithmetic will help players become more comfortable with using math in programming. All things in zgcombat are objects, (that's the "object" part of object-oriented programming,) and these things have accessible attributes, such as a Munchkin's position or a coin's value; both are important to begin visualizing the internal structure of the objects that make up their game world. Alongside properties, students unlock the additional game mechanic of real-time input handling with flags. They then learn to use functions that return values, to break up computations into smaller pieces. The boolean *equality*, *inequality*, *or*, and *and* operators let them express compound conditionals. Combining those with computer arithmetic and properties lets players finally explore relative movement, directing their hero to dynamic locations. They also learn to work with time programmatically, and to manipulate their while-loops with the *break* and *continue* statements.
 
 
 _This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
@@ -39,7 +39,7 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Property** - Data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property, like `item.pos`.
 
-**Flags** - Real-time input devices. Up until now, students' CodeCombat programs haven't been interactive--there hasn't been real-time player input while the level is running. Now with flags, students have a way of sending input to their programs: clicking a mouse plants a flag that the hero can respond to with the `hero.findFlag()` function.
+**Flags** - Real-time input devices. Up until now, students' zgcombat programs haven't been interactive--there hasn't been real-time player input while the level is running. Now with flags, students have a way of sending input to their programs: clicking a mouse plants a flag that the hero can respond to with the `hero.findFlag()` function.
 
 **Return** - A return statements lets a function compute a result value and return it to the place that called the function. When your functions can return their results, it's easier to break data-producing computations into smaller steps.
 
@@ -64,7 +64,7 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 ### Summary
 **String concatenation** is used to add, or combine, two strings together. Strings are structures of `"text inside quotes"`. Students will use the **string concatenation operator**, `+` to build a longer string out of two shorter strings, or to combine a string and a variable.
 
-In CodeCombat, using strings and `hero.say()` is useful for communicating with friends in the game. These levels will prepare the student for more sophisticated communication using concatenated strings.
+In zgcombat, using strings and `hero.say()` is useful for communicating with friends in the game. These levels will prepare the student for more sophisticated communication using concatenated strings.
 
 ### Transfer Goals
 - Concatenate two strings with `"string1" + "string2"`
@@ -171,7 +171,7 @@ teacher.write("How much " + noun + " w" + ould + " a " + noun + verb + " " + ver
 ```
 
 #### Reflect (2 mins)
-**When have you used strings before in CodeCombat?** (To attack by name, like `hero.attack("Treg")`; to `buildXY` by type, like `hero.buildXY("fence", 34, 30)`; to say passwords, like `hero.say("Hush!")`; etc.)
+**When have you used strings before in zgcombat?** (To attack by name, like `hero.attack("Treg")`; to `buildXY` by type, like `hero.buildXY("fence", 34, 30)`; to say passwords, like `hero.say("Hush!")`; etc.)
 **What kind of text can you put in a string?** (Any text you want!)
 **What does string concatenation mean?** (Adding a string to the end of another string.)
 
@@ -274,7 +274,7 @@ In addition to performing operations on numbers, operations can also be performe
 x = 3
 5 * x  # answer: 15
 ```
-An additional operation that can be performed with code is **modulo**. This operation does not have to be used in these CodeCombat levels, but may still be of use or interest to the students. Modulo is used to find the remainder after dividing two numbers:
+An additional operation that can be performed with code is **modulo**. This operation does not have to be used in these zgcombat levels, but may still be of use or interest to the students. Modulo is used to find the remainder after dividing two numbers:
 
 ```
 5 % 3  # answer: 2
@@ -652,7 +652,7 @@ If you do not have boxes for this activity, you can simply draw a picture of a v
 #### Reflect (2 mins)
 **What is a return value used for?** (return values are used so that functions can be created to perform computations and return them to another function. This allows the code to be better organized.)
 
-**What are some built-in CodeCombat functions you use that `return` values?** (`hero.findNearestEnemy()`, `hero.isReady("cleave")`, `hero.distanceTo(target)`, `hero.findNearestItem()`)
+**What are some built-in zgcombat functions you use that `return` values?** (`hero.findNearestEnemy()`, `hero.isReady("cleave")`, `hero.distanceTo(target)`, `hero.findNearestItem()`)
 
 **Why does a return statement immediately exit a function?** (Because if you called `return` twice, you wouldn't know which value to use.)
 
@@ -854,7 +854,7 @@ One operator that is used in boolean logic is the **boolean or** operator, `or`.
 
 ### Instructive Activity: Simon Says - Or (10 mins)
 #### Explain (2 mins)
-**Booleans** are data types that have two possible values, `True` and `False`. Although the students have not extensively learned about boolean values, they have used them many times in CodeCombat before.
+**Booleans** are data types that have two possible values, `True` and `False`. Although the students have not extensively learned about boolean values, they have used them many times in zgcombat before.
 
 For example, every `while` loop seen thus far has been set to `True`, as so:
 
@@ -965,7 +965,7 @@ if enemy.type == "thrower" or enemy.type == "munchkin":
 **What did you use `or` for in these lessons?**
 >I used `or` to pick up coins or gems, but not harmful objects. I also used it to attack only certain kinds of enemies.
 
-**What is the `type` property? What types of things have you seen in CodeCombat so far?**
+**What is the `type` property? What types of things have you seen in zgcombat so far?**
 >The `type` property is a string telling you what kind of object something is, like `"munchkin"`, `"thrower"`, `"burl"`, `"gem"`, `"coin"`, and `"poison"`.
 
 
@@ -1058,7 +1058,7 @@ Feel free to be creative with the conditions and instructions throughout this ac
 
 #### Reflect (2 mins)
 **What is the `and` operator used for?** (To perform an action if two conditionals are both `True`)
-**What is some code you have written in CodeCombat that you can use `and` to simplify?** (Checking whether there is an enemy and cleave is ready, or if cleave is ready and the enemy is close enough.)
+**What is some code you have written in zgcombat that you can use `and` to simplify?** (Checking whether there is an enemy and cleave is ready, or if cleave is ready and the enemy is close enough.)
 
 
 ### Coding Time (35-45 mins)
@@ -1087,7 +1087,7 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 **Given an `enemy` variable, can you think of a way to use boolean `and` to both check if there's an enemy and to check if the enemy is closer than 10 meters, in one line?**
 >`if enemy and hero.distanceTo(enemy) < 10:`
 
-**Make up an `if` example, either in CodeCombat or real life, that uses both `and` and `or` on the same line to combine three boolean values.**
+**Make up an `if` example, either in zgcombat or real life, that uses both `and` and `or` on the same line to combine three boolean values.**
 >`if fridge.hasFood() and (me.isHungry() or me.isBored()): me.open(fridge)`
 
 
@@ -1183,7 +1183,7 @@ Be sure the students understand that the position you move to is always relative
 #### Reflect (2 mins)
 **What would happen if the student moved while the teacher was moving around her?** (The teacher would walk in a different shape depending on where the student was when each `moveXY` started.)
 **What two new Course 3 concepts do you have to combine to do relative movement?** (Properties and computer arithmetic.)
-**In CodeCombat, which directions are -x, +x, -y, and +y?** (Left, right, down, and up.)
+**In zgcombat, which directions are -x, +x, -y, and +y?** (Left, right, down, and up.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -1212,7 +1212,7 @@ Remind the students to think about the direction you moved when `x` and `y` were
 >For `hero.moveUp()`: `hero.moveXY(hero.pos.x, hero.pos.y + 12)`
 >For `hero.moveDown()`: `hero.moveXY(hero.pos.x, hero.pos.y - 12)`
 
-**Make up a story: why do you think the yaks are so violent in CodeCombat that they would attack you if you ever got too close to them?**
+**Make up a story: why do you think the yaks are so violent in zgcombat that they would attack you if you ever got too close to them?**
 >Probably they have learned to defend themselves against ogre poachers so they have a built-in fight response when they get close to anything with two legs. Before the ogres came, they would come right up to you and ask for food instead, but now they living in paranoia and fear after the ogres started hunting them.
 
 
@@ -1555,7 +1555,7 @@ To help with debugging, this could be a good time to use the Engineering Cycle w
 ### Written Reflection (5 mins)
 Select appropriate prompt(s) for the students respond to, referring to their notes.
 
-**What's some code that you have been writing in CodeCombat that could be simpler with `break` or `continue`?**
+**What's some code that you have been writing in zgcombat that could be simpler with `break` or `continue`?**
 >A lot of times I check whether there is an enemy or an item. If there's not, I could use `continue` to wait until there is instead of using an `else`. Also, if I wanted to break down a strong door and then keep moving afterward, I could use `break`.
 
 **Make up a story: your hero seems to have more and more soldiers and peasants on their side. Why? Who are the humans, who is your hero, and why are they on the same team?**
@@ -1648,7 +1648,7 @@ Have students navigate to the last level, **Cross Bones**. They should take a fe
 #### Good to Know
 
 - Some students may be uncomfortable with competition, especially given that the rankings are visible to the class. Consider using Pair Programming - competition is often more comfortable when you have a partner.
-- Students will only compete against the AI and other students in the same CodeCombat class (not strangers).
+- Students will only compete against the AI and other students in the same zgcombat class (not strangers).
 - Once students have beaten one of the AIs, they will be put into the class rankings.
 - Red teams only fight against blue teams, and there will be top rankings for each.
 - Once students have submitted code, other students can click the “Fight” link next to any student in the ranking to challenge that student!
@@ -1663,10 +1663,10 @@ Have students navigate to the last level, **Cross Bones**. They should take a fe
 
 Use one or more of the following questions to prompt reflection on the lesson. You can facilitate a short discussion, or have students submit written responses on Exit Tickets.
 
-**In CodeCombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
+**In zgcombat, you have to plan all your hero's actions in advance, then let the hero carry them out all at once. This is  different from most video games, where you directly control the hero and make decisions as you go. How do you feel about the difference? For example, which is more fun? Which is harder? How does your strategy change? How do you handle mistakes?**
 
 Sample Responses:
-> CodeCombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
+> zgcombat is harder because I have to think so many steps ahead! It's a fun kind of hard!
 
 > In this game, I get to look through the whole level first and plan out how I want to beat it. Then I get to design a way to make my plan work. It feels different than making it up as I go along in regular video games.
 

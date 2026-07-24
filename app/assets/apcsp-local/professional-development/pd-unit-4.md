@@ -17,9 +17,9 @@ Having this foundational knowledge enables students to confidently approach one 
 - EU 7.2 Computing enables innovation in nearly every field.
 
 
-This unit encapsulates the curriculum listed above. The corresponding CodeCombat courses are CS3 and GD3. If you haven’t played these courses earlier when we introduced “What is CodeCombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
+This unit encapsulates the curriculum listed above. The corresponding zgcombat courses are CS3 and GD3. If you haven’t played these courses earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
 
-As part of CodeCombat’s professional development, complete at least one of the Unit 4 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
+As part of zgcombat’s professional development, complete at least one of the Unit 4 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
 ### [Binary Sequences](https://codecombat.com/apcsp/markdown/apcsp-binary-sequences) : 
 The activities here explain how binary sequences are used to represent digital data. And the data is important for deciphering things across the internet. Do both activities in here and post in [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp)  (unit 4 thread) a message in binary code. 

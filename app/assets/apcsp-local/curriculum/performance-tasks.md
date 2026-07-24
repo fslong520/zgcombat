@@ -5,7 +5,7 @@
 -----
 Jump to: [Performance Task: Create](#performance-task-create) | [Performance Task: Explore](#performance-task-explore) 
 
-Students are assessed at the end of their AP Computer Science Principles course via both through-course and end-of-course assessments. This overview provides details on how teachers should use CodeCombat to prepare for the two through-course Performance tasks: Create and Explore. 
+Students are assessed at the end of their AP Computer Science Principles course via both through-course and end-of-course assessments. This overview provides details on how teachers should use zgcombat to prepare for the two through-course Performance tasks: Create and Explore. 
 
 Additional detail about these tasks can be found in the [AP CS Principles Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf) starting from page 71. Teachers should distribute the [Student Performance Task Directions Handout](https://apcentral.collegeboard.org/pdf/ap-csp-student-task-directions.pdf) [PDF] to their class as it contains information specific to the student experience. 
 
@@ -17,11 +17,11 @@ Teachers are required to set aside 8 hours of in-class time for the Explore task
 ## Performance Task: Create
 Programming is a creative process that brings ideas to life. Programs can help solve problems, enable innovations, or express personal interests. For the Create Performance Task, students will develop a program of their choice, in a programming language of their choice.
 
-CodeCombat's Computer Science (CS) courses teach programming through a series of puzzles (levels) the students solve with code. Designing and implementing an original creative program requires a different approach than solving a specific, given problem - and that's where CodeCombat's Game Development (GD) and Web Development (WD) courses shine: each course leads up to a final project, where the student creates her own original work. These projects serve as a great opportunity to practice for the AP CSP Create Task, which requires the student to submit a program of their own creation, either to solve a problem they're interested in, or as a creative expression. (Learning Objectives 5.1.1 and 5.1.2)
+zgcombat's Computer Science (CS) courses teach programming through a series of puzzles (levels) the students solve with code. Designing and implementing an original creative program requires a different approach than solving a specific, given problem - and that's where zgcombat's Game Development (GD) and Web Development (WD) courses shine: each course leads up to a final project, where the student creates her own original work. These projects serve as a great opportunity to practice for the AP CSP Create Task, which requires the student to submit a program of their own creation, either to solve a problem they're interested in, or as a creative expression. (Learning Objectives 5.1.1 and 5.1.2)
 
-By playing CodeCombat's Game and Web Development courses, students will gain valuable practice in applying the iterative "design - implement - test" process, creating their own abstractions and algorithms, and collaborating with peers as co-creators and play testers. Multiple practice opportunities throughout CodeCombat’s AP CS Principles syllabus will allow students to focus on various components of the Create task. This guide focuses on the first of those practice opportunities in Game Development 1.
+By playing zgcombat's Game and Web Development courses, students will gain valuable practice in applying the iterative "design - implement - test" process, creating their own abstractions and algorithms, and collaborating with peers as co-creators and play testers. Multiple practice opportunities throughout zgcombat’s AP CS Principles syllabus will allow students to focus on various components of the Create task. This guide focuses on the first of those practice opportunities in Game Development 1.
 
-Side note: Students may choose to develop their final project within CodeCombat, or they may use another programming environment that they're familiar with.
+Side note: Students may choose to develop their final project within zgcombat, or they may use another programming environment that they're familiar with.
 
 #### **AP CS Principles Create Task Requirements**
 Summary of the “Create” Performance Task for AP CS Principles (See Page 79 of the [Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf)):
@@ -48,7 +48,7 @@ More detail on each scoring component can be found in the [AP CS Principles Cour
 
 In the chart below, we highlight the portions of the final Create project that students will be able to practice in each of the Game Development units.  
 
-**CodeCombat Create Practice Opportunities**
+**zgcombat Create Practice Opportunities**
 
 |                       | Game Dev 1 | Game Dev 2 | Game Dev 3 |
 |-----------------------|------------|------------|------------|

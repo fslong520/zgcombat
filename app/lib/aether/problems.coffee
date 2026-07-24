@@ -336,7 +336,7 @@ class HintCreator
       when 'cofeescript' then '@'
       else 'this.'
 
-    # We use `hero` as `this` in CodeCombat now, so all `this` related hints
+    # We use `hero` as `this` in zgcombat now, so all `this` related hints
     # we get in the problem context should really refrence `hero`
     @thisValueAccess = switch languageID
       when 'python' then 'hero.'

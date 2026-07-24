@@ -1,5 +1,5 @@
 ##### [Back to The Full Curriculum](/apcsp/curriculum) 
-# CodeCombat AP Computer Science Principles Syllabus
+# zgcombat AP Computer Science Principles Syllabus
 -----
 ##### Syllabus Overview
 
@@ -127,7 +127,7 @@ The primary programming environment for this course is the codecombat.com websit
 
 Teachers may choose to use either Python or JavaScript as the programming language, they are both supported in the Game Development and Computer Science courses. Students should be able to complete all programming-related activities and assessments during in-class time. 
 
-Throughout this curriculum, students will complete levels from the following CodeCombat courses:
+Throughout this curriculum, students will complete levels from the following zgcombat courses:
 - Introduction to Computer Science
 - Computer Science 2
 - Computer Science 3

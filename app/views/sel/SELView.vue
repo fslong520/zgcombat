@@ -27,7 +27,7 @@ export default {
         a(href="/")
           img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
         h1(style="margin-bottom:15px;") Our Philosophy
-        h2.subtitle-mid Incorporating evidence-based social and emotional learning (SEL) activities into the curriculum enables students to understand, process, and manage their thoughts and emotions. Students also come to learn about their identity through their strengths, interests, and values. At CodeCombat, we believe computer science can help students develop these SEL competencies. We know that providing ample opportunities for reflection, trial and error, and collaboration are the keys to student success.
+        h2.subtitle-mid Incorporating evidence-based social and emotional learning (SEL) activities into the curriculum enables students to understand, process, and manage their thoughts and emotions. Students also come to learn about their identity through their strengths, interests, and values. At zgcombat, we believe computer science can help students develop these SEL competencies. We know that providing ample opportunities for reflection, trial and error, and collaboration are the keys to student success.
         div
           a.btn.btn-primary.btn-large.btn-moon.sales-btn(href="/") Explore Ozaria
 

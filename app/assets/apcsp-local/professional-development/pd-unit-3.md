@@ -17,9 +17,9 @@ In keeping with our mission to prepare students for the job market, and being co
 - EU 7.1 Computing enhances communication, interaction, and cognition.
 
 
-This unit encapsulates the curriculum listed above. The corresponding CodeCombat courses are CS2 and GD2. If you haven’t played these courses earlier when we introduced “What is CodeCombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
+This unit encapsulates the curriculum listed above. The corresponding zgcombat courses are CS2 and GD2. If you haven’t played these courses earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
 
-As part of CodeCombat’s professional development, complete at least one of the Unit 3 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
+As part of zgcombat’s professional development, complete at least one of the Unit 3 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
 ### [Refactoring](https://codecombat.com/teachers/resources/apcsp-refactoring) :  
 This activity will allow you to practice your comfortability around abstractions. After this activity, you will be able to develop an abstraction when writing a computational artifact, but also be able to identify multiple levels of abstractions. Try the activity yourself and see how many ways you can simplify the level, [The Agrippa Defense](https://codecombat.com/play/level/the-agrippa-defense), before moving onto the 2nd half of activities. 

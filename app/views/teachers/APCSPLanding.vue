@@ -5,15 +5,15 @@
     h2.text-center We’ve got you covered.
 
     p#registered
-      i CodeCombat is no longer recognized by the College Board as an endorsed provider of curriculum and professional development for AP<sup>®</sup> Computer Science Principles (AP CSP).  It was previously endorsed for the 2019-2020 school year.
+      i zgcombat is no longer recognized by the College Board as an endorsed provider of curriculum and professional development for AP<sup>®</sup> Computer Science Principles (AP CSP).  It was previously endorsed for the 2019-2020 school year.
 
-    p CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
+    p zgcombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.
 
     p AP<sup>®</sup> Computer Science Principles spotlights how computing is changing the world, and provides ample opportunity for students from all backgrounds to connect abstract concepts to real-world implications of the field. Teachers can use our AP<sup>®</sup> CSP Curriculum and Professional Development Hub as their primary resource for teaching the course and preparing students for the AP<sup>®</sup> exam.
 
-    p We’ve designed our resources to support teachers regardless of their programming experience, enabling every educator to facilitate this course with confidence. Our team at CodeCombat will be with you every step of the way.
+    p We’ve designed our resources to support teachers regardless of their programming experience, enabling every educator to facilitate this course with confidence. Our team at zgcombat will be with you every step of the way.
 
-    h4 CodeCombat’s curriculum features:
+    h4 zgcombat’s curriculum features:
     ul
       li A full end-to-end curricular solution for teaching AP<sup>®</sup> Computer Science Principles.
       li Free, self-paced professional development with oversight from our educational experts.
@@ -79,20 +79,20 @@
         | Curriculum Specifications
 
     h5 Programming Languages
-    p CodeCombat’s curiculum can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the CodeCombat platform.
+    p zgcombat’s curiculum can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the zgcombat platform.
 
     h5 Teacher Verification
-    p Teachers who are approved through CodeCombat’s verification process will be given access to our full AP® Computer Science Principles curriculum, including all professional development and assessment materials. The verification process is free, and is designed to maximize our professional development efforts.
+    p Teachers who are approved through zgcombat’s verification process will be given access to our full AP® Computer Science Principles curriculum, including all professional development and assessment materials. The verification process is free, and is designed to maximize our professional development efforts.
 
     h5 Minimum Hardware/Software Specifications
-    p CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in courses beyond Computer Science 3, though there should be minimal issues with the recommended content for AP® Computer Science Principles as outlined. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
+    p zgcombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in courses beyond Computer Science 3, though there should be minimal issues with the recommended content for AP® Computer Science Principles as outlined. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
 
     h5 Professional Development
-    p Our professional development materials are made available to all verified teachers at no cost. Professional development is self-directed and self-paced, taking place online and in collaborative forums where teachers can ask questions and participate in discussions with other verified teachers and CodeCombat content experts. We strongly encourage all teachers to go through professional development before using CodeCombat as their AP® Computer Science Principles curriculum, and we provide support throughout the year as their classes progress through the curriculum.
+    p Our professional development materials are made available to all verified teachers at no cost. Professional development is self-directed and self-paced, taking place online and in collaborative forums where teachers can ask questions and participate in discussions with other verified teachers and zgcombat content experts. We strongly encourage all teachers to go through professional development before using zgcombat as their AP® Computer Science Principles curriculum, and we provide support throughout the year as their classes progress through the curriculum.
 
     h5 Student Licenses
     p
-      | In order for teachers to be able to assign the required CodeCombat courses to students in their class, each student will need a License. Information on license pricing and structure can be obtained by speaking to CodeCombat’s school specialists (email
+      | In order for teachers to be able to assign the required zgcombat courses to students in their class, each student will need a License. Information on license pricing and structure can be obtained by speaking to zgcombat’s school specialists (email
       =" "
       a(mailto="schools@codecombat.com") schools@codecombat.com
       =""

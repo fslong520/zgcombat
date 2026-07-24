@@ -75,7 +75,7 @@ form.modal-body.segment-check
   .modal-body-content
     case view.signupState.get('path')
       when 'student'
-        if view.utils.isCodeCombat
+        if view.utils.iszgcombat
           +coco-student-section
         else
           +ozar-student-section
@@ -91,7 +91,7 @@ form.modal-body.segment-check
           .individual-flow-card
             if view.signupState.get('subModalContinue')
               .individual-flow-note(data-i18n="signup.sign_in_to_continue")
-            else if view.utils.isCodeCombat && view.signupState.get('accountRequiredMessage')
+            else if view.utils.iszgcombat && view.signupState.get('accountRequiredMessage')
               .individual-flow-note= view.signupState.get('accountRequiredMessage')
             .individual-flow-heading
               h4(data-i18n="signup.enter_birthdate")
@@ -128,9 +128,9 @@ form.modal-body.segment-check
     // In reverse order for tabbing purposes
     .history-nav-buttons(class=view.signupState.get('path') === 'individual' ? 'individual' : undefined)
       //- disabled=!view.signupState.get('segmentCheckValid')
-      button.next-button.btn.btn-lg(type='submit' disabled=(view.signupState.get('path') === 'individual' && !state.get('birthdayComplete')) ? true : undefined class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
-        span(data-i18n=view.utils.isCodeCombat ? "common.continue" : "common.next")
+      button.next-button.btn.btn-lg(type='submit' disabled=(view.signupState.get('path') === 'individual' && !state.get('birthdayComplete')) ? true : undefined class=view.utils.iszgcombat ? 'btn-navy' : 'ozaria-primary-button')
+        span(data-i18n=view.utils.iszgcombat ? "common.continue" : "common.next")
 
       if !view.signupState.get('subModalContinue')
-        button.back-to-account-type.btn.btn-lg(type='button' class=view.utils.isCodeCombat ? 'btn-navy-alt' : 'ozaria-secondary-button')
+        button.back-to-account-type.btn.btn-lg(type='button' class=view.utils.iszgcombat ? 'btn-navy-alt' : 'ozaria-secondary-button')
           span(data-i18n="common.back")

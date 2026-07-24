@@ -1,5 +1,5 @@
 ##### [Back to The Full Curriculum](/apcsp/curriculum) 
-# CodeCombat Curriculum Overview
+# zgcombat Curriculum Overview
 -----
 Jump to: [Curriculum Summary](#curriculum-summary) | [Program Requirements](#program-requirements) 
 
@@ -7,16 +7,16 @@ Jump to: [Curriculum Summary](#curriculum-summary) | [Program Requirements](#pro
 ## Evolving computer science education through game-based learning
 
 #### **Foundation from real typed code**
-CodeCombat’s core mission is to change the way that computer science is taught. When we started CodeCombat, we knew that everything out there for learning to code was failing to serve most people, and we knew we could make it better – we could make the solution we’d wished we’d had when we were kids. 
+zgcombat’s core mission is to change the way that computer science is taught. When we started zgcombat, we knew that everything out there for learning to code was failing to serve most people, and we knew we could make it better – we could make the solution we’d wished we’d had when we were kids. 
 
 Programming is magic, and we wanted to give all learners the feeling of wizardly power at their fingertips by using real typed code on our platform. As it turns out, that was the key to get students to learn much faster as well; by not relying on training wheels like block-based code (which are especially underwhelming for students older than elementary school age), we empowered our students to learn programming syntax and code structure and got them to realize their creative potential much sooner. 
 
 #### **Computer science for everyone**
-It just so happened that as CodeCombat’s product matured, computer science turned out to be the number one job skill, so we expanded the scope of our vision to include not only programming skills, but also the broader aspects of computer science that we knew would set our students up for long-term success in the job market. 
+It just so happened that as zgcombat’s product matured, computer science turned out to be the number one job skill, so we expanded the scope of our vision to include not only programming skills, but also the broader aspects of computer science that we knew would set our students up for long-term success in the job market. 
 
 Making computer science accessible to every student on Earth isn’t just about giving them programming tools -- it’s also about helping students and teachers understand what computer science is, and  who computer scientists are. It’s about shattering common stereotypes by creating curriculum that is friendly to beginner students AND beginner teachers, focuses on the amazing applications of computing and not just the technical jargon, and provides integrated, actionable feedback so that learners can quickly grasp new concepts within the context in which they’re first learned. We’ve made sure that in-game, students can choose characters that can reflect their gender and race identities, knowing the importance of representation and its effect on students’ perceptions. 
 
-The AP Computer Science Principles course is CodeCombat’s natural accomplice in achieving the goals of reaching every potential computer science learner. The course’s focus on driving diversity, increasing access and preparing students for the job markets of today and tomorrow aligns closely with our platform’s core mission. We believe that our approach to the well-defined standards set out in the course description can inspire a brand new generation of students to see themselves as “computer science people”, continue onto Computer Science and adjacent majors, and bring a fresh perspective to technology industries and beyond.
+The AP Computer Science Principles course is zgcombat’s natural accomplice in achieving the goals of reaching every potential computer science learner. The course’s focus on driving diversity, increasing access and preparing students for the job markets of today and tomorrow aligns closely with our platform’s core mission. We believe that our approach to the well-defined standards set out in the course description can inspire a brand new generation of students to see themselves as “computer science people”, continue onto Computer Science and adjacent majors, and bring a fresh perspective to technology industries and beyond.
 
 -----
 [Back to top](#site-content-area)
@@ -53,16 +53,16 @@ Two major components of the assessments provided as part of our curriculum are t
 ## Program requirements
 
 #### **Programming Languages**
-CodeCombat’s AP Computer Science Principles course can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the CodeCombat platform.
+zgcombat’s AP Computer Science Principles course can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the zgcombat platform.
 
 #### **Teacher Verification**
-Teachers who apply for and are approved through CodeCombat’s verification process will be given access to our full AP Computer Science Principles curriculum, including all professional development and assessment materials. The verification process does not cost teachers anything, but is designed to maximize our professional development efforts and reduce exposure of materials such as answer keys to students. 
+Teachers who apply for and are approved through zgcombat’s verification process will be given access to our full AP Computer Science Principles curriculum, including all professional development and assessment materials. The verification process does not cost teachers anything, but is designed to maximize our professional development efforts and reduce exposure of materials such as answer keys to students. 
 
 #### **Minimum Hardware/Software Specifications**
-CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in courses beyond Computer Science 3, though there should be minimal issues with the recommended content for AP Computer Science Principles as outlined. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
+zgcombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in courses beyond Computer Science 3, though there should be minimal issues with the recommended content for AP Computer Science Principles as outlined. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
 
 #### **Professional Development**
-Our professional development materials are made available to all verified teachers at no cost. Professional development is self-directed and self-paced, taking place online and in collaborative forums where teachers can ask questions and participate in discussions with other verified teachers and CodeCombat content experts. We encourage all teachers to go through professional development before using CodeCombat as their AP Computer Science Principles curriculum, and we provide support throughout the year as their classes progress through the curriculum.
+Our professional development materials are made available to all verified teachers at no cost. Professional development is self-directed and self-paced, taking place online and in collaborative forums where teachers can ask questions and participate in discussions with other verified teachers and zgcombat content experts. We encourage all teachers to go through professional development before using zgcombat as their AP Computer Science Principles curriculum, and we provide support throughout the year as their classes progress through the curriculum.
 
 #### **Student Licenses**
-In order for teachers to be able to assign the required CodeCombat courses to students in their class, each student will need a License. Information on license pricing and structure can be obtained by speaking to CodeCombat’s school specialists (email schools@codecombat.com). We recommend that licenses are obtained by early August of the coming school year so students can begin as early as the first day of the fall semester. 
+In order for teachers to be able to assign the required zgcombat courses to students in their class, each student will need a License. Information on license pricing and structure can be obtained by speaking to zgcombat’s school specialists (email schools@codecombat.com). We recommend that licenses are obtained by early August of the coming school year so students can begin as early as the first day of the fall semester. 

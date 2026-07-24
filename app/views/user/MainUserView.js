@@ -97,7 +97,7 @@ module.exports = (MainUserView = (function () {
         return (typeof this.render === 'function' ? this.render() : undefined)
       })
       this.supermodel.loadCollection(this.clans, 'clans', { cache: false })
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         this.loadHeroPoseImage()
       }
       return super.onLoaded()

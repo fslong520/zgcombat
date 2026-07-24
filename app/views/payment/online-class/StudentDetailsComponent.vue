@@ -44,7 +44,7 @@
           @keyup="updateEmail($event, index)"
         >
         <div class="small-tip">
-          *Enter student's CodeCombat account email if they have created an account
+          *Enter student's zgcombat account email if they have created an account
         </div>
       </div>
       <div class="form-group">

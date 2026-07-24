@@ -179,7 +179,7 @@ Circule para ajudar. Chame a atenção dos alunos para as instruções e dicas, 
 
 são listas ordenadas de itens.  Na verdade, em Python, o nome usado para uma matriz é `list`.  Os arrays podem conter qualquer tipo de sequência de itens, números inteiros e até mesmo outros arrays - e podem ser de qualquer tamanho.  Um elemento em uma matriz pode ser acessado pelo seu ** índice/index ** ou por sua posição na lista.
 
-O array é uma estrutura de dados fundamental e aparece com bastante frequência na programação. Ele também aparece frequentemente no CodeCombat, de várias maneiras. Às vezes, os alunos encontrarão os dados armazenados em uma determinada posição em uma matriz ou usarão um loop para acessar todos os itens de uma lista. Outras vezes, um método (como `findEnemies ()`) retornará uma matriz que pode ser usada junto com loops e condicionais para executar ações com mais eficiência.
+O array é uma estrutura de dados fundamental e aparece com bastante frequência na programação. Ele também aparece frequentemente no zgcombat, de várias maneiras. Às vezes, os alunos encontrarão os dados armazenados em uma determinada posição em uma matriz ou usarão um loop para acessar todos os itens de uma lista. Outras vezes, um método (como `findEnemies ()`) retornará uma matriz que pode ser usada junto com loops e condicionais para executar ações com mais eficiência.
 
 ### Metas
 

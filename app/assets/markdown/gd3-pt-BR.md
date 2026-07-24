@@ -29,7 +29,7 @@ Este guia foi escrito para aulas em Python, mas pode ser facilmente adaptado par
 
 ### Sumário
 
-Este módulo inicia o processo de dar aos alunos um controle mais refinado de seus jogos. Até agora, os jogos construídos dentro do CodeCombat terão usado a estrutura básica do jogo: existem unidades em um plano 2D com um certo conjunto básico de física, as unidades interagem umas com as outras e você controla uma unidade com mouse ou teclado. Com um controle mais refinado, os alunos poderão mais tarde criar qualquer tipo de comportamento físico ou interação, desde o deslocamento de asteróides sem gravidade até o salto de plataformas no estilo Mario.
+Este módulo inicia o processo de dar aos alunos um controle mais refinado de seus jogos. Até agora, os jogos construídos dentro do zgcombat terão usado a estrutura básica do jogo: existem unidades em um plano 2D com um certo conjunto básico de física, as unidades interagem umas com as outras e você controla uma unidade com mouse ou teclado. Com um controle mais refinado, os alunos poderão mais tarde criar qualquer tipo de comportamento físico ou interação, desde o deslocamento de asteróides sem gravidade até o salto de plataformas no estilo Mario.
 
 ### Introdução ao Loop no Jogo
 
@@ -371,7 +371,7 @@ Os alunos também devem revisar o restante do código fornecido:
 
 Este nível introduz gemas, melhor pontuação e jogo infinito. O código de gemas é bastante semelhante aos níveis anteriores: o evento de coleta (quando completado pelo jogador) aumenta a pontuação do jogo sempre que uma gema é coletada. A propriedade de jogo `topScore` é obtida do banco de dados quando o jogo é configurado e é atualizada quando o jogo termina com` setTopScore`.  
   
-O método `onDefeatPlayer`, que o usuário completa, requer atenção especial. A maneira como o sistema de jogo CodeCombat funciona, o jogo está `acabado` quando as metas são concluídas, ou seja, com sucesso ou com falha. No entanto, este nível permite que o jogo continue indefinidamente, por quanto tempo o jogador puder passar sem colidir com uma cerca. O jogo é "ganho" quando o jogador sobrevive por 20 segundos, mas para permitir que o jogador vá mais longe, esse objetivo não é marcado como concluído até que o jogador seja derrotado e seja marcado como bem sucedido ou falido dependendo do tempo  do`jogo`. É por isso que o objetivo manual é definido como sucesso ou falha no manipulador de eventos `derrotar` do jogador.
+O método `onDefeatPlayer`, que o usuário completa, requer atenção especial. A maneira como o sistema de jogo zgcombat funciona, o jogo está `acabado` quando as metas são concluídas, ou seja, com sucesso ou com falha. No entanto, este nível permite que o jogo continue indefinidamente, por quanto tempo o jogador puder passar sem colidir com uma cerca. O jogo é "ganho" quando o jogador sobrevive por 20 segundos, mas para permitir que o jogador vá mais longe, esse objetivo não é marcado como concluído até que o jogador seja derrotado e seja marcado como bem sucedido ou falido dependendo do tempo  do`jogo`. É por isso que o objetivo manual é definido como sucesso ou falha no manipulador de eventos `derrotar` do jogador.
 
 #### Corredor Parte 3
 
@@ -389,7 +389,7 @@ Atividade em grupo: faça com que os alunos se agrupem e cada um ajuste o nível
 **Por que o `onUpdateOgre` é estruturado da maneira como é?**
 
 
-Essa função é um híbrido do CodeCombat e da lógica do usuário. Como a propriedade ogre `behavior` é configurada para` "AttacksNearest" `, o ogro se moverá em direção ao jogador e atacará quando estiver perto o suficiente. No entanto, para este jogo, queremos que o Ogre se mova em um determinado passo para a direita para um ponto específico (x = 18) e, em seguida, pare de se mover para a direita. Assim, esta função de atualização é executada após o CodeCombat ter movido o ogro a uma certa distância para cima ou para baixo e para a direita na direção do jogador, e sobrescreve o conjunto de jogos para `unit.pos.x` com um valor baseado em um rastreador independente e atualizou a propriedade `unit.baseX`. Por exemplo, em um único `frame`, o estado da unidade evoluirá assim:
+Essa função é um híbrido do zgcombat e da lógica do usuário. Como a propriedade ogre `behavior` é configurada para` "AttacksNearest" `, o ogro se moverá em direção ao jogador e atacará quando estiver perto o suficiente. No entanto, para este jogo, queremos que o Ogre se mova em um determinado passo para a direita para um ponto específico (x = 18) e, em seguida, pare de se mover para a direita. Assim, esta função de atualização é executada após o zgcombat ter movido o ogro a uma certa distância para cima ou para baixo e para a direita na direção do jogador, e sobrescreve o conjunto de jogos para `unit.pos.x` com um valor baseado em um rastreador independente e atualizou a propriedade `unit.baseX`. Por exemplo, em um único `frame`, o estado da unidade evoluirá assim:
 
 Posição inicial: {x: 5, y: 5, baseX: 5}
 

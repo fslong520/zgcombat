@@ -16,7 +16,7 @@ const SetupAccountPanel = Vue.extend({
       supportEmail: utils.isOzaria ? "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>" : "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>",
       saving: true,
       error: '',
-      isCodeCombat: utils.isCodeCombat
+      iszgcombat: utils.iszgcombat
     }
   },
   computed: {

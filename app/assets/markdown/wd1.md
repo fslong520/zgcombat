@@ -109,20 +109,20 @@ Have the students "mess up" their `<br>` tags by adding spaces to them or puttin
 
 *starting text*
 ```
-CodeCombat is really fun.
+zgcombat is really fun.
 My hero is the coolest.
 ```
 
 *adding a br tag without angle brackets*
 ```
-CodeCombat is really fun.
+zgcombat is really fun.
 br
 My hero is the coolest.
 ```
 
 *forgetting to close a tag*
 ```
-CodeCombat is really fun. <br
+zgcombat is really fun. <br
 My hero is the coolest.
 ```
 
@@ -307,12 +307,12 @@ We enclose the tag in `<` angle brackets `>` just like with the other elements w
 
 This element is named `img` so we start with that. Be careful not to spell it wrong, or you won't see a picture!
 
-Next, we have `src="http://www.codecombat.com/hero.jpg"` which tells us where the picture is coming from. `src` is an `attribute` (we'll see some more of those later -- we can do things like change the size of our images with them!). `src` is after an equals-sign and inside of quote marks, and needs to be a valid URL that ends in an image file type (like .jpeg or .png or .gif). CodeCombat has a gallery full of images that we can use -- heroes, treasure, monsters, and more!
+Next, we have `src="http://www.codecombat.com/hero.jpg"` which tells us where the picture is coming from. `src` is an `attribute` (we'll see some more of those later -- we can do things like change the size of our images with them!). `src` is after an equals-sign and inside of quote marks, and needs to be a valid URL that ends in an image file type (like .jpeg or .png or .gif). zgcombat has a gallery full of images that we can use -- heroes, treasure, monsters, and more!
 
 
 #### Interact (5 mins)
 
-Have the students select images from the CodeCombat gallery (upper right side of the page, above the editor) and add them to a blank page in the editor. At first, instruct them to copy the whole `<img>` tag, but then see if they can copy the image URL only and construct the tag from scratch.
+Have the students select images from the zgcombat gallery (upper right side of the page, above the editor) and add them to a blank page in the editor. At first, instruct them to copy the whole `<img>` tag, but then see if they can copy the image URL only and construct the tag from scratch.
 
 Circulate to assist; the most common issues with this tag tend to happen around spelling and the placement of the "" around the `src`.
 
@@ -357,7 +357,7 @@ Quick note: all images need to have a `src` attribute, but `height` and `width` 
 
 #### Interact (5-7 mins)
 
-Have the students select images from the CodeCombat gallery (upper right side of the page, above the editor) and add them to a blank page in the editor. Each student should add at least 3 images.
+Have the students select images from the zgcombat gallery (upper right side of the page, above the editor) and add them to a blank page in the editor. Each student should add at least 3 images.
 
 Instruct them to add `height` and `width` attributes to each image.
 

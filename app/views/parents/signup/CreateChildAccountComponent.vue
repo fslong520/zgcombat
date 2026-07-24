@@ -10,7 +10,7 @@
       v-if="!showExistingAccountView"
       class="account__existing account__link-text"
     >
-      Does your child already have a CodeCombat or Ozaria account? <a
+      Does your child already have a zgcombat or Ozaria account? <a
         href="#"
         @click.prevent="linkAccountClicked"
       >Link Accounts</a>

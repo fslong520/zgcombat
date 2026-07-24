@@ -172,18 +172,18 @@ module.exports = (SolutionProblemsView = (function () {
             problems = problems.concat(this.findPass(solution))
             problems = problems.concat(this.findIdenticalToSource(solution, plan))
             problems = problems.concat(this.findTemplateProblems(solution, plan))
-            if (utils.isCodeCombat) {
+            if (utils.iszgcombat) {
               problems = problems.concat(this.findSolutionTemplateProblems(solution, plan))
             }
           }
         }
         this.problemCount += problems.length
-        if (utils.isCodeCombat && solutions.length) { this.levelsWithSolutionsCount++ }
+        if (utils.iszgcombat && solutions.length) { this.levelsWithSolutionsCount++ }
         const pl = {
           level,
           problems
         }
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           pl.solutions = solutions
         }
         this.parsedLevels.push(pl)
@@ -234,7 +234,7 @@ module.exports = (SolutionProblemsView = (function () {
 
     findIdenticalToSource (solution, plan) {
       const problems = []
-      if (utils.isCodeCombat && !plan.languages) {
+      if (utils.iszgcombat && !plan.languages) {
         problems.push({
           type: 'Plan has no languages',
           value: plan
@@ -253,7 +253,7 @@ module.exports = (SolutionProblemsView = (function () {
 
     findTemplateProblems (solution, plan) {
       const problems = []
-      if (utils.isCodeCombat && !plan.languages) {
+      if (utils.iszgcombat && !plan.languages) {
         return problems
       }
       const source = solution.lang === 'javascript' ? plan.source : plan.languages[solution.language]
@@ -265,7 +265,7 @@ module.exports = (SolutionProblemsView = (function () {
       } catch (error) {
         console.log(source, context, error)
         problems.push({
-          type: (utils.isCodeCombat ? 'Plan' : 'Solution') + ' template syntax error',
+          type: (utils.iszgcombat ? 'Plan' : 'Solution') + ' template syntax error',
           value: error.message
         })
       }

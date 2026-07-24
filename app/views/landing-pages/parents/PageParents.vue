@@ -108,7 +108,7 @@
                 style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                 allowfullscreen="true"
-                title="CodeCombat online classes video"
+                title="zgcombat online classes video"
               />
             </div>
           </div>
@@ -249,7 +249,7 @@
               <img
                 class="img-responsive"
                 src="/images/pages/parents/graphic_04.svg"
-                alt="CodeCombat pet following yellow dotted path"
+                alt="zgcombat pet following yellow dotted path"
                 loading="lazy"
               >
             </div>
@@ -1023,7 +1023,7 @@ export default {
       this.showTimetapModal = false
       this.showTimetapConfirmationModal = true
 
-      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type })
+      application.tracker.trackEvent('zgcombat live class booked', { parentsPageType: this.type })
     },
 
     mainCtaButtonText (buttonNum) {

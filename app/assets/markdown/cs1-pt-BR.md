@@ -9,7 +9,7 @@
 
 
 #### Visão Geral
-Com o ambiente certo, aprender os conceitos básicos de sintaxe formal e programação pode ser divertido e intuitivo para os alunos desde o primeiro ano. Em vez de linguagens de programação visual baseadas em blocos que impedem a compreensão correta do código pelo aluno, o CodeCombat introduz a codificação real desde o primeiro nível. Ao fortalecer suas habilidades de digitação, sintaxe e depuração, capacitamos os alunos a se sentirem capazes de construir programas reais com sucesso.
+Com o ambiente certo, aprender os conceitos básicos de sintaxe formal e programação pode ser divertido e intuitivo para os alunos desde o primeiro ano. Em vez de linguagens de programação visual baseadas em blocos que impedem a compreensão correta do código pelo aluno, o zgcombat introduz a codificação real desde o primeiro nível. Ao fortalecer suas habilidades de digitação, sintaxe e depuração, capacitamos os alunos a se sentirem capazes de construir programas reais com sucesso.
 
 _Este guia foi escrito para aulas de Python em mente, mas pode ser facilmente adaptado para JavaScript._
 
@@ -149,7 +149,7 @@ Se o aluno tiver dificuldade em resolver o problema, consulte a [Planilha de Cic
 
 Selecione o prompt apropriado para os alunos responderem, consultando suas anotações.
 
-**Diga-me como jogar CodeCombat.**
+**Diga-me como jogar zgcombat.**
 
 > Você tem que se mover para a gema sem bater nos espinhos. Eu aprendi que você tem que digitar "herói/hero". Depois, o código de movimento. Você tem que soletrar direito e colocar () no final. MAs também mostra o que você pode digitar e selecionar. Você então clica em EXECUTAR para rodar seu código. Você pode tentar quantas vezes precisar.
 
@@ -193,7 +193,7 @@ Os quebra-cabeças desta seção são mais difíceis de resolver do que no prime
 
 Um **loop**  é uma maneira de repetir o código. Uma maneira de escrever loops é usar a palavra-chave _while, _ seguida por  uma **expressão**, que pode ser avaliada como True ou False. _ while_ é uma palavra especial que diz ao computador para avaliar (ou resolver) o que vem depois dele e, em seguida, executar as ações abaixo até que a expressão se torne Falsa.
 
-Estes níveis no CodeCombat requerem um **loop infinito**, ou um loop que repete para sempre.  Para isso, precisamos de uma expressão que seja sempre verdadeira. Por sorte, _True_ é um atalho do Python que sempre é avaliado como Verdadeiro!
+Estes níveis no zgcombat requerem um **loop infinito**, ou um loop que repete para sempre.  Para isso, precisamos de uma expressão que seja sempre verdadeira. Por sorte, _True_ é um atalho do Python que sempre é avaliado como Verdadeiro!
 
 Abaixo, `while` é a palavra chave, e `True` é ume expressão
 ``` python
@@ -392,7 +392,7 @@ Peça aos alunos que sigam até o último nível **Wakka Maul**, e completá-lo 
 
 #### Rankings
 
-Quando os alunos vencerem o computador padrão, eles serão colocados no ranking de classe. As equipes vermelhas só lutam contra equipes azuis e haverá classificações para cada equipe. Os alunos só competirão com o computador e com outros alunos da sua turma no CodeCombat .
+Quando os alunos vencerem o computador padrão, eles serão colocados no ranking de classe. As equipes vermelhas só lutam contra equipes azuis e haverá classificações para cada equipe. Os alunos só competirão com o computador e com outros alunos da sua turma no zgcombat .
 
 Note que os rankings de classe são claramente visíveis. Se alguns alunos forem intimidados pela competição ou por serem classificados publicamente, dê a eles a opção de um exercício de escrita: 
 

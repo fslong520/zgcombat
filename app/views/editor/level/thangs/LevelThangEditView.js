@@ -73,7 +73,7 @@ module.exports = (LevelThangEditView = (function () {
         world: this.world
       }
 
-      if (this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') || utils.isCodeCombat) { options.thangType = thangType }
+      if (this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') || utils.iszgcombat) { options.thangType = thangType }
 
       this.thangComponentEditView = new ThangComponentsEditView(options)
       this.listenTo(this.thangComponentEditView, 'components-changed', this.onComponentsChanged)

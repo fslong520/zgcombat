@@ -132,7 +132,7 @@ module.exports = (CodePlaybackView = (function () {
 
     fun () {
       if ((this.spade.speed === 8) && this.spade.playback) {
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           me.set('music', true)
           me.set('volume', 1)
           if (!this.musicPlayer) {
@@ -147,7 +147,7 @@ module.exports = (CodePlaybackView = (function () {
             src: 'https://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3'
           })
         }
-      } else if (utils.isCodeCombat) {
+      } else if (utils.iszgcombat) {
         if (this.musicPlayer != null) {
           this.musicPlayer.destroy()
         }
@@ -187,7 +187,7 @@ module.exports = (CodePlaybackView = (function () {
 
     destroy () {
       this.clearPlayback()
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         if (this.musicPlayer != null) {
           this.musicPlayer.destroy()
         }

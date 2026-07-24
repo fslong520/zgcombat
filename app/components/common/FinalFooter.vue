@@ -9,14 +9,14 @@ import TikTokIcon from 'app/components/common/social/TikTokIcon.vue'
 import DiscordIcon from 'app/components/common/social/DiscordIcon.vue'
 
 import {
-  isCodeCombat,
+  iszgcombat,
   isOzaria
 } from 'core/utils'
 
 import { COCO_CHINA_CONST } from 'core/constants'
 
 /**
- * Unified footer component between CodeCombat and Ozaria.
+ * Unified footer component between zgcombat and Ozaria.
  */
 export default Vue.extend({
   components: {
@@ -36,7 +36,7 @@ export default Vue.extend({
           component: 'facebook-icon',
           alt: 'Facebook'
         }, {
-          href: 'https://twitter.com/CodeCombat',
+          href: 'https://twitter.com/zgcombat',
           component: 'twitter-icon',
           alt: 'Twitter'
         }, {
@@ -48,7 +48,7 @@ export default Vue.extend({
           component: 'linked-in-icon',
           alt: 'LinkedIn'
         }, {
-          href: 'https://www.youtube.com/@CodeCombat1',
+          href: 'https://www.youtube.com/@zgcombat1',
           component: 'you-tube-icon',
           alt: 'YouTube'
         }, {
@@ -64,8 +64,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    isCodeCombat () {
-      return isCodeCombat
+    iszgcombat () {
+      return iszgcombat
     },
 
     isOzaria () {
@@ -91,7 +91,7 @@ export default Vue.extend({
     img(v-else-if="isOzaria && !darkMode" src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria logo")
     picture(v-else)
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
-      img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+      img(src="/images/pages/base/logo.png" alt="zgcombat logo")
     .social-links
       a(v-for="socialLink in socialLinks" :href="socialLink.href" :alt="socialLink.alt" :key="socialLink.href" target="_blank")
         div.img
@@ -100,7 +100,7 @@ export default Vue.extend({
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
       span {{ $t("nav.copyright_prefix") }}
-      span= ' ©2024 CodeCombat Inc. '
+      span= ' ©2024 zgcombat Inc. '
       span {{ $t("nav.copyright_suffix") }}
       if me.showChinaResourceInfo()
         if me.showChinaHomeVersion()

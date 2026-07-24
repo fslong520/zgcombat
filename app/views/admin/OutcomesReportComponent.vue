@@ -322,7 +322,7 @@ OutcomesReportComponent = {
                   _.min _.map classroom.sessions, (s) -> new Date(s.created)
             Promise.all([
               @fetchCourseInstances(teacher).then (courseInstances) =>
-                if utils.isCodeCombat
+                if utils.iszgcombat
                   _.remove courseInstances, (c) -> c.courseID is '5d41d731a8d1836b5aa3cba1'  # Skip Oz CH1, deleted
                 @courseInstances = courseInstances
               @fetchCourses().then (courses) =>
@@ -331,7 +331,7 @@ OutcomesReportComponent = {
               courseIDs = _.uniq courseInstances.map (courseInstance) =>
                 courseInstance.courseID
               indexedCourses = _.indexBy(courses, '_id')
-              if utils.isCodeCombat
+              if utils.iszgcombat
                 courseIDs = _.filter courseIDs, (courseID) => indexedCourses[courseID]  # Skip unmatched courses, like deleted Oz CH1
               @courses = utils.sortCourses(courseIDs.map (courseID) =>
                 indexedCourses[courseID]

@@ -22,7 +22,7 @@ Note that these are NOT valid student-created abstractions:
 * Game parameter variables in the final Runner level
 * Functions that are only called once or in one place, such as `spawnOgre`
 
-Event functions ARE abstractions, and very good examples of abstractions, but these are created and provided by CodeCombat. If a student were to submit an event handler as an abstraction, they may get a point for row 8 (Explains how the selected abstraction manages the complexity of the program) but not row 7 (Selected code segment is a student-developed abstraction).
+Event functions ARE abstractions, and very good examples of abstractions, but these are created and provided by zgcombat. If a student were to submit an event handler as an abstraction, they may get a point for row 8 (Explains how the selected abstraction manages the complexity of the program) but not row 7 (Selected code segment is a student-developed abstraction).
 
 Variables are also an abstraction, but one that is provided by programming languages. The final level of Runner revolves around several variables which abstract out the parameters which affect the game behavior. These are abstractions, but they are not student-generated abstractions.
 

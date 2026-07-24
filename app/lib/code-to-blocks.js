@@ -684,7 +684,7 @@ function nextify (arr, ctx) {
         target.next = { block: e }
         target = e
       } else if (ctx.nospace) {
-        // Preserve newlines (I think so that we can support CodeCombat levels that don't want to delete them, but I don't actually remember why we do this)
+        // Preserve newlines (I think so that we can support zgcombat levels that don't want to delete them, but I don't actually remember why we do this)
         target.next = { block: { type: 'newline', next: { block: e } } }
         target = e
       } else {

@@ -34,7 +34,7 @@
 -   דירוגים באתרים כגון Amazon,‏ Yelp,‏ Etsy
 -   קהילות לאיסוף ולדירוג של חדשות, כגון Reddit
 -   שירות שמשתף משאבים באופן בלתי-פורמלי, כגון AirBnB,‏ Getaround
--   פרויקטים של קוד פתוח, בכלל זה CodeCombat ו-Linux, בדרך כלל דרך GitHub
+-   פרויקטים של קוד פתוח, בכלל זה zgcombat ו-Linux, בדרך כלל דרך GitHub
 -   שיתוף משאבים חישוביים, כגון Electric Sheep ו-SETI@Home
 -   Reddit Place, פרויקט ליצירה של תמונה בהפקה שיתופית
 

@@ -408,4 +408,4 @@ Sample Response:
 
 
 ## Encourage the students to share links to their final projects with family and friends!
-## We'd love to hear about your best projects! Feel free to e-mail us at team@codecombat.com with a link, or better yet, tweet us @CodeCombat.
+## We'd love to hear about your best projects! Feel free to e-mail us at team@codecombat.com with a link, or better yet, tweet us @zgcombat.

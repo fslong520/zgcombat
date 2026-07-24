@@ -182,7 +182,7 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://www.roblox.com/games/11704713454/CodeCombat-Worlds-Lua-Coding-RPG',
+              link: 'https://www.roblox.com/games/11704713454/zgcombat-Worlds-Lua-Coding-RPG',
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
@@ -296,7 +296,7 @@ export default {
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2018.pdf',
+              link: 'http://files.codecombat.com/docs/resources/hourofcode/HourofCodezgcombatLessonPlan2018.pdf',
             },
           ],
         },

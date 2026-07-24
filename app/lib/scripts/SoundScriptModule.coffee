@@ -79,7 +79,7 @@ module.exports = class SoundScriptModule extends ScriptModule
           loop: true,
           volume: 0.25
         }
-    else # CodeCombat
+    else # zgcombat
       note =
         channel: 'music-player:play-music'
         event: @noteGroup.sound.music

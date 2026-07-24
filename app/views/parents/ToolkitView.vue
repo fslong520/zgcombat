@@ -72,7 +72,7 @@ export default {
         }
       } else {
         return {
-          1500001145602: 'CodeCombat for Educators'
+          1500001145602: 'zgcombat for Educators'
         }
       }
     }

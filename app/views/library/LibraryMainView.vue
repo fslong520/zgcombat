@@ -363,7 +363,7 @@
     <modal-get-licenses
       v-if="showLicenseModal"
       :subtitle="$t('library.license_modal_subtitle')"
-      email-message="Hi CodeCombat team! I’m interested in learning more about CodeCombat and how it can be used for my library or library network membership.
+      email-message="Hi zgcombat team! I’m interested in learning more about zgcombat and how it can be used for my library or library network membership.
 
         Name of Library or Library Network:
         State or Region Served:

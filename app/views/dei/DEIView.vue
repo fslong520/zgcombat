@@ -29,7 +29,7 @@ export default {
         a(href="/")
           img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
         h1(style="margin-bottom:15px;") Our Commitment
-        h2.subtitle-mid The entire team at CodeCombat is committed to ensuring that our content and learning experiences are designed with diversity, equity, and inclusion (DEI) in mind. We follow the design thinking process, which means we're constantly iterating and improving our product based on the unique perspectives of our players from around the world.
+        h2.subtitle-mid The entire team at zgcombat is committed to ensuring that our content and learning experiences are designed with diversity, equity, and inclusion (DEI) in mind. We follow the design thinking process, which means we're constantly iterating and improving our product based on the unique perspectives of our players from around the world.
         div
           a.btn.btn-primary.btn-large.btn-moon.sales-btn(href="/") Explore Ozaria
 

@@ -85,7 +85,7 @@ module.exports = (GameMenuModal = (function () {
         context.iconMap['change-language'] = 'globe'
       }
       context.submenus = submenus
-      context.isCodeCombat = !utils.showOzaria()
+      context.iszgcombat = !utils.showOzaria()
       return context
     }
 

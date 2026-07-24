@@ -7,7 +7,7 @@
       Parent Account Creation
     </div>
     <div class="account__subheading">
-      Check out CodeCombat for free
+      Check out zgcombat for free
     </div>
     <form
       class="account__form"

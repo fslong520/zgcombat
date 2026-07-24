@@ -12,12 +12,12 @@
 
 **O que é programação e projeto em pares**
 
-Ao longo desta unidade, os alunos aprenderão sobre algoritmos por meio de uma mistura de discussão, exploração e programação básica. No final da unidade, os alunos colocarão seus conhecimentos de algoritmos e programação para usar a fim de completar o nível Wakka Maul nos cursos de Introdução à Ciência da Computação ou Pico de Potência na Ciência da Computação 2 no CodeCombat. Em sua colaboração, os alunos trabalharão juntos para criar algoritmos, executá-los em código e analisá-los.
+Ao longo desta unidade, os alunos aprenderão sobre algoritmos por meio de uma mistura de discussão, exploração e programação básica. No final da unidade, os alunos colocarão seus conhecimentos de algoritmos e programação para usar a fim de completar o nível Wakka Maul nos cursos de Introdução à Ciência da Computação ou Pico de Potência na Ciência da Computação 2 no zgcombat. Em sua colaboração, os alunos trabalharão juntos para criar algoritmos, executá-los em código e analisá-los.
 
 **O que você precisa:**
-* Computadores com acesso ao CodeCombat. Cada par de alunos deve ter um computador.
+* Computadores com acesso ao zgcombat. Cada par de alunos deve ter um computador.
 
-Faça com que os alunos naveguem até o nível de Wakka Maul no curso Introdução à Ciência da Computação do CodeCombat ou no nível de Pico de Potência no curso Ciência da Computação 2. Os alunos examinarão o nível individualmente e levarão cerca de cinco minutos para desenvolver uma abstração para um programa que possa resolver o nível. Sua abstração pode incluir um diagrama de estrutura ou simplesmente uma descrição geral do que seu programa fará.
+Faça com que os alunos naveguem até o nível de Wakka Maul no curso Introdução à Ciência da Computação do zgcombat ou no nível de Pico de Potência no curso Ciência da Computação 2. Os alunos examinarão o nível individualmente e levarão cerca de cinco minutos para desenvolver uma abstração para um programa que possa resolver o nível. Sua abstração pode incluir um diagrama de estrutura ou simplesmente uma descrição geral do que seu programa fará.
 
 Depois que os alunos concluírem suas abstrações, coloque-os em grupos de dois. Dê aos alunos dez minutos para compartilhar sua abstração com o parceiro e depois escreva algoritmos para as duas abstrações usando linguagem natural ou pseudocódigo. Circule enquanto as duplas estão trabalhando e incentive-os a discutir suas abstrações e algoritmos em voz alta, se necessário.
 

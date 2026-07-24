@@ -109,20 +109,20 @@ Peça aos alunos que "estraguem" os seus suas tags `<br>`  adicionando espaços 
 
 *começando um texto*
 ```
-CodeCombat é muito legal.
+zgcombat é muito legal.
 Meu Herói é o mais legal.
 ```
 
 *adicionando uma tag br sem o símbolo de maior e menor*
 ```
-CodeCombat é muito legal.
+zgcombat é muito legal.
 br
 Meu Herói é o mais legal.
 ```
 
 *Esquecendo de fechar a tag*
 ```
-CodeCombat é muito legal. <br
+zgcombat é muito legal. <br
 Meu Herói é o mais legal.
 ```
 
@@ -307,12 +307,12 @@ Colocamos a tag em `<`símbolos de maior ou menor `>`assim como com os outros el
 
 Este elemento é nomeado `img` então começamos com isso. Tenha cuidado para não soletrar errado, ou você não verá uma foto!
 
-Em seguida, temos `src="http://www.codecombat.com/hero.jpg"` que nos diz de onde a imagem está vindo. `src` é um `atributo` (veremos mais alguns deles depois - podemos fazer coisas como alterar o tamanho de nossas imagens com elas!). `src` está após um sinal de igual e dentro de aspas, e precisa ser um URL válido que termine em um tipo de arquivo de imagem (como .jpeg ou .png ou .gif). O CodeCombat tem uma galeria cheia de imagens que podemos usar - heróis, tesouros, monstros e muito mais!
+Em seguida, temos `src="http://www.codecombat.com/hero.jpg"` que nos diz de onde a imagem está vindo. `src` é um `atributo` (veremos mais alguns deles depois - podemos fazer coisas como alterar o tamanho de nossas imagens com elas!). `src` está após um sinal de igual e dentro de aspas, e precisa ser um URL válido que termine em um tipo de arquivo de imagem (como .jpeg ou .png ou .gif). O zgcombat tem uma galeria cheia de imagens que podemos usar - heróis, tesouros, monstros e muito mais!
 
 
 #### Interaja (5 mins)
 
-Peça aos alunos que selecionem imagens da galeria do CodeCombat (lado superior direito da página, acima do editor) e adicione-as a uma página em branco no editor. Em primeiro lugar, instrua-os a copiar o toda a tag `<img>` , mas veja se eles podem copiar apenas o URL da imagem e construir a tag desde o início.
+Peça aos alunos que selecionem imagens da galeria do zgcombat (lado superior direito da página, acima do editor) e adicione-as a uma página em branco no editor. Em primeiro lugar, instrua-os a copiar o toda a tag `<img>` , mas veja se eles podem copiar apenas o URL da imagem e construir a tag desde o início.
 
 Circule para ajudar; os problemas mais comuns com esta tag tendem a acontecer em torno da ortografia e da colocação das "" ao redor do `src`.
 
@@ -357,7 +357,7 @@ Nota rápida: todas as imagens precisam ter um atributor `src`,  mas `altura` e 
 
 #### Interaja (5-7 mins)
 
-Peça aos alunos que selecionem imagens da galeria do CodeCombat (lado superior direito da página, acima do editor) e adicione-as a uma página em branco no editor. Cada aluno deve adicionar pelo menos 3 imagens.
+Peça aos alunos que selecionem imagens da galeria do zgcombat (lado superior direito da página, acima do editor) e adicione-as a uma página em branco no editor. Cada aluno deve adicionar pelo menos 3 imagens.
 
 Instrua-os para adicionar os atributos de `altura` e `largura` para cada imagem.
 

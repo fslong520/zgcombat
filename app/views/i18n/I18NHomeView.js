@@ -233,7 +233,7 @@ module.exports = (I18NHomeView = (function () {
       this.addLanguagesToSelect(this.$el.find('#language-select'), this.selectedLanguage)
       this.$el.find('option[value="en-US"]').remove()
       this.$el.find('option[value="en-GB"]').remove()
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'ChatMessage', 'AIScenario'])
       } else {
         return this.addTypesToSelect($('#type-select'), ['ThangType', 'LevelComponent', 'Level', 'Achievement', 'Campaign', 'Poll', 'Course', 'Article', 'ResourceHubResource', 'Interactive', 'Cinematic', 'Cutscene'])

@@ -32,7 +32,7 @@ module.exports = (TeachersContactModal = (function () {
     constructor (options) {
       if (!options) { options = {} }
       super(options)
-      this.isCodeCombat = utils.isCodeCombat
+      this.iszgcombat = utils.iszgcombat
       this.state = new State({
         formValues: {
           name: '',
@@ -166,7 +166,7 @@ module.exports = (TeachersContactModal = (function () {
       const name = props.firstName && props.lastName ? `${props.firstName} ${props.lastName}` : (left = me.get('name')) != null ? left : ''
       const email = me.get('email') || props.email || ''
       const message = `\
-Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
+Hi zgcombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
 
 Name of School ${props.nces_name || props.organization || ''}
 Name of District: ${props.nces_district || props.district || ''}

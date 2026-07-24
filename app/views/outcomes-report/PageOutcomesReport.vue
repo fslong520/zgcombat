@@ -38,7 +38,7 @@ export default {
 
   metaInfo () {
     return {
-      title: `CodeCombat Outcomes Report${this.org ? ' - ' + (this.org.displayName || this.org.name) : ''}`
+      title: `zgcombat Outcomes Report${this.org ? ' - ' + (this.org.displayName || this.org.name) : ''}`
     }
   },
 
@@ -365,11 +365,11 @@ export default {
       courses: (state) => state.byId,
     }),
 
-    isCodeCombat () {
-      return utils.isCodeCombat
+    iszgcombat () {
+      return utils.iszgcombat
     },
     otherProduct () {
-      return utils.isCodeCombat ? 'ozaria' : 'codecombat'
+      return utils.iszgcombat ? 'ozaria' : 'codecombat'
     },
     courseById () {
       return (courseId) => this.$store.state.courses.byId[courseId]
@@ -444,7 +444,7 @@ export default {
 <template lang="pug">
 main#page-outcomes-report
   #report-container
-    img.header-art(:src="`/images/pages/admin/outcomes-report/${isCodeCombat ? 'arryn' : 'hero-b-and-mouse'}.png`")
+    img.header-art(:src="`/images/pages/admin/outcomes-report/${iszgcombat ? 'arryn' : 'hero-b-and-mouse'}.png`")
 
     .header
       div
@@ -477,11 +477,11 @@ main#page-outcomes-report
       if subOrgs.length > subOrgLimit && !editing
         .block.other-sub-orgs
           h3= '(... '+ $t('outcomes.stats_include', { number: subOrgs.length - subOrgLimit, name: kindString(subOrgs[0]).toLowerCase()}) + (subOrgs.length - subOrgLimit > 1 && !chinaInfra ? 's' : '') + ' ...)'
-      img.anya(:src="`/images/pages/admin/outcomes-report/${isCodeCombat ? 'anya' : 'vega'}.png`")
+      img.anya(:src="`/images/pages/admin/outcomes-report/${iszgcombat ? 'anya' : 'vega'}.png`")
       .block.room-for-anya
         h1= $t('outcomes.standards_coverage')
-        p= $t('outcomes.coverage_p1_' + (isCodeCombat ? 'coco' : 'ozar'))
-        p= $t('outcomes.coverage_p2_' + (isCodeCombat ? 'coco' : 'ozar'))
+        p= $t('outcomes.coverage_p1_' + (iszgcombat ? 'coco' : 'ozar'))
+        p= $t('outcomes.coverage_p2_' + (iszgcombat ? 'coco' : 'ozar'))
 
       .bottom
         p= $t('outcomes.questions')

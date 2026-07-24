@@ -9,7 +9,7 @@
 
 
 #### Overview
-With the right environment, learning the basics of formal syntax and typing code can be fun and intuitive for students as early as 3rd grade. Instead of block-based visual programming languages that hinder a student’s proper understanding of code, CodeCombat introduces real coding from the very first level. By strengthening their typing, syntax and debugging skills, we empower students to feel capable of building real programs successfully.
+With the right environment, learning the basics of formal syntax and typing code can be fun and intuitive for students as early as 3rd grade. Instead of block-based visual programming languages that hinder a student’s proper understanding of code, zgcombat introduces real coding from the very first level. By strengthening their typing, syntax and debugging skills, we empower students to feel capable of building real programs successfully.
 
 _This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
 
@@ -150,7 +150,7 @@ If student have trouble breaking the problem down, refer to the [Engineering Cyc
 
 Select appropriate prompt(s) for the students to respond to, referring to their notes.
 
-**Tell me how to play CodeCombat.**
+**Tell me how to play zgcombat.**
 
 >You have to move to the gem without hitting the spikes. I learned that you have to type “hero.” then the moving code. You have to spell it right and put () at the end. But it shows you the things you can type and you can click on them instead. You click RUN to make it go. You can try as many times as you need.
 
@@ -193,7 +193,7 @@ The puzzles in this section are harder to solve than in the first module. Encour
 
 A **loop** is a way of repeating code. One way of writing loops uses the keyword _while,_ followed by an **expression** that can be evaluated as True or False. _while_ is a special word that tells the computer to evaluate (or solve) what comes after it, and then do the actions indented underneath until the expression becomes False.
 
-These levels in CodeCombat require an **infinite loop**, or a loop that repeats forever.  For that, we need an expression that is always true. Luckily, _True_ is a Python shortcut that always evaluates as True!
+These levels in zgcombat require an **infinite loop**, or a loop that repeats forever.  For that, we need an expression that is always true. Luckily, _True_ is a Python shortcut that always evaluates as True!
 
 Below, `while` is the keyword, and `True` is the expression
 ``` python
@@ -304,7 +304,7 @@ Have students navigate to the last level, **Magma Mountain**, and complete it at
 
 #### Rankings**
 
-In the warm up round, students will only compete against the computer. Once students beat the default computer they can create an account to compete with other coders around the world. You can learn about the CodeCombat AI League [here](https://codecombat.com/league).
+In the warm up round, students will only compete against the computer. Once students beat the default computer they can create an account to compete with other coders around the world. You can learn about the zgcombat AI League [here](https://codecombat.com/league).
 
 If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead: 
 

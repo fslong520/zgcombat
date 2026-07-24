@@ -2,43 +2,43 @@
 ## FAQ (Veel Gestelde Vragen)
 
 #### Inhoudsopgave
-* [Wat is CodeCombat?](#wat-is-codecombat)
-* [Voor welke leeftijden is CodeCombat geschikt?](#voor-welke-leeftijden-is-codecombat-geschikt)
-* [Voor welke schoolniveaus is CodeCombat geschikt?](#voor-welke-schoolniveaus-is-codecombat-geschikt)
+* [Wat is zgcombat?](#wat-is-codecombat)
+* [Voor welke leeftijden is zgcombat geschikt?](#voor-welke-leeftijden-is-codecombat-geschikt)
+* [Voor welke schoolniveaus is zgcombat geschikt?](#voor-welke-schoolniveaus-is-codecombat-geschikt)
 * [Welke programmeertalen zijn beschikbaar?](#welke-programmeertalen-zijn-beschikbaar)
-* [Kan ik CodeCombat gebruiken als voornaamste leerplan voor de klas?](#kan-ik-codecombat-gebruiken-als-voornaamste-leerplan-voor-de-klas)
+* [Kan ik zgcombat gebruiken als voornaamste leerplan voor de klas?](#kan-ik-codecombat-gebruiken-als-voornaamste-leerplan-voor-de-klas)
 * [Hoeveel kost het om toegang tot alle beschikbare  cursussen en hulpmiddelen te krijgen?](#hoeveel-kost-het-om-toegang-tot-alle-beschikbare-cursussen-en-hulpmiddelen-te-krijgen)
 * [Wat houdt een licentie in?](#wat-houdt-een-licentie-in)
 * [Hebben jullie gratis cursussen voor onderwijzers om uit te proberen voordat ze de beslissing nemen om licenties aan te schaffen?](#hebben-jullie-gratis-cursussen-voor-onderwijzers-om-uit-te-proberen-voordat-ze-de-beslissing-nemen-om-licenties-aan-te-schaffen)
 * [Kunnen mijn studenten een account aanmaken als ze geen email-adres hebben?](#kunnen-mijn-studenten-een-account-aanmaken-als-ze-geen-email-adres-hebben)
 * [Kan ik de voortgang van mijn studenten volgen?](#kan-ik-de-voortgang-van-mijn-studenten-volgen)
-* [Werkt CodeCombat ook op een iPad?](#werkt-codecombat-ook-op-een-ipad)
-* [Ondersteunt CodeCombat ook Clever Instant Logins?](#ondersteunt-codecombat-ook-clever-instant-logins)
+* [Werkt zgcombat ook op een iPad?](#werkt-codecombat-ook-op-een-ipad)
+* [Ondersteunt zgcombat ook Clever Instant Logins?](#ondersteunt-codecombat-ook-clever-instant-logins)
 * [Wordt er een bepaalde browser en operating system speciaal aangeraden?](#wordt-er-een-bepaalde-browser-en-operating-system-speciaal-aangeraden)
-* [De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt CodeCombat me met die uitdaging?](#de-informatica-achtergrond-van-studenten-wisselt-sterk-in-mijn-klas-hoe-helpt-codecombat-me-met-die-uitdaging)
+* [De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt zgcombat me met die uitdaging?](#de-informatica-achtergrond-van-studenten-wisselt-sterk-in-mijn-klas-hoe-helpt-codecombat-me-met-die-uitdaging)
 * [Wat als ik licenties nodig heb die alleen een periode/semester in plaats van een volledig jaar duren?](#wat-als-ik-licenties-nodig-heb-die-alleen-een-periode-semester-in-plaats-van-een-volledig-jaar-duren)
 * [Wat is het Arena-level aan het einde van een cursus?](#wat-is-het-arena-level-aan-het-einde-van-een-cursus)
-* [Heeft CodeCombat projecten waar studenten aan kunnen werken en delen?](#heeft-codecombat-projecten-waar-studenten-aan-kunnen-werken-en-delen)
+* [Heeft zgcombat projecten waar studenten aan kunnen werken en delen?](#heeft-codecombat-projecten-waar-studenten-aan-kunnen-werken-en-delen)
 * [Wat bieden jullie aan in de Web Development en Game Development-cursussen?](#wat-bieden-jullie-aan-in-de-web-development-en-game-development-cursussen)
 * [Kunnen studenten eerdere levels overslaan als ze de concepten al begrijpen?](#kunnen-studenten-eerdere-levels-overslaan-als-ze-de-concepten-al-begrijpen)
 * [Moet de docent een licentie kopen als ze de levels van hun studenten willen doorlopen?](#moet-de-docent-een-licentie-kopen-als-ze-de-levels-van-hun-studenten-willen-doorlopen)
-* [Hoe begin ik met CodeCombat?](#hoe-begin-ik-met-codecombat)
+* [Hoe begin ik met zgcombat?](#hoe-begin-ik-met-codecombat)
 * [Is er een limiet aan het aantal studenten dat ik kan toevoegen in de Inleiding tot de Computer Wetenschap?](#is-er-een-limiet-aan-het-aantal-studenten-dat-ik-kan-toevoegen-in-de-inleiding-tot-de-computer-wetenschap)
 * [Hoe reset ik het wachtwoord van mijn student?](#hoe-reset-ik-het-wachtwoord-van-mijn-student)
 * [Hoe draag ik een licentie over van de ene student naar de andere?](#hoe-draag-ik-een-licentie-over-van-de-ene-student-naar-de-andere)
 * [Hoe deel ik licenties met andere docenten in mijn organisatie?](#hoe-deel-ik-licenties-met-andere-docenten-in-mijn-organisatie)
 
-### Wat is CodeCombat?
+### Wat is zgcombat?
 
-CodeCombat is een codeerspel waarbij echte getypte code en gepersonaliseerd leren gebruikt wordt om computerwetenschap aan kinderen te onderwijzen, zonder dat de docent een training nodig heeft.
+zgcombat is een codeerspel waarbij echte getypte code en gepersonaliseerd leren gebruikt wordt om computerwetenschap aan kinderen te onderwijzen, zonder dat de docent een training nodig heeft.
 
-### Voor welke leeftijden is CodeCombat geschikt?
+### Voor welke leeftijden is zgcombat geschikt?
 
-CodeCombat wordt aangeraden voor studenten vanaf 9 jaar en daarboven.
+zgcombat wordt aangeraden voor studenten vanaf 9 jaar en daarboven.
 
-### Voor welke schoolniveaus is CodeCombat geschikt?
+### Voor welke schoolniveaus is zgcombat geschikt?
 
-CodeCombat wordt aangeraden voor scholen met studenten vanaf 9 jaar en daarboven, ongeveer vanaf groep 6/7 in Nederland, de &#39;4th grade&#39; in de Verenigde Staten.
+zgcombat wordt aangeraden voor scholen met studenten vanaf 9 jaar en daarboven, ongeveer vanaf groep 6/7 in Nederland, de &#39;4th grade&#39; in de Verenigde Staten.
 
 ### Welke programmeertalen zijn beschikbaar?
 
@@ -50,9 +50,9 @@ We onderschrijven op dit moment Python en JavaScript.
 
 De syntax van JavaScript is iets moeilijker voor beginners dan Python, dus als je niet kunt kiezen tussen de twee, raden we Python aan.
 
-### Kan ik CodeCombat gebruiken als voornaamste leerplan voor de klas?
+### Kan ik zgcombat gebruiken als voornaamste leerplan voor de klas?
 
-Absoluut! We hebben onderwijsspecialisten geraadpleegd om lesmateriaal en materiaal voor de leraren die CodeCombat gebruiken te maken, zodat ook leraren die geen voorafgaande computerwetenschappelijke ervaring hebben het programma kunnen gebruiken. Veel scholen gebruiken CodeCombat als hun belangrijkste computerwetenschappelijke curriculum.
+Absoluut! We hebben onderwijsspecialisten geraadpleegd om lesmateriaal en materiaal voor de leraren die zgcombat gebruiken te maken, zodat ook leraren die geen voorafgaande computerwetenschappelijke ervaring hebben het programma kunnen gebruiken. Veel scholen gebruiken zgcombat als hun belangrijkste computerwetenschappelijke curriculum.
 
 We hebben een reeks leerplannen gepubliceerd in onze [Resource Hub](/teachers/resources), waarin lesplannen staan, oefeningen, activiteiten en schrijfsuggesties om reflectie en het onthouden van de informatie te stimuleren. We maken ook printbare handleidingen beschikbaar voor studenten om naar te verwijzen terwijl ze door de levels heen werken. Daarnaast bieden we level-oplossingen voor elke cursus, zodat de docenten de fouten in de code kunnen opmerken en corrigeren als ze tevoorschijn komen.
 
@@ -76,21 +76,21 @@ Ja – studenten die zich aanmelden met een klassencode of een klassenlink krijg
 
 Ja, het Docenten Dashboard geeft gedetailleerde informatie over de voortgang van je studenten, de tijd die ze nodig hadden en totale klassenstatistieken, en geeft je ook de mogelijkheid om cursussen toe te wijzen aan studenten en hier controle op te houden.
 
-### Werkt CodeCombat ook op een iPad?
+### Werkt zgcombat ook op een iPad?
 
 Op dit moment worden iPads of Android Tablets nog niet ondersteund.
 
-### Ondersteunt CodeCombat ook Clever Instant Logins?
+### Ondersteunt zgcombat ook Clever Instant Logins?
 
 Ja! Check onze [Clever Integration FAQ](/teachers/resources/clever-faq) voor meer details over hoe je moet beginnen.
 
 ### Wordt er een bepaalde browser en operating system speciaal aangeraden?
 
-CodeCombat werkt het beste op computers met ten minste 4GB RAM-geheugen, op een moderne browser zoals Chrome, Safari, Firefox, of Edge. Chromebooks met 2GB RAM-geheugen zouden kleine grafische problemen kunnen ondervinden in de latere cursussen. Een minimum bandbreedte van 300 Kbps per student is noodzakelijk, hoewel 1+ Mbps wordt aangeraden.
+zgcombat werkt het beste op computers met ten minste 4GB RAM-geheugen, op een moderne browser zoals Chrome, Safari, Firefox, of Edge. Chromebooks met 2GB RAM-geheugen zouden kleine grafische problemen kunnen ondervinden in de latere cursussen. Een minimum bandbreedte van 300 Kbps per student is noodzakelijk, hoewel 1+ Mbps wordt aangeraden.
 
-### De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt CodeCombat me met die uitdaging?
+### De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt zgcombat me met die uitdaging?
 
-Veel docenten hebben te maken met de uitdaging dat studenten in hun klas verschillende behoeften hebben. Je bent niet de enige. CodeCombat lost je probleem op door een gepersonaliseerde leerervaring te bieden aan je studenten.
+Veel docenten hebben te maken met de uitdaging dat studenten in hun klas verschillende behoeften hebben. Je bent niet de enige. zgcombat lost je probleem op door een gepersonaliseerde leerervaring te bieden aan je studenten.
 
 We weten dat verschillende studenten met een verschillende snelheid leren, en soms hebben ze misschien extra begeleiding nodig bij nieuwe onderwerpen. We hebben twee nieuwe functies gebouwd om de leercurve van studenten te vergemakkelijken als ze vastzitten: Hints, en Oefenlevels.
 
@@ -108,7 +108,7 @@ De standaardlicentie voor studentenlicenties is voor een jaar, maar kan indien n
 
 Zie de [Arena Levels Guide](/teachers/resources/arenas) (Arena Levels Handleiding) voor meer details.
 
-### Heeft CodeCombat projecten waar studenten aan kunnen werken en delen?
+### Heeft zgcombat projecten waar studenten aan kunnen werken en delen?
 
 Our game development and web development courses are all project-based! Teachers and students love those courses because they get to be the &#39;creator&#39; in those projects. At the end of these courses they will also be able to showcase their projects by sharing permanent project links.
 
@@ -118,7 +118,7 @@ Onze game-ontwikkeling en webontwikkelingcursussen zijn allemaal gebaseerd op pr
 
 **Webontwikkeling** In onze Web Development-cursussen leren studenten de fundamenten van het bouwen van interactieve websites met behulp van HTML, CSS en JavaScript. Alle webpagina&#39;s worden automatisch gepubliceerd naar een aangepaste URL zodat studenten hun voltooide project gemakkelijk kunnen delen met vrienden en familie. Bekijk deze voorbeeldposter door een van de studenten van ons zomercoderingskamp - het resultaat van slechts een uur werk van een student die nog geen ervaring had met webontwikkeling!
 
-**Game-ontwikkeling** Wat is nog leuker dan een game spelen? Zelf je eigen spel maken! In onze cursussen voor spelontwikkeling leren studenten hoe ze hun eigen levels in CodeCombat-stijl kunnen bouwen en deze door vrienden en familie kunnen laten uitproberen, door het spel met muis en toetsenbord te laten spelen. Na verloop van tijd zullen ze de tools ontgrendelen die nodig zijn om uitdagende puzzels te maken en hun vaardigheden op het gebied van gamedesign te oefenen om de volgende ster- spelontwerper te worden. De eindprojecten voor elke cursus kunnen worden gedeeld, ze worden gepubliceerd naar een aangepaste URL zodat studenten eenvoudig hun games met vrienden en familie kunnen delen.
+**Game-ontwikkeling** Wat is nog leuker dan een game spelen? Zelf je eigen spel maken! In onze cursussen voor spelontwikkeling leren studenten hoe ze hun eigen levels in zgcombat-stijl kunnen bouwen en deze door vrienden en familie kunnen laten uitproberen, door het spel met muis en toetsenbord te laten spelen. Na verloop van tijd zullen ze de tools ontgrendelen die nodig zijn om uitdagende puzzels te maken en hun vaardigheden op het gebied van gamedesign te oefenen om de volgende ster- spelontwerper te worden. De eindprojecten voor elke cursus kunnen worden gedeeld, ze worden gepubliceerd naar een aangepaste URL zodat studenten eenvoudig hun games met vrienden en familie kunnen delen.
 
 Docenten kunnen alle Web- en Game-ontwikkelingslevels bekijken door naar de pagina Cursushandleidingen [Course Guides](/teachers/courses) te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s.
 
@@ -132,7 +132,7 @@ Leraren kunnen cursussen naar eigen goeddunken toewijzen, maar we raden aan dat 
 
 Nee. Docenten kunnen alle spel-levels bekijken en afspelen door naar de pagina Cursushandleidingen [Course Guides](/teachers/courses)  te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s. Level-voortgang wordt niet opgeslagen.
 
-### Hoe begin ik met CodeCombat?
+### Hoe begin ik met zgcombat?
 
 Starten:
 

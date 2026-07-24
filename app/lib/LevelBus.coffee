@@ -214,7 +214,7 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     return if utils.isOzaria and e and e.capstoneInProgress
     state = @session.get('state')
-    if utils.isCodeCombat
+    if utils.iszgcombat
       return if state.complete
       state.complete = true
       @session.set('state', state)

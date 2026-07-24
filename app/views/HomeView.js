@@ -32,7 +32,7 @@ const isCoco = function () {
   if (window.location.pathname.startsWith('/ozaria')) {
     return false
   }
-  return utils.isCodeCombat
+  return utils.iszgcombat
 }
 
 const PRODUCT_SUFFIX = isCoco() ? 'coco' : 'ozar'
@@ -328,7 +328,7 @@ module.exports = (HomeView = (function () {
             title = $.i18n.t('payments.studentLicense_successful')
             type = 'success'
             if (utils.getQueryVariable('tecmilenio')) {
-              title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
+              title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de zgcombat.'
             }
             this.trackPurchase(`Student license purchase ${type}`)
           } else {

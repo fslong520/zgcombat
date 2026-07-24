@@ -50,14 +50,14 @@ module.exports = (AllCoursesCertificatesView = (function () {
       this.utils = utils
       if (this.userID === me.id) {
         this.user = me
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           this.setHero()
         }
       } else {
         this.user = new User({ _id: this.userID })
         this.user.fetch()
         this.supermodel.trackModel(this.user)
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           this.listenToOnce(this.user, 'sync', () => (typeof this.setHero === 'function' ? this.setHero() : undefined))
         }
         this.user.fetchNameForClassmate({

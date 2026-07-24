@@ -69,7 +69,7 @@ module.exports = (ThangComponentConfigView = (function () {
       if (schema.default == null) { schema.default = {} }
       if (this.additionalDefaults) { _.merge(schema.default, this.additionalDefaults) }
 
-      if (utils.isCodeCombat || (this.level != null ? this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') : undefined)) {
+      if (utils.iszgcombat || (this.level != null ? this.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') : undefined)) {
         schema.required = []
       }
       const treemaOptions = {

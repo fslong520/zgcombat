@@ -683,7 +683,7 @@ module.exports = Lank = class Lank extends CocoClass
   updateMarks: ->
     return unless @options.camera
     # Don't show errored-out mark in Ozaria
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @addMark 'repair', null, 'repair' if @thang?.erroredOut
       @marks.repair?.toggle @thang?.erroredOut
 
@@ -784,7 +784,7 @@ module.exports = Lank = class Lank extends CocoClass
       label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
       label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @dialogueSoundInstance?.stop()
       if @dialogueSoundInstance = @playSound sound, false
         @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
@@ -795,7 +795,7 @@ module.exports = Lank = class Lank extends CocoClass
   onClearDialogue: (e) ->
     return unless @labels.dialogue?.text
     @labels.dialogue?.setText null
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}
 
@@ -869,7 +869,7 @@ module.exports = Lank = class Lank extends CocoClass
           $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
 
   playSound: (sound, withDelay=true, volume=1.0) ->
-    if utils.isCodeCombat
+    if utils.iszgcombat
       if _.isString sound
         soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
         sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
@@ -996,6 +996,6 @@ module.exports = Lank = class Lank extends CocoClass
     @sprite?.off 'animationend', @playNextAction
     @sprite?.destroy?()
     clearInterval @effectInterval if @effectInterval
-    if utils.isCodeCombat
+    if utils.iszgcombat
       @dialogueSoundInstance?.removeAllEventListeners()
     super()

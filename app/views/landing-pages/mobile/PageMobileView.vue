@@ -2,7 +2,7 @@
   <div id="page-mobile">
     <div class="page-mobile-container">
       <a
-        v-if="isCodeCombat"
+        v-if="iszgcombat"
         href="/"
       ><img
         class="coco-logo"
@@ -23,7 +23,7 @@
       </p>
 
       <img
-        v-if="isCodeCombat && activeStep===STEP_DONE"
+        v-if="iszgcombat && activeStep===STEP_DONE"
         src="/images/pages/mobile/you-re-set.svg"
         class="title-image"
       >
@@ -53,7 +53,7 @@
             :class="{'step-name':activeStep===STEP_NAME}"
           >
             <img
-              v-if="isCodeCombat"
+              v-if="iszgcombat"
               src="/images/pages/mobile/hero1.svg"
               :class="{'moved-out':activeStep!==STEP_EMAIL}"
             >
@@ -120,7 +120,7 @@
             :class="{'moved-out': activeStep===STEP_DONE}"
           >
             <img
-              v-if="isCodeCombat"
+              v-if="iszgcombat"
               class="hero-2"
               src="/images/pages/mobile/hero2.png"
               :class="{'moved-out': activeStep!==0}"
@@ -161,7 +161,7 @@
             {{ $t('mobile_landing.video_title') }}
           </h4>
           <base-cloudflare-video
-            v-if="(isCodeCombat && activeStep===STEP_DONE)"
+            v-if="(iszgcombat && activeStep===STEP_DONE)"
             ref="video"
             video-cloudflare-id="100412c840bf03141644c1855784c785"
           />
@@ -234,7 +234,7 @@ export default Vue.extend({
       STEP_NAME: 1,
       STEP_DONE: 2,
       registrationInProgress: false,
-      isCodeCombat: utils.isCodeCombat,
+      iszgcombat: utils.iszgcombat,
       isOzaria: utils.isOzaria
     }
   },

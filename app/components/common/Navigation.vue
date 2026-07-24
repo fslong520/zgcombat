@@ -4,7 +4,7 @@ import {
   CODECOMBAT,
   getQueryVariable,
   isChinaOldBrowser,
-  isCodeCombat,
+  iszgcombat,
   isOzaria,
   OZARIA,
   ozBaseURL,
@@ -63,7 +63,7 @@ export const items = {
 }
 
 /**
- * Unified navigation bar component between CodeCombat and Ozaria.
+ * Unified navigation bar component between zgcombat and Ozaria.
  */
 export default Vue.extend({
   components: {
@@ -98,8 +98,8 @@ export default Vue.extend({
       return isChinaOldBrowser()
     },
 
-    isCodeCombat () {
-      return isCodeCombat
+    iszgcombat () {
+      return iszgcombat
     },
 
     isOzaria () {
@@ -224,7 +224,7 @@ export default Vue.extend({
     checkLocation (route, host = undefined) {
       let hostCheck = true
       if (host === CODECOMBAT) {
-        hostCheck = this.isCodeCombat
+        hostCheck = this.iszgcombat
       } else if (host === OZARIA) {
         hostCheck = this.isOzaria
       }
@@ -274,12 +274,12 @@ export default Vue.extend({
               a(v-if="isOzaria" :href="homeLink")
                 picture
                   source.logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
-                  img.logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by CodeCombat logo" title="Ozaria" aria-label="Home")
+                  img.logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by zgcombat logo" title="Ozaria" aria-label="Home")
               a(v-else :href="homeLink")
                 picture(v-if="!me.showChinaResourceInfo()")
                   source.logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                  img.logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img.logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+                  img.logo-img.powered-by(src="/images/pages/base/logo.png" alt="zgcombat logo")
+                img.logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="zgcombat logo")
               a(v-if="partnerLogo" :href="homeLink")
                 img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
 
@@ -306,11 +306,11 @@ export default Vue.extend({
                       img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
                       h5 {{ me.broadName() }}
                   //- Account links
-                  li(v-if="isCodeCombat")
+                  li(v-if="iszgcombat")
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
+                  li(v-if="iszgcombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")

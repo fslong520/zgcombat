@@ -18,7 +18,7 @@ module.exports = (GameDevVictoryModal = (function () {
       this.prototype.events = {
         'click #replay-game-btn': 'onClickReplayButton',
         'click #copy-url-btn': 'onClickCopyURLButton',
-        'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
+        'click #play-more-codecombat-btn': 'onClickPlayMorezgcombatButton'
       }
     }
 
@@ -42,8 +42,8 @@ module.exports = (GameDevVictoryModal = (function () {
       return (window.tracker != null ? window.tracker.trackEvent('Play GameDev Victory Modal - Copy URL', this.eventProperties) : undefined)
     }
 
-    onClickPlayMoreCodeCombatButton () {
-      return (window.tracker != null ? window.tracker.trackEvent('Play GameDev Victory Modal - Click Play More CodeCombat', this.eventProperties) : undefined)
+    onClickPlayMorezgcombatButton () {
+      return (window.tracker != null ? window.tracker.trackEvent('Play GameDev Victory Modal - Click Play More zgcombat', this.eventProperties) : undefined)
     }
   }
   GameDevVictoryModal.initClass()

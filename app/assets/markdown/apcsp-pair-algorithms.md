@@ -12,12 +12,12 @@
 
 **What is Pair Design and Programming?**
 
-Throughout this unit, students will learn about algorithms through a mix of discussion, exploration, and basic programming. At the end of the unit, the students will put their knowledge of algorithms and programming to use in order to complete the level Wakka Maul in the Introduction to Computer Science or Power Peak in the Computer Science 2 courses on CodeCombat. In their collaboration, the students will work together to create algorithms, execute them in code, and analyze them.
+Throughout this unit, students will learn about algorithms through a mix of discussion, exploration, and basic programming. At the end of the unit, the students will put their knowledge of algorithms and programming to use in order to complete the level Wakka Maul in the Introduction to Computer Science or Power Peak in the Computer Science 2 courses on zgcombat. In their collaboration, the students will work together to create algorithms, execute them in code, and analyze them.
 
 **What you need:**
-* Computers with access to CodeCombat. Each student pair should have one computer.
+* Computers with access to zgcombat. Each student pair should have one computer.
 
-Have the students navigate to the Wakka Maul level in CodeCombat’s Introduction to Computer Science or the Power Peak level in Computer Science 2 course. Students will examine the level individually then take about five minutes to develop an abstraction for a program that can solve the level. Their abstraction can include a structure diagram or simply a general description of what their program will do.
+Have the students navigate to the Wakka Maul level in zgcombat’s Introduction to Computer Science or the Power Peak level in Computer Science 2 course. Students will examine the level individually then take about five minutes to develop an abstraction for a program that can solve the level. Their abstraction can include a structure diagram or simply a general description of what their program will do.
 
 Once the students have completed their abstractions, place them into groups of two. Give the students ten minutes to share their abstraction with their partner then write algorithms for both abstractions using either natural language or pseudocode. Circle around while the partner groups are working and encourage them to discuss their abstractions and algorithms out loud if necessary.
 

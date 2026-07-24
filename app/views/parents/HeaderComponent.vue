@@ -18,7 +18,7 @@
         >
           <img
             src="/images/pages/parents/dashboard/codecombat-logo.svg"
-            alt="CodeCombat logo"
+            alt="zgcombat logo"
             class="header__logos"
           >
         </div>
@@ -50,14 +50,14 @@
         <div class="header__item__img-parent">
           <img
             src="/images/pages/parents/dashboard/alejandro.png"
-            alt="CodeCombat character"
+            alt="zgcombat character"
             class="header__item__img"
           >
         </div>
         <div class="header__item__data">
           <ul class="header__sell-info">
             <li class="header__sell-item">
-              Full access to CodeCombat and Ozaria
+              Full access to zgcombat and Ozaria
             </li>
             <li class="header__sell-item">
               Unlock 500+ levels
@@ -109,7 +109,7 @@
         <div class="header__item__img-parent">
           <img
             src="/images/pages/parents/dashboard/illia-reading.png"
-            alt="CodeCombat character"
+            alt="zgcombat character"
             class="header__item__img"
           >
         </div>

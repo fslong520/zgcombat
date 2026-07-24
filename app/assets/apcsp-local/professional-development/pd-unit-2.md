@@ -16,9 +16,9 @@ While the bulk of unit 2 focuses on what algorithms are, how they are used and p
 - EU 7.3 Computing has global effects — both beneficial and harmful — on people and society.
 
 
-This unit encapsulates the curriculum listed above. The corresponding CodeCombat courses is CS2. If you haven’t played this course earlier when we introduced “What is CodeCombat,” feel free to play it now. You can access any course or level through your [Teacher Course Guides](https://codecombat.com/teachers/courses) . 
+This unit encapsulates the curriculum listed above. The corresponding zgcombat courses is CS2. If you haven’t played this course earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Course Guides](https://codecombat.com/teachers/courses) . 
 
-As part of CodeCombat’s professional development, complete at least one of the Unit 2 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
+As part of zgcombat’s professional development, complete at least one of the Unit 2 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
 ### [Searching & Sorting](https://codecombat.com/apcsp/markdown/apcsp-search-sort) : 
 This activity focuses on the concept of algorithms, specifically the pros and cons of the different types of algorithms. After exploring this activity, you should be able to explain the difference between algorithms and weigh pros and cons of each.

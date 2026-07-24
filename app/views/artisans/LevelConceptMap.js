@@ -74,7 +74,7 @@ module.exports = (LevelConceptMap = (function () {
     }
 
     initialize () {
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         loadAetherLanguage('javascript').then(aetherLang => {
           if (typeof esper !== 'undefined') {
             ({
@@ -160,7 +160,7 @@ module.exports = (LevelConceptMap = (function () {
             }
           }))
 
-          if (utils.isCodeCombat && (thangs.length > 2)) {
+          if (utils.iszgcombat && (thangs.length > 2)) {
             console.warn('Level has more than 2 programmableMethod Thangs', levelSlug)
             continue
           }

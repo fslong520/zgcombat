@@ -17,7 +17,7 @@ export default {
   main.container-fluid#acr-view
     section.row#jumbotron-container-fluid
       .item-list
-        img.logo-image(src="/images/pages/base/logo.png" alt="CodeCombat branding logo")
+        img.logo-image(src="/images/pages/base/logo.png" alt="zgcombat branding logo")
         img.logo-image(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
         h1(style="margin-bottom:15px;") Accessibility Conformance Report (VPAT®)
         h2.subtitle-mid Computer Science education, accessible to all.
@@ -26,7 +26,7 @@ export default {
 
     section#acr-summary
       h1.heading-corner Summary
-      p CodeCombat and Ozaria comply with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Revised Section 508 Standards, including full screen reader support for Ozaria. We are committed to providing a website that is accessible to the widest possible audience, regardless of technology or ability. View the Accessibility Conformance Report (ACR) here, which is based on the VPAT® 2.4.
+      p zgcombat and Ozaria comply with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Revised Section 508 Standards, including full screen reader support for Ozaria. We are committed to providing a website that is accessible to the widest possible audience, regardless of technology or ability. View the Accessibility Conformance Report (ACR) here, which is based on the VPAT® 2.4.
 
       a.btn.btn-primary.btn-large.btn-moon.download-html-btn(href="/acr/acr.html" download target="_blank" aria-label="Download HTML") Download (human-readable HTML)
       a.btn.btn-primary.btn-large.btn-moon.download-yaml-btn(href="/acr/acr.yaml" download target="_blank" aria-label="Download YAML") Download (machine-readable YAML)

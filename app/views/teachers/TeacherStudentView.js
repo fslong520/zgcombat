@@ -49,11 +49,11 @@ module.exports = (TeacherStudentView = (function () {
       let idTarget
       const link = $(e.target).closest('a')
       const levelSlug = link.data('level-slug')
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         idTarget = link.attr('id').split('-')[0]
       }
       const solutionIndex = link.data('solution-index')
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         let left, levelOriginal
         let lang = (left = this.classroom.get('aceConfig').language) != null ? left : 'python'
         if ([utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(this.selectedCourseId) !== -1) {
@@ -197,7 +197,7 @@ module.exports = (TeacherStudentView = (function () {
           return aceEditors.push(aceEditor)
         }
       })
-      if (utils.isCodeCombat) {
+      if (utils.iszgcombat) {
         const view = this
         this.aceDiffs = {}
         const showAceDiff = this.paidTeacher || utils.allFreeCourseIDs.includes(this.selectedCourseId)
@@ -237,7 +237,7 @@ module.exports = (TeacherStudentView = (function () {
       this.levelSolutionsMap = this.levels.getSolutionsMap([this.classroom.get('aceConfig')?.language, 'html'])
       this.levelStudentCodeMap = {}
       this.capstoneGuidedCode = {}
-      // I it's not clear why the value is _plan_ in Ozaria and {plan:_plan_,...} in CodeCombat
+      // I it's not clear why the value is _plan_ in Ozaria and {plan:_plan_,...} in zgcombat
       if (utils.isOzaria) {
         return (() => {
           const result = []
@@ -259,7 +259,7 @@ module.exports = (TeacherStudentView = (function () {
           }
           return result
         })()
-      } else { // CodeCombat
+      } else { // zgcombat
         return (() => {
           const result1 = []
           for (const session of this.sessions.models) {
@@ -397,7 +397,7 @@ module.exports = (TeacherStudentView = (function () {
           const StandardDev = Math.sqrt(variance)
           const PerformanceStandardDev = Math.sqrt(performanceVariance)
 
-          let perf = utils.isCodeCombat ? -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev : -(studentCourseTotal - mean) / StandardDev
+          let perf = utils.iszgcombat ? -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev : -(studentCourseTotal - mean) / StandardDev
           perf = perf > 0 ? Math.ceil(perf) : Math.floor(perf)
 
           result.push(this.courseComparisonMap.push({

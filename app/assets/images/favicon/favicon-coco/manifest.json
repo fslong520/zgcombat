@@ -1,6 +1,6 @@
 {
-  "short_name": "CodeCombat",
-  "name": "CodeCombat",
+  "short_name": "zgcombat",
+  "name": "zgcombat",
   "icons": [
       {
           "src": "/images/favicon/favicon-coco/android-chrome-192x192.png",
@@ -17,5 +17,5 @@
   "display": "standalone",
   "orientation": "landscape",
   "scope": "/play/",
-  "description": "CodeCombat is a game that teaches real Python and JavaScript coding and computer science"
+  "description": "zgcombat is a game that teaches real Python and JavaScript coding and computer science"
 }

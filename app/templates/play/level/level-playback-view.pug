@@ -1,7 +1,7 @@
 button.btn.btn-xs.btn-inverse#play-button.paused
   .glyphicon.glyphicon-play
   .glyphicon.glyphicon-pause
-  if view.utils.isCodeCombat
+  if view.utils.iszgcombat
     .glyphicon.glyphicon-repeat
   
 if !view.options.level.isType('game-dev')
@@ -10,13 +10,13 @@ if !view.options.level.isType('game-dev')
       .progress.secret#timeProgress
         .progress-bar
           .scrubber-handle
-          if view.utils.isCodeCombat
+          if view.utils.iszgcombat
             .popover.fade.top.in#timePopover
               .arrow
               h3.popover-title
               .popover-content
 
-if view.utils.isCodeCombat
+if view.utils.iszgcombat
   .btn-group.dropup#playback-settings
     button.btn.btn-xs.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume")
       .glyphicon.glyphicon-volume-off

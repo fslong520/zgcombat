@@ -14,9 +14,9 @@ This unit allows students to finish the Game Development 3 levels they began in 
 - EU 6.3 Cybersecurity is an important concern for the Internet and the systems built on it.
 - EU 7.4 Computing innovations influence and are influenced by the economic, social, and cultural contexts in which they are designed and used.
 
-This unit encapsulates the curriculum listed above. The corresponding CodeCombat courses are CS3 and GD3. If you haven’t played these courses earlier when we introduced “What is CodeCombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
+This unit encapsulates the curriculum listed above. The corresponding zgcombat courses are CS3 and GD3. If you haven’t played these courses earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Account Course Guides](https://codecombat.com/teachers/courses) . 
 
-As part of CodeCombat’s professional development, complete at least one of the Unit 5 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
+As part of zgcombat’s professional development, complete at least one of the Unit 5 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
 ### [Lossy & Lossless Compression](https://codecombat.com/apcsp/markdown/apcsp-compression) : 
 After this activity, you will be able to explain the difference and effects of compression. There are trade-offs when representing information with data, this activity will provide insight to you and your students as to what they are and give you confidence on how data is involved with computational manipulation.

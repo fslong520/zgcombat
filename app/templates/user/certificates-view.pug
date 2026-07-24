@@ -43,7 +43,7 @@ style.
       if view.campaign
         img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-cs1.png")
     div(class="certificate-contents")
-      if view.utils.isCodeCombat && !view.utils.showOzaria()
+      if view.utils.iszgcombat && !view.utils.showOzaria()
         img.logo-img(src="/images/pages/base/logo.png")
       if me.isTecmilenio()
         img.tecmilenio-logo(src="/images/pages/user/certificates/tecmilenio-logo.png")
@@ -158,6 +158,6 @@ style.
               .course-ribbon
                 img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
 
-      if view.utils.isCodeCombat && !view.utils.showOzaria() && view.thangType && view.thangType.loaded
+      if view.utils.iszgcombat && !view.utils.showOzaria() && view.thangType && view.thangType.loaded
         - var heroSlug = view.thangType.get('slug') || 'captain';
         img(src='/images/pages/user/certificates/poses/pose-' + heroSlug + '.png', class='hero-pose ' + heroSlug)

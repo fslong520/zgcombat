@@ -36,8 +36,8 @@ Para expandir as opções do aluno ao criar seus próprios jogos, os alunos prec
 
 Exemplos:
 
-* Os personagens CodeCombat podem atacar mais perto, defender ou fugir
-* Esqueletos do CodeCombat fogem quando o jogador está carregando um orbe de luz
+* Os personagens zgcombat podem atacar mais perto, defender ou fugir
+* Esqueletos do zgcombat fogem quando o jogador está carregando um orbe de luz
 
 
 **Como alguns desses comportamentos se parecem no código?**
@@ -172,7 +172,7 @@ def randomResult():
 
 Esta função retorna entre 0 e 1024 \. Usando Math, podemos criar algoritmos que retornam todos os tipos de resultados aleatórios.
 
-**Que outras coisas no CodeCombat você pode fazer quando um inimigo é derrotado?**
+**Que outras coisas no zgcombat você pode fazer quando um inimigo é derrotado?**
 
 
 Exemplos:
@@ -185,7 +185,7 @@ Exemplos:
 
 **Quais são as várias maneiras pelas quais os jogos são considerados “vencidos” ou “perdidos”? Como isso seria no código?**
 
-Incentive o pensamento sobre metas que não incluem as fornecidas pelo CodeCombat até agora (derrote inimigos, sobreviva, colete, chegue a um local).
+Incentive o pensamento sobre metas que não incluem as fornecidas pelo zgcombat até agora (derrote inimigos, sobreviva, colete, chegue a um local).
 
 Exemplos:
 * Complete uma série de missões

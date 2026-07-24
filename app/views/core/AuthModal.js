@@ -71,7 +71,7 @@ module.exports = (AuthModal = (function () {
             return this.onClickGPlusLoginButton()
           }),
         })
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           // No Facebook login in Ozaria
           application.facebookHandler.loadAPI({ success: () => _.defer(() => this.$('#facebook-login-btn').attr('disabled', false)) })
         }
@@ -119,7 +119,7 @@ module.exports = (AuthModal = (function () {
               errorID,
             } = jqxhr.responseJSON
             if (errorID === 'not-found') {
-              forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('loading_error.' + (utils.isCodeCombat ? 'user_not_found' : 'not_found'))) // todo: update i18n
+              forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('loading_error.' + (utils.iszgcombat ? 'user_not_found' : 'not_found'))) // todo: update i18n
               showingError = true
             }
             if (errorID === 'wrong-password') {
@@ -379,7 +379,7 @@ var loginNavigate = function (subModalContinue) {
     } else if (me.isTeacher()) {
       if (me.isSchoolAdmin()) {
         // todo: unify?
-        if (utils.isCodeCombat) {
+        if (utils.iszgcombat) {
           application.router.navigate('/teachers/licenses', { trigger: true })
         } else {
           application.router.navigate('/school-administrator', { trigger: true })
