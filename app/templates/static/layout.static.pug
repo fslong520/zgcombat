@@ -143,10 +143,11 @@ html(lang='en')
         var bdKey = product == 'codecombat' ? 'ffc38c02cf8f484ab8f785b58dfa8b6e' : 'fd876f45e00409837a7a2619b2ce1709'
         var _hmt = _hmt || [];
         (function () {
+          // Offline: do not load Baidu analytics (external, blocked).
           var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?#{bdKey}";
+          hm.src = "";
           var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
+          if (hm.src) { s.parentNode.insertBefore(hm, s); }
         })();
 
     // Datadog logging

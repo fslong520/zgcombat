@@ -179,12 +179,20 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       }
       if (action === 'levels') {
         // e.g. /db/campaign/<handle>/levels -> levels belonging to a campaign.
+        // Campaign.levels is keyed by level `original` (family id), NOT document `_id`.
+        // Offline dump has distinct _id/original, so query both.
         if (req.params.collection === 'campaign') {
           const campDoc = await resolveCampaign(id);
           if (campDoc && campDoc.levels) {
-            const levelIds = Object.keys(campDoc.levels).map(x => new ObjectId(x));
-            const docs = await cocoDb.collection('levels').find({ _id: { $in: levelIds } }).toArray();
-            return res.status(200).json(docs);
+            const levelIds = Object.keys(campDoc.levels)
+              .filter(x => /^[a-f0-9]{24}$/i.test(x))
+              .map(x => new ObjectId(x));
+            if (levelIds.length) {
+              const docs = await cocoDb.collection('levels')
+                .find({ $or: [{ _id: { $in: levelIds } }, { original: { $in: levelIds } }] })
+                .toArray();
+              return res.status(200).json(docs);
+            }
           }
         }
         return res.status(200).json([]);
