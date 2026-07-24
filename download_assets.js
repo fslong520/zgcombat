@@ -40,6 +40,7 @@ const relpaths = [];
 // Normalize + accept a relative path if it looks like a servable /file/* asset.
 function add(p) {
   if (!p || typeof p !== 'string') return;
+  if (p.includes('#{')) return; // CoffeeScript string interpolation -> not a literal
   p = p.replace(/^\/file\//, '').replace(/^\/+/, '').trim();
   if (!p) return;
   const ok = /^(db\/[^/]+\/[0-9a-f]{24}\/.+?\.(mp3|ogg|wav))$/i.test(p) ||
@@ -78,15 +79,18 @@ function scanCodeFile(file) {
   while ((m = reIface.exec(s))) { addBase('interface/' + m[1]); }
 
   // playSound('x') / preloadSound('x') / preloadSoundReference(...)
-  // --- resolution: if it's a path already, use it; a bare name here is a
-  //     thang-event name resolved via MongoDB soundTriggers (not interface).
+  // --- resolution: if it's a path already, use it. A bare name may be EITHER
+  //     a thang-event (resolved via MongoDB soundTriggers) OR an interface
+  //     sound (e.g. playSound('playback-play'), playSound('level_loaded')).
+  //     We try the interface variant for bare names too; spurious ones just 404.
   const reName = /(?:playSound|preloadSound|preloadSoundReference)\s*[\(]?\s*['"]([^'"]+)['"]/g;
   while ((m = reName.exec(s))) {
     const n = m[1];
     if (n.startsWith('/file/') || n.startsWith('db/') || n.startsWith('interface/') || n.startsWith('music/')) {
       add(n);
+    } else {
+      addBase('interface/' + n); // playback-play, level_loaded, goals-* etc.
     }
-    // bare thang-event names are skipped here (covered by the MongoDB scan)
   }
 
   // explicit /file/(interface|music|db)/... literals
@@ -100,6 +104,12 @@ function scanCodeFile(file) {
   // 'audio-player:play-sound' triggers -> interface sound names (literal trigger)
   const reTrig = /audio-player:play-sound['"][^}]*?trigger:\s*['"]([^'"]+)['"]/g;
   while ((m = reTrig.exec(s))) { addBase('interface/' + m[1]); }
+
+  // Terrain -> ambient sound maps, e.g. {Dungeon:'ambient-dungeon', Grass:'ambient-grass'}
+  // (require the value to start with 'ambient-' so we don't sweep in the
+  //  localized terrain *display* names like Masmorra/Montagne from i18n dicts)
+  const reTerr = /(?:Dungeon|Grass|Snow|Desert|Volcano|Mountain|Cave|Forest|Swamp)\s*:\s*['"](ambient-[a-z0-9_]+)['"]/gi;
+  while ((m = reTerr.exec(s))) { addBase('interface/' + m[1]); }
 
   // Local string arrays in audio-related files (e.g. jinbles = ['ident_1','ident_2'])
   // -> treat each token as a candidate interface sound. Only when the array is
@@ -188,6 +198,8 @@ async function main() {
   // Music tracks: enumerate the known level-music range (CodeCombat ships
   // ~12 level tracks). Beyond that, specific music is discovered from the DB.
   for (let n = 1; n <= 12; n++) { addBase('music/music_level_' + n); }
+  // spell-palette-entry-open-<i> are built via string interpolation (#{i})
+  for (let n = 0; n <= 15; n++) { addBase('interface/spell-palette-entry-open-' + n); }
 
   console.log('Connecting to MongoDB to scan ALL collections...');
   const client = new MongoClient('mongodb://127.0.0.1:27017');

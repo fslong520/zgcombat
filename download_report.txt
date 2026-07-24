@@ -1,4 +1,4 @@
-download_assets run @ 2026-07-23T18:09:11.827Z
+download_assets run @ 2026-07-24T01:17:27.405Z
   scanned collection "level.components": 373 docs
   scanned collection "articles": 46 docs
   scanned collection "patches": 26380 docs
@@ -8,42 +8,84 @@ download_assets run @ 2026-07-23T18:09:11.827Z
   scanned collection "campaigns": 33 docs
   scanned collection "achievements": 924 docs
   scanned collection "polls": 14 docs
-Discovered 1655 unique paths; ok=0 cached=1619 failed=36
+Discovered 1745 unique paths; ok=1 cached=1666 failed=78
 
 --- FAILED (genuinely missing upstream) ---
   fail 404  interface/warcry.mp3
   fail 404  interface/warcry.ogg
   fail 404  interface/confuse.ogg
-  fail 404  interface/curse.mp3
-  fail 404  interface/confuse.mp3
-  fail 404  interface/fear.mp3
-  fail 404  interface/control.mp3
   fail 404  interface/control.ogg
+  fail 404  interface/control.mp3
   fail 404  interface/curse.ogg
+  fail 404  interface/confuse.mp3
+  fail 404  interface/curse.mp3
+  fail 404  interface/fear.mp3
   fail 404  interface/fear.ogg
   fail 404  interface/poison.mp3
-  fail 404  interface/poison.ogg
+  fail 404  interface/regen.mp3
   fail 404  interface/paralyze.ogg
   fail 404  interface/paralyze.mp3
   fail 404  interface/regen.ogg
   fail 404  interface/sleep.mp3
   fail 404  interface/sleep.ogg
-  fail 404  interface/slow.ogg
-  fail 404  interface/regen.mp3
+  fail 404  interface/poison.ogg
   fail 404  interface/slow.mp3
-  fail 404  interface/haste.mp3
+  fail 404  interface/playback-scrub-end.mp3
+  fail 404  interface/slow.ogg
+  fail 404  interface/selected.mp3
   fail 404  interface/haste.ogg
+  fail 404  interface/haste.mp3
+  fail 404  interface/selected.ogg
+  fail 404  interface/full-screen-start.ogg
+  fail 404  interface/full-screen-end.ogg
+  fail 404  interface/real-time-playback-start.ogg
+  fail 404  interface/loading-view-unveil.ogg
+  fail 404  interface/spell-palette-entry-unpin.mp3
+  fail 404  interface/playback-scrub-end.ogg
+  fail 404  interface/real-time-playback-end.ogg
+  fail 404  interface/ambient-dungeon.ogg
+  fail 404  interface/ambient-grass.ogg
+  fail 404  interface/manual-cast-denied.mp3
+  fail 404  interface/manual-cast-denied.ogg
+  fail 404  interface/spell-palette-entry-pin.ogg
+  fail 404  interface/spell-palette-entry-unpin.ogg
+  fail 404  interface/code-change.mp3
+  fail 404  interface/code-change.ogg
   fail 404  music/music_level_6.mp3
   fail 404  music/music_level_6.ogg
-  fail 404  music/music_level_7.ogg
   fail 404  music/music_level_7.mp3
-  fail 404  music/music_level_8.mp3
-  fail 404  music/music_level_8.ogg
-  fail 404  music/music_level_9.mp3
-  fail 404  music/music_level_10.ogg
-  fail 404  music/music_level_10.mp3
-  fail 404  music/music_level_11.mp3
   fail 404  music/music_level_9.ogg
+  fail 404  music/music_level_8.mp3
+  fail 404  music/music_level_7.ogg
+  fail 404  music/music_level_9.mp3
+  fail 404  music/music_level_10.mp3
+  fail 404  music/music_level_8.ogg
+  fail 404  music/music_level_10.ogg
+  fail 404  music/music_level_11.mp3
   fail 404  music/music_level_11.ogg
   fail 404  music/music_level_12.mp3
   fail 404  music/music_level_12.ogg
+  fail 404  interface/spell-palette-entry-open-4.ogg
+  fail 404  interface/spell-palette-entry-open-5.ogg
+  fail 404  interface/spell-palette-entry-open-6.ogg
+  fail 404  interface/spell-palette-entry-open-6.mp3
+  fail 404  interface/spell-palette-entry-open-7.ogg
+  fail 404  interface/spell-palette-entry-open-5.mp3
+  fail 404  interface/spell-palette-entry-open-8.mp3
+  fail 404  interface/spell-palette-entry-open-4.mp3
+  fail 404  interface/spell-palette-entry-open-7.mp3
+  fail 404  interface/spell-palette-entry-open-8.ogg
+  fail 404  interface/spell-palette-entry-open-9.mp3
+  fail 404  interface/spell-palette-entry-open-11.mp3
+  fail 404  interface/spell-palette-entry-open-13.ogg
+  fail 404  interface/spell-palette-entry-open-11.ogg
+  fail 404  interface/spell-palette-entry-open-12.mp3
+  fail 404  interface/spell-palette-entry-open-10.ogg
+  fail 404  interface/spell-palette-entry-open-9.ogg
+  fail 404  interface/spell-palette-entry-open-12.ogg
+  fail 404  interface/spell-palette-entry-open-10.mp3
+  fail 404  interface/spell-palette-entry-open-13.mp3
+  fail 404  interface/spell-palette-entry-open-14.ogg
+  fail 404  interface/spell-palette-entry-open-14.mp3
+  fail 404  interface/spell-palette-entry-open-15.mp3
+  fail 404  interface/spell-palette-entry-open-15.ogg
