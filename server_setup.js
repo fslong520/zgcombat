@@ -277,8 +277,11 @@ var setupQuickBailToMainHTML = function(app) {
     return renderMain(template, req, res);
   });
 
-  app.get('/', fast('home.html'));
-  app.get('/home', fast('home.html'));
+  // Offline hub: serve the SPA shell (main.html → Vue PageHome), NOT the
+  // pre-rendered marketing home.html (which sets alreadyLoadedView=HomeView
+  // and freezes the old ad-heavy homepage).
+  app.get('/', fast('main.html'));
+  app.get('/home', fast('main.html'));
   app.get('/play', fast('overworld.html'));
   app.get('/play/level/:slug', fast('main.html'));
   app.get('/play/:slug', fast('main.html'));

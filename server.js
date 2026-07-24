@@ -137,6 +137,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/db/user/:id', serveAnonymousUser);
   app.put('/db/user/:id', serveAnonymousUser);
   app.patch('/db/user/:id', serveAnonymousUser);
+  // CocoModel.pollAchievements → GET /db/user/<id>/achievements?notified=false
+  // Must return [] (collection), never 404, or console screams
+  // "Miserably failed to fetch unnotified achievements".
+  app.get('/db/user/:id/achievements', function (req, res) { return res.status(200).json([]); });
   // Sub-resource writes the SPA issues (e.g. /db/user/announcements/new,
   // /db/user/announcement/read) would otherwise 404. Answer 200 with [].
   app.post('/db/user/:id/:sub', function (req, res) { return res.status(200).json([]); });

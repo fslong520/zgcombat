@@ -253,203 +253,6 @@ export default Vue.extend({
       return application.router.navigate('/announcements', { trigger: true })
     },
 
-    getNavbarData () {
-      const anonymous = {
-        educators: {
-          url: isCodeCombat ? '/schools' : '/',
-          title: 'nav.educators',
-          children: [
-            items.CREATE_FREE_ACCOUNT,
-            items.SCHOOL_AND_DISTRICT,
-            items.TEACHER_TOOLKIT_PREVIEW,
-            items.STANDARDS,
-            items.EFFICACY,
-            items.SUCCESS,
-            items.PD,
-            items.HOC,
-            items.GRANTS,
-            items.DEMO,
-          ],
-        },
-        parents: {
-          url: this.cocoPath('/parents'),
-          title: 'nav.parent',
-        },
-        play: {
-          url: this.cocoPath('/play'),
-          title: 'nav.play2',
-          children: [
-            {
-              ...items.COCO_HOME,
-              description: 'nav.coco_home_description',
-            },
-            {
-              ...items.COCO_CLASSROOM,
-              description: 'nav.coco_classroom_description',
-            },
-            {
-              ...items.COCO_JUNIOR,
-              description: 'nav.coco_junior_description',
-            },
-            {
-              ...items.OZ_CLASSROOM,
-              description: 'nav.oz_classroom_description',
-            },
-            {
-              ...items.AP_CSP,
-              description: 'nav.ap_csp_description',
-            },
-            {
-              ...items.AI_LEAGUE,
-              description: 'nav.ai_league_description',
-            },
-            {
-              ...items.ROBLOX,
-              description: 'nav.roblox_description',
-            },
-            {
-              ...items.AI_HACKSTACK,
-              description: 'nav.ai_hackstack_description',
-            },
-            {
-              ...items.AI_JUNIOR,
-              description: 'nav.ai_junior_description',
-            },
-          ],
-        },
-      }
-
-      const teacherCocoClasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'nav.ozaria_teacher_dashboard' }
-
-      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
-      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.ozaria_admin_dashboard' }
-
-      const educator = {
-        'my-dashboards': {
-          title: 'nav.my_dashborads',
-          children: [
-            ...(isCodeCombat ? [teacherCocoClasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoClasses, ozarAdmin, cocoAdmin]),
-          ],
-        },
-        resources: {
-          title: 'nav.resources',
-          children: [
-            items.TEACHER_TOOLKIT,
-            items.SCHOOL_AND_DISTRICT,
-            items.STANDARDS,
-            { ...items.EFFICACY, filter: isOzaria },
-            { ...items.SUCCESS, filter: isCodeCombat },
-            items.PD,
-            items.HOC,
-            items.GRANTS,
-            items.DEMO,
-          ],
-        },
-        curriculum: {
-          title: 'nav.curriculum',
-          children: [
-            ...(isCodeCombat
-              ? [items.COCO_CLASSROOM, items.COCO_JUNIOR, items.OZ_CLASSROOM]
-              : [items.OZ_CLASSROOM, items.COCO_CLASSROOM, items.COCO_JUNIOR]
-            ),
-            items.AP_CSP,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
-          ],
-        },
-      }
-
-      const studentCocoClassroom = {
-        ...items.COCO_CLASSROOM,
-        url: this.cocoPath('/students'),
-      }
-
-      const studentOzarClassroom = {
-        ...items.OZ_CLASSROOM,
-        url: this.ozPath('/students'),
-      }
-
-      const student = {
-        'my-courses': {
-          title: 'nav.my_courses',
-          children: [
-            ...(
-              isCodeCombat
-                ? [studentCocoClassroom, studentOzarClassroom]
-                : [studentOzarClassroom, studentCocoClassroom]
-            ),
-            items.AI_LEAGUE,
-            items.ROBLOX,
-          ],
-        },
-      }
-
-      const parent = {
-        dashboard: {
-          title: 'nav.dashboard',
-          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard'),
-        },
-        'learning-options': {
-          title: 'nav.learning_options',
-          children: [
-            items.LIVE_ONLINE_CLASSES,
-            items.PREMIUM,
-          ],
-        },
-        curriculum: {
-          title: 'nav.curriculum',
-          children: [
-            items.COCO_HOME,
-            items.COCO_JUNIOR,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
-          ],
-        },
-      }
-      const individual = {
-        'learning-options': {
-          title: 'nav.learning_options',
-          children: [
-            items.LIVE_ONLINE_CLASSES,
-            items.PREMIUM,
-          ],
-        },
-        play: {
-          title: 'nav.play2',
-          children: [
-            items.COCO_HOME,
-            items.COCO_JUNIOR,
-            items.AI_LEAGUE,
-            items.ROBLOX,
-            items.AI_HACKSTACK,
-            items.AI_JUNIOR,
-          ],
-        },
-      }
-
-      if (me.isAnonymous()) {
-        return anonymous
-      }
-
-      if (me.isTeacher()) {
-        return educator
-      }
-
-      if (me.isStudent()) {
-        return student
-      }
-
-      if (me.isParentHome()) {
-        return parent
-      }
-
-      return individual
-    },
   },
 })
 </script>
@@ -485,29 +288,6 @@ export default Vue.extend({
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-          .collapse.navbar-collapse
-            .nav-spacer
-            ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
-              li
-              template(v-if="me.showChinaResourceInfo()")
-                li
-                  a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}
-
-                li
-                  a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
-
-              li(v-for="navItem in getNavbarData()")
-                ul.nav.navbar-nav(v-if="navItem.children")
-                  li.dropdown.dropdown-hover
-                    a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t(navItem.title) }}
-                      caret.dropdown-caret(v-if="useDarkMode" color="white")
-                      caret.dropdown-caret(v-else color="black")
-                    ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
-                      li(v-for="child in navItem.children.filter(child => child.hide!==true)")
-                        a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
-                          div.text-description(v-if="child.description") {{ $t(child.description) }}
-                a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
           .navbar-collapse.collapse(v-if="!float")
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
@@ -549,6 +329,32 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                   li(v-else-if="serverSession && serverSession.switchingUserActualId && me.isTestStudent()")
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
+                  li.divider(role="separator")
+                  li.dropdown-header 高级功能
+                  li
+                    a.account-dropdown-item(href="/play") 世界地图
+                  li
+                    a.account-dropdown-item(href="/play/dungeon") 地牢战役
+                  li
+                    a.account-dropdown-item(href="/play/level/dungeons-of-kithgard") 第一关
+                  li
+                    a.account-dropdown-item(href="/ladder") 天梯
+                  li
+                    a.account-dropdown-item(href="/students") 学生课程
+                  li
+                    a.account-dropdown-item(href="/teachers/classes") 教师班级
+                  li
+                    a.account-dropdown-item(href="/apcsp") AP CSP
+                  li
+                    a.account-dropdown-item(href="/editor/level") 关卡编辑
+                  li
+                    a.account-dropdown-item(href="/editor/thang") Thang 编辑
+                  li
+                    a.account-dropdown-item(href="/editor/article") 文章编辑
+                  li
+                    a.account-dropdown-item(href="/i18n") 国际化
+                  li
+                    a.account-dropdown-item(href="/about") 关于
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
             div.right-side-nav

@@ -500,7 +500,10 @@ class CocoModel extends Backbone.Model {
         if (!_.isEmpty(collection.models)) { return me.fetch(({ cache: false, success () { return Backbone.Mediator.publish('achievements:new', { earnedAchievements: collection }) } })) }
       },
       error () {
-        return console.error('Miserably failed to fetch unnotified achievements', arguments)
+        // Offline / stub backends commonly lack earned_achievement rows; don't spam console.
+        if (typeof console !== 'undefined' && console.debug) {
+          return console.debug('[achievements] unnotified fetch skipped/failed (offline-ok)', arguments)
+        }
       },
       cache: false,
     })

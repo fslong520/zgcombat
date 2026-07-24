@@ -2,6 +2,60 @@ doctype html
 block begin
 html(lang='en')
   head
+    //- Offline shell: block third-party analytics/pixels only.
+    //- Same-origin assets (relative paths + same host:port as the page, including
+    //- Tailscale/LAN) must load — host allowlists that only list 127.0.0.1 break SPA.
+    script.
+      (function(){
+        function isExternal(u){
+          if(!u) return false;
+          if(typeof u!=='string'){ try{u=String(u)}catch(e){return false} }
+          if(/^data:/.test(u)) return false;
+          if(/^blob:/.test(u)) return false;
+          if(/^[#?]/.test(u)) return false;
+          // same-origin path: /foo, ./foo (not //cdn)
+          if(u.charAt(0)==='/' && u.charAt(1)!=='/') return false;
+          if(u.charAt(0)==='.') return false;
+          try{
+            var url=new URL(u, location.href);
+            return url.origin !== location.origin;
+          }catch(e){ return false; }
+        }
+        var noop=function(){return noop;};
+        window.ga=function(){return noop;}; window.ga.q=[];
+        window.gtag=function(){}; window.fbq=function(){}; window._fbq=window.fbq;
+        window.dataLayer=window.dataLayer||[]; window._gaq=window._gaq||[];
+        window.cookieconsent={initialise:function(){},hasConsented:function(){return true;},setStatus:function(){},getStatus:function(){return 'allow';}};
+        window.OneTrust={Init:function(){},LoadBanner:function(){},GetDomainData:function(cb){if(cb)cb({});}};
+        window.__tcfapi=function(){}; window.adroll=function(){}; window.pintrk=function(){}; window.twq=function(){};
+        try{ if(navigator&&navigator.sendBeacon){navigator.sendBeacon=function(){return true;};} }catch(e){}
+        var _fetch=window.fetch?window.fetch.bind(window):null;
+        window.fetch=function(input,init){
+          var u=(input&&typeof input==='object'&&input.url)?input.url:input;
+          if(isExternal(u)){return Promise.resolve(new Response('{}',{status:200,statusText:'OK',headers:{'Content-Type':'application/json'}}));}
+          return _fetch?_fetch(input,init):Promise.reject(new TypeError('no fetch'));
+        };
+        var _open=XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open=function(m,u){ if(isExternal(u)){this.__blk=true;} return _open.apply(this,arguments); };
+        var _send=XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send=function(){
+          if(this.__blk){ var s=this; setTimeout(function(){ try{ s.dispatchEvent(new Event('loadend')); s.dispatchEvent(new Event('load')); }catch(e){} },0); return; }
+          return _send.apply(this,arguments);
+        };
+        var _create=document.createElement.bind(document);
+        document.createElement=function(tag){
+          var el=_create(tag); var t=(tag||'').toLowerCase();
+          if(t==='script'||t==='link'||t==='img'){
+            try{
+              var attr=t==='script'?'src':(t==='link'?'href':'src');
+              Object.defineProperty(el,attr,{configurable:true,
+                get:function(){return el.getAttribute(attr);},
+                set:function(v){ if(isExternal(v)){ el.setAttribute('data-blocked',v); } else { el.setAttribute(attr,v); } }});
+            }catch(e){}
+          }
+          return el;
+        };
+      })();
     - var product = me.getProduct()
     - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
     - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'

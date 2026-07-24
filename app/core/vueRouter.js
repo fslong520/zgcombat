@@ -424,7 +424,7 @@ export default function getVueRouter () {
         {
           path: '/',
           name: 'HomeBeta2',
-          component: () => import(/* webpackChunkName: "homeBeta2" */'app/views/home/PageHome'),
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome'),
         },
         {
           path: '/admin/low-usage-users',

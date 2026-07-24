@@ -634,6 +634,11 @@ module.exports = (CocoRouter = (function () {
       if (options == null) { options = {} }
       this.vueRouter.push(`/${Backbone.history.getFragment()}`).catch(e => console.error('vue router push warning:', e))
 
+      // Static marketing shells set alreadyLoadedView='HomeView'. Offline we
+      // always want Vue PageHome (HomeBeta); do not let the static flag win.
+      if (window.alreadyLoadedView === 'HomeView' && utils.isCodeCombat) {
+        delete window.alreadyLoadedView
+      }
       if (window.alreadyLoadedView) {
         path = window.alreadyLoadedView
       }
