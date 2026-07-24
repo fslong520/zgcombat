@@ -672,8 +672,16 @@ module.exports = (CocoRouter = (function () {
       }
 
       if (!_.string.startsWith(path, 'views/')) { path = `views/${path}` }
+      const requireView = dynamicRequire[path]
+      if (typeof requireView !== 'function') {
+        // A routed view has no entry in the dynamicRequire map (e.g. its
+        // source file is missing). Redirect to NotFound instead of throwing
+        // "dynamicRequire[path] is not a function".
+        console.warn(`[router] no dynamicRequire entry for view: ${path}`)
+        return go('NotFoundView')
+      }
       return Promise.all([
-        dynamicRequire[path](), // Load the view file
+        requireView(), // Load the view file
         // The locale load is already initialized by `application`, just need the promise
         locale.load(me.get('preferredLanguage', true)),
       ]).then((...args1) => {

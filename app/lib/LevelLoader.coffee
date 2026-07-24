@@ -594,6 +594,14 @@ module.exports = class LevelLoader extends CocoClass
   onWorldNecessitiesLoaded: ->
     console.debug "World necessities loaded." if LOG
     return if @initialized
+    # serialize() pulls EVERY non-Hero ThangType still in SuperModel (leftover Units
+    # from prior levels / inventory browsing, e.g. Wizard Dude, test-wyrm). Those
+    # bring component.originals that populateLevel never requested, so sortThangComponents
+    # logs "couldn't find lc". Before first initWorld, ensure their LevelComponents load.
+    unless @ensuredAllThangComponents
+      @ensuredAllThangComponents = true
+      if @ensureComponentsForAllThangTypes()
+        return
     @initialized = true
     @initWorld()
     @supermodel.clearMaxProgress()
@@ -616,8 +624,28 @@ module.exports = class LevelLoader extends CocoClass
 
     @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 
+  # Load LevelComponents for every ThangType already in SuperModel (not just this
+  # level's names list). Returns true if any new fetch was kicked off.
+  ensureComponentsForAllThangTypes: ->
+    added = false
+    for tt in @supermodel.getModels(ThangType)
+      continue unless components = tt?.get?('components')
+      for component in components when component?.original?
+        major = if component.majorVersion? then component.majorVersion else 0
+        url = "/db/level.component/#{component.original}/version/#{major}"
+        if res = @maybeLoadURL(url, LevelComponent, 'component')
+          @worldNecessities.push res
+          added = true
+    added
+
   maybeLoadURL: (url, Model, resourceName) ->
-    return if @supermodel.getModel(url)
+    # Bust incomplete version stubs (e.g. offline stub returned {} as 200) so a later
+    # successful /db restore can re-fill SuperModel instead of forever cache-hitting empties.
+    if existing = @supermodel.getModel(url)
+      if existing.loaded and not (existing.get('original') and existing.get('name'))
+        delete @supermodel.models[url]
+      else
+        return null
     model = new Model().setURL url
     @supermodel.loadModel(model, resourceName)
 

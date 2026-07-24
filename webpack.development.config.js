@@ -53,11 +53,17 @@ module.exports = (env) => {
     new webpack.BannerPlugin({ // Label each module in the output bundle
       banner: "hash:[fullhash], chunkhash:[chunkhash], name:[name], filebase:[base], query:[query], file:[file]"
     }),
-    new LiveReloadPlugin({ // Reload the page upon rebuild
-      appendScriptTag: true,
-      useSourceHash: true,
-      port: process.env.WEBPACK_LIVE_RELOAD_PORT || (process.env.COCO_PRODUCT == 'ozaria' ? 35729 : 35432)
-    })
+    // Offline SPA: LiveReload injects a <script> from :35432 that then fails with
+    // "LiveReload disabled because it could not find its own <SCRIPT> tag" when
+    // the plugin server isn't running / script id doesn't match. Skip inject.
+    // Set WEBPACK_LIVE_RELOAD=1 to re-enable during local CSS/JS iteration.
+    ...(process.env.WEBPACK_LIVE_RELOAD === '1' ? [
+      new LiveReloadPlugin({
+        appendScriptTag: true,
+        useSourceHash: true,
+        port: process.env.WEBPACK_LIVE_RELOAD_PORT || (process.env.COCO_PRODUCT == 'ozaria' ? 35729 : 35432)
+      })
+    ] : [])
   ]
   return smp.wrap(
     _.merge(baseConfig, {

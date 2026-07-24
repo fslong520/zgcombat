@@ -84,8 +84,10 @@ module.exports = (ItemDetailsView = (function () {
     }
 
     onDocsLoaded (levelComponents) {
-      for (const component of Array.from(levelComponents.models)) {
-        for (const propDoc of Array.from(component.get('propertyDocumentation'))) {
+      const models = (levelComponents && levelComponents.models) || []
+      for (const component of Array.from(models)) {
+        const propDocs = component.get('propertyDocumentation') || []
+        for (const propDoc of Array.from(propDocs)) {
           if (/^cast.+/.test(propDoc.name)) {
             this.spellDocs[propDoc.name] = propDoc
           } else {

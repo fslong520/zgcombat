@@ -95,7 +95,15 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     'article': 'articles',
     'patch': 'patches',
     'patches': 'patches',
-    'poll': 'polls'
+    'poll': 'polls',
+    'concept': 'concepts',
+    'concepts': 'concepts',
+    'exam': 'exams',
+    'exams': 'exams',
+    'podcast': 'podcasts',
+    'podcasts': 'podcasts',
+    'ai_junior_scenario': 'ai_junior_scenarios',
+    'ai_junior_scenarios': 'ai_junior_scenarios'
   };
 
   const toProjection = function (projectParam) {
@@ -120,12 +128,26 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
         .catch(function () { return res.status(200).json(anonymousUser); });
     } else {
-      return res.status(200).json(anonymousUser);
+      // Non-objectId sub-resources such as /db/user/announcements are
+      // collection endpoints the SPA iterates as an ARRAY; answering with the
+      // anonymousUser OBJECT here makes data.slice() throw. Answer [] instead.
+      return res.status(200).json([]);
     }
   };
   app.get('/db/user/:id', serveAnonymousUser);
   app.put('/db/user/:id', serveAnonymousUser);
   app.patch('/db/user/:id', serveAnonymousUser);
+  // Sub-resource writes the SPA issues (e.g. /db/user/announcements/new,
+  // /db/user/announcement/read) would otherwise 404. Answer 200 with [].
+  app.post('/db/user/:id/:sub', function (req, res) { return res.status(200).json([]); });
+
+  // Offline SPA: never let the browser / SuperModel forever-cache empty stubs of
+  // versioned docs. Cache-Control on all /db GETs; version miss returns 404 not {}.
+  app.use('/db', function (req, res, next) {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.set('Pragma', 'no-cache');
+    return next();
+  });
 
   app.get('/db/:collection/:id?/:action?', async function (req, res) {
     try {
@@ -166,6 +188,20 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           }
         }
         return res.status(200).json([]);
+      }
+      if (action === 'rankings') {
+        return res.status(200).json([]);
+      }
+      if (action === 'rankings-count') {
+        return res.status(200).json({ count: 0 });
+      }
+      if (action === 'random_session_pair') {
+        const dummy = '000000000000000000000000';
+        return res.status(200).json([{ _id: dummy }, { _id: dummy }]);
+      }
+      if (action === 'game-content') {
+        // Campaign curriculum guide expects { modules:{}, introLevels:{} }.
+        return res.status(200).json({ modules: {}, introLevels: {} });
       }
 
       // Collection "names" endpoint: /db/<collection>/names?ids[]=... returns an ARRAY
@@ -215,10 +251,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/db/:collection/:id/version/:version', async function (req, res) {
     try {
       const mongoColl = DB_COLLECTIONS[req.params.collection];
-      if (!mongoColl || !cocoDb) { return res.status(200).json({}); }
+      // 503 not {} when mongo not ready — prevents SuperModel caching empty forever.
+      if (!mongoColl) { return res.status(404).json({ message: 'unknown collection' }); }
+      if (!cocoDb) { return res.status(503).json({ message: 'db not ready' }); }
       const coll = cocoDb.collection(mongoColl);
       const project = toProjection(req.query.project);
-      const opts = project ? { projection: project } : {};
+      // Always keep original/name/_id so SuperModel can match later; project may strip them.
+      const opts = {};
+      if (project) {
+        opts.projection = Object.assign({ original: 1, name: 1, _id: 1 }, project);
+      }
       const id = req.params.id;
       let doc = null;
       if (/^[a-f0-9]{24}$/i.test(id)) {
@@ -228,10 +270,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       }
       if (!doc) { doc = await coll.findOne({ slug: id }, opts); }
       if (!doc) { doc = await coll.findOne({ name: id }, opts); }
-      return res.status(200).json(doc || {});
+      if (!doc) { return res.status(404).json({ message: 'not found', id }); }
+      return res.status(200).json(doc);
     } catch (e) {
       console.error('[db] version route error', req.method, req.path, e.message);
-      return res.status(200).json({});
+      return res.status(500).json({ message: e.message });
     }
   });
 

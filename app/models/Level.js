@@ -50,7 +50,13 @@ module.exports = (Level = (function () {
       const o = this.denormalize(supermodel, session, otherSession) // hot spot to optimize
 
       // Figure out Components
-      o.levelComponents = cached ? this.getCachedLevelComponents(supermodel) : $.extend(true, [], (Array.from(supermodel.getModels(LevelComponent)).map((lc) => lc.attributes)))
+      // Drop incomplete stubs (e.g. version fetch that returned {}) so they don't
+      // poison indexBy and so real docs for the same original aren't masked.
+      let levelComponentAttrs = cached
+        ? this.getCachedLevelComponents(supermodel)
+        : $.extend(true, [], (Array.from(supermodel.getModels(LevelComponent)).map((lc) => lc.attributes)))
+      levelComponentAttrs = levelComponentAttrs.filter(lc => lc && lc.original && lc.name)
+      o.levelComponents = levelComponentAttrs
       this.sortThangComponents(o.thangs, o.levelComponents, 'Level Thang')
       this.fillInDefaultComponentConfiguration(o.thangs, o.levelComponents) // hot spot to optimize
 
@@ -358,19 +364,27 @@ module.exports = (Level = (function () {
       // Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
       // TODO: anything that depends on Programmable will break right now.
 
-      const originalsToComponents = _.indexBy(levelComponents, 'original') // Optimization for speed
+      // Normalize original keys to strings: Mongo/ObjectId leftovers and plain
+      // hex strings must index the same or lookups silently fail offline.
+      const originalsToComponents = {}
+      for (const lc of Array.from(levelComponents != null ? levelComponents : [])) {
+        if (lc && (lc.original != null)) { originalsToComponents[String(lc.original)] = lc }
+      }
       const alliedComponent = _.find(levelComponents, { name: 'Allied' })
       const actsComponent = _.find(levelComponents, { name: 'Acts' })
 
       return (() => {
         const result = []
         for (const thang of Array.from(thangs != null ? thangs : [])) {
-          const originalsToThangComponents = _.indexBy(thang.components, 'original')
+          const originalsToThangComponents = {}
+          for (const tc of Array.from(thang.components != null ? thang.components : [])) {
+            if (tc && (tc.original != null)) { originalsToThangComponents[String(tc.original)] = tc }
+          }
           const sorted = []
           const visit = function (c, namesToIgnore) {
             let c2
             if (Array.from(sorted).includes(c)) { return }
-            const lc = originalsToComponents[c.original]
+            const lc = originalsToComponents[String(c.original)]
             if (!lc) { console.error(thang.id || thang.name, 'couldn\'t find lc for', c, 'of', levelComponents) }
             if (!lc) { return }
             if (namesToIgnore && Array.from(namesToIgnore).includes(lc.name)) { return }
@@ -382,22 +396,22 @@ module.exports = (Level = (function () {
               for (c2 of Array.from(thang.components)) { visit(c2, [lc.name]) }
             } else {
               for (const d of Array.from(lc.dependencies || [])) {
-                c2 = originalsToThangComponents[d.original]
+                c2 = originalsToThangComponents[String(d.original)]
                 if (!c2) {
-                  let dependent = originalsToComponents[d.original]
+                  let dependent = originalsToComponents[String(d.original)]
                   dependent = (dependent != null ? dependent.name : undefined) || d.original
                   console.error(parentType, thang.id || thang.name, 'does not have dependent Component', dependent, 'from', lc.name)
                 }
                 if (c2) { visit(c2) }
               }
               if ((lc.name === 'Collides') && alliedComponent) {
-                const allied = originalsToThangComponents[alliedComponent.original]
+                const allied = originalsToThangComponents[String(alliedComponent.original)]
                 if (allied) {
                   visit(allied)
                 }
               }
               if ((lc.name === 'Moves') && actsComponent) {
-                const acts = originalsToThangComponents[actsComponent.original]
+                const acts = originalsToThangComponents[String(actsComponent.original)]
                 if (acts) {
                   visit(acts)
                 }
@@ -433,7 +447,7 @@ module.exports = (Level = (function () {
               ++cached
               continue
             }
-            const lc = _.find(levelComponents, { original: component.original })
+            const lc = _.find(levelComponents, c => String(c.original) === String(component.original))
             if (!lc) { continue }
             if (!isPhysical) {
               originalComponent = $.extend(true, {}, component)
