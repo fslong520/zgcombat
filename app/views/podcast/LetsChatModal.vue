@@ -117,7 +117,7 @@ export default {
         this.isSuccess = true
       } catch (err) {
         console.error('podcast contact err', err)
-        noty({ text: 'Failed to contact server, please reach out to support@codecombat.com', type: 'error', timeout: 5000, layout: 'topCenter' })
+        noty({ text: 'Failed to contact server, please reach out to support@flsong.iok.la', type: 'error', timeout: 5000, layout: 'topCenter' })
       }
       this.inProgress = false
     }

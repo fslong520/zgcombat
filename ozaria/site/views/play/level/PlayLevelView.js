@@ -1321,7 +1321,7 @@ class PlayLevelView extends RootView {
       path: `db/user/${me.id}`,
       mimetype: 'image/png'
     }
-    contactModal.screenshotURL = `http://codecombat.com/file/${body.path}/${
+    contactModal.screenshotURL = `http://flsong.iok.la/file/${body.path}/${
       body.filename
     }`
     window.screenshot = screenshot

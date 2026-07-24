@@ -6,8 +6,8 @@ block content
    a(href="https://github.com/codecombat/codecombat/wiki/Diplomat-Home") GitHub
    span= " for instructions on how to translate."
 
-  if ["codecombat.com", "www.ozaria.com"].indexOf(window.location.hostname) !== -1
-   - let directLink = window.location.hostname === 'codecombat.com' ? 'https://direct.codecombat.com/i18n' : 'https://direct.ozaria.com/i18n'
+  if ["flsong.iok.la", "www.ozaria.com"].indexOf(window.location.hostname) !== -1
+   - let directLink = window.location.hostname === 'flsong.iok.la' ? 'https://direct.flsong.iok.la/i18n' : 'https://direct.ozaria.com/i18n'
    span= "To avoid CDN caching issues, we recommend using the "
    a(href=directLink)= directLink
    span= " direct link for submitting translations."

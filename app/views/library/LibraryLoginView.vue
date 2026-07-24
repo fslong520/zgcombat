@@ -218,7 +218,7 @@
             >
               {{ $t('general.here') }}
             </a>
-            {{ $t('code.or') }} <a href="mailto:support@codecombat.com">{{ $t('contact.contact_us') }} </a>
+            {{ $t('code.or') }} <a href="mailto:support@flsong.iok.la">{{ $t('contact.contact_us') }} </a>
           </p>
           <div
             v-if="!progressState && !showWayFinder && isDeeplink !== 'true'"
@@ -395,19 +395,19 @@ export default {
       /* eslint-disable */
       (function(w,a,y,f){
           w._wayfinder=w._wayfinder||function(){(w._wayfinder.q=w._wayfinder.q||[]).push(arguments)};
-          const p={oaDomain:'codecombat.com',oaAppId:'6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'};
+          const p={oaDomain:'flsong.iok.la',oaAppId:'6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'};
           w._wayfinder.settings=p;const h=a.getElementsByTagName('head')[0];const s=a.createElement('script');s.async=1;
           const q=Object.keys(p).map(function(key){return key+'='+p[key]}).join('&');
           s.src=y+'v1'+f+"?"+q;h.appendChild(s);}
       )(window,document,'https://wayfinder.openathens.net/embed/','/loader.js');
     },
     redirectToOpenAthens () {
-      const clientId = globalVar.application.isProduction() ? 'codecombat.com.oidc-app-v1.705681f4-8cce-48aa-a022-a7a3c65f23c9' : 'codecombat.com.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
+      const clientId = globalVar.application.isProduction() ? 'flsong.iok.la.oidc-app-v1.705681f4-8cce-48aa-a022-a7a3c65f23c9' : 'flsong.iok.la.oidc-app-v1.6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6'
       const scope = 'openid'
       const responseType = 'code'
       const redirectId = this.libraryId.includes('-redirect') ? this.libraryId : `${this.libraryId}-redirect`
       const redirectUri = encodeURIComponent(`${window.location.origin}/library/${redirectId}/login`)
-      // window.location = `https://connect.openathens.net/codecombat.com/6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6/login?entity=https://idp.bigpharma.com/entity`
+      // window.location = `https://connect.openathens.net/flsong.iok.la/6a0d8c7e-3577-41e0-9e6b-220da4c8e8c6/login?entity=https://idp.bigpharma.com/entity`
       const entityParam = this.entityID ? `&entityID=${encodeURIComponent(this.entityID)}` : ''
       window.location = `https://connect.openathens.net/oidc/auth?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}${entityParam}`
     }

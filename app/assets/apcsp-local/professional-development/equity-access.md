@@ -30,7 +30,7 @@ You can also demonstrate to your students how the every day resources they use a
 ### Break down access barriers:
 A lot of students think CS is a huge commitment, needing a computer and devices at all times. You can break down those conceived notions if your school has a 1:1 device initiative, or you can proactively book times in computer labs. The key is to make the student feel that access to computer science learning is impossible to escape. At zgcombat, our platform is web-based so can be accessed via a multitude of devices that carry web browsers.
 
-Need more ideas? Check out the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp) or these links:
+Need more ideas? Check out the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp) or these links:
 - [Family Code Night](http://www.familycodenight.org/)
 - [CSforAll Summit session: Bringing CS to All Girls](https://vimeo.com/240073521)
 - [CSforAll summit session: supporting in rural districts](https://vimeo.com/240209795)

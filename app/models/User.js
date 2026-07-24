@@ -187,7 +187,7 @@ module.exports = (User = (function () {
     isInternal () {
       const email = this.get('email')
       if (!email) { return false }
-      return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
+      return email.endsWith('@flsong.iok.la') || email.endsWith('@ozaria.com')
     }
 
     // This could also be a user property later, once we plan to release Ozaria to more users

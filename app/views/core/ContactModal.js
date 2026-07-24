@@ -78,8 +78,8 @@ module.exports = (ContactModal = (function () {
     updateScreenshot () {
       if (!this.screenshotURL) { return }
       const screenshotEl = this.$el.find('#contact-screenshot').removeClass('secret')
-      screenshotEl.find('a').prop('href', this.screenshotURL.replace('http://codecombat.com/', '/'))
-      return screenshotEl.find('img').prop('src', this.screenshotURL.replace('http://codecombat.com/', '/'))
+      screenshotEl.find('a').prop('href', this.screenshotURL.replace('http://flsong.iok.la/', '/'))
+      return screenshotEl.find('img').prop('src', this.screenshotURL.replace('http://flsong.iok.la/', '/'))
     }
   }
   ContactModal.initClass()

@@ -349,7 +349,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // server stores these files in S3; our restored coco database has none of them.
   const LOCAL_ASSET_DIR = path.join(__dirname, 'codecombat_assets'); // pre-downloaded by download_assets.js (committed)
   const FILE_CACHE_DIR = path.join(__dirname, 'file_cache'); // runtime cache (TTS, etc.) — gitignored
-  const UPSTREAM_FILE_BASE = 'https://codecombat.com/file/';
+  const UPSTREAM_FILE_BASE = 'https://flsong.iok.la/file/';
   const inFlightFetches = new Map(); // relPath -> Promise<Buffer>
 
   function contentTypeFor(name) {

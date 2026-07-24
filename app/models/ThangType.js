@@ -478,7 +478,7 @@ module.exports = (ThangType = (function () {
 
     getHeroStats () {
       // Translate from raw hero properties into appropriate display values for the PlayHeroesModal.
-      // Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
+      // Adapted from https://docs.google.com/a/flsong.iok.la/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
       const heroClass = this.get('heroClass')
       if (!heroClass) return
       if (this.get('kind') === 'Junior Hero') return

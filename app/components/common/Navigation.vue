@@ -234,10 +234,10 @@ export default Vue.extend({
     /**
      * Returns a codecombat url for a relative path.
      * If the user is already on codecombat, will return a relative URL.
-     * If the user is on ozaria, will return an absolute url to codecombat.com
+     * If the user is on ozaria, will return an absolute url to flsong.iok.la
      *
      * Handles subdomains such as staging.ozaria.com, will return absolute path
-     * to staging.codecombat.com
+     * to staging.flsong.iok.la
      *
      * The domains used in China are also handled, i.e. koudashijie
      */

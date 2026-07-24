@@ -46,7 +46,7 @@ module.exports = (MainContributeView = (function () {
     }
 
     getForumLink () {
-      let link = 'https://discourse.codecombat.com/'
+      let link = 'https://discourse.flsong.iok.la/'
       if (['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt'].includes(this.getLanguage())) {
         link += `c/other-languages/${this.getLanguage()}`
       }

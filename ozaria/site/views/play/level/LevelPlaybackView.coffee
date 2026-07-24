@@ -267,7 +267,7 @@ module.exports = class LevelPlaybackView extends CocoView
         # TODO: replace with Ozaria sound
         # if ratioChange = @getScrubRatio() - oldRatio
         #   sound = "playback-scrub-slide-#{if ratioChange > 0 then 'forward' else 'back'}-#{@slideCount % 3}"
-        #   unless /back/.test sound  # We don't have the back sounds in yet: http://discourse.codecombat.com/t/bug-some-mp3-lost/4830
+        #   unless /back/.test sound  # We don't have the back sounds in yet: http://discourse.flsong.iok.la/t/bug-some-mp3-lost/4830
         #     @playSound sound, (Math.min 1, Math.abs ratioChange * 50)
 
       start: (event, ui) =>

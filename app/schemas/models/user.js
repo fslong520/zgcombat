@@ -381,7 +381,7 @@ _.extend(UserSchema.properties, {
   birthday: ({ type: 'string', title: 'Birthday', description: 'Just month and year, stored YYYY-MM' }),
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' }),
 
-  israelId: { type: 'string', description: 'ID string used just for il.codecombat.com' },
+  israelId: { type: 'string', description: 'ID string used just for il.flsong.iok.la' },
   school: {
     type: 'object',
     description: 'Generic property for storing school information. Currently \n' +

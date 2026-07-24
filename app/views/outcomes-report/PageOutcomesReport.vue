@@ -408,7 +408,7 @@ export default {
     },
 
     accountManager () {
-      if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email'))) { return { name: me.broadName(), email: me.get('email') } } else if (features.chinaInfra) { return { email: 'china@codecombat.com' } } else { return { email: 'schools@codecombat.com' } }
+      if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email'))) { return { name: me.broadName(), email: me.get('email') } } else if (features.chinaInfra) { return { email: 'china@flsong.iok.la' } } else { return { email: 'schools@flsong.iok.la' } }
     },
 
     childKind () {

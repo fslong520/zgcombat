@@ -176,7 +176,7 @@
     <footer>
       <a
         v-if="isOzaria"
-        href="https://codecombat.com"
+        href="https://flsong.iok.la"
         target="_blank"
       >
         <img

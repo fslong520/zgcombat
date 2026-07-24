@@ -76,7 +76,7 @@
         </div>
         <div class="license__addon-info-subheading">
           {{ $t('payments.ai_league_info') }} <a
-            href="https://codecombat.com/league"
+            href="https://flsong.iok.la/league"
             target="_blank"
             @click.stop
           >Learn More.</a>

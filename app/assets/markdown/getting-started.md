@@ -78,7 +78,7 @@ That’s it! Students can now use their login credentials to start playing zgcom
 ### Option 2: Students Join via a Class Code
 *Easiest option if you students don’t have email addresses*
 
-Direct your students to [zgcombat](https://codecombat.com) and have them click “Create Account” on the top navigation bar. Students should select the green "Sign up as a Student" button.
+Direct your students to [zgcombat](https://flsong.iok.la) and have them click “Create Account” on the top navigation bar. Students should select the green "Sign up as a Student" button.
 
 <img src="/images/pages/teachers/resources/markdown/getting-started/student-account.png" title="Create a Student Account" alt="create-student-account" width="400px"/>
 _Make sure your students click “Sign up as a Student” when prompted._
@@ -152,6 +152,6 @@ Once a student is enrolled, you’ll be able to assign additional courses to the
 
 ##### STEP 8
 ## Start Teaching!
-There are great supplemental materials for teachers available on our [Course Guides](/teachers/courses/) and [Resource Hub](/teachers/resources). If you're new to teaching computer science, we highly recommend checking these out -- we've built these with first-time teachers in mind. You can also browse our [Teacher Forums](https://discourse.codecombat.com/c/teachers), where you can discuss curriculum planning with other educators, share ideas, or ask questions.
+There are great supplemental materials for teachers available on our [Course Guides](/teachers/courses/) and [Resource Hub](/teachers/resources). If you're new to teaching computer science, we highly recommend checking these out -- we've built these with first-time teachers in mind. You can also browse our [Teacher Forums](https://discourse.flsong.iok.la/c/teachers), where you can discuss curriculum planning with other educators, share ideas, or ask questions.
 
-You can also email us at [schools@codecombat.com](mailto:schools@codecombat.com) with any support questions or concerns!
+You can also email us at [schools@flsong.iok.la](mailto:schools@flsong.iok.la) with any support questions or concerns!

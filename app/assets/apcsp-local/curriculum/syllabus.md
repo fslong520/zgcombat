@@ -123,7 +123,7 @@ The following seven big ideas encompass foundational skills that structure the m
 [Back to top](#site-content-area)
 
 ## Programming Environment
-The primary programming environment for this course is the codecombat.com website. The website supports both Python and JavaScript for the Computer Science and Game Development modules. Additionally it supports HTML and JavaScript for the Web Development modules. 
+The primary programming environment for this course is the flsong.iok.la website. The website supports both Python and JavaScript for the Computer Science and Game Development modules. Additionally it supports HTML and JavaScript for the Web Development modules. 
 
 Teachers may choose to use either Python or JavaScript as the programming language, they are both supported in the Game Development and Computer Science courses. Students should be able to complete all programming-related activities and assessments during in-class time. 
 

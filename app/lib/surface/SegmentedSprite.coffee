@@ -142,7 +142,7 @@ module.exports = class SegmentedSprite extends createjs.Container
     locals = {}
 
     # TODO Add support for shapes to segmented sprites.
-    # TODO Ensure this change works on http://direct.codecombat.com/play/level/coinucopia
+    # TODO Ensure this change works on http://direct.flsong.iok.la/play/level/coinucopia
     # try
     #   # Protects us from legacy art regressions.
     #   localShapes = @buildMovieClipShapes(animData.shapes)

@@ -122,7 +122,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_2_button_1_text'),
-              link: 'https://codecombat.com/apcsp'
+              link: 'https://flsong.iok.la/apcsp'
             }]
         },
         {

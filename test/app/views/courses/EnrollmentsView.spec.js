@@ -176,7 +176,7 @@ describe('EnrollmentsView', function() {
         return this.view.render();
       });
 
-      return it('shows confirmation and a mailto link to schools@codecombat.com', function() {
+      return it('shows confirmation and a mailto link to schools@flsong.iok.la', function() {
         if (!this.view.$('#request-sent-btn').length) {
           fail('Request button not found.');
         }
@@ -186,7 +186,7 @@ describe('EnrollmentsView', function() {
       });
     }));
           // TODO: Figure out why this fails in Travis. Seems like it's not loading en locale
-  //        if not @view.$('a[href="mailto:schools@codecombat.com"]').length
+  //        if not @view.$('a[href="mailto:schools@flsong.iok.la"]').length
   //          fail('Mailto: link not found.')
 
     return describe('when there are no prepaids to show', function() {

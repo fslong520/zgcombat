@@ -38,7 +38,7 @@ module.exports = (CoppaDenyView = (function () {
         parentEmailSent: false,
         parentEmailSending: false,
         error: false,
-        dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
+        dontUseOurEmailSilly: /team@flsong.iok.la/i.test(parentEmail),
       })
       return this.listenTo(this.state, 'all', _.debounce(this.render))
     }
@@ -47,7 +47,7 @@ module.exports = (CoppaDenyView = (function () {
       super.afterRender()
       const $blurb = this.$('.parent-email-blurb.render')
       if (!$blurb.length) { return }
-      const emailLink = '<a href="mailto:team@codecombat.com">team@codecombat.com</a>'
+      const emailLink = '<a href="mailto:team@flsong.iok.la">team@flsong.iok.la</a>'
       $blurb.html($.i18n.t('signup.parent_email_excited_blurb').replace('{{email_link}}', emailLink))
     }
 
@@ -56,7 +56,7 @@ module.exports = (CoppaDenyView = (function () {
       this.signupState.set({ parentEmail }, { silent: true })
       return this.state.set({
         parentEmail,
-        dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
+        dontUseOurEmailSilly: /team@flsong.iok.la/i.test(parentEmail),
         error: false,
       })
     }

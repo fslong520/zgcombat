@@ -23,7 +23,7 @@
         You will also <b>receive an email</b> once premium access has been granted. Please <b>refresh</b> the page once you get the email to access premium levels and buy hero, pets or gear.
       </div>
       <div class="section">
-        Thank you for choosing zgcombat and you can always reach us with any questions at <a href="mailto:support@codecombat.com">support@codecombat.com</a>
+        Thank you for choosing zgcombat and you can always reach us with any questions at <a href="mailto:support@flsong.iok.la">support@flsong.iok.la</a>
       </div>
       <DiscoverMore
         class="discover-more"

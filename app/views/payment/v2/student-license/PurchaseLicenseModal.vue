@@ -100,7 +100,7 @@ export default {
         totalAmount: (this.getPrice.unit_amount * this.numOfLicenses)
       }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
-      if (errMsg) { alert('Failed to redirect to payment page - please contact support@codecombat.com') }
+      if (errMsg) { alert('Failed to redirect to payment page - please contact support@flsong.iok.la') }
     },
     updateNumberOfLicenses (e) {
       this.numOfLicenses = parseInt(e.target.value)

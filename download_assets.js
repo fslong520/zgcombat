@@ -30,7 +30,7 @@ const { MongoClient } = require('mongodb');
 const ROOT = __dirname;
 const ASSET_DIR = path.join(ROOT, 'codecombat_assets');
 const REPORT = path.join(ROOT, 'download_report.txt');
-const UPSTREAM = 'https://codecombat.com/file/';
+const UPSTREAM = 'https://flsong.iok.la/file/';
 const FORCE = process.argv.includes('--force');
 const CONCURRENCY = 12;
 

@@ -450,7 +450,7 @@
         :title="$t('schools_page.privacy_security_title')"
         :text="$t('schools_page.privacy_security_text')"
         image="/images/pages/schools/boxes/box_privacy.webp"
-        link="https://codecombat.com/privacy"
+        link="https://flsong.iok.la/privacy"
         :reverse="true"
         :lazy-load="true"
       />
@@ -637,7 +637,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.practice_enrichment_1_title'),
           text: this.$t('schools_page.practice_enrichment_1_text'),
-          link: 'https://codecombat.com/league',
+          link: 'https://flsong.iok.la/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
           video: {
             videoId: '1b3bcd237a9dda25a042493d799e7278',
@@ -646,7 +646,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
           text: this.$t('schools_page.practice_enrichment_2_text'),
-          link: 'https://codecombat.com/roblox',
+          link: 'https://flsong.iok.la/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
           video: {
             videoId: 'a50758af1eeeb12f241472beca961424',
@@ -659,7 +659,7 @@ export default Vue.extend({
           text: this.$t('schools_page.student_acceleration_2_text'),
           image: '/images/pages/schools/boxes/maximize_6.webp',
           linkText: this.$t('schools_page.learn_more_text'),
-          link: 'https://codecombat.com/apcsp',
+          link: 'https://flsong.iok.la/apcsp',
           hasPadding: false,
           mainImageBg: true,
         },
@@ -687,7 +687,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://codecombat.com/junior',
+          link: 'https://flsong.iok.la/junior',
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/home-v3/young-learners/box-bg-coco-jr.webp',
         },
@@ -704,7 +704,7 @@ export default Vue.extend({
           title: this.$t('schools_page.funding_solutions_1_title'),
           text: this.$t('schools_page.funding_solutions_1_text'),
           linkText: this.$t('schools_page.funding_solutions_1_link_text'),
-          link: 'https://codecombat.com/grants',
+          link: 'https://flsong.iok.la/grants',
           hasPadding: false,
           mainImageBg: true,
           equalWidth: true,
@@ -715,7 +715,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.support_development_1_title'),
           text: this.$t('schools_page.support_development_1_text'),
-          link: 'https://codecombat.com/teachers/quote',
+          link: 'https://flsong.iok.la/teachers/quote',
           linkText: this.$t('schools_page.learn_more_text'),
           image: '/images/pages/schools/boxes/maximize_10.webp',
         },

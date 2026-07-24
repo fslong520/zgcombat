@@ -82,7 +82,7 @@ They will cover these LOs while working through this activity:
 Students will have opportunities to practice for the Performance Tasks via the following activities:  
 – Game Development 2: Final Project (Create Practice)
 
-Refer to the [Performance Task Overview](https://codecombat.com/apcsp/curriculum/performance-tasks) guide for more details on each opportunity.
+Refer to the [Performance Task Overview](https://flsong.iok.la/apcsp/curriculum/performance-tasks) guide for more details on each opportunity.
 
 
 -------

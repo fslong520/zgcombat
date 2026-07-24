@@ -14,11 +14,11 @@
 2. On the left side of your dashboard, click “Add Applications”.
 3. Search for **“zgcombat”** (no spaces), then click “Select”, and “Next” to continue.
 
-<img src="https://files.codecombat.com/docs/clever-faq/add-application.png" title="Add zgcombat Application" alt="add-application" width="500px" />
+<img src="https://files.flsong.iok.la/docs/clever-faq/add-application.png" title="Add zgcombat Application" alt="add-application" width="500px" />
 
   On the confirmation page, you’ll need to select whether you’ve already purchased student licenses to use with zgcombat.
 
-<img src="https://files.codecombat.com/docs/clever-faq/confirm-application.png" title="Confirm zgcombat Application" alt="confirm-application" width="500px" />
+<img src="https://files.flsong.iok.la/docs/clever-faq/confirm-application.png" title="Confirm zgcombat Application" alt="confirm-application" width="500px" />
 
 
 If you’ve already purchased student licenses, select the **“Already Purchased”** option on the confirmation page. Our team will approve your request and make sure your licenses work properly.
@@ -29,7 +29,7 @@ If you haven’t already purchased student licenses, select the **“Haven’t P
 ### How do my students and teachers log into zgcombat using Clever?
 Once we’ve approved your zgcombat integration, schools you’ve approved to use zgcombat will see zgcombat on their Clever portal — they will be instantly logged into zgcombat when they click the zgcombat icon.
 
-<img src="https://files.codecombat.com/docs/clever-faq/coco-logo.png" title="zgcombat" alt="zgcombat" />
+<img src="https://files.flsong.iok.la/docs/clever-faq/coco-logo.png" title="zgcombat" alt="zgcombat" />
 
 New teachers will need to **Create a New Class**, then share the Class Code or Class URL with their students to make sure they join the correct class.
 
@@ -51,10 +51,10 @@ Yes! Our **Introduction to Computer Science** is free to try with your students.
 ### Some of our schools already use zgcombat - how do I migrate their data into Clever?
 We don’t currently have a way for schools with existing zgcombat classes to link their Clever accounts.
 
-Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
+Please email [team@flsong.iok.la](mailto:team@flsong.iok.la) if you would like to see this feature supported.
 
 
 ### What if a student already has a zgcombat account using their email address?
 We don’t currently have a way for students or teachers with existing zgcombat accounts to link their accounts together. If they already have an account on zgcombat with the same email address as their Clever account, a new account will be created when they log in via the Clever portal. They can continue to use the two separate accounts as if they were distinct.
 
-Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
+Please email [team@flsong.iok.la](mailto:team@flsong.iok.la) if you would like to see this feature supported.

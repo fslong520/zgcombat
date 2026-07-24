@@ -15,7 +15,7 @@ export const findArena = (season, type) => activeAndPastArenas().find(a => a.sea
 /**
  * We want to be able to fetch and store rankings for
  * various levels. I.e.
- * https://codecombat.com/db/level/5fad3d71bb7075d1dd20a1c0/rankings?order=-1&scoreOffset=1000000&limit=20&team=humans&_=1607469435140
+ * https://flsong.iok.la/db/level/5fad3d71bb7075d1dd20a1c0/rankings?order=-1&scoreOffset=1000000&limit=20&team=humans&_=1607469435140
  */
 export default {
   namespaced: true,

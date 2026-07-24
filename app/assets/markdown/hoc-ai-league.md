@@ -126,9 +126,9 @@ Invite students to add code to the program one at a time. If there is an error i
 ### Coding Time (30-45 mins)
 
 **First time students will need to create accounts**
-For additional information on helping students create account, see our [Teacher Getting Started Guide](https://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
+For additional information on helping students create account, see our [Teacher Getting Started Guide](https://files.flsong.iok.la/docs/resources/TeacherGettingStartedGuide.pdf).
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -144,7 +144,7 @@ What was challenging:
 
 Circulate to assist. Draw students’ attention to the instructions and tips.
 
-If student have trouble breaking the problem down, refer to the [Engineering Cycle Worksheet [PDF]](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce the steps to solving each puzzle.
+If student have trouble breaking the problem down, refer to the [Engineering Cycle Worksheet [PDF]](https://files.flsong.iok.la/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce the steps to solving each puzzle.
 
 ### Written reflection (5 mins)
 
@@ -242,7 +242,7 @@ Have students take turns writing, checking, and labelling the code until it beco
 
 ### Coding Time (30-45 mins)
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -258,7 +258,7 @@ What was challenging:
 
 Circulate to assist. Draw students’ attention to the instructions and tips.
 
-Focus on debugging, employing appropriate strategies for getting yourself unstuck. Use your class/school’s growth mindset guidelines, use the [Engineering Cycle Worksheet [PDF]](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) as an unblocking tool, or ask them to follow this list:
+Focus on debugging, employing appropriate strategies for getting yourself unstuck. Use your class/school’s growth mindset guidelines, use the [Engineering Cycle Worksheet [PDF]](https://files.flsong.iok.la/docs/resources/EngineeringCycleWorksheet.pdf) as an unblocking tool, or ask them to follow this list:
 
 1. Read the comments line by line
 2. Read your code line by line
@@ -304,7 +304,7 @@ Have students navigate to the last level, **Magma Mountain**, and complete it at
 
 #### Rankings**
 
-In the warm up round, students will only compete against the computer. Once students beat the default computer they can create an account to compete with other coders around the world. You can learn about the zgcombat AI League [here](https://codecombat.com/league).
+In the warm up round, students will only compete against the computer. Once students beat the default computer they can create an account to compete with other coders around the world. You can learn about the zgcombat AI League [here](https://flsong.iok.la/league).
 
 If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead: 
 

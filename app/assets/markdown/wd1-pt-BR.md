@@ -301,13 +301,13 @@ Há algumas coisas importantes para saber sobre `<img>`
 
 *Faça um diagram das partes da tag `<img>` no quadro, e chame a atenção sobre coisas importantes, por exemplo, como a tag está estruturada*
 
-`<img src="http://www.codecombat.com/hero.jpg"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg"/>`
 
 Colocamos a tag em `<`símbolos de maior ou menor `>`assim como com os outros elementos que vimos, e você também pode colocar a `/` logo antes do símbolo de fechamento, se você quiser (é opcional).
 
 Este elemento é nomeado `img` então começamos com isso. Tenha cuidado para não soletrar errado, ou você não verá uma foto!
 
-Em seguida, temos `src="http://www.codecombat.com/hero.jpg"` que nos diz de onde a imagem está vindo. `src` é um `atributo` (veremos mais alguns deles depois - podemos fazer coisas como alterar o tamanho de nossas imagens com elas!). `src` está após um sinal de igual e dentro de aspas, e precisa ser um URL válido que termine em um tipo de arquivo de imagem (como .jpeg ou .png ou .gif). O zgcombat tem uma galeria cheia de imagens que podemos usar - heróis, tesouros, monstros e muito mais!
+Em seguida, temos `src="http://www.flsong.iok.la/hero.jpg"` que nos diz de onde a imagem está vindo. `src` é um `atributo` (veremos mais alguns deles depois - podemos fazer coisas como alterar o tamanho de nossas imagens com elas!). `src` está após um sinal de igual e dentro de aspas, e precisa ser um URL válido que termine em um tipo de arquivo de imagem (como .jpeg ou .png ou .gif). O zgcombat tem uma galeria cheia de imagens que podemos usar - heróis, tesouros, monstros e muito mais!
 
 
 #### Interaja (5 mins)
@@ -330,11 +330,11 @@ Nem sempre queremos que as imagens sejam exibidas em uma página inteira. Os atr
 
 Se lembra da tag`img`? Quem pode me dizer as partes dessa tag? (img, src = e o URL da imagem nas aspas)
 
-`<img src="http://www.codecombat.com/hero.jpg"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg"/>`
 
 Lembre que `src` é uma atributo de `img`. Vamos adicionar alguns outros atributos que informarão ao nosso navegador mais sobre como exibir essa imagem -- `largura` e `altura`
 
-`<img src="http://www.codecombat.com/hero.jpg" height="100" width="100"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg" height="100" width="100"/>`
 
 Adicionar esses atributos funciona da mesma maneira que `src` -- digite o nome do atributo e, em seguida, um sinal de igual e, em seguida, o valor da altura ou largura entre aspas. Tudo isso vai dentro da tag.
 

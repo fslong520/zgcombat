@@ -359,7 +359,7 @@ module.exports = class Simulator extends CocoClass
   cleanupAndSimulateAnotherTask: =>
     return if @destroyed
     @cleanupSimulation()
-    if me.get('email')?.includes('codecombat.com')
+    if me.get('email')?.includes('flsong.iok.la')
       sleep = 2000
     else
       sleep = Math.min(15000, (@simulatedByYou + 1) * 2000)

@@ -6,8 +6,8 @@
 ## [Syllabus](/apcsp/curriculum/syllabus)
 
 #### **Planning Tools**
-- [Unit Alignment Matrix](http://files.codecombat.com/docs/resources/apcsp-unit-lo-mapping_revised.pdf)
-- [Course Schedule](http://files.codecombat.com.s3.amazonaws.com/docs/resources/APCSPCourseSchedule.pdf)
+- [Unit Alignment Matrix](http://files.flsong.iok.la/docs/resources/apcsp-unit-lo-mapping_revised.pdf)
+- [Course Schedule](http://files.flsong.iok.la.s3.amazonaws.com/docs/resources/APCSPCourseSchedule.pdf)
 - [Assessments and Activities Guide](/apcsp/curriculum/assessment-activities-guide)
 
 #### **The Units**
@@ -21,4 +21,4 @@
 #### **AP Assessments**
 - [Performance Tasks](/apcsp/curriculum/performance-tasks)
   - [Explore](/apcsp/curriculum/explore)
-  - [Create](https://codecombat.com/apcsp/curriculum/performance-tasks#performance-task-create)
+  - [Create](https://flsong.iok.la/apcsp/curriculum/performance-tasks#performance-task-create)

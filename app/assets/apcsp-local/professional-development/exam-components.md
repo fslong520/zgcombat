@@ -29,10 +29,10 @@ As an instructor, you should be familiar with each and every step for your stude
 
 [AP Digital Portfolio details](https://apcentral.collegeboard.org/courses/resources/about-ap-digital-portfolio?course=ap-computer-science-principles)  This is where you can learn about the AP Digital Portfolio. The AP Digital Portfolio is where students will upload digital artifacts for the Performance Tasks of the exam. The details breaks down what is required for you, the instructor, to make sure your students complete the tasks for appropriate scoring. As part of zgcombat’s professional development, teachers should familiarize themselves with the submission process so that they are able to guide students through the Explore and Create task submissions in Units 2 and 5, respectively. 
 
-Additional detail about these tasks can be found in the [AP CS Principles Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf) starting from page 71. We also encourage you to refer to our curriculum hub pages on the [Explore Task](https://codecombat.com/apcsp/curriculum/explore), [Create Task](https://codecombat.com/apcsp/curriculum/performance-tasks#performance-task-create), and [performance task overview](https://codecombat.com/apcsp/curriculum/performance-tasks). 
+Additional detail about these tasks can be found in the [AP CS Principles Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf) starting from page 71. We also encourage you to refer to our curriculum hub pages on the [Explore Task](https://flsong.iok.la/apcsp/curriculum/explore), [Create Task](https://flsong.iok.la/apcsp/curriculum/performance-tasks#performance-task-create), and [performance task overview](https://flsong.iok.la/apcsp/curriculum/performance-tasks). 
  starting from page 71.
 
 #### **End of Course Assessment**
 The End of Course exam is 74 multiple-choice questions that makes up 60% of overall AP Score.
 
-We will provide further details and resources in [Unit 6](https://codecombat.com/apcsp/professional-development/pd-unit-6) of this professional development specifically related to the AP Exam components.
+We will provide further details and resources in [Unit 6](https://flsong.iok.la/apcsp/professional-development/pd-unit-6) of this professional development specifically related to the AP Exam components.

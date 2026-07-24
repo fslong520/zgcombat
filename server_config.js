@@ -13,7 +13,7 @@ const config = {}
 
 config.product = process.env.COCO_PRODUCT || 'codecombat'
 config.productName = { codecombat: 'CodeCombat', ozaria: 'Ozaria' }[config.product]
-config.productMainDomain = { codecombat: 'codecombat.com', ozaria: 'ozaria.com' }[config.product]
+config.productMainDomain = { codecombat: 'flsong.iok.la', ozaria: 'ozaria.com' }[config.product]
 
 if (process.env.COCO_SECRETS_JSON_BUNDLE) {
   const object = JSON.parse(process.env.COCO_SECRETS_JSON_BUNDLE)
@@ -33,7 +33,7 @@ config.proxy = process.env.COCO_PROXY
 
 config.timeout = parseInt(process.env.COCO_TIMEOUT) || (60 * 1000)
 
-config.chinaDomain = 'bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.codecombat.com'
+config.chinaDomain = 'bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.flsong.iok.la'
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE || sassFalse
 
 config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 3000
@@ -45,7 +45,7 @@ if (config.unittest) {
 config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy'
 
 config.isProduction = false
-// Domains (without subdomain prefix, with port number) for main hostname (usually codecombat.com)
+// Domains (without subdomain prefix, with port number) for main hostname (usually flsong.iok.la)
 // and unsafe web-dev iFrame content (usually codecombatprojects.com).
 config.mainHostname = process.env.COCO_MAIN_HOSTNAME || 'localhost:3000'
 config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME || 'localhost:3000'

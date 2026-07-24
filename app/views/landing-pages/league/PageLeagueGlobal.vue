@@ -1310,7 +1310,7 @@ export default {
         <div class="xs-centered">
           <a
             class="btn btn-large btn-primary btn-moon btn-esports-flyer"
-            href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf"
+            href="https://s3.amazonaws.com/files.flsong.iok.la/docs/esports_flyer.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >{{ $t('league.download_flyer') }}</a>

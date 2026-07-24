@@ -1,4 +1,4 @@
-// TODO: don't serve this script from codecombat.com; serve it from a harmless extra domain we don't have yet.
+// TODO: don't serve this script from flsong.iok.la; serve it from a harmless extra domain we don't have yet.
 
 var lastSource = null;
 var lastOrigin = null;

@@ -57,7 +57,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
+            :href="`https://flsong.iok.la/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="purple-btn"
             target="_blank"
           >
@@ -73,7 +73,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
+            :href="`https://flsong.iok.la/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="purple-btn"
             target="_blank"
           >
@@ -334,7 +334,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/ai/"
+            href="https://flsong.iok.la/ai/"
             class="purple-btn"
             target="_blank"
           >
@@ -542,7 +542,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/equinox"
+            href="https://flsong.iok.la/play/ladder/equinox"
             class="purple-btn"
             target="_blank"
           >
@@ -556,7 +556,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/tundra-tower"
+            href="https://flsong.iok.la/play/ladder/tundra-tower"
             class="purple-btn"
             target="_blank"
           >
@@ -570,7 +570,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/sandstorm"
+            href="https://flsong.iok.la/play/ladder/sandstorm"
             class="purple-btn"
             target="_blank"
           >
@@ -584,7 +584,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/solar-skirmish"
+            href="https://flsong.iok.la/play/ladder/solar-skirmish"
             class="purple-btn"
             target="_blank"
           >

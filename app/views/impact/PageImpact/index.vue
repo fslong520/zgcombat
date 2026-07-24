@@ -122,7 +122,7 @@
             .row
               p.text-navy {{ $t('impact.spotlight_1') }}
           .row.text-right
-            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-teacher-spotlight-amanda-henry/" target="_blank") {{ $t('impact.continue_reading_blog') }}
+            a.text-teal.continue-reading-link(href="https://blog.flsong.iok.la/codecombat-teacher-spotlight-amanda-henry/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
         .col-md-4.teacher-student-tile
           div
@@ -136,7 +136,7 @@
             .row
               p.text-navy {{ $t('impact.spotlight_2') }}
           .row.text-right
-            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-student-spotlight-kaila/" target="_blank") {{ $t('impact.continue_reading_blog') }}
+            a.text-teal.continue-reading-link(href="https://blog.flsong.iok.la/codecombat-student-spotlight-kaila/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
         .col-md-4.teacher-student-tile
           div
@@ -151,7 +151,7 @@
             .row
               p.text-navy {{ $t('impact.spotlight_3') }}
           .row.text-right
-            a.text-teal.continue-reading-link(href="https://blog.codecombat.com/codecombat-teacher-spotlight-susan-jones-szabo/" target="_blank") {{ $t('impact.continue_reading_blog') }}
+            a.text-teal.continue-reading-link(href="https://blog.flsong.iok.la/codecombat-teacher-spotlight-susan-jones-szabo/" target="_blank") {{ $t('impact.continue_reading_blog') }}
 
   .row.text-center#global
     .row

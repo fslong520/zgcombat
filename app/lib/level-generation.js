@@ -365,7 +365,7 @@ async function loadThangTypes (spriteNames) {
         headers: { 'content-type': 'application/json' },
         credentials: 'same-origin'
       }
-      const origin = window?.location?.origin || 'https://codecombat.com'
+      const origin = window?.location?.origin || 'https://flsong.iok.la'
       const thangTypePromise = fetch(`${origin}/db/thang.type/${slug}?project=original,components`, fetchOptions).then(async function (response) {
         try {
           thangType = await response.json()

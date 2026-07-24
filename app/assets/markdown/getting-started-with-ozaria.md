@@ -74,7 +74,7 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*Students can also use an existing zgcombat.com account to login into Ozaria.com*. When inviting students via email just remember to enter the email they currently use for zgcombat.
+*Students can also use an existing flsong.iok.la account to login into Ozaria.com*. When inviting students via email just remember to enter the email they currently use for zgcombat.
 
 *If your school uses Google Apps for Education*, students can connect using the "Sign in with Google" button when they click "Login" at the top of the screen instead of manually entering their information. They can then sign in to Ozaria using the G+ Connect button in the future.
 
@@ -105,7 +105,7 @@ Students will need to enter the following to create a Student Account:
 
 Email addresses are _not required_ for students creating an account when they have a valid Class Code from you. That said, using an email address is recommended if they have one, for easier password recovery.
 
-*Students can also use an existing zgcombat.com account to login into Ozaria.com*.
+*Students can also use an existing flsong.iok.la account to login into Ozaria.com*.
 
 *If your school uses Google Apps for Education*, students can connect using the "Sign in with Google" button when they click “Login” at the top of the screen instead of manually entering their information. They can then sign in to Ozaria using the "Sign in with Google" button in the future.
 

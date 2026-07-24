@@ -277,7 +277,7 @@ ${new User(user).isTeacher() && !utils.isOzaria ? "<button class='teacher-dashbo
       options.success = (model, response, options) => {
         // TODO: Don't hardcode domain.
         if (application.isProduction()) {
-          this.freeSubLink = `https://codecombat.com/account/subscription?_ppc=${model.code}`
+          this.freeSubLink = `https://flsong.iok.la/account/subscription?_ppc=${model.code}`
         } else {
           this.freeSubLink = `http://localhost:3000/account/subscription?_ppc=${model.code}`
         }
@@ -331,7 +331,7 @@ ${new User(user).isTeacher() && !utils.isOzaria ? "<button class='teacher-dashbo
       options.success = (model, response, options) => {
         // TODO: Don't hardcode domain.
         if (application.isProduction()) {
-          this.freeSubLink = `https://codecombat.com/account/prepaid?_ppc=${model.code}`
+          this.freeSubLink = `https://flsong.iok.la/account/prepaid?_ppc=${model.code}`
         } else {
           this.freeSubLink = `http://localhost:3000/account/prepaid?_ppc=${model.code}`
         }

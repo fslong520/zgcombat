@@ -16,14 +16,14 @@ vendor:
   name: 'Nick Winter, co-founder'
   company_name: zgcombat
   address: '2261 Market Street #4388, San Francisco, CA 94114'
-  email: schools@codecombat.com
+  email: schools@flsong.iok.la
   phone: 833-488-8383
-  website: 'https://codecombat.com'
+  website: 'https://flsong.iok.la'
 report_date: 3/14/2023
 last_modified_date: 1/20/2025
 version: 3
 notes: >-
-  This report covers both zgcombat (codecombat.com) and Ozaria (ozaria.com).
+  This report covers both zgcombat (flsong.iok.la) and Ozaria (ozaria.com).
   Both are web applications sharing the same codebase and including multiple
   media formats: standard web content, web-based game content, video content,
   and text-based lesson slide content. Criteria support apply to both products

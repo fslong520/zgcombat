@@ -380,7 +380,7 @@ Ao ensinar o curso Game Dev 1 para alunos da AP CSP, você deve se concentrar em
 
 Como o conhecimento de programação dos alunos é muito básico nesse nível, eles terão capacidade limitada de praticar os componentes Abstrações ou Algoritmos da tarefa no Desenvolvimento do Jogo. 1. Os que serão melhor abordados no Desenvolvimento de Jogo 2 e além.
 
-O [Guia desenvolvimento de jogos](https://codecombat.com/teachers/resources/gd1-5day) introduz os conceitos básicos de design de jogos à medida que os alunos participam do curso. Ao orientar os alunos nesse processo, você os ajuda a desenvolver a estrutura mental de que eles precisam para pensar criativamente sobre o design e a implementação de seus próprios jogos, que serão colocados em prática no nível final do projeto.
+O [Guia desenvolvimento de jogos](https://flsong.iok.la/teachers/resources/gd1-5day) introduz os conceitos básicos de design de jogos à medida que os alunos participam do curso. Ao orientar os alunos nesse processo, você os ajuda a desenvolver a estrutura mental de que eles precisam para pensar criativamente sobre o design e a implementação de seus próprios jogos, que serão colocados em prática no nível final do projeto.
 
 ## Dias 1-3
 

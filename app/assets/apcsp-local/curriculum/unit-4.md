@@ -89,7 +89,7 @@ They will cover these LOs while working through the material for this activity:
 [Back to top](#site-content-area)
 
 ## Performance Tasks
-There are no formal opportunities for students to practice for the Create task in this unit since the levels in Game Development 3 span both this unit and the following one. However, we recommend that students and teachers familiarize themselves with the requirements of the Create task during this time. In Unit 5, there will be one last practice opportunity at the end of Game Development 3. Refer to the [Performance Task Overview](https://codecombat.com/apcsp/curriculum/performance-tasks) guide for more details.
+There are no formal opportunities for students to practice for the Create task in this unit since the levels in Game Development 3 span both this unit and the following one. However, we recommend that students and teachers familiarize themselves with the requirements of the Create task during this time. In Unit 5, there will be one last practice opportunity at the end of Game Development 3. Refer to the [Performance Task Overview](https://flsong.iok.la/apcsp/curriculum/performance-tasks) guide for more details.
 
 
 -------

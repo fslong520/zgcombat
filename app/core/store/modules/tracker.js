@@ -1,5 +1,5 @@
 const DEFAULT_TRACKING_DOMAINS = [
-  'codecombat.com',
+  'flsong.iok.la',
   'ozaria.com',
 ]
 

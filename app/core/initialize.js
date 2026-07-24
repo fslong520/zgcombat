@@ -287,7 +287,7 @@ var watchForErrors = function () {
   const showError = function (text) {
     if (currentErrors >= 3) { return }
     if (app.isProduction() && !me.isAdmin()) { return } // Don't show noty error messages in production when not an admin
-    if (!me.isAdmin() && (document.location.href.search(/codecombat.com/) !== -1) && (document.location.href.search(/\/editor\//) === -1)) { return }
+    if (!me.isAdmin() && (document.location.href.search(/flsong.iok.la/) !== -1) && (document.location.href.search(/\/editor\//) === -1)) { return }
     ++currentErrors
     if (!(typeof webkit !== 'undefined' && webkit !== null ? webkit.messageHandlers : undefined)) { // Don't show these notys on iPad
       return noty({

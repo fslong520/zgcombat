@@ -43,7 +43,7 @@ module.exports = (SubscribeModal = (function () {
     }
 
     constructor (options) {
-      // if document.location.host is 'br.codecombat.com'
+      // if document.location.host is 'br.flsong.iok.la'
       //  document.location.href = 'http://codecombat.net.br/'
 
       if (options == null) { options = {} }

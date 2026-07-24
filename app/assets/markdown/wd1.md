@@ -301,13 +301,13 @@ There are a couple of important things to know about `<img>`
 
 *Diagram the parts of the `<img>` tag on the whiteboard, and call out important things about how the tag is structured.*
 
-`<img src="http://www.codecombat.com/hero.jpg"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg"/>`
 
 We enclose the tag in `<` angle brackets `>` just like with the other elements we've seen, and you can also put the `/` just before the closing angle bracket if you want to (it's optional).
 
 This element is named `img` so we start with that. Be careful not to spell it wrong, or you won't see a picture!
 
-Next, we have `src="http://www.codecombat.com/hero.jpg"` which tells us where the picture is coming from. `src` is an `attribute` (we'll see some more of those later -- we can do things like change the size of our images with them!). `src` is after an equals-sign and inside of quote marks, and needs to be a valid URL that ends in an image file type (like .jpeg or .png or .gif). zgcombat has a gallery full of images that we can use -- heroes, treasure, monsters, and more!
+Next, we have `src="http://www.flsong.iok.la/hero.jpg"` which tells us where the picture is coming from. `src` is an `attribute` (we'll see some more of those later -- we can do things like change the size of our images with them!). `src` is after an equals-sign and inside of quote marks, and needs to be a valid URL that ends in an image file type (like .jpeg or .png or .gif). zgcombat has a gallery full of images that we can use -- heroes, treasure, monsters, and more!
 
 
 #### Interact (5 mins)
@@ -330,11 +330,11 @@ We don't always want images to show up on a page full-size. The `height` and `wi
 
 Remember the `img` tag? Who can tell me the parts of that tag? (img, src=, and the URL for the image in quote marks)
 
-`<img src="http://www.codecombat.com/hero.jpg"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg"/>`
 
 Remember that `src` is an *attribute* of `img`. We're going to add a couple of other attributes that will tell our browser more about how to display this image -- `height` and `width`
 
-`<img src="http://www.codecombat.com/hero.jpg" height="100" width="100"/>`
+`<img src="http://www.flsong.iok.la/hero.jpg" height="100" width="100"/>`
 
 Adding these attributes works the same way as `src` -- type the name of the attribute and then an equals-sign, and then the value of the height or width in quotes. All of this goes inside of the tag.
 

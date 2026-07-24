@@ -20,12 +20,12 @@
 
 | **模块**                                                     | **首关**       | **授课目标**                         |
 | :----------------------------------------------------------- | :------------- | :----------------------------------- |
-| [5.   条件结构 (if)](https://cn.codecombat.com/teachers/resources/cs2#conditionals-if-) | 平原森林保卫战 | 在执行之前判别表达式                 |
-| [6.   条件结构 (else)](https://cn.codecombat.com/teachers/resources/cs2#conditionals-else-) | 背靠背         | 执行默认代码                         |
-| [7.   嵌套条件结构](https://cn.codecombat.com/teachers/resources/cs2#nested-conditionals) | 跃火林中       | 将一个条件结构放到另一个条件结构之内 |
-| [8.   函数](https://cn.codecombat.com/teachers/resources/cs2#functions) | 乡村漫游者     | 将具体代码留给以后                   |
-| [9.   事件](https://cn.codecombat.com/teachers/resources/cs2#events) | 边地好伙伴     | 监听事件并执行代码                   |
-| [10.   复习 – 多人竞技场](https://cn.codecombat.com/teachers/resources/cs2#review-multiplayer-arena) | 力量峰值       | 设计和实现算法                       |
+| [5.   条件结构 (if)](https://cn.flsong.iok.la/teachers/resources/cs2#conditionals-if-) | 平原森林保卫战 | 在执行之前判别表达式                 |
+| [6.   条件结构 (else)](https://cn.flsong.iok.la/teachers/resources/cs2#conditionals-else-) | 背靠背         | 执行默认代码                         |
+| [7.   嵌套条件结构](https://cn.flsong.iok.la/teachers/resources/cs2#nested-conditionals) | 跃火林中       | 将一个条件结构放到另一个条件结构之内 |
+| [8.   函数](https://cn.flsong.iok.la/teachers/resources/cs2#functions) | 乡村漫游者     | 将具体代码留给以后                   |
+| [9.   事件](https://cn.flsong.iok.la/teachers/resources/cs2#events) | 边地好伙伴     | 监听事件并执行代码                   |
+| [10.   复习 – 多人竞技场](https://cn.flsong.iok.la/teachers/resources/cs2#review-multiplayer-arena) | 力量峰值       | 设计和实现算法                       |
 
 ### 核心词汇表
 **对象 –** 执行动作的角色或事物。对象是Python的基本组成要素，是执行动作的角色或事物。hero是一个对象，能够执行移动动作。在hero.moveRight()中，对象就是hero。在课程2中，学生还将使用pet对象来执行动作。
@@ -151,7 +151,7 @@ if teacher.claps == 2:
 
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -253,7 +253,7 @@ if teacher.claps == 2:
 **Else是否总要有？** (不，有没有要看具体情况)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -338,7 +338,7 @@ else:
 **某个动作缩进八格意味着什么?** (它是否执行取决于两个表达式的真假判断)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -459,7 +459,7 @@ def popcorn():
 **关键字`def`表示的是什么？** (define，定义)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -560,7 +560,7 @@ bigRedButton.on("press", initiateSelfDestruct)
  **监听事件时，使用的函数后面为什么不加括号?** (括号会让函数立刻运行，你不希望这样，你要的是事件发生后才运行)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____   关卡名: ____________________________________
@@ -597,7 +597,7 @@ bigRedButton.on("press", initiateSelfDestruct)
 
 竞技场关卡是完成这部分内容的一个奖励。在之前关卡中掉队或是书面思考题没完成的学生，可以利用这个时间来完成。已经成功提交课业的学生，可以进入力量峰值竞技场，在到时间前尝试多种解决方案。
 
-更多细节参阅[竞技场关卡指南](https://cn.codecombat.com/teachers/resources/arenas)。
+更多细节参阅[竞技场关卡指南](https://cn.flsong.iok.la/teachers/resources/arenas)。
 
 
 #### 授课目标
@@ -640,7 +640,7 @@ PLAN: Choose one part of the problem to solve first. What do you need the comput
 IMPLEMENT: Write the solution to each part of your problem in code. 
 TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.flsong.iok.la/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
 
 #### Discuss

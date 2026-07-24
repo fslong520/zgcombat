@@ -45,7 +45,7 @@
                 image="/images/pages/schools/avatar/avatar_andrew.webp"
               />
               <learn-more-button
-                link="https://codecombat.com/impact"
+                link="https://flsong.iok.la/impact"
                 target="_blank"
               >
                 River Ridge High School Case Study

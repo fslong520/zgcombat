@@ -16,25 +16,25 @@ While the bulk of unit 2 focuses on what algorithms are, how they are used and p
 - EU 7.3 Computing has global effects — both beneficial and harmful — on people and society.
 
 
-This unit encapsulates the curriculum listed above. The corresponding zgcombat courses is CS2. If you haven’t played this course earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Course Guides](https://codecombat.com/teachers/courses) . 
+This unit encapsulates the curriculum listed above. The corresponding zgcombat courses is CS2. If you haven’t played this course earlier when we introduced “What is zgcombat,” feel free to play it now. You can access any course or level through your [Teacher Course Guides](https://flsong.iok.la/teachers/courses) . 
 
 As part of zgcombat’s professional development, complete at least one of the Unit 2 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
-### [Searching & Sorting](https://codecombat.com/apcsp/markdown/apcsp-search-sort) : 
+### [Searching & Sorting](https://flsong.iok.la/apcsp/markdown/apcsp-search-sort) : 
 This activity focuses on the concept of algorithms, specifically the pros and cons of the different types of algorithms. After exploring this activity, you should be able to explain the difference between algorithms and weigh pros and cons of each.
 
-Think about which type of algorithm may work best for your students in certain scenarios. Algorithms are meant to make problem solving more efficient depending on the objective at hand. After reviewing the activity for class, share any ways you can edit the activity further on the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp) (use the Unit 2 thread).
+Think about which type of algorithm may work best for your students in certain scenarios. Algorithms are meant to make problem solving more efficient depending on the objective at hand. After reviewing the activity for class, share any ways you can edit the activity further on the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp) (use the Unit 2 thread).
 
 This activity will also allow you to engage with the following CTPs: P1: Connecting Computing, P3: Abstracting, P4: Analyzing Problems and Artifacts
 
-### [Hitchhikers Guide](https://codecombat.com/apcsp/markdown/apcsp-hitchhikers-guide) : 
+### [Hitchhikers Guide](https://flsong.iok.la/apcsp/markdown/apcsp-hitchhikers-guide) : 
 This activity focuses on attacking problems that seem impossible or undecidable on the surface. In problem solving to meet certain objectives, you can use algorithms as a manner to develop a solution.
 After this activity, you should be able to determine the types of problems that arise in computer science as solvable or unsolvable. You should feel comfortable leading discussions and finding other potential undecidable problems that you could utilize in your class. 
 
 This activity will also allow you to engage with the following CTPs: P3: Abstracting, P4: Analyzing Problems and Artifacts, P5: Communicating.
 
-### [Big Data](https://codecombat.com/apcsp/markdown/apcsp-big-data) :
+### [Big Data](https://flsong.iok.la/apcsp/markdown/apcsp-big-data) :
 This activity focuses on how data & information is essential to computer science. After this activity you will be able to determine how large data sets impact the discovery of information as well as how data is represented and stored can affect the outcome.
-Choose one of the activities (Census Explorer or Group Data Exploration) within this page and try it out. Post your answers to the discussion questions on the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp)  and we will respond.
+Choose one of the activities (Census Explorer or Group Data Exploration) within this page and try it out. Post your answers to the discussion questions on the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp)  and we will respond.
 
 This activity will also allow you to engage with the following CTPs: P2: Creating Computational Artifacts, P3: Abstracting, P4: Analyzing Problems and Artifacts, P5: Communicating.

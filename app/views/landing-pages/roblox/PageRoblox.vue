@@ -351,8 +351,8 @@ export default {
 
   data: () => {
     const i18nData = {
-      'sign-up': `<a href="https://codecombat.com/parents">${$.i18n.t('roblox_landing.bottom_blurb_sign_up')}</a>`,
-      'reach-out': `<a href="https://codecombat.com/partners">${$.i18n.t('roblox_landing.bottom_blurb_reach_out')}</a>`,
+      'sign-up': `<a href="https://flsong.iok.la/parents">${$.i18n.t('roblox_landing.bottom_blurb_sign_up')}</a>`,
+      'reach-out': `<a href="https://flsong.iok.la/partners">${$.i18n.t('roblox_landing.bottom_blurb_reach_out')}</a>`,
       interpolation: { escapeValue: false }
     }
 
@@ -412,7 +412,7 @@ export default {
         await waitlistSignup({ email: this.email, role: this.role, mobile: this.isMobile })
         this.isSuccess = true
       } catch (err) {
-        const text = 'Failed to contact server, please reach out to support@codecombat.com'
+        const text = 'Failed to contact server, please reach out to support@flsong.iok.la'
         if (err.code === 409) { // already signed up, so we'll just show success
           this.isSuccess = true
           this.inProgress = false

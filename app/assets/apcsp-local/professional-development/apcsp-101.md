@@ -17,7 +17,7 @@ Before beginning this professional development program, every AP CS Principles t
 
 Throughout zgcombat’s professional development, we’ll be referencing the [AP Computer Science Principles Course and Exam description](https://apcentral.collegeboard.org/pdf/ap-computer-science-principles-course-and-exam-description.pdf), so now is a good time to download the PDF or open it in a new window. 
 
-At this time, please also review and be aware of the [Curricular and Resources Requirements](https://codecombat.com/apcsp/professional-development/curricular-resource-requirements) which outline responsibilities that your educational institute should adhere to in order to provide an appropriate and adequate learning environment for students taking AP CS Principles.
+At this time, please also review and be aware of the [Curricular and Resources Requirements](https://flsong.iok.la/apcsp/professional-development/curricular-resource-requirements) which outline responsibilities that your educational institute should adhere to in order to provide an appropriate and adequate learning environment for students taking AP CS Principles.
 
 The rest of the professional development will focus on taking these principles and applying them within the zgcombat environment.
 
@@ -29,7 +29,7 @@ In order to teach an AP sanctioned course, all AP CS Principles teachers must au
 The [AP CS Principles Course Audit site](https://cb.collegeboard.org/ap-course-audit/courses/ap_computer_science_principles.html)  provides teachers with the tools to create and submit their syllabus for authorization, including curricular requirements, a syllabus development guide, and four annotated sample syllabi. Teachers can choose to create their own syllabus, adopt and submit a sample syllabus, or work with an [endorsed provider](https://advancesinap.collegeboard.org/stem/computer-science-principles/curricula-pedagogical-support) like zgcombat and obtain a syllabus ID number to receive course authorization.
 
 As a teacher, you have a two step process for approval:
-1. Submit an electronic copy of your syllabus outlining the course. You can use the [zgcombat syllabus found here](https://codecombat.com/apcsp/curriculum/syllabus) (you can click the "Print this guide" button then use Save as PDF settings in your browser to save the syllabus as a PDF). Our syllabus ID is [awaiting approved ID].
+1. Submit an electronic copy of your syllabus outlining the course. You can use the [zgcombat syllabus found here](https://flsong.iok.la/apcsp/curriculum/syllabus) (you can click the "Print this guide" button then use Save as PDF settings in your browser to save the syllabus as a PDF). Our syllabus ID is [awaiting approved ID].
 2. Submit an AP Course Audit form. This is an electronic form that you can access using your course audit login [on the Course Audit homepage](http://cb.collegeboard.org/ap-course-audit/teacher.html), that must be approved by a school administrator.
 
 For more detail on the Course Audit, see the resources below:
@@ -82,7 +82,7 @@ The course is structured around the following six Computer Science Principles Co
 - Exchange knowledge and feedback with a partner or team member
 - Review and revise their work as needed to create a high-quality artifact
 
-Let’s work through an example of how Computational Thinking Practices are woven through an activity. In Unit 3, you’ll find an activity called “[Technology Usability](https://codecombat.com/teachers/resources/apcsp-tech-usability)”, which asks students to examine a website or app that they use from the lens of interaction design best practices. In addition to covering both Learning Objective 1.2.5 and 7.1.1, it also addresses CTP 4. Analyzing Problems and Artifacts (which is the CTP that is associated with both of those Learning Objectives).
+Let’s work through an example of how Computational Thinking Practices are woven through an activity. In Unit 3, you’ll find an activity called “[Technology Usability](https://flsong.iok.la/teachers/resources/apcsp-tech-usability)”, which asks students to examine a website or app that they use from the lens of interaction design best practices. In addition to covering both Learning Objective 1.2.5 and 7.1.1, it also addresses CTP 4. Analyzing Problems and Artifacts (which is the CTP that is associated with both of those Learning Objectives).
 
 Do this activity now (don’t worry, it doesn’t require any programming yet!), following the instructions in the activity and reflecting on the discussion questions. Come back here when you’re done. 
 
@@ -90,7 +90,7 @@ Finished? Congratulations, you’ve just seen your first CTP in action! During t
 
 Read more about each specific CTP in the [course overview, starting on page nine](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf). 
 
-Once you have reviewed each computational thinking practice and finished the above activity, visit zgcombat’s [APCSP teacher discussion forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp), specifically the “[Computational Thinking Practices Discussion Questions](https://groups.google.com/a/codecombat.com/forum/?hl=en#!topic/apcsp/4jOXUSlPG4Q)” thread to engage in questions that will help guide activities and ideas to use in your classroom. As part of zgcombat’s professional development, discuss your answers to two of the questions posed in the thread. 
+Once you have reviewed each computational thinking practice and finished the above activity, visit zgcombat’s [APCSP teacher discussion forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp), specifically the “[Computational Thinking Practices Discussion Questions](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!topic/apcsp/4jOXUSlPG4Q)” thread to engage in questions that will help guide activities and ideas to use in your classroom. As part of zgcombat’s professional development, discuss your answers to two of the questions posed in the thread. 
 
 
 -----

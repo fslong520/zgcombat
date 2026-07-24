@@ -45,7 +45,7 @@ jobs:
 
             BRANCH_NAME=copy-i18n-tags-$(date +%s)
 
-            git config user.email circle-ci@codecombat.com
+            git config user.email circle-ci@flsong.iok.la
             git config user.name 'CoCo CI'
 
             git checkout -b $BRANCH_NAME

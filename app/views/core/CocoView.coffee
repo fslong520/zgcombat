@@ -312,7 +312,7 @@ module.exports = class CocoView extends Backbone.View
       else if utils.iszgcombat
         openContactModal()
       else
-        location.href = 'mailto:support@codecombat.com'
+        location.href = 'mailto:support@flsong.iok.la'
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise

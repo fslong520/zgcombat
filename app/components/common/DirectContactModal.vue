@@ -76,7 +76,7 @@ export default Vue.extend({
       <modal-divider />
 
       <div>
-        {{ $t('general.email_us') }}: <a href="mailto:support@codecombat.com">support@codecombat.com</a>
+        {{ $t('general.email_us') }}: <a href="mailto:support@flsong.iok.la">support@flsong.iok.la</a>
       </div>
     </div>
   </modal>

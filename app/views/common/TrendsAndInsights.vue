@@ -20,14 +20,14 @@ export default {
           title: this.$t('schools_page.trends_1_title'),
           image: '/images/pages/home-v3/trends/1.webp',
           text: this.$t('schools_page.trends_1_text'),
-          link: 'https://blog.codecombat.com/ai-isnt-replacing-coding-its-accelerating-it/',
+          link: 'https://blog.flsong.iok.la/ai-isnt-replacing-coding-its-accelerating-it/',
           linkText: this.$t('schools_page.trends_1_linkText')
         },
         {
           title: this.$t('schools_page.trends_2_title'),
           image: '/images/pages/home-v3/trends/2.webp',
           text: this.$t('schools_page.trends_2_text'),
-          link: 'https://codecombat.com/podcast/career-technical-education',
+          link: 'https://flsong.iok.la/podcast/career-technical-education',
           linkText: this.$t('schools_page.trends_2_linkText')
         }
       ]

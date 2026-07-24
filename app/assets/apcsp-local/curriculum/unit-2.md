@@ -104,7 +104,7 @@ Students will have opportunities to practice for the Performance Tasks via the f
 
 This will be the second and final practice opportunity for the Explore task. Teachers should set aside the required hours for completing the Explore task during this unit. Students should also aim to submit their final Explore task to the AP Digital Portfolio during this unit. 
 
-Refer to the [Performance Task Overview](https://codecombat.com/apcsp/curriculum/performance-tasks) guide for more details on each opportunity.
+Refer to the [Performance Task Overview](https://flsong.iok.la/apcsp/curriculum/performance-tasks) guide for more details on each opportunity.
 
 -------
 [Back to top](#site-content-area)

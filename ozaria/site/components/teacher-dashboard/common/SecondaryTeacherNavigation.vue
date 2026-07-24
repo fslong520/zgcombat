@@ -207,7 +207,7 @@ export default {
     },
     AILeagueClicked () {
       if (utils.isOzaria) {
-        window.open('https://codecombat.com/teachers/ai-league', '_blank')
+        window.open('https://flsong.iok.la/teachers/ai-league', '_blank')
       }
     },
 

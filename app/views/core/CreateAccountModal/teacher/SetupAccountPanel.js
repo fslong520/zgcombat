@@ -13,7 +13,7 @@ const SetupAccountPanel = Vue.extend({
   template: require('app/templates/core/create-account-modal/setup-account-panel')(),
   data () {
     return {
-      supportEmail: utils.isOzaria ? "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>" : "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>",
+      supportEmail: utils.isOzaria ? "<a href='mailto:support@ozaria.com'>support@ozaria.com</a>" : "<a href='mailto:support@flsong.iok.la'>support@flsong.iok.la</a>",
       saving: true,
       error: '',
       iszgcombat: utils.iszgcombat

@@ -1599,7 +1599,7 @@ const cocoBaseURL = function () {
     return ''
   }
   if (!application.isProduction()) {
-    return `${document.location.protocol}//codecombat.com`
+    return `${document.location.protocol}//flsong.iok.la`
   }
   // We are on ozaria domain.
   return `${document.location.protocol}//${document.location.host}`.replace(OZARIA, CODECOMBAT).replace(OZARIA_CHINA, CODECOMBAT_CHINA)

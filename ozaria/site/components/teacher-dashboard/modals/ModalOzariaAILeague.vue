@@ -14,7 +14,7 @@
           />
         </p>
         <a
-          href="https://codecombat.com/teachers/ai-league"
+          href="https://flsong.iok.la/teachers/ai-league"
           target="_blank"
         >
           <img src="/images/ozaria/teachers/dashboard/png_img/import-classroom.webp">
@@ -22,7 +22,7 @@
         <div class="continue">
           <a
             class="btn btn-primary btn-lg dusk-btn"
-            href="https://codecombat.com/teachers/ai-league"
+            href="https://flsong.iok.la/teachers/ai-league"
             target="_blank"
           >
             {{ $t('home_v3.try_it_now') }}

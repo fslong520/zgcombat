@@ -66,7 +66,7 @@ const setupExpressMiddleware = function(app) {
     morgan.format('prod', productionLogging);
     app.use(morgan('prod'));
     app.use(compression({filter(req, res) {
-      if (req.headers.host === 'codecombat.com') { return false; }  // CloudFlare will gzip it for us on codecombat.com
+      if (req.headers.host === 'flsong.iok.la') { return false; }  // CloudFlare will gzip it for us on flsong.iok.la
       return compressible(res.getHeader('Content-Type'));
     }
     })
@@ -112,7 +112,7 @@ const setupExpressMiddleware = function(app) {
 
 const setupCountryRedirectMiddleware = function(app, country, host) {
   if (country == null) { country = 'china'; }
-  if (host == null) { host = 'cn.codecombat.com'; }
+  if (host == null) { host = 'cn.flsong.iok.la'; }
   const hosts = host.split(/;/g);
   const shouldRedirectToCountryServer = function(req) {
     let left;
@@ -148,7 +148,7 @@ const setupFeaturesMiddleware = app => app.use(function(req, res, next) {
     freeOnly: false
   });
 
-  if ((req.headers.host === 'brainpop.codecombat.com') || (req.session.featureMode === 'brain-pop')) {
+  if ((req.headers.host === 'brainpop.flsong.iok.la') || (req.session.featureMode === 'brain-pop')) {
     features.freeOnly = true;
     features.campaignSlugs = ['dungeon'];
     features.playViewsOnly = true;

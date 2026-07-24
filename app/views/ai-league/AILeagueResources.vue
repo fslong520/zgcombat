@@ -24,7 +24,7 @@ export default {
     </a>
     <a
       class="resources__item view-exemplar"
-      :href="`https://codecombat.com/play/ladder/${regularArenaSlug ? regularArenaSlug : ''}`"
+      :href="`https://flsong.iok.la/play/ladder/${regularArenaSlug ? regularArenaSlug : ''}`"
       target="_blank"
     >
       {{ $t('league.try_ai_league_as_a_teacher') }}

@@ -94,7 +94,7 @@
     p
       | In order for teachers to be able to assign the required zgcombat courses to students in their class, each student will need a License. Information on license pricing and structure can be obtained by speaking to zgcombat’s school specialists (email
       =" "
-      a(mailto="schools@codecombat.com") schools@codecombat.com
+      a(mailto="schools@flsong.iok.la") schools@flsong.iok.la
       =""
       | ). We recommend that licenses are obtained by early August of the coming school year so students can begin as early as the first day of the fall semester.
 

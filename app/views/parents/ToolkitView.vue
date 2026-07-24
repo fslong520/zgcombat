@@ -10,7 +10,7 @@
         Don’t hesitate to contact us if you have any questions.
       </span>
       <a
-        href="mailto:support@codecombat.com"
+        href="mailto:support@flsong.iok.la"
         class="yellow-btn-black-text toolkit__contact"
       >
         Contact Us

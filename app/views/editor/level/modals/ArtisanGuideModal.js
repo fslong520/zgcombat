@@ -59,7 +59,7 @@ module.exports = (ArtisanGuideModal = (function () {
       if (!res.valid) { return forms.applyErrorsToForm(this.$el, res.errors) }
       let contactMessage = {
         message: `User Name: ${results.creditName}
-Level: <a href="http://codecombat.com/editor/level/${this.options.levelSlug}">${this.options.level}</a>
+Level: <a href="http://flsong.iok.la/editor/level/${this.options.levelSlug}">${this.options.level}</a>
 Purpose: ${results.levelPurpose}
 Inspiration: ${results.levelInspiration}
 Location: ${results.levelLocation}`

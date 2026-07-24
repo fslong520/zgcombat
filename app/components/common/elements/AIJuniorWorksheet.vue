@@ -102,7 +102,7 @@ export default Vue.extend({
 
     async generateQRCode () {
       if (this.scenario && this.scenario.slug) {
-        const url = `https://codecombat.com/ai-junior/project/${this.slug}/${this.me.id}`
+        const url = `https://flsong.iok.la/ai-junior/project/${this.slug}/${this.me.id}`
         try {
           this.qrCodeUrl = await QRCode.toDataURL(url)
         } catch (err) {

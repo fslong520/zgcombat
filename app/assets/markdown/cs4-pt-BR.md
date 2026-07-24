@@ -143,7 +143,7 @@ Se necessário, percorra novamente o último loop, registrando o valor de 'passe
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -325,7 +325,7 @@ Peça aos alunos que percorram o código com você e digam o item correto ao apo
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -434,7 +434,7 @@ Loops aninhados `while` permitem executar instruções, contanto que duas instru
 
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -553,7 +553,7 @@ Nota: Se necessário, você pode usar uma régua ou uma jarda em vez de uma fita
 
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -693,7 +693,7 @@ Depois de ter dois ou três exemplos de objetos literais como argumentos de fun�
 
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -832,7 +832,7 @@ Assegure-se de que os alunos entendam que, como nos loops `while` aninhados, o l
 
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1005,7 +1005,7 @@ Assegure-se de que os alunos entendam que, como nos loops `while` aninhados, o l
 
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.flsong.iok.la/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________

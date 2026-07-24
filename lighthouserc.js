@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['https://codecombat.com', 'https://www.ozaria.com']
+      url: ['https://flsong.iok.la', 'https://www.ozaria.com']
     },
     upload: {
       target: 'lhci',

@@ -11,7 +11,7 @@ export default Vue.extend({
     this.show = new Date() < new Date(this.when.getTime() + 60 * 60 * 1000)
     this.whenDisplay = moment(this.when).calendar(null, { sameElse: 'ddd MMM D, LT' })
 
-    const host = utils.iszgcombat ? '' : 'https://codecombat.com'
+    const host = utils.iszgcombat ? '' : 'https://flsong.iok.la'
     this.url = `${host}/teachers/hour-of-code`
   }
 })

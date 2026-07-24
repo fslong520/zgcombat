@@ -605,13 +605,13 @@ module.exports = (BasicInfoView = (function () {
 
       if (handler === 'clever') {
         let cleverClientId, districtId, redirectTo
-        if (['next.codecombat.com', 'localhost'].includes(window.location.hostname)) { // dev
+        if (['next.flsong.iok.la', 'localhost'].includes(window.location.hostname)) { // dev
           cleverClientId = '943ece596555cac13fcc'
-          redirectTo = 'https://next.codecombat.com/auth/login-clever'
+          redirectTo = 'https://next.flsong.iok.la/auth/login-clever'
           districtId = '5b2ad81a709e300001e2cd7a' // Clever Library test district
         } else { // prod
           cleverClientId = 'ffce544a7e02c0daabf2'
-          redirectTo = 'https://codecombat.com/auth/login-clever'
+          redirectTo = 'https://flsong.iok.la/auth/login-clever'
         }
         let url = `https://clever.com/oauth/authorize?response_type=code&redirect_uri=${encodeURIComponent(redirectTo)}&client_id=${cleverClientId}`
         if (districtId) {

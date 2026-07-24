@@ -11,7 +11,7 @@ Inquiry Activity
 
 **Activity:**
 
-Have the students play [The Agrippa Defense](https://codecombat.com/play/level/the-agrippa-defense), which can be found in Computer Science 2.
+Have the students play [The Agrippa Defense](https://flsong.iok.la/play/level/the-agrippa-defense), which can be found in Computer Science 2.
 
 The obvious solution to this level uses an algorithm consisting of three levels of nested IF/ELSE statements:
 

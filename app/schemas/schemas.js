@@ -456,7 +456,7 @@ me.voiceOver = {
   ],
 }
 
-me.product = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both' } // Older version; for differentiating between codecombat.com and ozaria.com and separate databases (like a ResourceHubResource)
+me.product = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both' } // Older version; for differentiating between flsong.iok.la and ozaria.com and separate databases (like a ResourceHubResource)
 me.singleProduct = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or codecombat-junior)', enum: ['codecombat', 'ozaria', 'codecombat-junior'], default: 'codecombat' } // Newer version: for when this document is specific to a single product (like a Level)
 
 me.InlineInteractionSchema = me.object({ description: 'An inline interaction', definitions: {}, required: ['type', 'actor'], additionalProperties: true }, {

@@ -1,10 +1,10 @@
 {
   "name": "codecombat",
   "description": "A multiplayer programming game for learning how to code.",
-  "author": "Nick Winter <nick@codecombat.com>",
+  "author": "Nick Winter <nick@flsong.iok.la>",
   "homepage": "https://github.com/codecombat/codecombat",
   "domains": [
-    "codecombat.com"
+    "flsong.iok.la"
   ],
   "version": "1.0.0",
   "repository": {
@@ -14,19 +14,19 @@
   "contributors": [
     {
       "name": "Nick Winter",
-      "email": "nick@codecombat.com"
+      "email": "nick@flsong.iok.la"
     },
     {
       "name": "Scott Erickson",
-      "email": "scott@codecombat.com"
+      "email": "scott@flsong.iok.la"
     },
     {
       "name": "George Saines",
-      "email": "george@codecombat.com"
+      "email": "george@flsong.iok.la"
     },
     {
       "name": "Matt Lott",
-      "email": "matt@codecombat.com"
+      "email": "matt@flsong.iok.la"
     }
   ],
   "scripts": {

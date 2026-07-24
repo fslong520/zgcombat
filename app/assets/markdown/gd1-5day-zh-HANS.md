@@ -11,7 +11,7 @@
 
 ### 前提要求
 
-  - 教师必须先购买[<span class="underline">入门或完全许可</span>](https://codecombat.com/teachers/licenses)，才能分配游戏开发1课程。
+  - 教师必须先购买[<span class="underline">入门或完全许可</span>](https://flsong.iok.la/teachers/licenses)，才能分配游戏开发1课程。
   - 学生需要先完成计算机科学导论的学习。
 
 ### 设置
@@ -599,6 +599,6 @@
 鼓励学生将最终项目的链接和亲朋好友分享！
 
 我们由衷希望你能得到最优的项目！欢迎把链接发送给下列邮箱：  
- [<span class="underline">team@codecombat.com</span>](mailto:team@codecombat.com)
+ [<span class="underline">team@flsong.iok.la</span>](mailto:team@flsong.iok.la)
 
 或是给我们发推特[<span class="underline">@zgcombat</span>](https://twitter.com/zgcombat)，这会更好。

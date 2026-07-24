@@ -71,7 +71,7 @@ const STARTER_LICENCE_LENGTH_MONTHS = 3
 
 const COCO_CHINA_CONST = {
   CONTACT_PHONE: '13810906731',
-  CONTACT_EMAIL: 'china@codecombat.com'
+  CONTACT_EMAIL: 'china@flsong.iok.la'
 }
 
 const HTTP_STATUS_CODES = {

@@ -24,7 +24,7 @@
           .col-md-4
             a.btn.btn-primary.btn-lg(href="/play/hoc-2018" data-i18n="hoc_2018.try_activity")
           .col-md-4
-            a.btn.btn-primary.btn-lg(href="https://files.codecombat.com/docs/resources/hourofcode/HourofCodezgcombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
+            a.btn.btn-primary.btn-lg(href="https://files.flsong.iok.la/docs/resources/hourofcode/HourofCodezgcombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
             a.btn.btn-primary.btn-lg(v-if="isTeacher" href="/teachers/campaign-solution/hoc-2018/python" target="_blank" data-i18n="courses.view_guide_online")
 
       else if activity() == 'goblins'

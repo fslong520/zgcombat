@@ -112,11 +112,11 @@
           .row.text-center
             .col.col-lg-12
               .row-button
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/zgcombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.flsong.iok.la/docs/apcsp/zgcombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.flsong.iok.la/docs/apcsp/zgcombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.flsong.iok.la/docs/apcsp/zgcombat_APCSP_Pacing_Guide.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.flsong.iok.la/docs/apcsp/zgcombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.flsong.iok.la/docs/apcsp/zgcombat_APCSP_Flyer.pdf" target="_blank") {{ $t('apcsp_marketing.flyer') }}
 
     #sample-lesson-slides.width-container.row
       .col.col-lg-12

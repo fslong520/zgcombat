@@ -165,7 +165,7 @@ export default {
           .col.col-md-4.teachers-love-box
             h3 94%
             p {{ $t("efficacy.teachers_love_box3") }}
-        a(href="https://codecombat.com/impact") {{ $t("general.learn_more") }}
+        a(href="https://flsong.iok.la/impact") {{ $t("general.learn_more") }}
 
     modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our research-backed curriculum, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about Ozaria's research-backed computer science curriculum.")
 </template>

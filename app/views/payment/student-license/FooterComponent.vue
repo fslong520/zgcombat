@@ -7,9 +7,9 @@
       class="footer-cmpt-bd"
     >
       {{ $t('payments.bd_help') }} <a
-        href="mailto:partnerships@codecombat.com"
+        href="mailto:partnerships@flsong.iok.la"
         class="footer-cmpt-bd__link"
-      >partnerships@codecombat.com</a>
+      >partnerships@flsong.iok.la</a>
     </div>
   </div>
 </template>

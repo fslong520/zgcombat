@@ -231,7 +231,7 @@ export default Vue.extend({
         // if the last step has animation or a target element or fading out the other elements, it would be
         // pointless to keep that as the final step because it would obstruct the rest of the level.
         let complexLastStep
-        const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@codecombat.com')
+        const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@flsong.iok.la')
 
         const steps = tutorialSteps.map((tutorialStep, index) => {
           const details = buildStepPositionalDetails(tutorialStep)

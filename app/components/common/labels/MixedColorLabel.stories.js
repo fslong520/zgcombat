@@ -33,6 +33,6 @@ Empty.parameters = {
 export const Linked = Template.bind({})
 Linked.args = {
   text: 'Learn to __code__ and use __AI__, all through the __power of play__',
-  link: 'https://codecombat.com',
+  link: 'https://flsong.iok.la',
   target: '_blank'
 }

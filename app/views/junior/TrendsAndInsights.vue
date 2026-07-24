@@ -18,7 +18,7 @@ export default {
           title: this.$t('junior_page.trends_2_title'),
           image: '/images/pages/junior/jblog.webp',
           text: this.$t('junior_page.trends_2_text'),
-          link: 'https://blog.codecombat.com/codecombat-junior-a-new-dynamic-approach-to-k-5-coding/',
+          link: 'https://blog.flsong.iok.la/codecombat-junior-a-new-dynamic-approach-to-k-5-coding/',
           linkText: this.$t('junior_page.trends_2_linkText')
         }
       ]

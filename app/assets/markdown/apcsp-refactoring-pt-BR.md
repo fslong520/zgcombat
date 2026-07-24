@@ -11,7 +11,7 @@ Atividade de Inquérito
 
 **Atividade:**
 
-Peça aos alunos que joguem [Defesa Agripa](https://codecombat.com/play/level/the-agrippa-defense), que pode ser encontrado em Ciência da Computação 2.
+Peça aos alunos que joguem [Defesa Agripa](https://flsong.iok.la/play/level/the-agrippa-defense), que pode ser encontrado em Ciência da Computação 2.
 
 A solução óbvia para este nível usa um algoritmo que consiste em três níveis de instruções IF / ELSE aninhadas:
 

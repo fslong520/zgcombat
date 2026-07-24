@@ -31,7 +31,7 @@ export default {
   name: 'PaymentStudentLicensesOnlineClassesComponent',
   methods: {
     moreInfo () {
-      window.open('https://codecombat.com/parents', '_blank')
+      window.open('https://flsong.iok.la/parents', '_blank')
     }
   }
 }

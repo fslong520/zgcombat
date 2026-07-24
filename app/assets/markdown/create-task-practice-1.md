@@ -398,7 +398,7 @@ When teaching the Game Dev 1 course for AP CSP students, you should focus on :
 
 Since the students' knowledge of programming is very basic at this level, they will have limited ability to practice the Abstractions or Algorithm components of the Create task in Game Development 1.Those will be better covered in Game Dev 2 and beyond.
 
-The [Game Development 1 5-Day Project Guide](https://codecombat.com/teachers/resources/gd1-5day) introduces the basic concepts of game design as the students play through the course. By guiding the students through this process, you help them develop the mental framework they need to think creatively about designing and implementing their own games, which they'll put into practice in the course's final project level.
+The [Game Development 1 5-Day Project Guide](https://flsong.iok.la/teachers/resources/gd1-5day) introduces the basic concepts of game design as the students play through the course. By guiding the students through this process, you help them develop the mental framework they need to think creatively about designing and implementing their own games, which they'll put into practice in the course's final project level.
 
 ## Days 1-3
 
@@ -406,7 +406,7 @@ Days 1 through 3 focus on teaching students how to build a game in zgcombat usin
 
 The levels the students play will teach the implementation details, but it's important for you to guide the discussion around the levels. Let the students know up front that, they'll soon be designing their own game, and they'll need to use the techniques and concepts they're learning when they make their own games.
 
-Refer to the [Game Development 1 Project Guide](https://www.google.com/url?q=https://codecombat.com/teachers/resources/gd1-5day&sa=D&ust=1502495268183000&usg=AFQjCNHFplfQxgH_Ol54QbNUC1swq4Nhog) for level-by-level tips and discussion questions.
+Refer to the [Game Development 1 Project Guide](https://www.google.com/url?q=https://flsong.iok.la/teachers/resources/gd1-5day&sa=D&ust=1502495268183000&usg=AFQjCNHFplfQxgH_Ol54QbNUC1swq4Nhog) for level-by-level tips and discussion questions.
 
 ### Document the Process
 

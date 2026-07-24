@@ -24,7 +24,7 @@ module.exports = (GitHubHandler = (function () {
       if (!me.useSocialSignOn()) { throw new Error('Social single sign on not supported') }
       super(...arguments)
       this.clientID = application.isProduction() ? '9b405bf5fb84590d1f02' : 'fd5c9d34eb171131bc87'
-      this.redirectURI = application.isProduction() ? 'http://codecombat.com/github/auth_callback' : 'http://localhost:3000/github/auth_callback'
+      this.redirectURI = application.isProduction() ? 'http://flsong.iok.la/github/auth_callback' : 'http://localhost:3000/github/auth_callback'
     }
 
     commenceGitHubLogin (e) {

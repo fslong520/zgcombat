@@ -21,7 +21,7 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  href: 'https://codecombat.com/teachers/quote',
+  href: 'https://flsong.iok.la/teachers/quote',
   target: '_blank',
   rel: 'noopener noreferrer',
   text: 'I’m an Educator'

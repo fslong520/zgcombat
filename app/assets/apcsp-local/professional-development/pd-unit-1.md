@@ -17,33 +17,33 @@ In keeping with our mission to prepare students for the job market, and being co
 - EU 5.4 Programs are developed, maintained, and used by people for different purposes.
 - EU 7.1 Computing enhances communication, interaction, and cognition.
 
-This unit encapsulates the curriculum listed above. You can see further explanation in the curriculum hub. The corresponding zgcombat courses are Introduction to Computer Science, Web Development 1, and Game Development 1. If you haven’t played them earlier when we introduced “What is zgcombat,” feel free to play them now. You can access any course or level through your [Teacher Course Guides](https://codecombat.com/teachers/courses).
+This unit encapsulates the curriculum listed above. You can see further explanation in the curriculum hub. The corresponding zgcombat courses are Introduction to Computer Science, Web Development 1, and Game Development 1. If you haven’t played them earlier when we introduced “What is zgcombat,” feel free to play them now. You can access any course or level through your [Teacher Course Guides](https://flsong.iok.la/teachers/courses).
 
 As part of zgcombat’s professional development, complete at least one of the Unit 1 activities below, which will also allow you to understand how computational thinking practices are woven throughout this unit.
 
-### [Visit level Tabula Rasa in Game Development 1](https://codecombat.com/play/level/tabula-rasa?course=5789587aad86a6efb573701e&codeLanguage=python).
-This is the final level and requires you to put together your own level to play. In this activity, you will gain an understanding of student’s ability to be creativity and apply algorithm concepts into a finished product. This is an essential step to any create task project. Your students will do this as part of their curriculum and you can use a [project rubric](http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf) to even evaluate their projects. (If stuck, check out the [full project guide for Game Development 1](https://codecombat.com/apcsp/markdown/gd1-5day).
-Much like how your students will be sharing their creations, we encourage you to share projects (and questions) on the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp) (Look for the Unit 1 PD thread). You can leave feedback on others or ask for feedback on yours.
+### [Visit level Tabula Rasa in Game Development 1](https://flsong.iok.la/play/level/tabula-rasa?course=5789587aad86a6efb573701e&codeLanguage=python).
+This is the final level and requires you to put together your own level to play. In this activity, you will gain an understanding of student’s ability to be creativity and apply algorithm concepts into a finished product. This is an essential step to any create task project. Your students will do this as part of their curriculum and you can use a [project rubric](http://files.flsong.iok.la.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf) to even evaluate their projects. (If stuck, check out the [full project guide for Game Development 1](https://flsong.iok.la/apcsp/markdown/gd1-5day).
+Much like how your students will be sharing their creations, we encourage you to share projects (and questions) on the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp) (Look for the Unit 1 PD thread). You can leave feedback on others or ask for feedback on yours.
 
-[Here is a game development 1 example](https://codecombat.com/play/game-dev-level/590909f01325691c007964d8) for reference. (Note that this is an unofficial non-required performance task exemplar). 
+[Here is a game development 1 example](https://flsong.iok.la/play/game-dev-level/590909f01325691c007964d8) for reference. (Note that this is an unofficial non-required performance task exemplar). 
 
 This activity will also allow you to engage with the following CTPs: P1: Connecting Computing, P2: Creating Computational Artifacts.
 
-### [Visit level Wanted Poster in Web Development 1](https://codecombat.com/play/level/wanted-poster?course=5789587aad86a6efb573701f&codeLanguage=javascript). 
+### [Visit level Wanted Poster in Web Development 1](https://flsong.iok.la/play/level/wanted-poster?course=5789587aad86a6efb573701f&codeLanguage=javascript). 
 This is the final level and requires you to put together your own images and text. Your students will do this and you can test out examples of what they will do with your own creation. 
-After this exercise, you will have a deeper understanding of how creativity and programming go hand in hand. Much like the previous activity, we encourage you to share projects (and questions) on the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp) (Look for the Unit 1 PD thread). You can leave feedback on others or ask for feedback on yours.
+After this exercise, you will have a deeper understanding of how creativity and programming go hand in hand. Much like the previous activity, we encourage you to share projects (and questions) on the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp) (Look for the Unit 1 PD thread). You can leave feedback on others or ask for feedback on yours.
 
-[Here is a web development 1 example for reference](https://codecombat.com/play/web-dev-level/579fbd99f380c444007e63d1)  (Note that this is an unofficial non-required performance task exemplar). 
+[Here is a web development 1 example for reference](https://flsong.iok.la/play/web-dev-level/579fbd99f380c444007e63d1)  (Note that this is an unofficial non-required performance task exemplar). 
 
 This activity will also allow you to engage with the following CTPs: P1: Connecting Computing, P2: Creating Computational Artifacts.
 
-### [Engage in our Crowdsourcing activity](https://codecombat.com/teachers/resources/apcsp-crowdsourcing). 
+### [Engage in our Crowdsourcing activity](https://flsong.iok.la/teachers/resources/apcsp-crowdsourcing). 
 This activity calls for you to examine technology collaboration. This activity will enforce analysis of computational artifacts as well as participate in problem-solving skills. 
-You will answer Discussion Questions and think about the internet in new ways through it. Please choose your favorite discussion question and share your response and thoughts on the [teacher forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp) . Feel free to comment on other teacher’s responses. 
+You will answer Discussion Questions and think about the internet in new ways through it. Please choose your favorite discussion question and share your response and thoughts on the [teacher forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp) . Feel free to comment on other teacher’s responses. 
 
 This activity will also allow you to engage with the following CTPs: P4: Analyzing Problems and Artifacts, P6: Collaboration.
 
-### [Review Pair Programming activity](https://codecombat.com/teachers/resources/pair-programming). 
+### [Review Pair Programming activity](https://flsong.iok.la/teachers/resources/pair-programming). 
 This is a best practice to encourage collaboration amongst pairs with different strengths and weaknesses. Take a moment to write out how you’d use this activity in your class while working on problems.
 
 This activity will also allow you to engage with the following CTPs: P1: Connecting Computing, P6: Collaboration.

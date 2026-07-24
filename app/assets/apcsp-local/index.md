@@ -11,4 +11,4 @@
 ##### Quick Links: 
 - [**Curriculum Overview**](/apcsp/curriculum/overview)
 - [**The Syllabus**](/apcsp/curriculum/syllabus)
-- [**Course Schedule**](http://files.codecombat.com.s3.amazonaws.com/docs/resources/APCSPCourseSchedule.pdf)
+- [**Course Schedule**](http://files.flsong.iok.la.s3.amazonaws.com/docs/resources/APCSPCourseSchedule.pdf)

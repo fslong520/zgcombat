@@ -1064,7 +1064,7 @@ module.exports = class PlayLevelView extends RootView
       filename: "screenshot-#{@levelID}-#{_.string.slugify((new Date()).toString())}.png"
       path: "db/user/#{me.id}"
       mimetype: 'image/png'
-    contactModal.screenshotURL = "http://codecombat.com/file/#{body.path}/#{body.filename}"
+    contactModal.screenshotURL = "http://flsong.iok.la/file/#{body.path}/#{body.filename}"
     window.screenshot = screenshot
     window.screenshotURL = contactModal.screenshotURL
     $.ajax '/file', type: 'POST', data: body, success: (e) ->

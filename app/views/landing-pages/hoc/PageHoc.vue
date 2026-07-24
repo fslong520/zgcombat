@@ -201,11 +201,11 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/goblins-hoc?hour_of_code=true',
+              link: 'https://flsong.iok.la/play/goblins-hoc?hour_of_code=true',
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'https://codecombat.com/teachers/resources/hoc-goblins#top',
+              link: 'https://flsong.iok.la/teachers/resources/hoc-goblins#top',
             },
           ],
         },
@@ -220,11 +220,11 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/ai-league-hoc?hour_of_code=true',
+              link: 'https://flsong.iok.la/play/ai-league-hoc?hour_of_code=true',
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'https://codecombat.com/teachers/resources/hoc-ai-league',
+              link: 'https://flsong.iok.la/teachers/resources/hoc-ai-league',
             },
           ],
         },
@@ -258,11 +258,11 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/dungeon?hour_of_code=true',
+              link: 'https://flsong.iok.la/play/dungeon?hour_of_code=true',
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'https://codecombat.com/teachers/resources/hoc',
+              link: 'https://flsong.iok.la/teachers/resources/hoc',
             },
           ],
         },
@@ -277,7 +277,7 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/game-dev-hoc?hour_of_code=true',
+              link: 'https://flsong.iok.la/play/game-dev-hoc?hour_of_code=true',
             },
           ],
         },
@@ -292,11 +292,11 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/hoc-2018',
+              link: 'https://flsong.iok.la/play/hoc-2018',
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'http://files.codecombat.com/docs/resources/hourofcode/HourofCodezgcombatLessonPlan2018.pdf',
+              link: 'http://files.flsong.iok.la/docs/resources/hourofcode/HourofCodezgcombatLessonPlan2018.pdf',
             },
           ],
         },
@@ -311,7 +311,7 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/game-dev-hoc-2?hour_of_code=true',
+              link: 'https://flsong.iok.la/play/game-dev-hoc-2?hour_of_code=true',
             },
           ],
         },

@@ -24,7 +24,7 @@ if (me.isAnonymous()) {
       key: publishableKey,
       name: 'CodeCombat',
       email: me.get('email'),
-      image: 'https://codecombat.com/images/pages/base/logo_square_250.png',
+      image: 'https://flsong.iok.la/images/pages/base/logo_square_250.png',
       token (token) {
         handler.trigger('received-token', { token })
         return Backbone.Mediator.publish('stripe:received-token', { token })

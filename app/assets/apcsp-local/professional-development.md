@@ -22,10 +22,10 @@ This is a self-paced learning environment, but please estimate 15 hours to compl
 - [Professional Development Unit 6: Preparing for the Exam](/apcsp/professional-development/pd-unit-6) (2 hours)
 - [Next Steps](/apcsp/professional-development/next-steps) (30 minutes)
 
-Questions? Reach out to our Professional Development Lead at [lawrence@codecombat.com](mailto:lawrence@codecombat.com). 
+Questions? Reach out to our Professional Development Lead at [lawrence@flsong.iok.la](mailto:lawrence@flsong.iok.la). 
 
 ##### Quick links
-- [AP CS Principles Teacher Forum](https://groups.google.com/a/codecombat.com/forum/?hl=en#!forum/apcsp)
+- [AP CS Principles Teacher Forum](https://groups.google.com/a/flsong.iok.la/forum/?hl=en#!forum/apcsp)
 - [Official College Board Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf)
 - [zgcombat Curriculum](/apcsp/curriculum)
 - [zgcombat Syllabus](/apcsp/curriculum/syllabus)

@@ -58,7 +58,7 @@ We hebben een reeks leerplannen gepubliceerd in onze [Resource Hub](/teachers/re
 
 ### Hoeveel kost het om toegang tot alle beschikbare cursussen en hulpmiddelen te krijgen?
 
-We maken oplossingen op maat voor scholen en gemeentes en werken met je samen om te begrijpen wat je vraag, omstandigheden en budget zijn. Neem contact op met [schools@codecombat.com](mailto:schools@codecombat.com) (in Nederland en rest van Europa: [product@codecombat.eu](mailto:product@codecombat.eu)) voor meer informatie!
+We maken oplossingen op maat voor scholen en gemeentes en werken met je samen om te begrijpen wat je vraag, omstandigheden en budget zijn. Neem contact op met [schools@flsong.iok.la](mailto:schools@flsong.iok.la) (in Nederland en rest van Europa: [product@codecombat.eu](mailto:product@codecombat.eu)) voor meer informatie!
 
 ### Wat houdt een licentie in?
 
@@ -100,7 +100,7 @@ We weten dat verschillende studenten met een verschillende snelheid leren, en so
 
 ### Wat als ik licenties nodig heb die alleen een periode/semester in plaats van een volledig jaar duren?
 
-De standaardlicentie voor studentenlicenties is voor een jaar, maar kan indien nodig worden opgedeeld in semesters. Praat gewoon met een van onze schoolspecialisten ( [School Specialists](mailto:schools@codecombat.com)) om uw behoeften te bespreken. In Nederland kunt u gewoon naar [product@codecombat.eu](mailto:product@codecombat.eu) mailen.
+De standaardlicentie voor studentenlicenties is voor een jaar, maar kan indien nodig worden opgedeeld in semesters. Praat gewoon met een van onze schoolspecialisten ( [School Specialists](mailto:schools@flsong.iok.la)) om uw behoeften te bespreken. In Nederland kunt u gewoon naar [product@codecombat.eu](mailto:product@codecombat.eu) mailen.
 
 ### Wat is het Arena-level aan het einde van een cursus?
 
