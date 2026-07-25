@@ -21,7 +21,8 @@
       <div class="hero-grid">
         <header class="mast">
           <div class="badge"><span class="prompt">&gt;_</span> LEARN TO CODE BY PLAYING</div>
-          <h1 class="mast-title">zgcombat</h1>
+          <h1 class="mast-title">智国战役</h1>
+          <div class="mast-en">zgcombat</div>
           <p class="mast-sub">
             <span class="type-text">{{ typed }}</span><span class="caret">▋</span>
           </p>
@@ -257,6 +258,14 @@ $amber: #fbbf24;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 28px rgba(124, 58, 237, 0.45));
+}
+.mast-en {
+  margin: -4px 0 16px;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.85);
 }
 .mast-sub {
   margin: 0 0 26px;
