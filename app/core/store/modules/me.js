@@ -134,19 +134,8 @@ export default {
     },
 
     hasSubscription (state) {
-      if (state.payPal && state.payPal.billingAgreementID) {
-        return true
-      }
-
-      if (state.stripe && (state.stripe.sponsorID || state.stripe.subscriptionID || state.stripe.free === true)) {
-        return true
-      }
-
-      if (state.stripe && typeof state.stripe.free === 'string') {
-        return new Date() < new Date(state.stripe.free)
-      }
-
-      return false
+      // 内部部署：移除订阅门槛，所有用户均视为已订阅。
+      return true
     },
 
     isPremium (state, getters) {

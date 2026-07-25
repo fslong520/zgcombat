@@ -524,23 +524,8 @@ module.exports = (User = (function () {
     }
 
     hasSubscription () {
-      if (this.isStudent() || this.isTeacher()) { return false }
-      const payPal = this.get('payPal')
-      const stripe = this.get('stripe')
-      const products = this.get('products')
-      if (payPal) {
-        if (payPal.billingAgreementID) { return true }
-      }
-      if (stripe) {
-        if (stripe.free === true) { return true }
-        if (_.isString(stripe.free) && (new Date() < new Date(stripe.free))) { return true }
-      }
-      if (products) {
-        const homeProducts = this.activeProducts('basic_subscription')
-        const maxFree = _.max(homeProducts, p => new Date(p.endDate)).endDate
-        if (new Date() < new Date(maxFree)) { return true }
-      }
-      return false
+      // 内部部署：移除订阅门槛，所有用户均视为已订阅（含 C++/Java 语言解锁、付费英雄/道具/AI 等），关卡仍按前置进度逐步解锁。
+      return true
     }
 
     isPaidOnlineClassUser () {
