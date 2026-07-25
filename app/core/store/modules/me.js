@@ -150,7 +150,8 @@ export default {
     },
 
     isPremium (state, getters) {
-      return getters.isAdmin || getters.hasSubscription || getters.isInGodMode
+      // 内部部署：移除订阅门槛，所有用户均视为已订阅，可玩全部关卡内容（关卡仍按前置进度逐步解锁）。
+      return true
     },
   },
 
