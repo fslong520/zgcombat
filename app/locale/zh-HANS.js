@@ -1605,7 +1605,7 @@ module.exports = {
       code_format_only_junior: '仅少年版支持',
       code_format_in_mobile: '仅大屏幕支持（如笔记本，平板，电脑等）',
       code_format_disable_by_teacher: '[AI_TRANSLATION]被老师禁用了  ',
-      code_language_subscriber_only: '[AI_TRANSLATION]仅限订阅者  ',
+      code_language_subscriber_only: '',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]不支持块代码',
       code_language_not_support_in_classroom: '班级中不支持',
     },

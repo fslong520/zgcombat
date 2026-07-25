@@ -150,21 +150,7 @@ module.exports = (ChangeLanguageTab = (function () {
       }
 
       if (canChangeLanguage) {
-        let premium = false
-        if (me.isHomeUser() && me.isPremium()) {
-          premium = true
-        } else if (me.isStudent() && me.isEnrolled()) {
-          premium = true
-        } else if (me.isTeacher()) {
-          // allow teacher to test cpp/java
-          premium = true
-        }
-        if (!premium) {
-          Array.from(['cpp', 'java']).forEach(language => {
-            this.codeLanguageObject[language].disabled = true
-            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_subscriber_only')
-          })
-        }
+        // 内部部署：订阅门槛已移除，所有用户均可选用 C++/Java，不再因订阅禁用。
         if (this.codeFormat !== 'text-code') {
           Array.from(['lua', 'cpp', 'java']).forEach(language => {
             this.codeLanguageObject[language].disabled = true
