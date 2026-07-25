@@ -107,6 +107,23 @@ $teal-dark: #0E4C60
       height: 627px
       width: 100%
       margin: auto
+      .home-cn-brand
+        font-family: $headline-font
+        font-weight: bold
+        font-size: 64px
+        line-height: 1.1
+        letter-spacing: 8px
+        margin: 54px 64px 0
+        background: linear-gradient(90deg, #FFE7A0 0%, #FDD147 50%, #FFB300 100%)
+        -webkit-background-clip: text
+        -webkit-text-fill-color: transparent
+        display: inline-block
+        @media (max-width: $screen-xs-min)
+          font-size: 40px
+          letter-spacing: 4px
+          margin: 40px 24px 0
+      .home-cn-brand ~ h1.text-white
+        margin-top: 8px
       h1
         margin: 54px 64px 30px
       .button-section
