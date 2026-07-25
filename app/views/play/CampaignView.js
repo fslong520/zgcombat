@@ -841,7 +841,7 @@ class CampaignView extends RootView {
     })
     context.marked = marked
     context.i18n = utils.i18n
-    context.subscribersOnlyLabel = $.i18n.t('play.subscribers_only')
+    context.subscribersOnlyLabel = ''
     context.lockedCampaignLabel = $.i18n.t('play.locked_campaign')
 
     if (this.campaigns) {

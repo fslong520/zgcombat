@@ -37,10 +37,7 @@ block info
     ul(style="margin: 2px; padding: 2px; padding-left: 18px")
       li(data-i18n="announcement.collect_pets")
       li(data-i18n="announcement.each_pet")
-      if !me.isPremium()
-        li
-          != translate('announcement.upgrade_to_premium').replace('{{subscriber}}', '<a href="/premium">' + translate('announcement.subscriber') + '</a>')
-      else if me.get('stats') && me.get('stats').gamesCompleted >= 7
+      if me.get('stats') && me.get('stats').gamesCompleted >= 7
         li
           != translate('announcement.play_second_kithmaze').replace('{{the_second_kithmaze}}', '<a href="/play/level/the-second-kithmaze">' + translate('announcement.the_second_kithmaze') + '</a>')
       else
