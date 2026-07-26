@@ -81,8 +81,10 @@ module.exports = (HeroVictoryModal = (function () {
       this.level = options.level
       this.thangTypes = {}
       if (this.level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) {
+        const sessionLevel = this.session.get('level')
+        const related = (sessionLevel && typeof sessionLevel === 'object' && sessionLevel.original) ? sessionLevel.original : (this.level.get('original') || this.level.id)
         const achievements = new CocoCollection([], {
-          url: `/db/achievement?related=${this.session.get('level').original}`,
+          url: `/db/achievement?related=${related}`,
           model: Achievement,
         })
         this.achievements = this.supermodel.loadCollection(achievements, 'achievements').model
@@ -106,35 +108,31 @@ module.exports = (HeroVictoryModal = (function () {
 
       this.trackAwsButtonShown = _.once(() => window.tracker != null ? window.tracker.trackEvent('Show Amazon Modal Button') : undefined)
 
-      if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
+      if (this.level.get('campaign')) {
         this.nextLevel = new Level()
         api.levels.fetchNextForCampaign({
-          campaignSlug: this.level.get('campaign'),
+          campaignSlug: this.level.get('campaign') || '',
           levelOriginal: this.level.get('original'),
           includePractice: false,
         }).then((level) => {
           this.nextLevel?.set(level)
-          // Ensure dynamic parts of the modal that depend on nextLevel are refreshed
           this.renderSelectors?.('.next-level-buttons')
         }).catch((err) => {
-          // Avoid unhandled promise rejections; log for debugging
-          console.error('Failed to fetch next level for campaign (includePractice: false):', err)
+          console.error('NEXT_LEVEL_FAIL params:', { campaignSlug: this.level.get('campaign'), levelOriginal: this.level.get('original'), includePractice: false }, 'err:', err)
         })
-        // Only fetch the practice level for premium users, since practice is premium-gated.
+        // Practice level is junior+premium only
         const isPremium = Boolean(typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium)
-        if (me && isPremium) {
+        if (this.level.get('product', true) === 'codecombat-junior' && me && isPremium) {
           this.practiceLevel = new Level()
           api.levels.fetchNextForCampaign({
-            campaignSlug: this.level.get('campaign'),
+            campaignSlug: this.level.get('campaign') || '',
             levelOriginal: this.level.get('original'),
             includePractice: true,
           }).then((level) => {
             this.practiceLevel?.set(level)
-            // Ensure dynamic parts of the modal that depend on practiceLevel are refreshed
             this.renderSelectors?.('.next-level-buttons')
           }).catch((err) => {
-            // Avoid unhandled promise rejections; log for debugging
-            console.error('Failed to fetch practice level for campaign (includePractice: true):', err)
+            console.error('NEXT_LEVEL_FAIL params:', { campaignSlug: this.level.get('campaign'), levelOriginal: this.level.get('original'), includePractice: true }, 'err:', err)
           })
         }
       }
@@ -254,6 +252,8 @@ module.exports = (HeroVictoryModal = (function () {
         achievement.gems = __guard__(achievement.get('rewards'), x => x.gems)
       }
       c.achievements = (this.achievements != null ? this.achievements.models.slice() : undefined) || []
+      // 内部部署成就数据未按 level 过滤，截断避免弹窗被成就面板撑满
+      c.achievements = c.achievements.filter(a => a.completed && a.get('related') === this.level.get('original'))
       for (achievement of Array.from(c.achievements)) {
         let left1, left2
         const proportionalTo = achievement.get('proportionalTo')
@@ -627,7 +627,7 @@ module.exports = (HeroVictoryModal = (function () {
         continueLink = `/play/${this.parentCampaign}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, this.parentCampaign]
-      } else if ((this.level.isType('course') || isJunior) && this.nextLevel?.get('slug') && !options.returnToCourse) {
+      } else if (this.nextLevel?.get('slug') && !options.returnToCourse) {
         continueLink = `/play/level/${this.nextLevel.get('slug')}`
         if (this.courseID) {
           continueLink += `/${this.courseID}`

@@ -1,7 +1,7 @@
 if view.options.level.isType('game-dev')
   button.btn.btn-lg.btn-illustrated.btn-success.game-dev-play-btn
     span(data-i18n="common.play")
-  button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
+  button.btn.btn-lg.btn-illustrated.btn-success.done-button
     span(data-i18n="play_level.done")
 
 else if view.options.level.get('product') == 'codecombat-junior'
@@ -12,6 +12,9 @@ else if view.options.level.get('product') == 'codecombat-junior'
     .hidden
       .ladder-submission-view
 
+  button.btn.btn-lg.btn-illustrated.btn-success.done-button
+    span(data-i18n="play_level.done") Done
+
 else
   button.btn.btn-lg.btn-illustrated.cast-button(title=view.castVerbose())
     span(data-i18n="play_level.tome_cast_button_ran") Ran
@@ -19,17 +22,13 @@ else
   if !view.observing
     if view.mirror || (view.options.level.isType('ladder') && !(me.isAnonymous() && me.get('hourOfCode')))
       .ladder-submission-view
-    else
-      button.btn.btn-lg.btn-illustrated.submit-button(title=view.castRealTimeVerbose())
-        span(data-i18n="play_level.tome_submit_button") Submit
-        span.spl.secret.submit-again-time
+    if view.autoSubmitsToLadder
+      .hidden
+        .ladder-submission-view
 
-      button.btn.btn-lg.btn-illustrated.btn-success.done-button.secret
-        span(data-i18n="play_level.done") Done
+  // OJ 风格：常显「完成」按钮（即提交），脱离 observing 限制，点击手动触发胜利/下一关
+  button.btn.btn-lg.btn-illustrated.btn-success.done-button
+    span(data-i18n="play_level.done") Done
 
-      button.btn.btn-lg.btn-illustrated.btn-success#stop-cinematic-playback-button
-        span.glyphicon.glyphicon-stop
-
-      if view.autoSubmitsToLadder
-        .hidden
-          .ladder-submission-view
+  button.btn.btn-lg.btn-illustrated.btn-success#stop-cinematic-playback-button
+    span.glyphicon.glyphicon-stop

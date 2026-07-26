@@ -60,6 +60,7 @@ module.exports = class CastButtonView extends CocoView
     @updateButtonWidth()
     @updateReplayability()
     @updateLadderSubmissionViews()
+    @$el.find('.done-button').show()  # OJ 风格：完成（提交）按钮常显，手动触发胜利/下一关
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -94,6 +95,10 @@ module.exports = class CastButtonView extends CocoView
   onDoneButtonClick: (e) ->
     return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world?.scores, @options.level
+    # 标记本关完成并持久化，使后端可发奖励与解锁下一关
+    state = Object.assign {}, (@options.session.get('state') or {}), { complete: true }
+    @options.session.set 'state', state
+    @options.session.save()
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onSpellChanged: (e) ->
@@ -142,7 +147,7 @@ module.exports = class CastButtonView extends CocoView
     if @options.level.get('slug') in ['resource-tycoon']
       null  # No "Done" button for standalone tournament game-dev project levels outside of a campaign
     else if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')
-      @$el.find('.done-button').toggle @winnable
+      @$el.find('.done-button').show()  # OJ 风格：完成（提交）按钮常显，手动触发
     else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
     @updateButtonWidth()

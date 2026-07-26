@@ -62,7 +62,7 @@ module.exports = class LevelPlaybackView extends CocoView
     $(window).on('resize', @onWindowResize)
     unless @getFullscreenRequestMethod()
       @$el.find('.toggle-fullscreen').hide()
-    @timePopup ?= new HoverPopup
+    # @timePopup ?= new HoverPopup  # ��时禁用，以绝 Bootstrap popover 内部 offsetHeight 崩源
     @second = $.i18n.t 'units.second'
     @seconds = $.i18n.t 'units.seconds'
     @minute = $.i18n.t 'units.minute'
@@ -416,9 +416,11 @@ class HoverPopup extends $.fn.popover.Constructor
     @$tip.addClass('fade top in')
 
   onHover: (@e) ->
+    # 防御：#timePopover 未渲染时 @$tip 为空 jQuery，[0] 为 undefined，读 offsetWidth/Height 会崩。
+    return unless @$tip?.length
     pos = @getPosition()
-    actualWidth  = @$tip[0].offsetWidth
-    actualHeight = @$tip[0].offsetHeight
+    actualWidth  = @$tip[0]?.offsetWidth or 0
+    actualHeight = @$tip[0]?.offsetHeight or 0
     calculatedOffset =
       top: pos.top - actualHeight
       left: pos.left + pos.width / 2 - actualWidth / 2

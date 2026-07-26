@@ -153,6 +153,36 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     return next();
   });
 
+  // /db/campaign/:campaignSlug/levels/:levelOriginal/next -> next level in campaign order
+  app.get('/db/campaign/:campaignSlug/levels/:levelOriginal/next', async function (req, res) {
+    try {
+      const campDoc = await resolveCampaign(req.params.campaignSlug);
+      if (!campDoc || !campDoc.levels) { return res.status(200).json(null); }
+      const levelOriginal = req.params.levelOriginal;
+      const entry = campDoc.levels[levelOriginal];
+      if (!entry) { return res.status(200).json(null); }
+      // priority: use nextLevels if available
+      if (entry.nextLevels) {
+        const nextIds = Object.keys(entry.nextLevels);
+        if (nextIds.length) {
+          const nextEntry = entry.nextLevels[nextIds[0]];
+          return res.status(200).json(nextEntry);
+        }
+      }
+      // fallback: find next level by key order
+      const keys = Object.keys(campDoc.levels);
+      const idx = keys.findIndex(k => k === levelOriginal || (campDoc.levels[k] && campDoc.levels[k].original === levelOriginal));
+      if (idx >= 0 && idx < keys.length - 1) {
+        const nextEntry = campDoc.levels[keys[idx + 1]];
+        return res.status(200).json({ slug: nextEntry.slug, name: nextEntry.name, original: nextEntry.original });
+      }
+      return res.status(200).json(null);
+    } catch (e) {
+      console.error('[db] /levels/:id/next error', e.message);
+      return res.status(200).json(null);
+    }
+  });
+
   app.get('/db/:collection/:id?/:action?', async function (req, res) {
     try {
       const mongoColl = DB_COLLECTIONS[req.params.collection];

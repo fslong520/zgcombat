@@ -3,6 +3,7 @@ global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 // bare `features?.x` references don't throw when the shell arrives without it.
 window.features = window.features || {};
 import 'bootstrap';
+import './lib/bootstrapPopoverFix'; // 防御 Bootstrap popover 残留 resize 监听读 null $tip.offsetHeight
 import './app.sass';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';

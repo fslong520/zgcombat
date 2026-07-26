@@ -364,6 +364,7 @@ class HoverPopup extends $.fn.popover.Constructor
     @$tip.addClass('fade top in')
 
   onHover: (@e) ->
+    return unless @$tip?.length
     pos = @getPosition()
     actualWidth  = @$tip[0].offsetWidth
     actualHeight = @$tip[0].offsetHeight

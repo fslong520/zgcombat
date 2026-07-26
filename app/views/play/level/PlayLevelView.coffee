@@ -1022,10 +1022,11 @@ module.exports = class PlayLevelView extends RootView
       parentCampaign: @parentCampaign,
     }
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
-    ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
-    if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
-      ModalClass = CourseVictoryModal
-      options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
+    # 内部部署/OJ 风：不弹 CourseVictoryModal（其模板列全课程所有关卡），统一用简洁 HeroVictoryModal
+    # ModalClass = CourseVictoryModal if @isCourseMode()
+    # if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
+    #   ModalClass = CourseVictoryModal
+    #   options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     victoryModal.once 'hidden', =>
