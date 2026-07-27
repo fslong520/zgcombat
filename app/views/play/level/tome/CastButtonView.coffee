@@ -105,11 +105,20 @@ module.exports = class CastButtonView extends CocoView
   # 确属通关：记录、持久化、发奖、解锁下一关、弹胜利窗
   proceedDone: ->
     @doneVictoryPublished = true  # 防止 onPlaybackEnded 重复弹窗
+    @markLevelCompleted()
+    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+
+  # 幂等：标记本关已通关并存档、发奖、解锁下一关。仅首次(未 complete)执行，回放不重复发奖
+  markLevelCompleted: ->
+    return if @options.session.get('state')?.complete  # 已通关，避免重复发奖/重复写档
+    LocalProgress = require 'lib/localProgress'
     @options.session.recordScores @world?.scores, @options.level
     state = Object.assign {}, (@options.session.get('state') or {}), { complete: true }
     @options.session.set 'state', state
-    @options.session.save()  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
-    LocalProgress = require 'lib/localProgress'
+    # 跳过 tv4 校验：c.object 默认 additionalProperties:false，session 客户端字段
+    # （state/level 等动态字段）致 49 条校验错、save 被拦、发奖 POST 永不触发。
+    # 数据本身合法（落盘后复验 0 错），仅客户端多出字段，故发奖存档跳过校验。
+    @options.session.save(null, { validate: false })  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
     slug = @options.level.get('slug')
     original = @options.level.get('original') or @options.level.id
     campaignSlug = @options.level.get('campaign')
@@ -126,7 +135,6 @@ module.exports = class CastButtonView extends CocoView
           if next?.original
             LocalProgress.addUnlocked([next.original])
         error: -> # 后端路由缺失则忽略，已通本关仍可解锁
-    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   # 匿名用户：拉取本关关联成就的 worth(xp) 与 rewards.gems，累计到缓存并刷新头部
   grantAnonRewards: (original) ->
@@ -183,12 +191,13 @@ module.exports = class CastButtonView extends CocoView
       noty text: '代码尚未通关，请调整方案后再试。', type: 'warning', timeout: 3000, killer: false
       return
     return unless @winnable
-    return if @options.level.get('product', true) is 'codecombat' and not utils.isOzaria
     return if @options.level.get('ozariaType') is 'capstone'
     # 若本次胜利由「完成」按钮的待定运行触发，proceedDone 已弹窗，避免重复
     if @doneVictoryPublished
       @doneVictoryPublished = false
       return
+    # 自动通关（运行即胜）亦须标记完成、发奖、解锁，否则奖励面板不显
+    @markLevelCompleted()
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->

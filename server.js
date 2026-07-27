@@ -391,7 +391,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // server stores these files in S3; our restored coco database has none of them.
   const LOCAL_ASSET_DIR = path.join(__dirname, 'codecombat_assets'); // pre-downloaded by download_assets.js (committed)
   const FILE_CACHE_DIR = path.join(__dirname, 'file_cache'); // runtime cache (TTS, etc.) — gitignored
-  const UPSTREAM_FILE_BASE = 'https://flsong.iok.la/file/';
+  const UPSTREAM_FILE_BASE = 'https://codecombat.cn/file/';
   const inFlightFetches = new Map(); // relPath -> Promise<Buffer>
 
   function contentTypeFor(name) {
@@ -561,6 +561,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   };
   const persistLevelSession = async function (req, res) {
     try {
+      console.info('[db] /db/level.session', req.method, 'complete=', !!(req.body && req.body.state && req.body.state.complete), 'level=', (req.body && (req.body.level && req.body.level.original || req.body.level || req.body.state && req.body.state.original)), 'creator=', req.body && req.body.creator);
       if (!cocoDb) { return res.status(200).json({}); }
       const body = req.body || {};
       const id = req.params.id;
@@ -577,7 +578,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       }
       // 通关：把本关与下一关（来自 campaign 的 nextLevels / rewards）加入用户 earned.levels
       if (body && body.state && body.state.complete) {
-        const levelOriginal = body.level || (body.state && body.state.original);
+        // body.level 为对象 {original,id,name}，须取其 original 字符串作成就 related 匹配键；
+        // 直接取 body.level 得对象，致 achievements.find({related:对象}) 永不匹配，发奖全失。
+        const levelOriginal = (body.level && body.level.original) ||
+          (typeof body.level === 'string' ? body.level : null) ||
+          (body.state && body.state.original) || null
         const creator = body.creator;
         if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
           const unlocked = [levelOriginal];
