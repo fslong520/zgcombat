@@ -199,10 +199,17 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     onHeroChanged (e) {
-      const heroItem = $(e.relatedTarget)
-      let hero = _.find(this.heroes.models, hero => hero.get('original') === heroItem.data('hero-id'))
-      if (!hero) { return console.error("Couldn't find hero from heroItem:", heroItem) }
-      const heroIndex = heroItem.index()
+      // 内网部署：模态框可能被无触发元素的方式打开（relatedTarget 为空），
+      // 此时 $(e.relatedTarget) 为空 jQuery，data('hero-id') 为 undefined。回退到当前/首个英雄。
+      let heroItem = $(e?.relatedTarget)
+      if (!heroItem || !heroItem.length) {
+        heroItem = this.$el.find('.hero-item.selected').first()
+        if (!heroItem.length) { heroItem = this.$el.find('.hero-item').first() }
+      }
+      let hero = _.find(this.heroes.models, h => h.get('original') === heroItem.data('hero-id'))
+      if (!hero) { hero = this.selectedHero || this.heroes.models[0] }
+      if (!hero) { return console.error("Couldn't find any hero for PlayHeroesModal") }
+      const heroIndex = Math.max(0, _.findIndex(this.heroes.models, h => h.get('original') === hero.get('original')))
       hero = this.loadHero(hero)
       this.preloadHero(heroIndex + 1)
       this.preloadHero(heroIndex - 1)

@@ -94,12 +94,57 @@ module.exports = class CastButtonView extends CocoView
 
   onDoneButtonClick: (e) ->
     return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
+    if @winnable
+      @proceedDone()
+    else
+      # 尚未判定通关：先运行代码，由 onNewGoalStates / onPlaybackEnded 判定结果
+      @pendingDone = true
+      noty text: '正在运行代码以判定是否通关…', type: 'info', timeout: 2500, killer: false
+      Backbone.Mediator.publish 'tome:manual-cast', { realTime: false }
+
+  # 确属通关：记录、持久化、发奖、解锁下一关、弹胜利窗
+  proceedDone: ->
+    @doneVictoryPublished = true  # 防止 onPlaybackEnded 重复弹窗
     @options.session.recordScores @world?.scores, @options.level
-    # 标记本关完成并持久化，使后端可发奖励与解锁下一关
     state = Object.assign {}, (@options.session.get('state') or {}), { complete: true }
     @options.session.set 'state', state
-    @options.session.save()
+    @options.session.save()  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
+    LocalProgress = require 'lib/localProgress'
+    slug = @options.level.get('slug')
+    original = @options.level.get('original') or @options.level.id
+    campaignSlug = @options.level.get('campaign')
+    LocalProgress.markComplete(slug, original)
+    LocalProgress.addUnlocked([original])
+    # 匿名用户：本关 XP/宝石累计入缓存，并即时刷新头部
+    if me.isAnonymous()
+      @grantAnonRewards(original)
+    if campaignSlug and original
+      $.ajax
+        url: "/db/campaign/#{campaignSlug}/levels/#{original}/next"
+        method: 'GET'
+        success: (next) ->
+          if next?.original
+            LocalProgress.addUnlocked([next.original])
+        error: -> # 后端路由缺失则忽略，已通本关仍可解锁
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+
+  # 匿名用户：拉取本关关联成就的 worth(xp) 与 rewards.gems，累计到缓存并刷新头部
+  grantAnonRewards: (original) ->
+    return unless original
+    LocalProgress = require 'lib/localProgress'
+    $.ajax
+      url: "/db/achievement?related=#{original}"
+      method: 'GET'
+      success: (achs) ->
+        xp = 0; gems = 0
+        for a in (achs or [])
+          xp += (a.worth or 0)
+          gems += ((a.rewards and a.rewards.gems) or 0)
+        LocalProgress.addReward(original, xp, gems)
+        if me.isAnonymous()
+          r = LocalProgress.getRewards()
+          me.set { points: r.xp, gems: r.gems }
+      error: -> # 忽略；成就面板仍会显奖励
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -133,9 +178,17 @@ module.exports = class CastButtonView extends CocoView
     @world = e.world
 
   onPlaybackEnded: (e) ->
+    if @pendingDone and not @winnable
+      @pendingDone = false
+      noty text: '代码尚未通关，请调整方案后再试。', type: 'warning', timeout: 3000, killer: false
+      return
     return unless @winnable
     return if @options.level.get('product', true) is 'codecombat' and not utils.isOzaria
     return if @options.level.get('ozariaType') is 'capstone'
+    # 若本次胜利由「完成」按钮的待定运行触发，proceedDone 已弹窗，避免重复
+    if @doneVictoryPublished
+      @doneVictoryPublished = false
+      return
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->
@@ -144,6 +197,11 @@ module.exports = class CastButtonView extends CocoView
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
     Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
+    if @pendingDone and @winnable
+      @pendingDone = false
+      @doneVictoryPublished = true
+      @proceedDone()
+      return
     if @options.level.get('slug') in ['resource-tycoon']
       null  # No "Done" button for standalone tournament game-dev project levels outside of a campaign
     else if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')

@@ -1,0 +1,21 @@
+diff --git a/node_modules/ace-diff/src/index.js b/node_modules/ace-diff/src/index.js
+index 39ee7fc..83ab9b6 100644
+--- a/node_modules/ace-diff/src/index.js
++++ b/node_modules/ace-diff/src/index.js
+@@ -385,7 +385,15 @@ function addEventHandlers(acediff) {
+   }
+ 
+   const onResize = debounce(() => {
+-    acediff.editors.availableHeight = document.getElementById(acediff.options.left.id).offsetHeight;
++    const el = document.getElementById(acediff.options.left.id)
++    if (!el) {
++      // Editor already torn down but the resize listener is still attached
++      // (e.g. the owning view was destroyed without calling acediff.destroy()):
++      // drop the stale listener instead of reading offsetHeight off null.
++      window.removeEventListener('resize', onResize)
++      return
++    }
++    acediff.editors.availableHeight = el.offsetHeight;
+ 
+     // TODO this should re-init gutter
+     acediff.diff();

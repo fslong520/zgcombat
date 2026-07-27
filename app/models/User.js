@@ -16,6 +16,7 @@ let User
 const CocoModel = require('./CocoModel')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const LevelConstants = require('lib/LevelConstants')
+const LocalProgress = require('lib/localProgress')
 const utils = require('core/utils')
 const api = require('core/api')
 const co = require('co')
@@ -478,7 +479,18 @@ module.exports = (User = (function () {
     levels () {
       const earned = this.get('earned')?.levels || []
       const purchased = this.get('purchased')?.levels || []
-      return earned.concat(purchased).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
+      let list = earned.concat(purchased).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
+      // 内部部署：匿名用户的通关进度存于浏览器 localStorage，注入已解锁关卡以驱动 world map 顺序解锁。
+      if (this.isAnonymous()) {
+        try {
+          const unlocked = LocalProgress.getUnlocked()
+          if (unlocked && unlocked.length) { list = list.concat(unlocked) }
+          // 匿名用户累计之经验/宝石（存于缓存）覆盖到头部显示，使「完成」后可见获得。
+          const r = LocalProgress.getRewards()
+          this.set({ points: r.xp || 0, gems: r.gems || 0 })
+        } catch (e) { /* ignore */ }
+      }
+      return list
     }
 
     ownsHero (heroOriginal) {

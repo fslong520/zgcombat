@@ -162,8 +162,10 @@ export default {
       this.$nextTick(() => {
         const videoBoxes = this.$refs[refName] || []
         videoBoxes.forEach(videoBox => {
+          if (!videoBox || !videoBox.$el) return
           const containerHeight = videoBox.$el.offsetHeight
           const streamElement = videoBox.$el.firstElementChild
+          if (!streamElement) return
           const streamHeight = streamElement.offsetHeight
           if (!streamElement.offsetHeight) {
             setTimeout(() => {

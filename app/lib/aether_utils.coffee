@@ -65,11 +65,20 @@ module.exports.fetchToken = (source, language) =>
   if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
     return Promise.resolve(source)
 
+  # 内部部署：C++/Java 用户常按 Python 习惯写裸语句（如 `hero.moveRight();`），
+  # 缺少 int main() 包裹，kodekeeper 无法产出 AST，aether 退化为空函数，英雄不动。
+  # 自动包裹 int main() { ... }（仅当用户代码未含 main 函数时），使其可被正常转译。
+  if language is 'cpp' and not /\b(int\s+main|void\s+main|main\s*\()/.test source
+    source = "int main() {\n#{source}\n}"
+
   headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
   service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
   fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
     .then (x) => x.token
+    .catch (e) =>
+      console.error 'kodekeeper fetchToken failed for', language, '-', e
+      throw e
 
 module.exports.generateSpellsObject = (options) ->
   {level, levelSession, token} = options

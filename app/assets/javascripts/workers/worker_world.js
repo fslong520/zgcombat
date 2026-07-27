@@ -87,9 +87,17 @@ var ensureLanguageImported = function(language) {
     (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
     //console.log(`Using modern language plugin: ${language}`);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
+    console.log("Language plugin loaded:", language);
   } catch (e) {
-    //console.log("Legacy javascript detected, using legacy plugin for ", language, e.message);
-    myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+    console.error("Language plugin FAILED to load:", language, (e && e.message) || e, (e && e.stack) || '');
+    try {
+      // Fallback to legacy plugin
+      myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+      console.log("Language plugin loaded (legacy):", language);
+    } catch (e2) {
+      console.error("Language plugin FAILED (legacy too):", language, (e2 && e2.message) || e2);
+      throw e2;
+    }
   }
   languagesImported[language] = true;
 };

@@ -722,7 +722,7 @@ module.exports = (CocoRouter = (function () {
           return
         } else if (options.vueRoute) { // Routing to a vue component using VueComponentView
           const VueComponentView2 = require('views/core/VueComponentView')
-          view = new VueComponentView2(ViewClass.default, options, ...Array.from(args))
+          view = new VueComponentView2(ViewClass.default || ViewClass, options, ...Array.from(args))
         } else {
           const Klass = ViewClass.default ? ViewClass.default : ViewClass
           view = new Klass(options, ...Array.from(args)) // options, then any path fragment args

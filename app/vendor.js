@@ -9,6 +9,11 @@ global.$ = window.$ = global.jQuery = window.jQuery = require('jquery')
 window._ = require('lodash')
 window.Backbone = require('backbone')
 window.Backbone.$ = window.jQuery // wat
+// 主线程全局 CoffeeScript 编译器。LevelComponent.compile 于主线程用裸 `CoffeeScript`（见 app/models/LevelComponent.js:84），
+// 其全局原仅由 lib/world/world.coffee 经 require 'vendor/scripts/coffeescript' 注入；若该模块求值晚于组件编译或被判入
+// 其他 chunk，则报 `CoffeeScript is not defined`，Programmable 组件编译失败、可编程方法缺失、Spell 不建、角色不动。
+// 此处尽早显式注入，确保任何 LevelComponent 编译前全局已就绪。
+window.CoffeeScript = require('vendor/scripts/coffeescript')
 window.tv4 = require('tv4')
 window.lscache = require('lscache')
 window._.string = require('underscore.string')

@@ -1142,13 +1142,23 @@ module.exports = class SpellView extends CocoView
     @fetchTokenForSource().then (source) =>
       readableSource = Aether.getTokenSource(source)
       hasChanged = @spell.source isnt readableSource
-      if hasChanged
-        @spell.transpile source
+      # C++/Java 客户端不能转译源码，须经 kodekeeper 取 token 解码赋 AST；
+      # 故不可因 hasChanged 为 false 跳过 transpile（否则 aether 无 AST，角色不动）。
+      if hasChanged or @spell.language in ['cpp', 'java']
+        result = @spell.transpile source
         @updateAether true, false
+        if @spell.language in ['cpp', 'java']
+          a = @spell.thang?.aether
+          console.log '[C++/Java] transpiled; hasAST=', Boolean(a?.ast), 'raw=', (a?.raw or '').slice(0, 40), 'cast=', cast, 'tokenLen=', (source or '').length
       if cast  #and (hasChanged or realTime)  # just always cast now
-        @cast(false, realTime, false, cinematic)
+        if result?.then
+          result.then => @cast(false, realTime, false, cinematic)
+        else
+          @cast(false, realTime, false, cinematic)
       if hasChanged
         @notifySpellChanged()
+    .catch (e) =>
+      console.error 'recompile failed (C++/Java transpile):', e
 
   updateACEText: (source) ->
     @eventsSuppressed = true
@@ -2095,6 +2105,7 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @destroyAceEditor(@aceSolution)
+    @aceDiff?.destroy()
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()

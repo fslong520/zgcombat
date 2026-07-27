@@ -28,6 +28,7 @@ const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal'
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
+const LocalProgress = require('lib/localProgress')
 const CourseInstance = require('models/CourseInstance')
 const Levels = require('collections/Levels')
 const createjs = require('lib/createjs-parts')
@@ -546,6 +547,21 @@ class CampaignView extends RootView {
           }
         }
       }
+      // 内部部署：匿名用户通关进度存于 localStorage，注入 levelStatusMap 以显示星标/完成态。
+      if (me.isAnonymous()) {
+        try {
+          const completed = LocalProgress.getCompleted()
+          for (const slug of Object.keys(completed)) {
+            if (this.levelStatusMap[slug] !== COMPLETE_STATUS) {
+              this.levelStatusMap[slug] = COMPLETE_STATUS
+            }
+            const orig = completed[slug] && completed[slug].original
+            if (orig && this.levelOriginalStatusMap[orig] !== COMPLETE_STATUS) {
+              this.levelOriginalStatusMap[orig] = COMPLETE_STATUS
+            }
+          }
+        } catch (e) { /* ignore */ }
+      }
     }
 
     if (!this.editorMode) {
@@ -680,6 +696,21 @@ class CampaignView extends RootView {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
         }
+      }
+      // 内部部署：匿名用户通关进度存于 localStorage，注入 levelStatusMap 以显示星标/完成态。
+      if (me.isAnonymous()) {
+        try {
+          const completed = LocalProgress.getCompleted()
+          for (const slug of Object.keys(completed)) {
+            if (this.levelStatusMap[slug] !== COMPLETE_STATUS) {
+              this.levelStatusMap[slug] = COMPLETE_STATUS
+            }
+            const orig = completed[slug] && completed[slug].original
+            if (orig && this.levelOriginalStatusMap[orig] !== COMPLETE_STATUS) {
+              this.levelOriginalStatusMap[orig] = COMPLETE_STATUS
+            }
+          }
+        } catch (e) { /* ignore */ }
       }
     }
   }

@@ -179,12 +179,11 @@ module.exports = class Spell
     source = utils.guardJuniorLevelHealthCode(@level, source)
     # cpp/java 无法客户端转译，须经服务端 kodekeeper 取 token；原码 @source 不覆盖
     if @language in ['cpp', 'java'] and not /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
-      fetchToken(source, @language).then (token) =>
+      return fetchToken(source, @language).then (token) =>
         return unless token
         unless @language is 'html'
           @thang?.aether.transpile token
           @session.lastAST = @thang?.aether.ast
-      return null
     unless @language is 'html'
       @thang?.aether.transpile source
       @session.lastAST = @thang?.aether.ast

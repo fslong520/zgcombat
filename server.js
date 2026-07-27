@@ -68,12 +68,19 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // The upstream server/ handlers are not run (mongoose4 is incompatible with Node 26);
   // this serves the read endpoints the new frontend needs for campaign/level browsing & play.
   const { MongoClient: DbClient, ObjectId } = require('mongodb');
-  const dbClient = new DbClient('mongodb://127.0.0.1:27017');
+  const dbClient = new DbClient('mongodb://127.0.0.1:27017', { serverSelectionTimeoutMS: 5000 });
   let cocoDb = null;
-  dbClient.connect().then(function (client) {
-    cocoDb = client.db('coco');
-    console.info('[db] connected to MongoDB coco database');
-  }).catch(function (err) { console.error('[db] mongo connect failed', err); });
+  // Mongo 可能晚于本进程启动或中途重启：持续重试，连上后再置 cocoDb，避免 cocoDb 恒为 null。
+  function connectDb (attempt) {
+    return dbClient.connect().then(function (client) {
+      cocoDb = client.db('coco');
+      console.info('[db] connected to MongoDB coco database (attempt ' + (attempt || 1) + ')');
+    }).catch(function (err) {
+      console.error('[db] mongo connect failed (attempt ' + (attempt || 1) + '): ' + (err && err.message));
+      return new Promise(function (resolve) { setTimeout(resolve, 5000); }).then(function () { return connectDb((attempt || 0) + 1); });
+    });
+  }
+  connectDb(1);
 
   // frontend collection name -> mongo collection name
   const DB_COLLECTIONS = {
@@ -245,6 +252,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         // Campaign curriculum guide expects { modules:{}, introLevels:{} }.
         return res.status(200).json({ modules: {}, introLevels: {} });
       }
+      if (action === 'top_scores') {
+        // Leaderboard widget expects an ARRAY. We don't serve real scores offline.
+        return res.status(200).json([]);
+      }
 
       // Collection "names" endpoint: /db/<collection>/names?ids[]=... returns an ARRAY
       // of the referenced docs. Used by ThangNamesCollection to load a level's ThangTypes
@@ -278,6 +289,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       }
       const filter = {};
       if (req.query.slug) { filter.slug = req.query.slug; }
+      if (req.query.related) { filter.related = req.query.related; }
       const docs = await coll.find(filter, opts).toArray();
       return res.status(200).json(docs);
     } catch (e) {
@@ -505,6 +517,101 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // so answer with the placeholder.
   app.get('/db/:collection/:id/toFile/:name', sendPlaceholder);
 
+  // 真实持久化：登录用户的通关 session 写入 MongoDB；通关时将该关及其下一关
+  // 写入 users.earned.levels，驱动 world map 顺序解锁。匿名用户（creator 为占位
+  // 0000...）由前端 localStorage 处理，此处跳过（见 lib/localProgress）。
+  const jsonParser = express.json();
+  // 通关发奖：将本关关联成就的 worth(xp) 与 rewards.gems 累加到登录用户，
+  // 并把成就 id 写入 earned.achievements（已赚不重复发）。匿名(creator 占位)跳过。
+  const grantLevelRewards = async function (creator, levelOriginal) {
+    try {
+      if (!cocoDb || !creator || /^0{24}$/.test(creator)) { return; }
+      const achDocs = await cocoDb.collection('achievements')
+        .find({ related: levelOriginal }).toArray();
+      if (!achDocs.length) { return; }
+      const userDoc = await cocoDb.collection('users').findOne(
+        { _id: new ObjectId(creator) },
+        { projection: { 'earned.achievements': 1 } }
+      );
+      const already = new Set(((userDoc && userDoc.earned && userDoc.earned.achievements) || []).map(String));
+      let xpInc = 0; let gemInc = 0; const earnedAch = [];
+      for (const a of achDocs) {
+        if (already.has(a._id.toString())) { continue; }
+        const worth = a.worth || 0;
+        const gems = (a.rewards && a.rewards.gems) || 0;
+        if (!worth && !gems) { continue; }
+        xpInc += worth; gemInc += gems; earnedAch.push(a._id.toString());
+      }
+      if (!earnedAch.length) { return; }
+      const update = { $addToSet: { 'earned.achievements': { $each: earnedAch } } };
+      update.$inc = {};
+      if (xpInc) { update.$inc.points = xpInc; }
+      if (gemInc) { update.$inc.gems = gemInc; }
+      if (!Object.keys(update.$inc).length) { delete update.$inc; }
+      await cocoDb.collection('users').updateOne(
+        { _id: new ObjectId(creator) },
+        update,
+        { upsert: false }
+      );
+      console.info('[db] granted rewards for level', levelOriginal, 'to user', creator,
+        '(xp +' + xpInc + ', gems +' + gemInc + ')');
+    } catch (e) {
+      console.error('[db] grantLevelRewards error', e && e.message);
+    }
+  };
+  const persistLevelSession = async function (req, res) {
+    try {
+      if (!cocoDb) { return res.status(200).json({}); }
+      const body = req.body || {};
+      const id = req.params.id;
+      const coll = cocoDb.collection('level.sessions');
+      let docId;
+      const doc = Object.assign({}, body);
+      if (id && /^[a-f0-9]{24}$/i.test(id)) {
+        docId = new ObjectId(id);
+        doc._id = docId;
+        await coll.updateOne({ _id: docId }, { $set: doc }, { upsert: true });
+      } else {
+        const inserted = await coll.insertOne(doc);
+        docId = inserted.insertedId;
+      }
+      // 通关：把本关与下一关（来自 campaign 的 nextLevels / rewards）加入用户 earned.levels
+      if (body && body.state && body.state.complete) {
+        const levelOriginal = body.level || (body.state && body.state.original);
+        const creator = body.creator;
+        if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
+          const unlocked = [levelOriginal];
+          const campDoc = await resolveCampaign(body.campaign);
+          if (campDoc && campDoc.levels) {
+            const entry = campDoc.levels[levelOriginal];
+            if (entry) {
+              if (entry.nextLevels) { unlocked.push(...Object.keys(entry.nextLevels)); }
+              if (Array.isArray(entry.rewards)) {
+                for (const r of entry.rewards) { if (r && r.level) { unlocked.push(r.level); } }
+              }
+            }
+          }
+          await cocoDb.collection('users').updateOne(
+            { _id: new ObjectId(creator) },
+            { $addToSet: { 'earned.levels': { $each: unlocked } } },
+            { upsert: false }
+          );
+          // 通关发奖：把本关关联成就的 worth(xp) 与 rewards.gems 计入用户，
+          // 驱动 world map 顺序解锁之外的经验/宝石结算。匿名(creator 占位)跳过，
+          // 由前端 localStorage 处理。已赚成就不重复发，避免重玩刷分。
+          await grantLevelRewards(creator, levelOriginal);
+        }
+      }
+      return res.status(200).json(docId ? { _id: docId.toString() } : {});
+    } catch (e) {
+      console.error('[db] persist level.session error', e && e.message);
+      return res.status(200).json({});
+    }
+  };
+  app.post('/db/level.session', jsonParser, persistLevelSession);
+  app.put('/db/level.session/:id', jsonParser, persistLevelSession);
+  app.patch('/db/level.session/:id', jsonParser, persistLevelSession);
+
   // Accept (and ignore) non-essential writes from the anonymous client.
   // Must cover PUT/PATCH/DELETE too, otherwise they fall through to the
   // upstream /db/* proxy (which 404s offline).
@@ -512,6 +619,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.put('/db/*', function (req, res) { return res.status(200).json({}); });
   app.patch('/db/*', function (req, res) { return res.status(200).json({}); });
   app.delete('/db/*', function (req, res) { return res.status(200).json({}); });
+
+  // Multi-segment sub-resource reads the SPA issues that exceed the
+  // /db/:collection/:id?/:action? template (e.g. /db/level/<id>/top_scores/time/latest,
+  // /db/level/<id>/top_scores/<sort>/<sub>). Return an empty array so leaderboard /
+  // related-data widgets render empty instead of 404ing. Registered AFTER the
+  // versioned route above, so it never shadows /db/<collection>/<id>/version/<n>.
+  app.get('/db/:collection/:id/top_scores/:sort?/:sub?', function (req, res) {
+    return res.status(200).json([]);
+  });
+  app.get('/db/:collection/:id/*', function (req, res) {
+    return res.status(200).json([]);
+  });
 
   // Now wire up the framework middleware (static serving + the upstream /db proxy).
   // Our /db stub routes above are registered first, so they take precedence over
