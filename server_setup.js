@@ -81,7 +81,15 @@ const setupExpressMiddleware = function(app) {
     return next();
   });
 
-  app.use('/', express.static(path.join(publicPath, 'templates', 'static')));
+  // 内部部署：JS/CSS 强制 no-store，避免浏览器长缓存旧包致修复（如 CastButtonView 发奖）不生效。
+  app.use('/', express.static(path.join(publicPath, 'templates', 'static'), {
+    maxAge: 0,
+    setHeaders: (res, filePath) => {
+      if (/\.(js|css|map)$/.test(filePath)) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+      }
+    }
+  }));
 
   if ((config.buildInfo.sha !== 'dev') && config.isProduction) {
     app.use(`/${config.buildInfo.sha}`, express.static(publicPath, {maxAge: '1y'}));

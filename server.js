@@ -578,15 +578,37 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       }
       // 通关：把本关与下一关（来自 campaign 的 nextLevels / rewards）加入用户 earned.levels
       if (body && body.state && body.state.complete) {
-        // body.level 为对象 {original,id,name}，须取其 original 字符串作成就 related 匹配键；
-        // 直接取 body.level 得对象，致 achievements.find({related:对象}) 永不匹配，发奖全失。
-        const levelOriginal = (body.level && body.level.original) ||
-          (typeof body.level === 'string' ? body.level : null) ||
-          (body.state && body.state.original) || null
-        const creator = body.creator;
+        // body.level 仅在「创建」session 时随带；「更新」(PUT) 请求体常缺 level/campaign/creator，
+        // 致按 body 取 levelOriginal 为 undefined → grantLevelRewards 永不触发。故须从已落盘 doc
+        // 取权威 level.original / campaign / creator（创建时即写入库）。
+        const fullDoc = docId ? await coll.findOne({ _id: docId }) : null;
+        // session 以 levelID 存关卡引用：或为 24-hex 之 original/_id，或为 slug；
+        // 而成就 related 与 campaign.levels 键均为关卡 original _id，故须归一成 original。
+        let levelOriginal = null;
+        const levelRef = (fullDoc && (fullDoc.levelID || fullDoc.level)) || body.levelID || body.level;
+        if (levelRef) {
+          if (typeof levelRef === 'string') {
+            if (/^[a-f0-9]{24}$/i.test(levelRef)) {
+              levelOriginal = levelRef;
+            } else {
+              const lvlDoc = await cocoDb.collection('levels').findOne(
+                { $or: [ { slug: levelRef }, { name: levelRef } ] }, { original: 1 });
+              const lvlOrig = lvlDoc && (lvlDoc.original || lvlDoc._id);
+              levelOriginal = lvlOrig ? lvlOrig.toString() : levelRef;
+            }
+          } else if (levelRef.original) {
+            levelOriginal = levelRef.original.toString();
+          } else if (levelRef.id) {
+            levelOriginal = levelRef.id.toString();
+          }
+        }
+        if (!levelOriginal && body.state && body.state.original) { levelOriginal = body.state.original; }
+        const campaign = (fullDoc && fullDoc.campaign) || body.campaign;
+        const creator = (fullDoc && fullDoc.creator) || body.creator;
+        console.info('[db] resolved completion: levelOriginal=', levelOriginal, 'campaign=', campaign, 'creator=', creator);
         if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
           const unlocked = [levelOriginal];
-          const campDoc = await resolveCampaign(body.campaign);
+          const campDoc = await resolveCampaign(campaign);
           if (campDoc && campDoc.levels) {
             const entry = campDoc.levels[levelOriginal];
             if (entry) {
