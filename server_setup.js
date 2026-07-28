@@ -91,13 +91,20 @@ const setupExpressMiddleware = function(app) {
     }
   }));
 
+  // 内部部署：所有 JS/CSS/Map 强制 no-store，避免浏览器长缓存旧前端包（如 CastButtonView 发奖修复）不生效。
+  const noStoreHeaders = (res, filePath) => {
+    if (/\.(js|css|map)$/.test(filePath)) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+    }
+  };
+
   if ((config.buildInfo.sha !== 'dev') && config.isProduction) {
-    app.use(`/${config.buildInfo.sha}`, express.static(publicPath, {maxAge: '1y'}));
+    app.use(`/${config.buildInfo.sha}`, express.static(publicPath, {maxAge: '1y', setHeaders: noStoreHeaders}));
   } else {
-    app.use('/dev', express.static(publicPath, {maxAge: 0}));  // CloudFlare overrides maxAge, and we don't want local development caching.
+    app.use('/dev', express.static(publicPath, {maxAge: 0, setHeaders: noStoreHeaders}));  // CloudFlare overrides maxAge, and we don't want local development caching.
   }
 
-  app.use(express.static(publicPath, {maxAge: 0}));
+  app.use(express.static(publicPath, {maxAge: 0, setHeaders: noStoreHeaders}));
 
   setupProxyMiddleware(app); // TODO: Flatten setup into one function. This doesn't fit its function name.
 

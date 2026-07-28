@@ -548,13 +548,14 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (xpInc) { update.$inc.points = xpInc; }
       if (gemInc) { update.$inc.gems = gemInc; }
       if (!Object.keys(update.$inc).length) { delete update.$inc; }
-      await cocoDb.collection('users').updateOne(
+      const updRes = await cocoDb.collection('users').updateOne(
         { _id: new ObjectId(creator) },
         update,
         { upsert: false }
       );
+      // 注意：creator 须为真实 users._id；若无对应用户，matchedCount=0，奖励未真写入。
       console.info('[db] granted rewards for level', levelOriginal, 'to user', creator,
-        '(xp +' + xpInc + ', gems +' + gemInc + ')');
+        '(xp +' + xpInc + ', gems +' + gemInc + ', matched=' + (updRes && updRes.matchedCount) + ')');
     } catch (e) {
       console.error('[db] grantLevelRewards error', e && e.message);
     }

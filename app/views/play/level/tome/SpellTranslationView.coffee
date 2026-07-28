@@ -38,7 +38,8 @@ module.exports = class SpellTranslationView extends CocoView
 
   setTooltipText: (text) =>
     @$el.find('code').text text
-    @$el.show().css(@pos)
+    @$el.show()
+    @$el.css(@pos) if @pos
 
   isIdentifier: (t) ->
     t and (_.any([/identifier/, /keyword/], (regex) -> regex.test(t.type)) or t.value is 'this')

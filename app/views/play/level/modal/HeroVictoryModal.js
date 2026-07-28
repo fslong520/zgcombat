@@ -83,6 +83,11 @@ module.exports = (HeroVictoryModal = (function () {
       if (this.level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) {
         const sessionLevel = this.session.get('level')
         const related = (sessionLevel && typeof sessionLevel === 'object' && sessionLevel.original) ? sessionLevel.original : (this.level.get('original') || this.level.id)
+        // 确保 session.level.original 存在：成就 query 校验它，而本部署 session 仅存 levelID，
+        // 致 matchesQuery 恒失败、通关弹窗不显 XP/宝石/成就。此处补全，重玩亦生效。
+        if (!(sessionLevel && typeof sessionLevel === 'object' && sessionLevel.original)) {
+          this.session.set('level', { original: related })
+        }
         const achievements = new CocoCollection([], {
           url: `/db/achievement?related=${related}`,
           model: Achievement,

@@ -115,6 +115,10 @@ module.exports = class CastButtonView extends CocoView
     @options.session.recordScores @world?.scores, @options.level
     state = Object.assign {}, (@options.session.get('state') or {}), { complete: true }
     @options.session.set 'state', state
+    # 补全 level 引用：成就 query 校验 session.level.original，而本部署 session 仅存 levelID，
+    # 致 HeroVictoryModal 中 matchesQuery 恒失败、通关弹窗不显 XP/宝石/成就。此处补 original，
+    # 既入内存供弹窗即时判定，亦随 save 落盘。
+    @options.session.set 'level', { original: (@options.level.get('original') or @options.level.id) }
     # 跳过 tv4 校验：c.object 默认 additionalProperties:false，session 客户端字段
     # （state/level 等动态字段）致 49 条校验错、save 被拦、发奖 POST 永不触发。
     # 数据本身合法（落盘后复验 0 错），仅客户端多出字段，故发奖存档跳过校验。
