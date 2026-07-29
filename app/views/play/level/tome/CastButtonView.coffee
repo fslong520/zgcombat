@@ -159,7 +159,7 @@ module.exports = class CastButtonView extends CocoView
         LocalProgress.addReward(original, xp, gems)
         if me.isAnonymous()
           r = LocalProgress.getRewards()
-          me.set { points: r.xp, gems: r.gems }
+          me.set { points: r.xp, earned: _.extend({}, me.get('earned'), { gems: r.gems }) }
       error: -> # 忽略；成就面板仍会显奖励
 
   onSpellChanged: (e) ->

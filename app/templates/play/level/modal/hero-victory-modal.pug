@@ -71,13 +71,13 @@ block modal-body-content
           if worth
             .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
               .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                img(src="/images/pages/play/modal/reward_icon_xp.png" data-i18n="[alt]play_level.victory_experience_gained")
+                img(src="/images/pages/play/level/modal/reward_icon_xp.png" data-i18n="[alt]play_level.victory_experience_gained")
               .reward-text= animate ? '+0' : '+'+worth
 
           if gems
             .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
               .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                img(src="/images/pages/play/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
+                img(src="/images/pages/play/level/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
               .reward-text= animate ? '+0' : '+'+gems
 
           if rewards.heroes
@@ -129,7 +129,7 @@ block modal-footer-content
       .total-count#gem-total 0
       if view.level.get("product", true) == "codecombat-junior"
         .total-label.total-label-icon
-          img(src="/images/pages/play/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
+          img(src="/images/pages/play/level/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
       else
         .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
 

@@ -71,6 +71,13 @@ const LocalProgress = {
     return { xp, gems }
   },
 
+  // 取某关单关经验/宝石奖励（供弹窗显示）
+  getReward (original) {
+    if (!original) { return { xp: 0, gems: 0 } }
+    const rewards = (load().rewards) || {}
+    return rewards[original] || { xp: 0, gems: 0 }
+  },
+
   // 调试/重置用
   clear () {
     try { window.localStorage.removeItem(KEY) } catch (e) {}

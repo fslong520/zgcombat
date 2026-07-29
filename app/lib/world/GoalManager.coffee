@@ -352,8 +352,9 @@ module.exports = class GoalManager extends CocoClass
     if success
       numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
-      # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be 'done'
-      numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
+      # saveThangs: `howMany` 为最少存活数，超出此数死亡则失败
+      # 修复原公式中 Math.max(howMany, total) 导致 numNeeded 恒为1的bug
+      numNeeded = Math.max(1, _.size(stateThangs) - (goal.howMany ? 1))
     numDone = _.filter(stateThangs).length
     #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs, 'for', goalID, thangID, 'on frame', frameNumber, 'all Thangs', _.keys(stateThangs), _.values(stateThangs)
     return unless numDone >= numNeeded

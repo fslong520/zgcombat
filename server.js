@@ -548,7 +548,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const update = { $addToSet: { 'earned.achievements': { $each: earnedAch } } };
       update.$inc = {};
       if (xpInc) { update.$inc.points = xpInc; }
-      if (gemInc) { update.$inc.gems = gemInc; }
+      if (gemInc) { update.$inc['earned.gems'] = gemInc; }
       if (!Object.keys(update.$inc).length) { delete update.$inc; }
       const updRes = await cocoDb.collection('users').updateOne(
         { _id: new ObjectId(creator) },

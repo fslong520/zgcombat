@@ -487,7 +487,8 @@ module.exports = (User = (function () {
           if (unlocked && unlocked.length) { list = list.concat(unlocked) }
           // 匿名用户累计之经验/宝石（存于缓存）覆盖到头部显示，使「完成」后可见获得。
           const r = LocalProgress.getRewards()
-          this.set({ points: r.xp || 0, gems: r.gems || 0 })
+          const earned = this.get('earned') || {}
+          this.set({ points: r.xp || 0, earned: { ...earned, gems: r.gems || 0 } })
         } catch (e) { /* ignore */ }
       }
       return list

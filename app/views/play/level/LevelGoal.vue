@@ -88,7 +88,8 @@
               if @goal.saveThangs?[0] not in ['Hero Placeholder', 'humans']
                 text = text + "#{completed}/#{targeted}"
             else
-              text = text + " (#{completed}/#{targeted})"
+              needed = @goal.howMany or targeted
+              text = text + " (#{completed}/#{needed})"
         if @state.collected and @product is 'codecombat-junior'
           collected = _.filter(_.values(@state.collected)).length
           targeted = _.values(@state.collected).length

@@ -98,6 +98,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.waitingToContinueSince = new Date()
         this.previousXP = me.get('points', true)
         this.previousLevel = me.level()
+        this.previousGems = me.gems()
       } else {
         this.readyToContinue = true
       }
@@ -230,11 +231,22 @@ module.exports = (HeroVictoryModal = (function () {
           }
           this.readyToContinue = true
           this.updateSavingProgressStatus()
-          if (!me.loading) { me.fetch({ cache: false }) }
+          if (!me.loading) {
+            me.fetch({ cache: false })
+            this.listenToOnce(me, 'sync', () => { this.updateTotalsFromActualData() })
+          }
         })
       }
 
-      if (!hadOneCompleted) { this.readyToContinue = true }
+      if (!hadOneCompleted) {
+        this.readyToContinue = true
+        // 无完成成就时，后端 grantLevelRewards 仍可能发了 XP/宝石（服务端 matchesQuery 路径不同）。
+        // 主动拉取用户数据以更新显示。
+        if (!me.isAnonymous() && !me.loading) {
+          me.fetch({ cache: false })
+          this.listenToOnce(me, 'sync', () => { this.updateTotalsFromActualData() })
+        }
+      }
 
       // have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
       if (this.newEarnedAchievements.length) { this.newEarnedAchievementsResource = this.supermodel.addSomethingResource('earned achievements') }
@@ -528,6 +540,33 @@ module.exports = (HeroVictoryModal = (function () {
       this.animationComplete = true
       this.updateSavingProgressStatus()
       return Backbone.Mediator.publish('music-player:enter-menu', { terrain: this.level.get('terrain', true) || 'forest' })
+    }
+
+    updateTotalsFromActualData () {
+      // 成就数据未提供有效 XP/宝石时，从用户实际增减计算并更新显示。
+      // 此方法在 me.fetch() 完成后被调用，此时 me.get('points') / me.gems() 含新数据。
+      if (this.destroyed) { return }
+      const $xpTotal = this.$el.find('#xp-total')
+      const $gemTotal = this.$el.find('#gem-total')
+      if (parseInt($xpTotal.text()) > 0 || parseInt($gemTotal.text()) > 0) { return } // 已显数据，不覆盖
+      let xpGained = Math.max(0, me.get('points') - this.previousXP)
+      let gemsGained = Math.max(0, me.gems() - this.previousGems)
+      // 匿名用户：me 在 grantAnonRewards 中已包含累计值，差值恒为 0，
+      // 须从 LocalProgress 取本关单关奖励。
+      if (!xpGained && !gemsGained && me.isAnonymous()) {
+        const LocalProgress = require('lib/localProgress')
+        const original = this.level.get('original') || this.level.id
+        const lr = LocalProgress.getReward(original)
+        xpGained = lr.xp || 0
+        gemsGained = lr.gems || 0
+      }
+      if (xpGained > 0) {
+        $xpTotal.text(xpGained)
+        this.updateXPBars(xpGained)
+      }
+      if (gemsGained > 0) {
+        $gemTotal.text(gemsGained)
+      }
     }
 
     updateSavingProgressStatus () {
