@@ -216,7 +216,9 @@ module.exports = (HeroVictoryModal = (function () {
         })
         ea.save()
         this.newEarnedAchievements.push(ea)
-        this.listenToOnce(ea, 'sync', function () {
+        // 匿名或无服务端更新可等时，勿卡"读取中"。发奖由独立 session PUT 触发，
+        // 此处的 EarnedAchievement 存档与 me 刷新仅作展示，结束即放行继续。
+        this.listenToOnce(ea, 'sync error', () => {
           if (_.all(((() => {
             const result = []
             for (const e of Array.from(this.newEarnedAchievements)) {
@@ -224,13 +226,11 @@ module.exports = (HeroVictoryModal = (function () {
             }
             return result
           })()))) {
-            this.newEarnedAchievementsResource.markLoaded()
-            this.listenToOnce(me, 'sync', function () {
-              this.readyToContinue = true
-              return this.updateSavingProgressStatus()
-            })
-            if (!me.loading) { return me.fetch({ cache: false }) }
+            if (this.newEarnedAchievementsResource) { this.newEarnedAchievementsResource.markLoaded() }
           }
+          this.readyToContinue = true
+          this.updateSavingProgressStatus()
+          if (!me.loading) { me.fetch({ cache: false }) }
         })
       }
 
@@ -257,8 +257,9 @@ module.exports = (HeroVictoryModal = (function () {
         achievement.gems = __guard__(achievement.get('rewards'), x => x.gems)
       }
       c.achievements = (this.achievements != null ? this.achievements.models.slice() : undefined) || []
-      // 内部部署成就数据未按 level 过滤，截断避免弹窗被成就面板撑满
-      c.achievements = c.achievements.filter(a => a.completed && a.get('related') === this.level.get('original'))
+      // 内部部署成就数据未按 level 过滤；仅按 related 收敛至本关（官方原版无此过滤，靠模板 data-animate 控显奖）。
+      // 注意：勿加 a.completed —— 否则 matchesQuery 一旦失败即清空列表致 totals 恒为 0。显奖由模板 data-animate 控。
+      c.achievements = c.achievements.filter(a => a.get('related') === this.level.get('original'))
       for (achievement of Array.from(c.achievements)) {
         let left1, left2
         const proportionalTo = achievement.get('proportionalTo')

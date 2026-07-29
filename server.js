@@ -520,7 +520,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // 真实持久化：登录用户的通关 session 写入 MongoDB；通关时将该关及其下一关
   // 写入 users.earned.levels，驱动 world map 顺序解锁。匿名用户（creator 为占位
   // 0000...）由前端 localStorage 处理，此处跳过（见 lib/localProgress）。
-  const jsonParser = express.json();
+  // 关卡 session 存档含全量关卡数据(thangs/code/systems)，常超默认 100kb，须提限制，
+  // 否则 413 PayloadTooLarge → 完成不落盘、发奖不触发（正是"无奖励"真凶）。
+  const jsonParser = express.json({ limit: '25mb', strict: false });
   // 通关发奖：将本关关联成就的 worth(xp) 与 rewards.gems 累加到登录用户，
   // 并把成就 id 写入 earned.achievements（已赚不重复发）。匿名(creator 占位)跳过。
   const grantLevelRewards = async function (creator, levelOriginal) {
