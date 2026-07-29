@@ -144,6 +144,29 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.get('/db/user/:id', serveAnonymousUser);
   app.put('/db/user/:id', serveAnonymousUser);
   app.patch('/db/user/:id', serveAnonymousUser);
+  // 创建用户（注册）：POST /db/user 不带 id → 插入新用户到 MongoDB
+  app.post('/db/user', function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const body = req.body || {};
+    const doc = Object.assign({
+      anonymous: false,
+      name: body.name || 'Anonymous',
+      email: body.email || '',
+      password: body.password || '',
+      points: 0,
+      earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
+      purchased: { heroes: [], items: [], levels: [], gems: 0 },
+      gems: 0,
+      spent: 0,
+      dateCreated: new Date().toISOString()
+    }, body);
+    cocoDb.collection('users').insertOne(doc).then(function (result) {
+      return res.status(200).json(doc);
+    }).catch(function (err) {
+      console.error('[db] user create error', err && err.message);
+      return res.status(200).json({});
+    });
+  });
   // CocoModel.pollAchievements → GET /db/user/<id>/achievements?notified=false
   // Must return [] (collection), never 404, or console screams
   // "Miserably failed to fetch unnotified achievements".

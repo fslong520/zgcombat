@@ -1,0 +1,2 @@
+download_rasters run @ 2026-07-27T15:07:23.001Z
+Discovered 87 raster paths; ok=87 cached=0 failed=0
