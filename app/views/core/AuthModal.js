@@ -395,10 +395,6 @@ var loginNavigate = function (subModalContinue) {
     storage.save('sub-modal-continue', subModalContinue)
   }
 
-  // 内部部署：登录后跳到 /play（不走 reload，因为 reload 可能用缓存）
-  if (utils.iszgcombat) {
-    return window.location.href = '/play'
-  }
   return window.location.reload()
 }
 

@@ -827,6 +827,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   });
 
   // Now wire up the framework middleware (static serving + the upstream /db proxy).
+  // 强制 JS 文件不缓存（app.js 包含 auth 校验逻辑，缓存会导致登录失效）
+  app.use('/dev/javascripts', function(req, res, next) {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    next();
+  });
   // Our /db stub routes above are registered first, so they take precedence over
   // server_setup's `/db/*` proxy for any path the SPA actually needs locally.
   serverSetup.setupMiddleware(app);
