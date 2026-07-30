@@ -314,11 +314,11 @@ var watchForErrors = function () {
   return window.addEventListener('unhandledrejection', function (err) {
     if (err.promise) {
       return err.promise.catch(function (e) {
-        const message = `${e.message}<br>Check the JS console for more.`
+        const message = `${(e != null ? e.message : undefined) || e || 'Unknown Promise Error'}<br>Check the JS console for more.`
         return showError(message)
       })
     } else {
-      const message = `${err.message || err}<br>Check the JS console for more.`
+      const message = `${err != null ? err.message || err : 'Unknown Promise Error'}<br>Check the JS console for more.`
       return showError(message)
     }
   })

@@ -519,7 +519,7 @@ module.exports = (BasicInfoView = (function () {
           this.displayFormStandingBy()
           if (e === AbortError) {
 
-          } else {
+          } else if (e && e.status != null) {
             if (e.status >= 400 && e.status < 500) {
               const json = e.responseJSON
               const message = json?.message || e.responseText
@@ -535,6 +535,8 @@ module.exports = (BasicInfoView = (function () {
             } else {
               return this.state.set('error', (e.responseJSON != null ? e.responseJSON.message : undefined) || 'Unknown Error')
             }
+          } else {
+            console.error('BasicInfoView form submission error (no details):', e)
           }
         })
     }
