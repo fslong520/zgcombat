@@ -673,19 +673,14 @@ module.exports = (HeroVictoryModal = (function () {
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, this.parentCampaign]
       } else if (this.nextLevel?.get('slug') && !options.returnToCourse) {
-        continueLink = `/play/level/${this.nextLevel.get('slug')}`
-        if (this.courseID) {
-          continueLink += `/${this.courseID}`
-          if (this.courseInstanceID) { continueLink += `/${this.courseInstanceID}` }
-        }
+        // 内部部署：点继续→回到地图，不自动跳下一关（可能有分支路线）
+        continueLink = '/play'
         if (this.parentCampaign) {
-          continueLink += `?fromCampaign=${this.parentCampaign}`
+          continueLink += `/${this.parentCampaign}`
         }
-        viewClass = 'views/play/level/PlayLevelView'
-        options.courseID = this.courseID
-        options.courseInstanceID = this.courseInstanceID
-        options.parentCampaign = this.parentCampaign
-        viewArgs = [options, this.nextLevel.get('slug')]
+        viewClass = 'views/play/CampaignView'
+        viewArgs = [options]
+        if (this.parentCampaign) { viewArgs.push(this.parentCampaign) }
       } else if (this.level.isType('course')) {
         continueLink = '/students'
         if (this.courseID) {
