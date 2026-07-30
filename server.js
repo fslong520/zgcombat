@@ -63,6 +63,25 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(anonymousUser));
   });
+  // 注册表单实时校验：检查用户名是否已存在
+  app.get('/auth/name/:name', function(req, res) {
+    if (!cocoDb) { return res.json({ conflicts: false }); }
+    const name = req.params.name || '';
+    cocoDb.collection('users').findOne({ 'name': { $regex: '^' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } })
+      .then(function(u) {
+        if (u) return res.json({ conflicts: true, suggestedName: name + Math.floor(Math.random() * 999) });
+        return res.json({ conflicts: false });
+      })
+      .catch(function() { return res.json({ conflicts: false }); });
+  });
+  // 注册表单实时校验：检查邮箱是否已被注册
+  app.get('/auth/email/:email', function(req, res) {
+    if (!cocoDb) { return res.json({ exists: false }); }
+    const email = req.params.email || '';
+    cocoDb.collection('users').findOne({ 'email': { $regex: '^' + email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } })
+      .then(function(u) { return res.json({ exists: !!u }); })
+      .catch(function() { return res.json({ exists: false }); });
+  });
 
   // Lightweight /db API backed by the restored MongoDB `coco` database.
   // The upstream server/ handlers are not run (mongoose4 is incompatible with Node 26);
