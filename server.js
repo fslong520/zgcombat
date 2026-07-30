@@ -82,6 +82,25 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       .then(function(u) { return res.json({ exists: !!u }); })
       .catch(function() { return res.json({ exists: false }); });
   });
+  // 登录：POST /auth/login
+  app.post('/auth/login', express.json(), function(req, res) {
+    if (!cocoDb) { return res.status(401).json({ errorID: 'unknown' }); }
+    const username = (req.body && req.body.username) || '';
+    const password = (req.body && req.body.password) || '';
+    const query = {
+      $or: [
+        { name: { $regex: '^' + username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } },
+        { email: { $regex: '^' + username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } }
+      ]
+    };
+    cocoDb.collection('users').findOne(query)
+      .then(function(u) {
+        if (!u) return res.status(401).json({ errorID: 'not-found' });
+        if (u.password !== password) return res.status(401).json({ errorID: 'wrong-password' });
+        return res.json(u);
+      })
+      .catch(function() { return res.status(401).json({ errorID: 'unknown' }); });
+  });
 
   // Lightweight /db API backed by the restored MongoDB `coco` database.
   // The upstream server/ handlers are not run (mongoose4 is incompatible with Node 26);
