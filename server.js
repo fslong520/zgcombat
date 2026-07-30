@@ -107,9 +107,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   });
   // 登录：POST /auth/login
   app.post('/auth/login', express.json(), function(req, res) {
-    if (!cocoDb) { return res.status(401).json({ errorID: 'unknown' }); }
     const username = (req.body && req.body.username) || '';
     const password = (req.body && req.body.password) || '';
+    console.log('[login] attempt user=' + username + ' body=' + JSON.stringify(req.body).slice(0,200));
+    if (!cocoDb) { console.log('[login] no db'); return res.status(401).json({ errorID: 'unknown' }); }
     const escaped = username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const query = { $or: [
       { name: { $regex: '^' + escaped + '$', $options: 'i' } },
@@ -117,8 +118,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     ] };
     cocoDb.collection('users').findOne(query)
       .then(function(u) {
-        if (!u) return res.status(401).json({ errorID: 'not-found' });
-        if (u.password !== password) return res.status(401).json({ errorID: 'wrong-password' });
+        if (!u) { console.log('[login] not-found for ' + username); return res.status(401).json({ errorID: 'not-found' }); }
+        if (u.password !== password) { console.log('[login] wrong-password for ' + username); return res.status(401).json({ errorID: 'wrong-password' }); }
+        console.log('[login] success: ' + u.name + ' ' + u._id);
         res.cookie('zg_userId', u._id.toString(), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
         return res.json(u);
       })
@@ -245,6 +247,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         preferredLanguage: 'zh-HANS'
       };
       const setData = Object.assign({}, body, defaults, { anonymous: false });
+      // 去掉 _id（来自请求体），MongoDB 不允许 $set 修改 _id
+      delete setData._id;
       // 用 $set 配合 upsert:true 即可，无需 $setOnInsert（避免字段冲突）
       const update = { $set: setData };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
