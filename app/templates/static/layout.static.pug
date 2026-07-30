@@ -239,6 +239,19 @@ html(lang='en')
           } catch (error) { }
         }
   body.clearfix(onload='onLoad();')
+    //- 全局全屏加载动画（页面切换期间显示）
+    #global-loading-overlay
+      .loading-spinner
+      .loading-text zgcombat
+    script.
+      !function(){
+        var el = document.getElementById('global-loading-overlay');
+        if (!el) return;
+        var hide = function(){ el.classList.add('hidden'); };
+        // 页面加载完成后自动隐藏
+        setTimeout(hide, 8000);
+        el.addEventListener('click', hide);
+      }();
     #fb-root
     block content
     #modal-wrapper.modal-content.hide

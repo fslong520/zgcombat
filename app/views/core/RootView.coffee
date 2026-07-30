@@ -183,6 +183,10 @@ module.exports = class RootView extends CocoView
     @initializeNavigation()
 
   afterRender: ->
+    # 隐藏全局加载动画（页面渲染完成）
+    el = document.getElementById('global-loading-overlay')
+    el?.classList.add('hidden')
+
     if @$el.find('#main-nav.legacy').length # hack...
       @$el.addClass('site-chrome')
       if @showBackground

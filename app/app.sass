@@ -13,6 +13,54 @@
 // TODO: Figure out how to have the static pages have their own little separate CSS bundles (without duping it)
 // (there is no CSS file for PrivacyView or LegalView)
 @import 'app/styles/home-view.sass'
+
+// 全局全屏 CSS 加载动画（布局模板内嵌）
+#global-loading-overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  z-index: 99999
+  transition: opacity 0.6s ease, visibility 0.6s ease
+
+  &.hidden
+    opacity: 0
+    visibility: hidden
+    pointer-events: none
+
+  .loading-spinner
+    width: 70px
+    height: 70px
+    border: 5px solid rgba(255,255,255,0.15)
+    border-top-color: #f5a623
+    border-radius: 50%
+    animation: global-spin 1s linear infinite
+
+  .loading-text
+    margin-top: 24px
+    font-size: 28px
+    font-weight: bold
+    color: rgba(255,255,255,0.7)
+    letter-spacing: 6px
+    text-transform: uppercase
+    font-family: "Open Sans Condensed","Helvetica Neue",Helvetica,Arial,sans-serif
+    animation: global-pulse 2s ease-in-out infinite
+
+@keyframes global-spin
+  to
+    transform: rotate(360deg)
+
+@keyframes global-pulse
+  0%, 100%
+    opacity: 0.5
+  50%
+    opacity: 1
 @import 'app/styles/home-view.scss'
 @import 'app/styles/home-cn-view.sass'
 @import 'app/styles/play/campaign-view.sass'

@@ -1,6 +1,15 @@
 #loading-overlay
   .loading-spinner
   .loading-text zgcombat
+script.
+  // 自动消失兜底：8 秒后或用户点击时隐藏加载动画
+  !function(){
+    var el = document.getElementById('loading-overlay');
+    if (!el) return;
+    var hide = function(){ el.classList.add('hidden'); };
+    setTimeout(hide, 8000);
+    el.addEventListener('click', hide);
+  }();
 
 if showGameDevAlert
   #game-dev-hoc-license-alert.alert.alert-success
