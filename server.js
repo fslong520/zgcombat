@@ -112,6 +112,27 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     'ai_junior_scenario': 'ai_junior_scenarios',
     'ai_junior_scenarios': 'ai_junior_scenarios'
   };
+  // 简单内存缓存，减少重复 DB 查询
+  const cache = {};
+  const DEFAULT_TTL = 60000; // 60秒
+  function cachedQuery(mongoColl, id, opts) {
+    if (!cocoDb) { return Promise.resolve({}); }
+    const key = mongoColl + ':' + id;
+    const now = Date.now();
+    if (cache[key] && cache[key].expiry > now) { return cache[key].promise; }
+    const oid = /^[a-f0-9]{24}$/i.test(id) ? new ObjectId(id) : null;
+    const query = oid ? { $or: [{ _id: oid }, { original: oid }] } : { slug: id };
+    const p = collFindOne(cocoDb.collection(mongoColl), query, opts).then(function (doc) {
+      if (doc) { return doc; }
+      // 未找到时返回最小 stub，避免前端反复请求
+      return { _id: oid, original: oid, name: 'stub', components: [], slug: 'stub', kind: 'stub' };
+    }).catch(function () {
+      return { _id: oid, original: oid, name: 'stub', components: [], slug: 'stub', kind: 'stub' };
+    });
+    cache[key] = { promise: p, expiry: now + DEFAULT_TTL };
+    return p;
+  }
+  function collFindOne(coll, query, opts) { return coll.findOne(query, opts); }
 
   const toProjection = function (projectParam) {
     if (!projectParam) { return undefined; }
@@ -203,10 +224,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // /db/user/announcement/read) would otherwise 404. Answer 200 with [].
   app.post('/db/user/:id/:sub', function (req, res) { return res.status(200).json([]); });
 
-  // Offline SPA: never let the browser / SuperModel forever-cache empty stubs of
-  // versioned docs. Cache-Control on all /db GETs; version miss returns 404 not {}.
+  // 对静态集合（thang.type、achievement 等）允许浏览器缓存，减少重复请求
   app.use('/db', function (req, res, next) {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    const path = req.path || '';
+    const isStatic = /^\/(thang\.type|achievement|article|concept|level\.component|level\.system)\b/.test(path);
+    const isCollection = /\/names(\?|$)/.test(path);
+    if (isStatic || isCollection) {
+      res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60'); // 5min
+    } else {
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    }
     res.set('Pragma', 'no-cache');
     return next();
   });
@@ -317,22 +344,29 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (id === 'names') {
         const rawIds = req.query.ids;
         const idList = Array.isArray(rawIds) ? rawIds : (rawIds != null ? [rawIds] : []);
-        const oids = idList.filter(x => /^[a-f0-9]{24}$/i.test(x)).map(x => new ObjectId(x));
-        if (oids.length) {
-          const docs = await coll.find({ $or: [{ _id: { $in: oids } }, { original: { $in: oids } }] }, opts).toArray();
-          return res.status(200).json(docs);
+        const validIds = idList.filter(x => /^[a-f0-9]{24}$/i.test(x));
+        // 对 thang.type 等静态集合使用缓存读取
+        const isCachable = ['thang.types', 'thang.type'].includes(mongoColl);
+        const docs = [];
+        if (isCachable) {
+          for (const vid of validIds) {
+            const d = await cachedQuery(mongoColl, vid, opts);
+            if (d && d._id) { docs.push(d); }
+          }
+        } else {
+          const oids = validIds.map(x => new ObjectId(x));
+          if (oids.length) {
+            const found = await coll.find({ $or: [{ _id: { $in: oids } }, { original: { $in: oids } }] }, opts).toArray();
+            docs.push.apply(docs, found);
+          }
         }
-        return res.status(200).json([]);
+        return res.status(200).json(docs);
       }
 
       if (id && id !== '-') {
         let doc = null;
         if (/^[a-f0-9]{24}$/i.test(id)) {
-          const oid = new ObjectId(id);
-          // Campaign level maps are keyed by `original` (a level family id), not the
-          // doc `_id`, so try both before falling back to slug/name.
-          doc = await coll.findOne({ _id: oid }, opts);
-          if (!doc) { doc = await coll.findOne({ original: oid }, opts); }
+          doc = await cachedQuery(mongoColl, id, opts);
         }
         if (!doc) { doc = await coll.findOne({ slug: id }, opts); }
         if (!doc) { doc = await coll.findOne({ name: id }, opts); }
