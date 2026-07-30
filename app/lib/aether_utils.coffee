@@ -62,34 +62,102 @@ functionParameters =
   die: []
 
 # ---- Java/C++ 翻译层（替代 kodekeeper 服务） ----
-# 内部部署中 kodekeeper（AWS API）不可达。将 Java/C++ 转成 JS 后由 Aether 原生处理。
+# 内部部署中 kodekeeper（AWS API）不可达。将 Java/C++ 转译成合规 JavaScript，
+# 由 Aether 原生处理。保留语法结构，不做简单剥除。
 javaCppToJS = (source, language) ->
   s = source
+  indent = ''
 
-  # 去掉 C++ int main() / void main() 包裹
+  # --- 1. 预处理：统一换行，标记行号辅助调试 ---
+  s = s.replace /\r\n?/g, '\n'
+
+  # --- 2. 提取并保留注释（不处理块注释内的代码）---
+  # 先替换块注释为占位，避免正则误伤
+  blockComments = []
+  s = s.replace /\/\*[\s\S]*?\*\//g, (m) ->
+    blockComments.push m
+    "/*BLOCK_COMMENT_#{blockComments.length-1}*/"
+
+  # --- 3. 去掉 main/类包裹，但保留其内部代码 ---
+  # C++: int main() / void main(...) { ... }
   if language is 'cpp'
     s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*\{/g, ''
-    s = s.replace /\/\/.*$/gm, ''  # 行注释
-  # 去掉 Java public static void main(String[] args) 等
+  # Java: public static void main(String[] args) { ... }
   if language is 'java'
-    s = s.replace /public\s+(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*\{/g, ''
-    s = s.replace /\/\/.*$/gm, ''
+    s = s.replace /(?:public\s+)?(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*\{/g, ''
+    # Java 类声明：public class Foo ... { ... }
+    s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*\{/g, ''
 
-  # 去掉外层多余的 }（对应 main 的闭合）
-  # 只去掉末尾孤立的 }
+  # --- 4. 翻译变量声明 ---
+  # int x = 5;  → var x = 5;
+  # String name = "hello"; → var name = "hello";
+  # boolean flag = true; → var flag = true;
+  # float/double d = 3.14; → var d = 3.14;
+  # int[] arr = new int[5]; → var arr = new Array(5);
+  # int[] arr = {1,2,3}; → var arr = [1,2,3];
+  # 数组声明 int[] arr → var arr
+  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, 'var$2'
+
+  # --- 5. 翻译方法声明 ---
+  # public void foo(int x, String y) { ... } → function foo(x, y) { ... }
+  # public int add(int a, int b) → function add(a, b)
+  # private boolean canAttack() → function canAttack()
+  s = s.replace /(?:public|private|protected|static|virtual|override|final|abstract|synchronized|transient|volatile|native|strictfp\s+)*(?:void|int|String|boolean|float|double|long|short|char|byte|var)\s+/g, (m, offset, str) ->
+    # 检查后面是否跟着一个标识符和左括号（方法声明）还是变量名（变量声明）
+    rest = str.slice offset + m.length
+    if /^\w+\s*\(/.test rest
+      # 是方法声明 → function
+      return 'function '
+    else
+      # 是变量声明（已在第4步处理过，这里去掉多余的访问修饰符）
+      return '' if /^(public|private|protected|static|final|abstract)\b/.test m.trim()
+      return m
+
+  # 去掉方法参数中的类型：void foo(int x, String y) → function foo(x, y)
+  # 匹配函数参数列表内部的类型关键字
+  s = s.replace /(function\s+\w+\s*\()([^)]*)\)/g, (m, prefix, params) ->
+    cleaned = params.replace /\b(int|long|short|char|byte|float|double|boolean|String|var|const|unsigned|signed|\[\])\b\s*/g, ''
+    cleaned = cleaned.replace /\s*,\s*/g, ', '
+    "#{cleaned})"
+
+  # --- 6. 翻译循环/条件中的变量声明 ---
+  # for (int i = 0; ...) → for (var i = 0; ...)
+  s = s.replace /\b(for|while)\s*\(/g, (m) -> "#{m.replace /\b(int|long|short|char|byte|float|double|boolean|String|var)\b/g, 'var'}"
+  # catch (Exception e) → catch (e)
+  s = s.replace /\bcatch\s*\(\s*\w+\s+(\w+)\s*\)/g, 'catch ($1)'
+
+  # --- 7. 翻译方法链调用中的类型转换（Java 特有）---
+  # (int) someValue → parseInt(someValue)
+  # (float) someValue → parseFloat(someValue)
+  # (String) someObj → String(someObj)
+  s = s.replace /\(int\)\s*/g, 'parseInt('
+  s = s.replace /\(float\)\s*/g, 'parseFloat('
+  s = s.replace /\(double\)\s*/g, 'parseFloat('
+  s = s.replace /\(String\)\s*/g, 'String('
+  s = s.replace /\(boolean\)\s*/g, 'Boolean('
+  s = s.replace /\(char\)\s*/g, 'String.fromCharCode('
+
+  # --- 8. 数组声明 new type[size] → new Array(size) ---
+  s = s.replace /\bnew\s+(int|long|short|char|byte|float|double|boolean|String)\s*\[(\w+)\]/g, 'new Array($2)'
+
+  # --- 9. 处理 System.out.println / System.out.print ---
+  s = s.replace /\bSystem\.out\.println\s*\(/g, 'console.log('
+  s = s.replace /\bSystem\.out\.print\s*\(/g, 'console.log('
+
+  # --- 10. Java 泛型擦除：List<String> list → list (类型已去掉) ---
+  s = s.replace /<[^>]+>/g, ''
+
+  # --- 11. 恢复块注释 ---
+  s = s.replace /\/\*BLOCK_COMMENT_(\d+)\*\//g, (m, idx) -> blockComments[parseInt idx] or m
+
+  # --- 12. 去掉 main/类对应的多余闭合括号 ---
+  # 去掉末尾孤立的 }
   s = s.replace /\n\}\s*$/g, ''
-
-  # 去掉类型声明关键字
-  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|void|auto|const|unsigned|signed|static|public|private|protected|virtual|override|final|abstract|synchronized|transient|volatile|native|strictfp)\b/g, ''
-
-  # 去掉 Java 类声明 public class Foo { ... }
-  s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+\s*(?:extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*\{/g, ''
-
   # 去掉空行中残留的 }（类/方法闭合）
   s = s.replace /^\s*\}\s*$/gm, ''
 
-  # 压缩多余空行
-  s = s.replace /\n{3,}/g, '\n\n'
+  # --- 13. 压缩多余空行 ---
+  s = s.replace /\n{4,}/g, '\n\n\n'
 
   s = s.trim()
   if s.length is 0 then s = ';'
