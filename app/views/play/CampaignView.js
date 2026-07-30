@@ -517,6 +517,10 @@ class CampaignView extends RootView {
   }
 
   onLoaded () {
+    // 隐藏全屏加载动画
+    const overlay = document.getElementById('loading-overlay')
+    if (overlay) { overlay.classList.add('hidden') }
+
     // Execute pending HackStack redirect after all resources have loaded
     if (this.pendingHackstackRedirect) {
       this.executeHackstackRedirect(this.pendingHackstackRedirect)
