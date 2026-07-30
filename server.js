@@ -169,7 +169,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
       const oid = new ObjectId(id);
-      const update = { $set: Object.assign({}, req.body || {}, { anonymous: false }) };
+      // 用 $set 更新请求体字段，同时确保完整用户结构（upsert 新建时补齐默认字段）
+      const body = req.body || {};
+      const defaults = {
+        points: 0, gems: 0, spent: 0,
+        earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
+        purchased: { heroes: [], items: [], levels: [], gems: 0 },
+        dateCreated: new Date().toISOString()
+      };
+      const setData = Object.assign({}, body, defaults, { anonymous: false });
+      const update = { $set: setData, $setOnInsert: defaults };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
         .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
@@ -184,7 +193,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
       const oid = new ObjectId(id);
-      const update = { $set: Object.assign({}, req.body || {}, { anonymous: false }) };
+      const body = req.body || {};
+      const setData = Object.assign({}, body, { anonymous: false });
+      const update = { $set: setData };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
         .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
