@@ -167,25 +167,26 @@ module.exports.fetchToken = (source, language) =>
   if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
     return Promise.resolve(source)
 
-  # 先试 kodekeeper（在线 AST 解析），失败则走客户端翻译
-  headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-  service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-  fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-    .then (x) =>
-      if !x.ok then throw new Error("kodekeeper status #{x.status}")
-      x.json()
-    .then (x) =>
-      if x?.token then return x.token
-      throw new Error('kodekeeper returned no token')
-    .catch (e) =>
-      console.warn '[aether_utils] kodekeeper failed, fallback to client translation:', e?.message or e
-      # 客户端翻译兜底
-      try
-        translated = javaCppToJS source, language
-        console.log '[aether_utils] client translated:', translated
-        return translated
-      catch e2
-        console.error '[aether_utils] client translation also failed:', e2
+  # 先走客户端翻译（已验证 moveLeft/moveRight 方向正确），
+  # kodekeeper API 有时会产生方向反了的 AST。
+  try
+    translated = javaCppToJS source, language
+    console.log '[aether_utils] client translated:', translated
+    return Promise.resolve translated
+  catch e
+    console.warn '[aether_utils] client translation failed:', e?.message or e
+    # kodekeeper 兜底
+    headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
+    return fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+      .then (x) =>
+        if !x.ok then throw new Error("kodekeeper status #{x.status}")
+        x.json()
+      .then (x) =>
+        if x?.token then return x.token
+        throw new Error('kodekeeper returned no token')
+      .catch (e2) =>
+        console.error '[aether_utils] kodekeeper also failed:', e2?.message or e2
         throw e2
 
 module.exports.generateSpellsObject = (options) ->
