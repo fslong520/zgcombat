@@ -371,12 +371,6 @@ var loginNavigate = function (subModalContinue) {
     return
   }
 
-  // 内部部署：登录后强制跳 /play（带时间戳防缓存），不走 reload
-  if (utils.iszgcombat) {
-    window.location.href = '/play?_=' + Date.now()
-    return
-  }
-
   if (!me.isAdmin()) {
     if (me.isAPIClient()) {
       application.router.navigate('/partner-dashboard', { trigger: true })
@@ -401,6 +395,10 @@ var loginNavigate = function (subModalContinue) {
     storage.save('sub-modal-continue', subModalContinue)
   }
 
+  // 内部部署：登录后跳到 /play（不走 reload，因为 reload 可能用缓存）
+  if (utils.iszgcombat) {
+    return window.location.href = '/play'
+  }
   return window.location.reload()
 }
 
