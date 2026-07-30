@@ -218,7 +218,9 @@ module.exports = (SegmentCheckView = (function () {
           return forms.setErrorToProperty(this.$el, 'birthdayDay', requiredMessage)
         } else {
           const age = (new Date().getTime() - this.signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-          if (age > utils.ageOfConsent(me.get('country'), 13)) {
+          // 内部部署不过滤13岁以下，免家长邮件
+          const isOldEnough = utils.iszgcombat || age > utils.ageOfConsent(me.get('country'), 13)
+          if (isOldEnough) {
             const screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
             this.trackIndividualStepNext(screen)
             this.trigger('nav-forward', screen)
