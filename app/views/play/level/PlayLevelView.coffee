@@ -430,6 +430,8 @@ module.exports = class PlayLevelView extends RootView
 
     if @level.get('assessment') is 'cumulative'
       options.minGoalsToComplete = 1
+    # 传代码语言给 GoalManager，用于行数目标时减去 C++/Java main 包裹行
+    options.codeLanguage = @session?.get('codeLanguage')
     @goalManager = new GoalManager(@world, @level.get('goals'), @team, options)
     @god?.setGoalManager @goalManager
 

@@ -287,6 +287,9 @@ module.exports = class GoalManager extends CocoClass
 
   checkLinesOfCode: (goalID, who, thang, linesUsed, frameNumber) ->
     return unless linesAllowed = who[thang.id] ? who[thang.team]
+    # C++/Java 有 main 包裹行（int main() { / return 0; / }），不计入用户行数
+    if @options?.codeLanguage in ['cpp', 'java']
+      linesUsed -= 3
     @updateGoalState goalID, thang.id, 'lines', frameNumber if linesUsed > linesAllowed
     @goalStates[goalID].lines.used = linesUsed
     @goalStates[goalID].lines.allowed = linesAllowed
