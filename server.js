@@ -34,6 +34,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     const compression = require('compression');
     app.use(compression());
   }
+  const cookieParser = require('cookie-parser');
+  app.use(cookieParser());
   serverSetup.setExpressConfigurationOptions(app);
 
   // Minimal client-init endpoints required by the new frontend (app/core/initialize + auth).
@@ -57,11 +59,30 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       stripe: false,
       buildInfo: { sha: (config.buildInfo && config.buildInfo.sha) || 'dev' }
     };
-    res.send('window.userObject = ' + JSON.stringify(anonymousUser) + ';\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+    // 检查登录 cookie，返回对应用户，否则返回匿名用户
+    const uid = req.cookies && req.cookies.zg_userId;
+    let userPromise;
+    if (uid && /^[a-f0-9]{24}$/i.test(uid)) {
+      userPromise = cocoDb ? cocoDb.collection('users').findOne({ _id: new ObjectId(uid) }) : Promise.resolve(null);
+    } else {
+      userPromise = Promise.resolve(null);
+    }
+    userPromise.then(function(u) {
+      return res.send('window.userObject = ' + JSON.stringify(u || anonymousUser) + ';\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+    }).catch(function() {
+      return res.send('window.userObject = ' + JSON.stringify(anonymousUser) + ';\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+    });
   });
   app.get('/auth/whoami', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(anonymousUser));
+    const uid = req.cookies && req.cookies.zg_userId;
+    if (uid && /^[a-f0-9]{24}$/i.test(uid) && cocoDb) {
+      cocoDb.collection('users').findOne({ _id: new ObjectId(uid) })
+        .then(function(u) { return res.json(u || anonymousUser); })
+        .catch(function() { return res.json(anonymousUser); });
+    } else {
+      return res.json(anonymousUser);
+    }
   });
   // 注册表单实时校验：检查用户名是否已存在
   app.get('/auth/name/:name', function(req, res) {
@@ -87,19 +108,24 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(401).json({ errorID: 'unknown' }); }
     const username = (req.body && req.body.username) || '';
     const password = (req.body && req.body.password) || '';
-    const query = {
-      $or: [
-        { name: { $regex: '^' + username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } },
-        { email: { $regex: '^' + username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', $options: 'i' } }
-      ]
-    };
+    const escaped = username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const query = { $or: [
+      { name: { $regex: '^' + escaped + '$', $options: 'i' } },
+      { email: { $regex: '^' + escaped + '$', $options: 'i' } }
+    ] };
     cocoDb.collection('users').findOne(query)
       .then(function(u) {
         if (!u) return res.status(401).json({ errorID: 'not-found' });
         if (u.password !== password) return res.status(401).json({ errorID: 'wrong-password' });
+        res.cookie('zg_userId', u._id.toString(), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
         return res.json(u);
       })
       .catch(function() { return res.status(401).json({ errorID: 'unknown' }); });
+  });
+  // 登出：POST /auth/logout（清除 cookie）
+  app.post('/auth/logout', function(req, res) {
+    res.clearCookie('zg_userId');
+    return res.json({});
   });
 
   // Lightweight /db API backed by the restored MongoDB `coco` database.
