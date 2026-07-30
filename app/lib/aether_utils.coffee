@@ -30,7 +30,7 @@ module.exports.createAetherOptions = (options) ->
     problemContext: options.problemContext
     #functionParameters: # TODOOOOO
     executionLimit: options.executionLimit or 3 * 1000 * 1000
-    language: options.codeLanguage
+    language: if options.codeLanguage in ['java', 'cpp'] then 'javascript' else options.codeLanguage
     useInterpreter: true
   parameters = functionParameters[options.functionName]
   unless parameters
@@ -61,24 +61,65 @@ functionParameters =
   getNearestEnemy: []
   die: []
 
-module.exports.fetchToken = (source, language) =>
-  if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
-    return Promise.resolve(source)
+# ---- Java/C++ 翻译层（替代 kodekeeper 服务） ----
+# 内部部署中 kodekeeper（AWS API）不可达。将 Java/C++ 转成 JS 后由 Aether 原生处理。
+javaCppToJS = (source, language) ->
+  s = source
 
-  # 内部部署：C++/Java 用户常按 Python 习惯写裸语句（如 `hero.moveRight();`），
-  # 缺少 int main() 包裹，kodekeeper 无法产出 AST，aether 退化为空函数，英雄不动。
-  # 自动包裹 int main() { ... }（仅当用户代码未含 main 函数时），使其可被正常转译。
-  if language is 'cpp' and not /\b(int\s+main|void\s+main|main\s*\()/.test source
-    source = "int main() {\n#{source}\n}"
+  # 去掉 C++ int main() / void main() 包裹
+  if language is 'cpp'
+    s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*\{/g, ''
+    s = s.replace /\/\/.*$/gm, ''  # 行注释
+  # 去掉 Java public static void main(String[] args) 等
+  if language is 'java'
+    s = s.replace /public\s+(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*\{/g, ''
+    s = s.replace /\/\/.*$/gm, ''
 
-  headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+  # 去掉外层多余的 }（对应 main 的闭合）
+  # 只去掉末尾孤立的 }
+  s = s.replace /\n\}\s*$/g, ''
+
+  # 去掉类型声明关键字
+  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|void|auto|const|unsigned|signed|static|public|private|protected|virtual|override|final|abstract|synchronized|transient|volatile|native|strictfp)\b/g, ''
+
+  # 去掉 Java 类声明 public class Foo { ... }
+  s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+\s*(?:extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*\{/g, ''
+
+  # 去掉空行中残留的 }（类/方法闭合）
+  s = s.replace /^\s*\}\s*$/gm, ''
+
+  # 压缩多余空行
+  s = s.replace /\n{3,}/g, '\n\n'
+
+  s = s.trim()
+  if s.length is 0 then s = ';'
+  return s
+
+fallbackFetchToken = (source, language) ->
+  headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
   service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
   fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
     .then (x) => x.token
     .catch (e) =>
-      console.error 'kodekeeper fetchToken failed for', language, '-', e
+      console.error '[aether_utils] kodekeeper fallback failed:', language, e
       throw e
+
+module.exports.fetchToken = (source, language) =>
+  if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
+    return Promise.resolve(source)
+
+  # 内部部署：kodekeeper 服务不可达。用客户端翻译层将 Java/C++ 转成 JS 交给 Aether。
+  # Aether 原生支持 JavaScript，而 CodeCombat 关卡中的 Java/C++ 代码（如 hero.moveRight()）
+  # 本身与 JS 语法几乎一致，只需处理类型声明、访问修饰符等差异即可。
+  try
+    translated = javaCppToJS source, language
+    console.log '[aether_utils] java/cpp translated to JS:', translated
+    return Promise.resolve translated
+  catch e
+    console.error '[aether_utils] java/cpp translation failed:', e
+    # 回退：走原始 kodekeeper 服务（如果有网络）
+    return fallbackFetchToken source, language
 
 module.exports.generateSpellsObject = (options) ->
   {level, levelSession, token} = options
