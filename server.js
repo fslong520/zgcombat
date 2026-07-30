@@ -50,6 +50,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   };
   app.get('/user-data', function(req, res) {
     res.setHeader('Content-Type', 'application/javascript');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     const serverConfig = {
       codeNinjas: false,
       static: true,
@@ -75,6 +76,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   });
   app.get('/auth/whoami', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     const uid = req.cookies && req.cookies.zg_userId;
     if (uid && /^[a-f0-9]{24}$/i.test(uid) && cocoDb) {
       cocoDb.collection('users').findOne({ _id: new ObjectId(uid) })
@@ -239,7 +241,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         points: 0, gems: 0, spent: 0,
         earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
         purchased: { heroes: [], items: [], levels: [], gems: 0 },
-        dateCreated: new Date().toISOString()
+        dateCreated: new Date().toISOString(),
+        preferredLanguage: 'zh-HANS'
       };
       const setData = Object.assign({}, body, defaults, { anonymous: false });
       // 用 $set 配合 upsert:true 即可，无需 $setOnInsert（避免字段冲突）
