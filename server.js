@@ -142,10 +142,38 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }
   };
   app.get('/db/user/:id', serveAnonymousUser);
-  app.put('/db/user/:id', serveAnonymousUser);
-  app.patch('/db/user/:id', serveAnonymousUser);
+  // PUT/PATCH：注册时保存用户数据到 MongoDB（me.save() 走此路径）
+  app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json(anonymousUser); }
+    const id = req.params.id;
+    if (/^[a-f0-9]{24}$/i.test(id)) {
+      const oid = new ObjectId(id);
+      const update = { $set: Object.assign({}, req.body || {}, { anonymous: false }) };
+      cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
+        .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
+        .then(function (u) { return res.status(200).json(u || anonymousUser); })
+        .catch(function () { return res.status(200).json(anonymousUser); });
+    } else {
+      return res.status(200).json([]);
+    }
+  });
+  app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
+    // 同 PUT 逻辑
+    if (!cocoDb) { return res.status(200).json(anonymousUser); }
+    const id = req.params.id;
+    if (/^[a-f0-9]{24}$/i.test(id)) {
+      const oid = new ObjectId(id);
+      const update = { $set: Object.assign({}, req.body || {}, { anonymous: false }) };
+      cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
+        .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
+        .then(function (u) { return res.status(200).json(u || anonymousUser); })
+        .catch(function () { return res.status(200).json(anonymousUser); });
+    } else {
+      return res.status(200).json([]);
+    }
+  });
   // 创建用户（注册）：POST /db/user 不带 id → 插入新用户到 MongoDB
-  app.post('/db/user', function (req, res) {
+  app.post('/db/user', express.json({ limit: '25mb', strict: false }), function (req, res) {
     if (!cocoDb) { return res.status(200).json({}); }
     const body = req.body || {};
     const doc = Object.assign({

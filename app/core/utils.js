@@ -17,6 +17,7 @@ const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !==
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
+const iszgcombat = true
 const _ = require('lodash')
 const useWebsocket = false
 const showOzaria = () => isOzaria || window.location.pathname.includes('ozaria')
@@ -2073,6 +2074,7 @@ module.exports = {
   isChinaOldBrowser,
   isCodeCombat,
   isOzaria,
+  iszgcombat,
   isMobile,
   isIPad,
   supportEmail,
