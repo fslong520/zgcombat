@@ -178,7 +178,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         dateCreated: new Date().toISOString()
       };
       const setData = Object.assign({}, body, defaults, { anonymous: false });
-      const update = { $set: setData, $setOnInsert: defaults };
+      // 用 $set 配合 upsert:true 即可，无需 $setOnInsert（避免字段冲突）
+      const update = { $set: setData };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
         .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
