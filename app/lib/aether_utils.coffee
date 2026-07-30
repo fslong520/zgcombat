@@ -163,31 +163,30 @@ javaCppToJS = (source, language) ->
   if s.length is 0 then s = ';'
   return s
 
-fallbackFetchToken = (source, language) ->
-  headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-  service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-  fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-    .then (x) => x.json()
-    .then (x) => x.token
-    .catch (e) =>
-      console.error '[aether_utils] kodekeeper fallback failed:', language, e
-      throw e
-
 module.exports.fetchToken = (source, language) =>
   if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
     return Promise.resolve(source)
 
-  # 内部部署：kodekeeper 服务不可达。用客户端翻译层将 Java/C++ 转成 JS 交给 Aether。
-  # Aether 原生支持 JavaScript，而 CodeCombat 关卡中的 Java/C++ 代码（如 hero.moveRight()）
-  # 本身与 JS 语法几乎一致，只需处理类型声明、访问修饰符等差异即可。
-  try
-    translated = javaCppToJS source, language
-    console.log '[aether_utils] java/cpp translated to JS:', translated
-    return Promise.resolve translated
-  catch e
-    console.error '[aether_utils] java/cpp translation failed:', e
-    # 回退：走原始 kodekeeper 服务（如果有网络）
-    return fallbackFetchToken source, language
+  # 先试 kodekeeper（在线 AST 解析），失败则走客户端翻译
+  headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+  service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
+  fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) =>
+      if !x.ok then throw new Error("kodekeeper status #{x.status}")
+      x.json()
+    .then (x) =>
+      if x?.token then return x.token
+      throw new Error('kodekeeper returned no token')
+    .catch (e) =>
+      console.warn '[aether_utils] kodekeeper failed, fallback to client translation:', e?.message or e
+      # 客户端翻译兜底
+      try
+        translated = javaCppToJS source, language
+        console.log '[aether_utils] client translated:', translated
+        return translated
+      catch e2
+        console.error '[aether_utils] client translation also failed:', e2
+        throw e2
 
 module.exports.generateSpellsObject = (options) ->
   {level, levelSession, token} = options
