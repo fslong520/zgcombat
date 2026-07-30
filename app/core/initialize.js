@@ -108,7 +108,10 @@ const definitionSchemas = {
 
 var init = function () {
   if (app) { return }
-  if (!(window.userObject != null ? window.userObject._id : undefined)) {
+  if (init.authChecked) {
+    // 已查过 whoami，继续初始化
+  } else {
+    init.authChecked = true
     const options = { cache: false }
     options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
     $.ajax('/auth/whoami', options).then(function (res) {
