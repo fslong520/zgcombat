@@ -286,7 +286,17 @@ module.exports = (Level = (function () {
               }
             }
           }
-          if (inventory) { equips.config.inventory = $.extend(true, {}, inventory) }
+          if (inventory) {
+            // 玩家已装备的物品必须进入世界：背包（InventoryModal/PlayItemsModal）加载物品时
+            // 标记 notInLevel=true 以防无用物品泄漏，致 serialize 不收集 → Equips.attach 找不到
+            // ThangType（console 报 "could not find ThangType ... when attaching Equips"）。
+            // 此处把被装备物品的 notInLevel 清除，使其进入 level.thangTypes。
+            for (const itemOriginal of Object.values(inventory)) {
+              const equippedTT = thangTypesByOriginal[itemOriginal]
+              if (equippedTT && equippedTT.notInLevel) { equippedTT.notInLevel = false }
+            }
+            equips.config.inventory = $.extend(true, {}, inventory)
+          }
         }
         for (const original in placeholders) {
           placeholderComponent = placeholders[original]

@@ -192,7 +192,13 @@ module.exports = (HeroVictoryModal = (function () {
         const rewards = achievement.get('rewards') || {}
         thangTypeOriginals.push(rewards.heroes || [])
         thangTypeOriginals.push(rewards.items || [])
-        achievement.completed = LocalMongo.matchesQuery(this.session.attributes, achievement.get('query'))
+        // 本部署数据库中 achievement.query 为 JSON 字符串；LocalMongo.matchesQuery 期望对象，
+        // 直接传字符串恒匹配失败 → completed 恒 false → 结算面板永不加 earned 类 → 奖励恒灰。
+        let achQuery = achievement.get('query')
+        if (typeof achQuery === 'string') {
+          try { achQuery = JSON.parse(achQuery) } catch (e) { achQuery = null }
+        }
+        achievement.completed = LocalMongo.matchesQuery(this.session.attributes, achQuery)
         if (achievement.completed) { achievementIDs.push(achievement.id) }
       }
 

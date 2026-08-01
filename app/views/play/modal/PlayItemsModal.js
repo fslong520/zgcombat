@@ -97,7 +97,8 @@ module.exports = (PlayItemsModal = (function () {
         'description',
         'i18n',
         'heroClass',
-        'subscriber'
+        'subscriber',
+        'kind'
       ]
 
       const itemFetcher = new CocoCollection([], { url: '/db/thang.type?view=items', project, model: ThangType })

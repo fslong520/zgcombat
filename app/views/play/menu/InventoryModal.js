@@ -117,7 +117,8 @@ module.exports = (InventoryModal = (function () {
         'description',
         'heroClass',
         'i18n',
-        'subscriber'
+        'subscriber',
+        'kind'
       ])
       this.equipment = {} // Assign for real when we have loaded the session and items.
     }
