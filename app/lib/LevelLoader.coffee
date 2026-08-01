@@ -561,12 +561,27 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level.component/#{component.original}/version/#{component.majorVersion}"
       @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
 
+  # 组件可依赖其他组件（dependencies，如 Moves 依赖 Acts、GameSpawning 依赖
+  # GamePropertyHelpers）。只加载组件本身、不递归其依赖时，levelComponents 缺依赖，
+  # Level.serialize 的 sortThangComponents 会刷 "does not have dependent Component"
+  # 报错。此处把缺失的依赖组件也拉进加载队列（递归；maybeLoadURL 缓存防死循环）。
+  loadDependenciesForComponent: (componentModel) ->
+    return unless componentModel
+    deps = componentModel.get('dependencies') ? []
+    for dep in deps when dep?.original?
+      major = if dep.majorVersion? then dep.majorVersion else 0
+      url = "/db/level.component/#{dep.original}/version/#{major}"
+      if res = @maybeLoadURL(url, LevelComponent, 'component')
+        @worldNecessities.push res
+
   onWorldNecessityLoaded: (resource) ->
     # Note: this can also be called when session, opponentSession, or other resources with dedicated load handlers are loaded, before those handlers
     index = @worldNecessities.indexOf(resource)
     if resource.name is 'system'
       @loadThangsRequiredFromSystemDefaults(resource.model)
-      
+
+    if resource.name is 'component'
+      @loadDependenciesForComponent(resource.model)
 
     if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)

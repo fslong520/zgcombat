@@ -160,6 +160,7 @@ module.exports = Lank = class Lank extends CocoClass
     # The normal way to have an action play
     action = @actions[action] if _.isString(action)
     action ?= @actions.idle
+    return unless action  # 防御：@actions 无 idle 或动作缺失时 action 仍为 undefined，后续读 action.relatedActions 会抛
     @actionQueue = []
     @actionQueue.push @currentRootAction.relatedActions.end if @currentRootAction?.relatedActions?.end
     @actionQueue.push action.relatedActions.begin if action.relatedActions?.begin
@@ -177,6 +178,7 @@ module.exports = Lank = class Lank extends CocoClass
 
   playAction: (action) ->
     return if @isRaster
+    return unless action  # 防御：actionQueue 可能含 undefined（见 queueAction 兜底失败），读取 action.relatedActions 会抛
     @currentAction = action
     return @hide() unless action.animation or action.container or action.relatedActions or action.goesTo
     @show()
