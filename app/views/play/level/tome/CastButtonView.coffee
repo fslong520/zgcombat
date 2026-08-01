@@ -133,6 +133,10 @@ module.exports = class CastButtonView extends CocoView
     # 致 HeroVictoryModal 中 matchesQuery 恒失败、通关弹窗不显 XP/宝石/成就。此处补 original，
     # 既入内存供弹窗即时判定，亦随 save 落盘。
     @options.session.set 'level', { original: original }
+    # 补全 levelID：地图(levelStatusMap)以 session.levelID(=slug) 标记关卡完成。
+    # 新 session 无 id 时 LevelLoader.denormalizeSession 会跳过（不写 levelID），
+    # 致通关后地图上该关不显示"已完成"。此处显式补写，随 save 落盘。
+    @options.session.set 'levelID', slug
     # 补全 campaign：session 常缺此字段，后端 persistLevelSession 需 campaign 才能
     # 解析下一关并加入 earned.levels（缺则只加本关 → 主线下一关永不解锁）。
     @options.session.set 'campaign', campaignSlug if campaignSlug
@@ -148,8 +152,11 @@ module.exports = class CastButtonView extends CocoView
     @options.session.save(null, { validate: false })  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
     LocalProgress.markComplete(slug, original)
     LocalProgress.addUnlocked([original])
-    # 匿名用户：本关 XP/宝石/物品累计入缓存，并即时刷新头部
-    if me.isAnonymous()
+    # 游客/匿名用户：本关 XP/宝石/物品累计入缓存，并即时刷新头部。
+    # 注意：须用 isLocalProgressUser 而非 isAnonymous——匿名用户的 anonymous 字段
+    # 会被服务端 PUT/PATCH /db/user/:id 覆盖为 false，isAnonymous() 失效，导致
+    # grantAnonRewards 不执行 → 经验/宝石不累加、物品不进仓库。
+    if me.isLocalProgressUser()
       @grantAnonRewards(original)
     @unlockNextLevel(campaignSlug, original)
 

@@ -499,10 +499,12 @@ module.exports = (User = (function () {
         try {
           const unlocked = LocalProgress.getUnlocked()
           if (unlocked && unlocked.length) { list = list.concat(unlocked) }
-          // 匿名用户累计之经验/宝石（存于缓存）覆盖到头部显示，使「完成」后可见获得。
+          // 匿名用户累计之经验/宝石/物品（存于缓存）覆盖到头部显示，使「完成」后可见获得。
+          // 须同时注入 items：仅 gems 会导致背包(InventoryModal 走 me.ownsItem→items())
+          // 虽能识别，但 me.earned.items 不含本地物品，其他直接读 earned.items 的界面丢。
           const r = LocalProgress.getRewards()
           const earned = this.get('earned') || {}
-          this.set({ points: r.xp || 0, earned: { ...earned, gems: r.gems || 0 } })
+          this.set({ points: r.xp || 0, earned: { ...earned, gems: r.gems || 0, items: LocalProgress.getItems() } })
         } catch (e) { /* ignore */ }
       }
       return list

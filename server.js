@@ -243,6 +243,20 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         .find({ creator: uid })
         .project({ levelID: 1, level: 1, state: 1, playtime: 1, codeLanguage: 1, creator: 1 })
         .toArray();
+      // 历史 session 可能缺 levelID（旧代码未写）→ 从关卡文档补 slug，
+      // 否则地图 levelStatusMap 无法按 slug 标记完成。
+      const lvlColl = cocoDb.collection('levels');
+      for (const d of docs) {
+        if (d.levelID) { continue; }
+        let orig = null;
+        if (d.level && d.level.original) { orig = String(d.level.original); }
+        else if (typeof d.level === 'string' && /^[a-f0-9]{24}$/i.test(d.level)) { orig = d.level; }
+        if (!orig) { continue; }
+        try {
+          const lvl = await lvlColl.findOne({ $or: [{ original: new ObjectId(orig) }, { _id: new ObjectId(orig) }] }, { slug: 1 });
+          if (lvl && lvl.slug) { d.levelID = lvl.slug; }
+        } catch (e) { /* ignore */ }
+      }
       return res.status(200).json(docs);
     } catch (e) {
       console.error('[db] /db/user/:id/level.sessions error', e.message);
@@ -284,25 +298,33 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }
   });
   // PUT/PATCH：注册时保存用户数据到 MongoDB（me.save() 走此路径）
+  // 注意：earned/points/gems/spent/purchased 是通关奖励累计（grantLevelRewards 用
+  // $inc/$addToSet 写入），客户端 me.save()/patch() 常携带旧值或空值，若 $set 覆盖
+  // 会清空奖励 → 经验/宝石"不累加"、道具丢失。故 PUT/PATCH 一律剥离这些字段，
+  // 默认值仅在 upsert 新建用户时通过 $setOnInsert 应用。
+  const PROTECTED_USER_FIELDS = ['earned', 'points', 'gems', 'spent', 'purchased'];
+  const USER_DEFAULTS = {
+    points: 0, gems: 0, spent: 0,
+    earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
+    purchased: { heroes: [], items: [], levels: [], gems: 0 },
+    dateCreated: new Date().toISOString(),
+    preferredLanguage: 'zh-HANS'
+  };
+  const stripProtectedUserFields = function (body) {
+    const b = Object.assign({}, body || {});
+    for (const f of PROTECTED_USER_FIELDS) { delete b[f]; }
+    return b;
+  };
   app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
       const oid = new ObjectId(id);
-      // 用 $set 更新请求体字段，同时确保完整用户结构（upsert 新建时补齐默认字段）
-      const body = req.body || {};
-      const defaults = {
-        points: 0, gems: 0, spent: 0,
-        earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
-        purchased: { heroes: [], items: [], levels: [], gems: 0 },
-        dateCreated: new Date().toISOString(),
-        preferredLanguage: 'zh-HANS'
-      };
-      const setData = Object.assign({}, body, defaults, { anonymous: false });
+      const setData = stripProtectedUserFields(req.body);
+      setData.anonymous = false;
       // 去掉 _id（来自请求体），MongoDB 不允许 $set 修改 _id
       delete setData._id;
-      // 用 $set 配合 upsert:true 即可，无需 $setOnInsert（避免字段冲突）
-      const update = { $set: setData };
+      const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
         .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
@@ -312,14 +334,14 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }
   });
   app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
-    // 同 PUT 逻辑
+    // 同 PUT 逻辑：仅更新请求体字段，剥离奖励累计字段，默认值仅在新建时应用
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
       const oid = new ObjectId(id);
-      const body = req.body || {};
-      const setData = Object.assign({}, body, { anonymous: false });
-      const update = { $set: setData };
+      const setData = stripProtectedUserFields(req.body);
+      setData.anonymous = false;
+      const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
         .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
@@ -853,6 +875,19 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           }
         }
         if (!levelOriginal && body.state && body.state.original) { levelOriginal = body.state.original; }
+        // 补 levelID（地图 levelStatusMap 以 session.levelID=slug 标记完成；新 session
+        // 常缺该字段，落库时从关卡文档查 slug 写入，否则地图不显示"已完成"）。
+        if (!(fullDoc && fullDoc.levelID) && !body.levelID && levelOriginal && /^[a-f0-9]{24}$/i.test(levelOriginal)) {
+          try {
+            const lvlDoc = await cocoDb.collection('levels').findOne(
+              { $or: [{ original: new ObjectId(levelOriginal) }, { _id: new ObjectId(levelOriginal) }] },
+              { slug: 1 });
+            if (lvlDoc && lvlDoc.slug) {
+              doc.levelID = lvlDoc.slug;
+              await coll.updateOne({ _id: docId }, { $set: { levelID: lvlDoc.slug } });
+            }
+          } catch (e) { /* ignore */ }
+        }
         let campaign = (fullDoc && fullDoc.campaign) || body.campaign;
         // session 常缺 campaign（前端 markLevelCompleted 未写）；缺则从关卡文档回退，
         // 否则 resolveCampaign(undefined)=null → 只加本关、不加下一关 → 主线下一关永不解锁。
