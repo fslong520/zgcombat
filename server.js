@@ -231,6 +231,58 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }
   };
   app.get('/db/user/:id', serveAnonymousUser);
+  // /db/user/<uid>/level.sessions — 返回该用户全部关卡 session（世界地图进度用）。
+  // 通用 /db/:collection/:id/:action 路由中 'user' 不在 DB_COLLECTIONS 映射内，
+  // 会直接返回 []，致地图上登录用户所有关卡恒为「未开始」。
+  app.get('/db/user/:id/level.sessions', async function (req, res) {
+    try {
+      if (!cocoDb) { return res.status(200).json([]); }
+      const uid = req.params.id;
+      if (!uid || !/^[a-f0-9]{24}$/i.test(uid)) { return res.status(200).json([]); }
+      const docs = await cocoDb.collection('level.sessions')
+        .find({ creator: uid })
+        .project({ levelID: 1, level: 1, state: 1, playtime: 1, codeLanguage: 1, creator: 1 })
+        .toArray();
+      return res.status(200).json(docs);
+    } catch (e) {
+      console.error('[db] /db/user/:id/level.sessions error', e.message);
+      return res.status(200).json([]);
+    }
+  });
+  // /db/level/<levelID>/session — 返回当前用户对该关卡的 session（若有），否则空对象让前端新建。
+  // 通用 /db/:collection/:id/:action 路由会把 levelID 当 level 集合查询并返回 LEVEL 文档；
+  // 转储数据中 level 文档自带关卡作者 creator（如 5818...），前端误当 session 使用后，
+  // 通关保存时 creator 写成关卡作者 → 后端 matched=0 → 解锁/发奖全失败。
+  app.get('/db/level/:levelID/session', async function (req, res) {
+    try {
+      if (!cocoDb) { return res.status(200).json({}); }
+      const levelID = req.params.levelID;
+      const lvlColl = cocoDb.collection('levels');
+      let levelDoc = null;
+      if (/^[a-f0-9]{24}$/i.test(levelID)) {
+        const oid = new ObjectId(levelID);
+        levelDoc = await lvlColl.findOne({ $or: [{ _id: oid }, { original: oid }] });
+      }
+      if (!levelDoc) { levelDoc = await lvlColl.findOne({ slug: levelID }); }
+      if (!levelDoc) { levelDoc = await lvlColl.findOne({ name: levelID }); }
+      if (!levelDoc) { return res.status(200).json({}); }
+      const slug = levelDoc.slug;
+      const original = String(levelDoc.original || levelDoc._id);
+      const sessColl = cocoDb.collection('level.sessions');
+      const matchLevel = { $or: [{ levelID: slug }, { 'level.original': original }, { level: original }] };
+      const uid = req.cookies && req.cookies.zg_userId;
+      if (uid && /^[a-f0-9]{24}$/i.test(uid)) {
+        const session = await sessColl.findOne(Object.assign({ creator: uid }, matchLevel), { sort: { changed: -1 } });
+        if (session) { return res.status(200).json(session); }
+      }
+      // 匿名 / 无该用户 session：不加载他人（转储）session，返回空对象让前端新建；
+      // 匿名进度由 localStorage（lib/localProgress）管理。
+      return res.status(200).json({});
+    } catch (e) {
+      console.error('[db] /db/level/:levelID/session error', e.message);
+      return res.status(200).json({});
+    }
+  });
   // PUT/PATCH：注册时保存用户数据到 MongoDB（me.save() 走此路径）
   app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
@@ -329,22 +381,32 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const levelOriginal = req.params.levelOriginal;
       const entry = campDoc.levels[levelOriginal];
       if (!entry) { return res.status(200).json(null); }
-      // priority: use nextLevels if available
+      // 收集本关全部后继关卡（original）：nextLevels 各分支 + rewards 引用关卡 + 按序 fallback next
+      const nexts = [];
       if (entry.nextLevels) {
-        const nextIds = Object.keys(entry.nextLevels);
-        if (nextIds.length) {
-          const nextEntry = entry.nextLevels[nextIds[0]];
-          return res.status(200).json(nextEntry);
+        for (const nid of Object.keys(entry.nextLevels)) {
+          const ne = entry.nextLevels[nid];
+          if (ne && ne.original) { nexts.push(ne.original); }
         }
       }
-      // fallback: find next level by key order
+      if (Array.isArray(entry.rewards)) {
+        for (const r of entry.rewards) {
+          if (r && r.level) { nexts.push(r.level); }
+        }
+      }
       const keys = Object.keys(campDoc.levels);
       const idx = keys.findIndex(k => k === levelOriginal || (campDoc.levels[k] && campDoc.levels[k].original === levelOriginal));
       if (idx >= 0 && idx < keys.length - 1) {
-        const nextEntry = campDoc.levels[keys[idx + 1]];
-        return res.status(200).json({ slug: nextEntry.slug, name: nextEntry.name, original: nextEntry.original });
+        const ne = campDoc.levels[keys[idx + 1]];
+        if (ne && ne.original) { nexts.push(ne.original); }
       }
-      return res.status(200).json(null);
+      const uniq = [...new Set(nexts.map(String))].filter(Boolean);
+      if (!uniq.length) { return res.status(200).json(null); }
+      // 兼容旧契约：默认返回首个后继；allLevels 供前端批量解锁全部后继
+      const first = campDoc.levels[uniq[0]] || campDoc.levels[keys[keys.indexOf(levelOriginal) + 1]];
+      const primary = first ? { slug: first.slug, name: first.name, original: first.original } : { original: uniq[0] };
+      primary.allLevels = uniq;
+      return res.status(200).json(primary);
     } catch (e) {
       console.error('[db] /levels/:id/next error', e.message);
       return res.status(200).json(null);
@@ -705,15 +767,25 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       );
       const already = new Set(((userDoc && userDoc.earned && userDoc.earned.achievements) || []).map(String));
       let xpInc = 0; let gemInc = 0; const earnedAch = [];
+      const earnedItems = new Set(); const earnedLevels = new Set(); const earnedHeroes = new Set();
       for (const a of achDocs) {
         if (already.has(a._id.toString())) { continue; }
         const worth = a.worth || 0;
         const gems = (a.rewards && a.rewards.gems) || 0;
-        if (!worth && !gems) { continue; }
+        const items = (a.rewards && a.rewards.items) || [];
+        const levels = (a.rewards && a.rewards.levels) || [];
+        const heroes = (a.rewards && a.rewards.heroes) || [];
+        if (!worth && !gems && !items.length && !levels.length && !heroes.length) { continue; }
         xpInc += worth; gemInc += gems; earnedAch.push(a._id.toString());
+        for (const it of items) { if (it) { earnedItems.add(String(it)); } }
+        for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
+        for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
       }
       if (!earnedAch.length) { return; }
       const update = { $addToSet: { 'earned.achievements': { $each: earnedAch } } };
+      if (earnedItems.size) { update.$addToSet['earned.items'] = { $each: [...earnedItems] }; }
+      if (earnedLevels.size) { update.$addToSet['earned.levels'] = { $each: [...earnedLevels] }; }
+      if (earnedHeroes.size) { update.$addToSet['earned.heroes'] = { $each: [...earnedHeroes] }; }
       update.$inc = {};
       if (xpInc) { update.$inc.points = xpInc; }
       if (gemInc) { update.$inc['earned.gems'] = gemInc; }
@@ -725,7 +797,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       );
       // 注意：creator 须为真实 users._id；若无对应用户，matchedCount=0，奖励未真写入。
       console.info('[db] granted rewards for level', levelOriginal, 'to user', creator,
-        '(xp +' + xpInc + ', gems +' + gemInc + ', matched=' + (updRes && updRes.matchedCount) + ')');
+        '(xp +' + xpInc + ', gems +' + gemInc + ', items +' + earnedItems.size + ', levels +' + earnedLevels.size + ', heroes +' + earnedHeroes.size + ', matched=' + (updRes && updRes.matchedCount) + ')');
     } catch (e) {
       console.error('[db] grantLevelRewards error', e && e.message);
     }
@@ -739,6 +811,13 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const coll = cocoDb.collection('level.sessions');
       let docId;
       const doc = Object.assign({}, body);
+      // 落库时以服务端登录 cookie 为准覆盖 creator：前端 session 可能带着旧值
+      // （转储 level 文档的关卡作者 creator），或更新请求体缺 creator；只有 cookie
+      // 能保证 session 归属当前用户，否则同一转储 session 被多玩家互相覆盖。
+      const sessionCookieUid = req.cookies && req.cookies.zg_userId;
+      if (sessionCookieUid && /^[a-f0-9]{24}$/i.test(sessionCookieUid)) {
+        doc.creator = sessionCookieUid;
+      }
       if (id && /^[a-f0-9]{24}$/i.test(id)) {
         docId = new ObjectId(id);
         doc._id = docId;
@@ -775,7 +854,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         }
         if (!levelOriginal && body.state && body.state.original) { levelOriginal = body.state.original; }
         const campaign = (fullDoc && fullDoc.campaign) || body.campaign;
-        const creator = (fullDoc && fullDoc.creator) || body.creator;
+        // creator 以服务端登录 cookie 为准：SPA 加载的 session 可能带旧值（转储 level 文档的
+        // 关卡作者 creator），或更新请求体缺 creator，只有 cookie 才能保证归属当前用户。
+        const cookieUid = req.cookies && req.cookies.zg_userId;
+        const cookieCreator = (cookieUid && /^[a-f0-9]{24}$/i.test(cookieUid)) ? cookieUid : null;
+        const creator = cookieCreator || (fullDoc && fullDoc.creator) || body.creator;
         console.info('[db] resolved completion: levelOriginal=', levelOriginal, 'campaign=', campaign, 'creator=', creator);
         if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
           const unlocked = [levelOriginal];

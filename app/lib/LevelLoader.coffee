@@ -262,7 +262,13 @@ module.exports = class LevelLoader extends CocoClass
     else
       console.debug 'LevelLoader: loading session:', @session if LOG
       @listenToOnce @session, 'sync', ->
-        @session.setURL '/db/level.session/' + @session.id
+        # 新 session（/db/level/:slug/session 返回空对象，无 _id）须保留集合级 URL，
+        # 使后续 save() 走 POST /db/level.session；若误设成 /db/level.session/undefined，
+        # 保存会落到 catch-all /db/* → 通关不落盘、不解锁。
+        if @session.id
+          @session.setURL '/db/level.session/' + @session.id
+        else
+          @session.setURL '/db/level.session'
         @preloadTeamForSession @session
     if @opponentSession
       if @opponentSession.loaded

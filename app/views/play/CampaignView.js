@@ -308,6 +308,16 @@ class CampaignView extends RootView {
     this.listenTo(me, 'change:earned', () => this.renderSelectors('#gems-count'))
     this.listenTo(me, 'change:heroConfig', () => this.updateHero())
 
+    // 登录用户：通关后 earned.levels 由服务端写入（见 server.js persistLevelSession），
+    // 而 SPA 导航不刷新页面，me 仍是页面加载时的旧快照，地图上下一关因此恒锁。
+    // 每次进入地图刷新一次 me，sync 后若已渲染则重算（解锁/完成态随之更新）。
+    if (!me.isLocalProgressUser() && !me.loading && (me.id !== '000000000000000000000000')) {
+      me.fetch({ cache: false })
+      this.listenToOnce(me, 'sync', () => {
+        if (this.fullyRendered) { this.render() }
+      })
+    }
+
     if (utils.getQueryVariable('hour_of_code') || (this.terrain === 'hoc-2018')) {
       if (!sessionStorage.getItem(this.terrain)) {
         sessionStorage.setItem(this.terrain, 'seen-modal')
@@ -552,7 +562,7 @@ class CampaignView extends RootView {
         }
       }
       // 内部部署：匿名用户通关进度存于 localStorage，注入 levelStatusMap 以显示星标/完成态。
-      if (me.isAnonymous()) {
+      if (me.isLocalProgressUser()) {
         try {
           const completed = LocalProgress.getCompleted()
           for (const slug of Object.keys(completed)) {
@@ -702,7 +712,7 @@ class CampaignView extends RootView {
         }
       }
       // 内部部署：匿名用户通关进度存于 localStorage，注入 levelStatusMap 以显示星标/完成态。
-      if (me.isAnonymous()) {
+      if (me.isLocalProgressUser()) {
         try {
           const completed = LocalProgress.getCompleted()
           for (const slug of Object.keys(completed)) {
@@ -1889,7 +1899,8 @@ class CampaignView extends RootView {
   }
 
   onSessionPreloaded (session) {
-    session.url = function () { return '/db/level.session/' + this.id }
+    // 新 session（无 _id）不设 /db/level.session/undefined 之 url；仅对既有 session 覆写。
+    session.url = function () { return this.id ? '/db/level.session/' + this.id : '/db/level.session' }
     const levelElement = this.$el.find('.level-info-container:visible')
     if (session.levelSlug !== levelElement.data('level-slug')) { return }
     const difficulty = session.get('state')?.difficulty

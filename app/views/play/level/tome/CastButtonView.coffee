@@ -110,7 +110,21 @@ module.exports = class CastButtonView extends CocoView
 
   # 幂等：标记本关已通关并存档、发奖、解锁下一关。仅首次(未 complete)执行，回放不重复发奖
   markLevelCompleted: ->
-    return if @options.session.get('state')?.complete  # 已通关，避免重复发奖/重复写档
+    slug = @options.level.get('slug')
+    original = @options.level.get('original') or @options.level.id
+    campaignSlug = @options.level.get('campaign')
+    # 已通关的 session：会话 complete 可能由 LevelBus.onVictory 抢先落库（自然胜利路径），
+    # 此时 markComplete/addUnlocked/解锁下一关未执行。匿名用户完成标记唯赖 localStorage，
+    # 故此处无条件补写（覆盖写/去重，幂等安全），并补拉物品奖励、补解锁下一关。
+    # 登录用户奖励与关卡解锁由服务端发放（grantLevelRewards 写 earned.*）。
+    if @options.session.get('state')?.complete
+      if me.isLocalProgressUser()
+        LocalProgress = require 'lib/localProgress'
+        LocalProgress.markComplete(slug, original)
+        LocalProgress.addUnlocked([original])
+        @grantAnonRewards(original)
+        @unlockNextLevel(campaignSlug, original)
+      return
     LocalProgress = require 'lib/localProgress'
     @options.session.recordScores @world?.scores, @options.level
     state = Object.assign {}, (@options.session.get('state') or {}), { complete: true }
@@ -118,33 +132,40 @@ module.exports = class CastButtonView extends CocoView
     # 补全 level 引用：成就 query 校验 session.level.original，而本部署 session 仅存 levelID，
     # 致 HeroVictoryModal 中 matchesQuery 恒失败、通关弹窗不显 XP/宝石/成就。此处补 original，
     # 既入内存供弹窗即时判定，亦随 save 落盘。
-    @options.session.set 'level', { original: (@options.level.get('original') or @options.level.id) }
+    @options.session.set 'level', { original: original }
     # 补全 creator：session 自服务端加载时恒为 {}（/db/level/:id/session 路由仅查 level
     # 文档，不查 session），无 creator 字段。后端 persistLevelSession 中 creator 缺位
     # 致 grantLevelRewards 直接返回，通关奖励（XP/宝石/成就）永不发放。此处补当前用户。
-    @options.session.set 'creator', me.id unless @options.session.get('creator')
+    # 注意：须强制覆盖而非「unless 存在」——转储 level 文档自带关卡作者 creator（如
+    # 5818...），若 session 误加载了它，旧值会令保存归属错误用户、解锁/发奖全失效。
+    @options.session.set 'creator', me.id
     # 跳过 tv4 校验：c.object 默认 additionalProperties:false，session 客户端字段
     # （state/level 等动态字段）致 49 条校验错、save 被拦、发奖 POST 永不触发。
     # 数据本身合法（落盘后复验 0 错），仅客户端多出字段，故发奖存档跳过校验。
     @options.session.save(null, { validate: false })  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
-    slug = @options.level.get('slug')
-    original = @options.level.get('original') or @options.level.id
-    campaignSlug = @options.level.get('campaign')
     LocalProgress.markComplete(slug, original)
     LocalProgress.addUnlocked([original])
-    # 匿名用户：本关 XP/宝石累计入缓存，并即时刷新头部
+    # 匿名用户：本关 XP/宝石/物品累计入缓存，并即时刷新头部
     if me.isAnonymous()
       @grantAnonRewards(original)
-    if campaignSlug and original
-      $.ajax
-        url: "/db/campaign/#{campaignSlug}/levels/#{original}/next"
-        method: 'GET'
-        success: (next) ->
-          if next?.original
-            LocalProgress.addUnlocked([next.original])
-        error: -> # 后端路由缺失则忽略，已通本关仍可解锁
+    @unlockNextLevel(campaignSlug, original)
 
-  # 匿名用户：拉取本关关联成就的 worth(xp) 与 rewards.gems，累计到缓存并刷新头部
+  # 拉取本战役后继关卡并加入已解锁集合（含 nextLevels 分支、rewards 引用关卡、按序 next）
+  unlockNextLevel: (campaignSlug, original) ->
+    return unless campaignSlug and original
+    LocalProgress = require 'lib/localProgress'
+    $.ajax
+      url: "/db/campaign/#{campaignSlug}/levels/#{original}/next"
+      method: 'GET'
+      success: (next) ->
+        return unless next
+        if next.original
+          LocalProgress.addUnlocked([next.original])
+        if next.allLevels and next.allLevels.length
+          LocalProgress.addUnlocked(next.allLevels)
+      error: -> # 后端路由缺失则忽略，已通本关仍可解锁
+
+  # 匿名用户：拉取本关关联成就的 worth(xp)、rewards.gems 与 rewards.items，累计到缓存并刷新头部
   grantAnonRewards: (original) ->
     return unless original
     LocalProgress = require 'lib/localProgress'
@@ -152,14 +173,17 @@ module.exports = class CastButtonView extends CocoView
       url: "/db/achievement?related=#{original}"
       method: 'GET'
       success: (achs) ->
-        xp = 0; gems = 0
+        xp = 0; gems = 0; items = []
         for a in (achs or [])
           xp += (a.worth or 0)
           gems += ((a.rewards and a.rewards.gems) or 0)
-        LocalProgress.addReward(original, xp, gems)
-        if me.isAnonymous()
+          for it in ((a.rewards and a.rewards.items) or [])
+            items.push(it) if it and items.indexOf(it) < 0
+        LocalProgress.addReward(original, xp, gems, items)
+        if me.isLocalProgressUser()
           r = LocalProgress.getRewards()
-          me.set { points: r.xp, earned: _.extend({}, me.get('earned'), { gems: r.gems }) }
+          earned = me.get('earned') or {}
+          me.set { points: r.xp, earned: _.extend({}, earned, { gems: r.gems, items: LocalProgress.getItems() }) }
       error: -> # 忽略；成就面板仍会显奖励
 
   onSpellChanged: (e) ->
