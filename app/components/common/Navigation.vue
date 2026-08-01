@@ -102,6 +102,13 @@ export default Vue.extend({
       return iszgcombat
     },
 
+    hasAdminMenuItems () {
+      return me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin() ||
+        (this.serverSession && this.serverSession.amActually) ||
+        me.isTeacher() ||
+        (this.serverSession && this.serverSession.switchingUserActualId && me.isTestStudent())
+    },
+
     isOzaria () {
       return isOzaria
     },
@@ -288,7 +295,6 @@ export default Vue.extend({
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-
           .navbar-collapse.collapse(v-if="!float")
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
@@ -306,12 +312,8 @@ export default Vue.extend({
                       img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
                       h5 {{ me.broadName() }}
                   //- Account links
-                  li(v-if="iszgcombat")
-                    a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="iszgcombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
-                    a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
                       caret.rotate-left(v-if="this.announcements.length && useDarkMode" color="white")
@@ -319,8 +321,7 @@ export default Vue.extend({
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
-                  li(v-if="me.isAPIClient()")
-                    a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
+                  li.divider(v-if="hasAdminMenuItems" role="separator")
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                     a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                   li(v-if="serverSession && serverSession.amActually")
@@ -329,32 +330,6 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                   li(v-else-if="serverSession && serverSession.switchingUserActualId && me.isTestStudent()")
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
-                  li.divider(role="separator")
-                  li.dropdown-header 高级功能
-                  li
-                    a.account-dropdown-item(href="/play") 世界地图
-                  li
-                    a.account-dropdown-item(href="/play/dungeon") 地牢战役
-                  li
-                    a.account-dropdown-item(href="/play/level/dungeons-of-kithgard") 第一关
-                  li
-                    a.account-dropdown-item(href="/ladder") 天梯
-                  li
-                    a.account-dropdown-item(href="/students") 学生课程
-                  li
-                    a.account-dropdown-item(href="/teachers/classes") 教师班级
-                  li
-                    a.account-dropdown-item(href="/apcsp") AP CSP
-                  li
-                    a.account-dropdown-item(href="/editor/level") 关卡编辑
-                  li
-                    a.account-dropdown-item(href="/editor/thang") Thang 编辑
-                  li
-                    a.account-dropdown-item(href="/editor/article") 文章编辑
-                  li
-                    a.account-dropdown-item(href="/i18n") 国际化
-                  li
-                    a.account-dropdown-item(href="/about") 关于
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
             div.right-side-nav

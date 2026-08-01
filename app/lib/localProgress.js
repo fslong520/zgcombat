@@ -4,7 +4,7 @@
 // {
 //   completed: { [slug]: { original, complete: true } },   // 已通关关卡
 //   unlocked:  [original, ...],                             // 已解锁（可玩）关卡 original 集合
-//   rewards:   { [original]: { xp, gems } }                 // 每关累计获得之经验/宝石（按关去重）
+//   rewards:   { [original]: { xp, gems, items: [] } }      // 每关累计获得之经验/宝石/物品（按关去重）
 // }
 const KEY = 'zgcombat_progress_v1'
 
@@ -51,12 +51,18 @@ const LocalProgress = {
     return (load().unlocked) || []
   },
 
-  // 记录某关获得的经验/宝石（按 original 去重：重玩同关不重复累计）
-  addReward (original, xp, gems) {
+  // 记录某关获得的经验/宝石/物品（按 original 去重：重玩同关不重复累计）
+  addReward (original, xp, gems, items) {
     if (!original) { return }
     const data = load()
     data.rewards = data.rewards || {}
-    data.rewards[original] = { xp: xp || 0, gems: gems || 0 }
+    const prev = data.rewards[original] || { xp: 0, gems: 0, items: [] }
+    const prevItems = Array.isArray(prev.items) ? prev.items : []
+    const merged = prevItems.slice()
+    for (const it of (items || [])) {
+      if (it && !merged.includes(it)) { merged.push(it) }
+    }
+    data.rewards[original] = { xp: xp || 0, gems: gems || 0, items: merged }
     save(data)
   },
 
@@ -71,17 +77,30 @@ const LocalProgress = {
     return { xp, gems }
   },
 
-  // 取某关单关经验/宝石奖励（供弹窗显示）
-  getReward (original) {
-    if (!original) { return { xp: 0, gems: 0 } }
+  // 汇总全部已得物品（供背包显示，匿名用户）
+  getItems () {
     const rewards = (load().rewards) || {}
-    return rewards[original] || { xp: 0, gems: 0 }
+    const items = []
+    for (const k of Object.keys(rewards)) {
+      const list = Array.isArray(rewards[k].items) ? rewards[k].items : []
+      for (const it of list) {
+        if (it && !items.includes(it)) { items.push(it) }
+      }
+    }
+    return items
+  },
+
+  // 取某关单关经验/宝石/物品奖励（供弹窗显示）
+  getReward (original) {
+    if (!original) { return { xp: 0, gems: 0, items: [] } }
+    const rewards = (load().rewards) || {}
+    return rewards[original] || { xp: 0, gems: 0, items: [] }
   },
 
   // 调试/重置用
   clear () {
     try { window.localStorage.removeItem(KEY) } catch (e) {}
-  }
+  },
 }
 
 module.exports = LocalProgress

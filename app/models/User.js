@@ -174,6 +174,13 @@ module.exports = (User = (function () {
     }
 
     isAnonymous () { return this.get('anonymous', true) }
+    // 内部部署：游客/匿名用户（0000... 占位 id）的 anonymous 字段可能被服务端写入流程
+    // 覆盖为 false（见 server.js PUT/PATCH /db/user/:id），致 isAnonymous() 失效。
+    // 其通关/解锁/物品进度存于浏览器 localStorage，须以占位 id 判定是否读取本地进度。
+    isLocalProgressUser () {
+      return this.get('anonymous') || /^0+$/.test(String(this.get('_id') || ''))
+    }
+
     isSmokeTestUser () { return User.isSmokeTestUser(this.attributes) }
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
@@ -472,16 +479,23 @@ module.exports = (User = (function () {
     }
 
     items () {
-      let left, left1
-      return ((left = this.get('earned')?.items) != null ? left : []).concat((left1 = this.get('purchased')?.items) != null ? left1 : []).concat([ThangTypeConstants.items['simple-boots']])
+      let list = ((this.get('earned')?.items) || []).concat((this.get('purchased')?.items) || []).concat([ThangTypeConstants.items['simple-boots']])
+      // 内部部署：游客/匿名用户的通关物品存于浏览器 localStorage，注入以便背包可装备。
+      if (this.isLocalProgressUser()) {
+        try {
+          const earnedItems = LocalProgress.getItems()
+          if (earnedItems && earnedItems.length) { list = list.concat(earnedItems) }
+        } catch (e) { /* ignore */ }
+      }
+      return list
     }
 
     levels () {
       const earned = this.get('earned')?.levels || []
       const purchased = this.get('purchased')?.levels || []
       let list = earned.concat(purchased).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
-      // 内部部署：匿名用户的通关进度存于浏览器 localStorage，注入已解锁关卡以驱动 world map 顺序解锁。
-      if (this.isAnonymous()) {
+      // 内部部署：游客/匿名用户的通关进度存于浏览器 localStorage，注入已解锁关卡以驱动 world map 顺序解锁。
+      if (this.isLocalProgressUser()) {
         try {
           const unlocked = LocalProgress.getUnlocked()
           if (unlocked && unlocked.length) { list = list.concat(unlocked) }

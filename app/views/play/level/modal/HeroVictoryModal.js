@@ -553,7 +553,7 @@ module.exports = (HeroVictoryModal = (function () {
       let gemsGained = Math.max(0, me.gems() - this.previousGems)
       // 匿名用户：me 在 grantAnonRewards 中已包含累计值，差值恒为 0，
       // 须从 LocalProgress 取本关单关奖励。
-      if (!xpGained && !gemsGained && me.isAnonymous()) {
+      if (!xpGained && !gemsGained && me.isLocalProgressUser()) {
         const LocalProgress = require('lib/localProgress')
         const original = this.level.get('original') || this.level.id
         const lr = LocalProgress.getReward(original)

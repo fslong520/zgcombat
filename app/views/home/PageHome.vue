@@ -27,7 +27,7 @@
             <span class="type-text">{{ typed }}</span><span class="caret">▋</span>
           </p>
           <div class="cta">
-            <a class="cta-primary" href="/play">
+            <a class="cta-primary" href="/play" onclick="var o=document.getElementById('global-loading-overlay');if(o)o.classList.remove('hidden');setTimeout(function(){window.location.href='/play';},80);event.stopPropagation();return false;">
               <span class="cta-glyph">{ }</span> 开始游戏
             </a>
           </div>
