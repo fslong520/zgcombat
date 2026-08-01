@@ -221,20 +221,18 @@ module.exports = (HeroVictoryModal = (function () {
           triggeredBy: this.session.id,
           achievement: achievement.id,
         })
-        ea.save()
+        // validate:false：胜利弹窗打开时 session.save 可能尚未返回，session.id 为
+        // undefined → triggeredBy 缺 → tv4 校验失败 → save 被拦、sync/error 永不触发
+        // → readyToContinue 恒 false → 结算页卡死在"正在保存"。
+        ea.save(null, { validate: false })
         this.newEarnedAchievements.push(ea)
         // 匿名或无服务端更新可等时，勿卡"读取中"。发奖由独立 session PUT 触发，
         // 此处的 EarnedAchievement 存档与 me 刷新仅作展示，结束即放行继续。
         this.listenToOnce(ea, 'sync error', () => {
-          if (_.all(((() => {
-            const result = []
-            for (const e of Array.from(this.newEarnedAchievements)) {
-              result.push(e.id)
-            }
-            return result
-          })()))) {
-            if (this.newEarnedAchievementsResource) { this.newEarnedAchievementsResource.markLoaded() }
-          }
+          // 本部署 POST /db/earned_achievement 走 catch-all 返回 {}，无 _id，
+          // 原 _.all(e.id) 恒 false → markLoaded 永不调用 → supermodel 永不完成。
+          // ea 的 save 到此已结束（sync/error 触发），直接 markLoaded 放行。
+          if (this.newEarnedAchievementsResource) { this.newEarnedAchievementsResource.markLoaded() }
           this.readyToContinue = true
           this.updateSavingProgressStatus()
           if (!me.loading) {
