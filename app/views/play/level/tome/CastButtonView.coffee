@@ -133,6 +133,9 @@ module.exports = class CastButtonView extends CocoView
     # 致 HeroVictoryModal 中 matchesQuery 恒失败、通关弹窗不显 XP/宝石/成就。此处补 original，
     # 既入内存供弹窗即时判定，亦随 save 落盘。
     @options.session.set 'level', { original: original }
+    # 补全 campaign：session 常缺此字段，后端 persistLevelSession 需 campaign 才能
+    # 解析下一关并加入 earned.levels（缺则只加本关 → 主线下一关永不解锁）。
+    @options.session.set 'campaign', campaignSlug if campaignSlug
     # 补全 creator：session 自服务端加载时恒为 {}（/db/level/:id/session 路由仅查 level
     # 文档，不查 session），无 creator 字段。后端 persistLevelSession 中 creator 缺位
     # 致 grantLevelRewards 直接返回，通关奖励（XP/宝石/成就）永不发放。此处补当前用户。

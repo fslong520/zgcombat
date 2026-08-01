@@ -853,7 +853,17 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           }
         }
         if (!levelOriginal && body.state && body.state.original) { levelOriginal = body.state.original; }
-        const campaign = (fullDoc && fullDoc.campaign) || body.campaign;
+        let campaign = (fullDoc && fullDoc.campaign) || body.campaign;
+        // session 常缺 campaign（前端 markLevelCompleted 未写）；缺则从关卡文档回退，
+        // 否则 resolveCampaign(undefined)=null → 只加本关、不加下一关 → 主线下一关永不解锁。
+        if (!campaign && levelOriginal && /^[a-f0-9]{24}$/i.test(levelOriginal)) {
+          try {
+            const lvlDoc = await cocoDb.collection('levels').findOne(
+              { $or: [{ original: new ObjectId(levelOriginal) }, { _id: new ObjectId(levelOriginal) }] },
+              { campaign: 1 });
+            campaign = lvlDoc && lvlDoc.campaign;
+          } catch (e) { /* ignore */ }
+        }
         // creator 以服务端登录 cookie 为准：SPA 加载的 session 可能带旧值（转储 level 文档的
         // 关卡作者 creator），或更新请求体缺 creator，只有 cookie 才能保证归属当前用户。
         const cookieUid = req.cookies && req.cookies.zg_userId;
