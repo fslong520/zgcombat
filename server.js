@@ -239,6 +239,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (!cocoDb) { return res.status(200).json([]); }
       const uid = req.params.id;
       if (!uid || !/^[a-f0-9]{24}$/i.test(uid)) { return res.status(200).json([]); }
+      // 占位 id（0000...，匿名/游客）：所有匿名玩家共享同一占位 id，服务端 session
+      // 是历史上其他匿名玩家的数据。匿名进度由 localStorage（lib/localProgress）管理，
+      // 此处一律返回 []，否则新匿名用户会看到他人已通关的关卡（全解锁/已完成）。
+      if (/^0+$/.test(uid)) { return res.status(200).json([]); }
       const docs = await cocoDb.collection('level.sessions')
         .find({ creator: uid })
         .project({ levelID: 1, level: 1, state: 1, playtime: 1, codeLanguage: 1, creator: 1 })
@@ -285,7 +289,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const sessColl = cocoDb.collection('level.sessions');
       const matchLevel = { $or: [{ levelID: slug }, { 'level.original': original }, { level: original }] };
       const uid = req.cookies && req.cookies.zg_userId;
-      if (uid && /^[a-f0-9]{24}$/i.test(uid)) {
+      // 占位 id（0000...）：匿名玩家共享，服务端 session 是他人数据，不加载（返回 {} 新建）。
+      if (uid && /^[a-f0-9]{24}$/i.test(uid) && !/^0+$/.test(uid)) {
         const session = await sessColl.findOne(Object.assign({ creator: uid }, matchLevel), { sort: { changed: -1 } });
         if (session) { return res.status(200).json(session); }
       }
@@ -797,17 +802,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const levels = (a.rewards && a.rewards.levels) || [];
         const heroes = (a.rewards && a.rewards.heroes) || [];
         const isNew = !already.has(a._id.toString());
+        // 物品/关卡/英雄奖励每次通关都补发（$addToSet 去重，不会重复拥有）：
+        // 修复早期 PUT bug 清空 earned.items 后，重玩（成就已赚）不再给奖励的问题。
+        // 例如 shadow-guard 掉 simple-sword，若首次被清空，重玩必须能补回。
+        for (const it of items) { if (it) { earnedItems.add(String(it)); } }
+        for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
+        for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
         if (isNew) {
-          // 首次通关：全额宝石 + 经验 + 成就/物品/关卡
+          // 首次通关：全额宝石 + 经验 + 成就记录
           gemInc += gems;
-          if (worth || items.length || levels.length || heroes.length) {
-            xpInc += worth; earnedAch.push(a._id.toString());
-            for (const it of items) { if (it) { earnedItems.add(String(it)); } }
-            for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
-            for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
-          }
+          xpInc += worth; earnedAch.push(a._id.toString());
         } else {
-          // 重复通关（刷旧关）：只发一半宝石，经验/成就/物品不再给
+          // 重复通关（刷旧关）：只发一半宝石，经验/成就不再给
           gemInc += Math.max(1, Math.floor(gems / 2));
         }
       }
