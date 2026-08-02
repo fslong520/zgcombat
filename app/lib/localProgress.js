@@ -51,7 +51,8 @@ const LocalProgress = {
     return (load().unlocked) || []
   },
 
-  // 记录某关获得的经验/宝石/物品（按 original 去重：重玩同关不重复累计）
+  // 记录某关获得的经验/宝石/物品。宝石/经验累加（重玩可反复刷宝石，
+  // 与服务端 grantLevelRewards 行为一致）；物品按关去重（重玩不重复给物品）。
   addReward (original, xp, gems, items) {
     if (!original) { return }
     const data = load()
@@ -62,7 +63,7 @@ const LocalProgress = {
     for (const it of (items || [])) {
       if (it && !merged.includes(it)) { merged.push(it) }
     }
-    data.rewards[original] = { xp: xp || 0, gems: gems || 0, items: merged }
+    data.rewards[original] = { xp: (prev.xp || 0) + (xp || 0), gems: (prev.gems || 0) + (gems || 0), items: merged }
     save(data)
   },
 

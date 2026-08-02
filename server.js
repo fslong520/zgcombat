@@ -791,23 +791,27 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       let xpInc = 0; let gemInc = 0; const earnedAch = [];
       const earnedItems = new Set(); const earnedLevels = new Set(); const earnedHeroes = new Set();
       for (const a of achDocs) {
-        if (already.has(a._id.toString())) { continue; }
         const worth = a.worth || 0;
         const gems = (a.rewards && a.rewards.gems) || 0;
         const items = (a.rewards && a.rewards.items) || [];
         const levels = (a.rewards && a.rewards.levels) || [];
         const heroes = (a.rewards && a.rewards.heroes) || [];
-        if (!worth && !gems && !items.length && !levels.length && !heroes.length) { continue; }
-        xpInc += worth; gemInc += gems; earnedAch.push(a._id.toString());
+        // 宝石每次通关都发（内部部署：允许反复刷关积累宝石，否则关卡解锁后
+        // 宝石总数固定，买不起弩等高价装备卡死）。成就/经验/物品仍去重。
+        gemInc += gems;
+        if (already.has(a._id.toString())) { continue; }
+        if (!worth && !items.length && !levels.length && !heroes.length) { continue; }
+        xpInc += worth; earnedAch.push(a._id.toString());
         for (const it of items) { if (it) { earnedItems.add(String(it)); } }
         for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
         for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
       }
-      if (!earnedAch.length) { return; }
-      const update = { $addToSet: { 'earned.achievements': { $each: earnedAch } } };
-      if (earnedItems.size) { update.$addToSet['earned.items'] = { $each: [...earnedItems] }; }
-      if (earnedLevels.size) { update.$addToSet['earned.levels'] = { $each: [...earnedLevels] }; }
-      if (earnedHeroes.size) { update.$addToSet['earned.heroes'] = { $each: [...earnedHeroes] }; }
+      if (!earnedAch.length && !gemInc && !xpInc) { return; }
+      const update = {};
+      if (earnedAch.length) { update.$addToSet = { 'earned.achievements': { $each: earnedAch } }; }
+      if (earnedItems.size) { update.$addToSet = update.$addToSet || {}; update.$addToSet['earned.items'] = { $each: [...earnedItems] }; }
+      if (earnedLevels.size) { update.$addToSet = update.$addToSet || {}; update.$addToSet['earned.levels'] = { $each: [...earnedLevels] }; }
+      if (earnedHeroes.size) { update.$addToSet = update.$addToSet || {}; update.$addToSet['earned.heroes'] = { $each: [...earnedHeroes] }; }
       update.$inc = {};
       if (xpInc) { update.$inc.points = xpInc; }
       if (gemInc) { update.$inc['earned.gems'] = gemInc; }
