@@ -53,7 +53,7 @@ module.exports = class LevelLoadingView extends CocoView
     @configureACEEditors()
 
   configureACEEditors: ->
-    codeLanguage = @session?.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+    codeLanguage = @session?.get('codeLanguage') or me.get('aceConfig')?.language or 'cpp'
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []
     aceEditors = @aceEditors

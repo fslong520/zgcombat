@@ -1972,7 +1972,7 @@ module.exports = class SpellView extends CocoView
 
   onGatherChatMessageContext: (e) ->
     context = e.chat.context
-    context.codeLanguage = @spell.language or 'python'
+    context.codeLanguage = @spell.language or 'cpp'
     if level = @options.level
       context.levelOriginal = level.get('original')
       context.levelName = level.get('displayName') or level.get('name')

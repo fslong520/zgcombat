@@ -66,7 +66,7 @@ module.exports = class HintsView extends CocoView
     super()
     @playSound 'game-menu-open'
     @$('a').attr 'target', '_blank'
-    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'cpp'
 
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []

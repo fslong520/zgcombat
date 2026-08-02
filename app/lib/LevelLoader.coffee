@@ -189,7 +189,7 @@ module.exports = class LevelLoader extends CocoClass
         {target: me.id, access: 'owner'}
         {target: 'public', access: 'write'}
       ]
-      codeLanguage: @fakeSessionConfig.codeLanguage or me.get('aceConfig')?.language or 'python'
+      codeLanguage: @fakeSessionConfig.codeLanguage or me.get('aceConfig')?.language or 'cpp'
       _id: LevelSession.fakeID
     @session = new LevelSession initVals
     @session.loaded = true
@@ -417,7 +417,7 @@ module.exports = class LevelLoader extends CocoClass
       @onWorldNecessitiesLoaded()
 
   loadCodeLanguagesForSession: (session) ->
-    codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
+    codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'cpp', session.get('submittedCodeLanguage')]
     resources = []
     for codeLanguage in codeLanguages
       continue if codeLanguage in ['clojure', 'io']

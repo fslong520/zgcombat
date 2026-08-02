@@ -78,6 +78,11 @@ javaCppToJS = (source, language) ->
     blockComments.push m
     "/*BLOCK_COMMENT_#{blockComments.length-1}*/"
 
+  # --- 2.5 C++ 行注释用 //；部分关卡初始代码用 #（Python 风格），# 在 C++ 是
+  # 预处理指令，会报 "invalid preprocessing directive" 之类错误。把 # 行注释
+  # （#include/#define 等预处理保留）转成 //。块注释已占位，不受影响。
+  s = s.replace /^#\s+([^\n]*)$/gm, '// $1'
+
   # --- 3. 去掉 main/类包裹，但保留其内部代码 ---
   # C++: int main() / void main(...) { ... }
   if language is 'cpp'

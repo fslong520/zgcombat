@@ -111,7 +111,7 @@ module.exports = class TomeView extends CocoView
     return new Worker('/javascripts/workers/aether_worker.js')
 
   determineCodeFormat: ->
-    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'cpp'
     if @options.level.isType('web-dev', 'game-dev') or (language not in ['python', 'javascript', 'lua']) or @options.level.get('product') != 'codecombat-junior'
       # TODO: eventually we could get game-dev working, if we figure out how to list spawnables
       newCodeFormat = 'text-code'
@@ -155,7 +155,7 @@ module.exports = class TomeView extends CocoView
     language = @options.session.get('submittedCodeLanguage') if @options.spectateView
     language ?= @options.session.get('codeLanguage')
     language ?= me.get('aceConfig')?.language
-    language ?= 'python'
+    language ?= 'cpp'
     @determineCodeFormat()
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
