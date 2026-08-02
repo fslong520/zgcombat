@@ -479,7 +479,9 @@ module.exports = (User = (function () {
     }
 
     items () {
-      let list = ((this.get('earned')?.items) || []).concat((this.get('purchased')?.items) || []).concat([ThangTypeConstants.items['simple-boots']])
+      // 内部部署：默认给基础武器 simple-sword，否则 true-names 等要求 attack 的关卡
+      // 因前置无掉落武器、宝石不足而卡死。
+      let list = ((this.get('earned')?.items) || []).concat((this.get('purchased')?.items) || []).concat([ThangTypeConstants.items['simple-boots'], ThangTypeConstants.items['simple-sword']])
       // 内部部署：游客/匿名用户的通关物品存于浏览器 localStorage，注入以便背包可装备。
       if (this.isLocalProgressUser()) {
         try {

@@ -60,6 +60,7 @@ ThangTypeConstants =
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:
     'simple-boots': '53e237bf53457600003e3f05'
+    'simple-sword': '53e218d853457600003e3ebe'  # 内部部署：默认基础武器，保证 attack 属性可用
   juniorHeroReplacements:
     captain: 'wolf-pup-hero'
     knight: 'cougar-hero'

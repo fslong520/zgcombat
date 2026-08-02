@@ -388,7 +388,11 @@ module.exports = class LevelLoader extends CocoClass
     heroConfig = _.cloneDeep(session.get('heroConfig'))
     heroConfig ?= _.cloneDeep(me.get('heroConfig')) if session is @session and not @headless
     heroConfig ?= {}
-    heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
+    # 内部部署：默认装备基础靴与剑（按槽补缺，不覆盖玩家已有装备）。
+    # 若无剑则 true-names 等要求 attack 的关卡因武器缺失/宝石不足而卡死。
+    heroConfig.inventory ?= {}
+    heroConfig.inventory.feet ?= '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
+    heroConfig.inventory['right-hand'] ?= '53e218d853457600003e3ebe'  # simple sword
     heroConfig.thangType ?= heroThangType
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
