@@ -796,15 +796,20 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const items = (a.rewards && a.rewards.items) || [];
         const levels = (a.rewards && a.rewards.levels) || [];
         const heroes = (a.rewards && a.rewards.heroes) || [];
-        // 宝石每次通关都发（内部部署：允许反复刷关积累宝石，否则关卡解锁后
-        // 宝石总数固定，买不起弩等高价装备卡死）。成就/经验/物品仍去重。
-        gemInc += gems;
-        if (already.has(a._id.toString())) { continue; }
-        if (!worth && !items.length && !levels.length && !heroes.length) { continue; }
-        xpInc += worth; earnedAch.push(a._id.toString());
-        for (const it of items) { if (it) { earnedItems.add(String(it)); } }
-        for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
-        for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
+        const isNew = !already.has(a._id.toString());
+        if (isNew) {
+          // 首次通关：全额宝石 + 经验 + 成就/物品/关卡
+          gemInc += gems;
+          if (worth || items.length || levels.length || heroes.length) {
+            xpInc += worth; earnedAch.push(a._id.toString());
+            for (const it of items) { if (it) { earnedItems.add(String(it)); } }
+            for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
+            for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
+          }
+        } else {
+          // 重复通关（刷旧关）：只发一半宝石，经验/成就/物品不再给
+          gemInc += Math.max(1, Math.floor(gems / 2));
+        }
       }
       if (!earnedAch.length && !gemInc && !xpInc) { return; }
       const update = {};

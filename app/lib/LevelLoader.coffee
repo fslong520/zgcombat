@@ -661,6 +661,18 @@ module.exports = class LevelLoader extends CocoClass
         if res = @maybeLoadURL(url, LevelComponent, 'component')
           @worldNecessities.push res
           added = true
+    # 已缓存组件的依赖（如 Moves 依赖 Acts）也要拉进 levelComponents，否则
+    # sortThangComponents 检查 ThangType 组件依赖时找不到 → 刷 "does not have
+    # dependent Component"。已缓存组件不触发 onWorldNecessityLoaded，故在此显式补。
+    for lc in @supermodel.getModels(LevelComponent)
+      continue unless lc?.get?('components') or lc?.get?('dependencies')
+      deps = lc.get('dependencies') ? []
+      for dep in deps when dep?.original?
+        major = if dep.majorVersion? then dep.majorVersion else 0
+        url = "/db/level.component/#{dep.original}/version/#{major}"
+        if res = @maybeLoadURL(url, LevelComponent, 'component')
+          @worldNecessities.push res
+          added = true
     added
 
   maybeLoadURL: (url, Model, resourceName) ->

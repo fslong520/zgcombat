@@ -51,19 +51,22 @@ const LocalProgress = {
     return (load().unlocked) || []
   },
 
-  // 记录某关获得的经验/宝石/物品。宝石/经验累加（重玩可反复刷宝石，
-  // 与服务端 grantLevelRewards 行为一致）；物品按关去重（重玩不重复给物品）。
+  // 记录某关获得的经验/宝石/物品。首次通关全额宝石+经验；重复通关（刷旧关）
+  // 只发一半宝石、经验不再给（与服务端 grantLevelRewards 一致）；物品按关去重。
   addReward (original, xp, gems, items) {
     if (!original) { return }
     const data = load()
     data.rewards = data.rewards || {}
-    const prev = data.rewards[original] || { xp: 0, gems: 0, items: [] }
+    const prev = data.rewards[original] || { xp: 0, gems: 0, items: [], times: 0 }
+    const isNew = !prev.times
+    const gemGain = isNew ? (gems || 0) : Math.max(1, Math.floor((gems || 0) / 2))
+    const xpGain = isNew ? (xp || 0) : 0
     const prevItems = Array.isArray(prev.items) ? prev.items : []
     const merged = prevItems.slice()
     for (const it of (items || [])) {
       if (it && !merged.includes(it)) { merged.push(it) }
     }
-    data.rewards[original] = { xp: (prev.xp || 0) + (xp || 0), gems: (prev.gems || 0) + (gems || 0), items: merged }
+    data.rewards[original] = { xp: (prev.xp || 0) + xpGain, gems: (prev.gems || 0) + gemGain, items: merged, times: (prev.times || 0) + 1 }
     save(data)
   },
 
