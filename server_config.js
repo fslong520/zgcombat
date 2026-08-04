@@ -36,7 +36,7 @@ config.timeout = parseInt(process.env.COCO_TIMEOUT) || (60 * 1000)
 config.chinaDomain = 'bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.flsong.iok.la'
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE || sassFalse
 
-config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 3000
+config.port = process.env.COCO_PORT || process.env.COCO_NODE_PORT || process.env.PORT || 1145
 
 if (config.unittest) {
   config.port += 1
@@ -47,8 +47,8 @@ config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy'
 config.isProduction = false
 // Domains (without subdomain prefix, with port number) for main hostname (usually flsong.iok.la)
 // and unsafe web-dev iFrame content (usually codecombatprojects.com).
-config.mainHostname = process.env.COCO_MAIN_HOSTNAME || 'localhost:3000'
-config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME || 'localhost:3000'
+config.mainHostname = process.env.COCO_MAIN_HOSTNAME || 'localhost:1145'
+config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME || 'localhost:1145'
 
 if (!config.unittest && !config.isProduction) {
   // change artificially slow down non-static requests for testing
