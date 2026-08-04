@@ -15,7 +15,6 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/clans/clans')
 const CocoCollection = require('collections/CocoCollection')
 const Clan = require('models/Clan')
-const SubscribeModal = require('views/core/SubscribeModal')
 
 // TODO: Waiting for async messages
 // TODO: Invalid clan name message
@@ -143,13 +142,6 @@ module.exports = (ClansView = (function () {
       let name
       if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
       const clanType = $('.private-clan-checkbox').prop('checked') ? 'private' : 'public'
-      if ((clanType === 'private') && !me.isPremium()) {
-        this.openModalView(new SubscribeModal())
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'create clan' })
-        }
-        return
-      }
       if (name = $('.create-clan-name').val()) {
         let description
         const clan = new Clan()
@@ -215,11 +207,6 @@ module.exports = (ClansView = (function () {
 
     onClickPrivateCheckbox (e) {
       if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
-      if ($('.private-clan-checkbox').prop('checked') && !me.isPremium()) {
-        $('.private-clan-checkbox').attr('checked', false)
-        this.openModalView(new SubscribeModal())
-        return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'check private clan' }) : undefined)
-      }
     }
   }
   ClansView.initClass()

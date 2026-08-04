@@ -220,31 +220,6 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "thirdPartyDebugging" */ 'app/components/timetap/TimeTapDebugPage'),
         },
         {
-          path: '/payments/manage-billing',
-          component: () => import(/* webpackChunkName: "manageBillingComponent"  */'app/views/payment/ManageBillingView'),
-        },
-        {
-          path: '/payments/manage-billing-beta',
-          component: () => import(/* webpackChunkName: "manageBillingComponentBeta" */'app/views/payment/NewManageBillingView/index.vue'),
-        },
-        {
-          path: '/payments/online-classes-success',
-          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/online-class/SuccessView'),
-        },
-        {
-          path: '/payments/home-subscriptions-success',
-          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/HomeSubscriptionsSuccessView'),
-          props: (route) => ({ ...route.query, ...route.params }),
-        },
-        {
-          path: '/payments/tecmilenio-success',
-          component: () => import(/* webpackChunkName: "tecmilenioSuccessComponent" */'app/views/payment/student-license/TecmilenioSuccessView'),
-        },
-        {
-          path: '/payments/:slug',
-          component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
-        },
-        {
           path: '/ed-link/login-redirect',
           component: () => import(/* webpackChunkName: "edLinkRedirectView" */'app/views/user/EdLinkRedirectView'),
           props: (route) => ({ ...route.query, ...route.params }),
@@ -280,13 +255,7 @@ export default function getVueRouter () {
             },
             {
               path: 'licenses',
-              component: () => {
-                if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
-                  return import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
-                } else {
-                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue')
-                }
-              },
+              component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue'),
             },
             {
               path: 'resources_new',

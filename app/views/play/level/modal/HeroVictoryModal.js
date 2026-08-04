@@ -28,7 +28,6 @@ const AudioPlayer = require('lib/AudioPlayer')
 const User = require('models/User')
 const Level = require('models/Level')
 const LevelFeedback = require('models/LevelFeedback')
-const SubscribeModal = require('views/core/SubscribeModal')
 const AmazonHocModal = require('views/play/modal/AmazonHocModal')
 const forms = require('core/forms')
 const contact = require('core/contact')
@@ -54,7 +53,6 @@ module.exports = (HeroVictoryModal = (function () {
         'click .continue-from-offer-button': 'onClickContinueFromOffer',
         'click .skip-offer-button': 'onClickSkipOffer',
         'click #share-level-btn': 'onClickShareLevelButton',
-        'click .subscribe-button': 'onSubscribeButtonClicked',
         'click #amazon-hoc-button': 'onClickAmazonHocButton',
         'input #share-game-with-teacher-input': 'onChangeShareGameWithTeacherInput',
         'click #share-game-with-teacher-btn': 'onClickShareGameWithTeacherButton',
@@ -785,10 +783,6 @@ module.exports = (HeroVictoryModal = (function () {
         window.tracker.trackEvent('Click Amazon Modal Button')
       }
       return this.openModalView(new AmazonHocModal())
-    }
-
-    onSubscribeButtonClicked () {
-      return this.openModalView(new SubscribeModal())
     }
 
     onChangeShareGameWithTeacherInput (e) {

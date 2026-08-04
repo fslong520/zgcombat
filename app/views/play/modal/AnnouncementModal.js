@@ -11,7 +11,6 @@
 let AnnouncementModal
 require('app/styles/play/modal/announcement-modal.sass')
 const ModalView = require('views/core/ModalView')
-const SubscribeModal = require('views/core/SubscribeModal')
 
 module.exports = (AnnouncementModal = (function () {
   let announcementId
@@ -26,7 +25,6 @@ module.exports = (AnnouncementModal = (function () {
 
       this.prototype.events = {
         'click #close-modal': 'hide',
-        'click .purchase-button': 'onClickPurchaseButton',
         'click .close-button': 'hide',
         'mouseover .has-tooltip': 'displayTooltip',
         'mousemove .has-tooltip': 'displayTooltip',
@@ -39,7 +37,6 @@ module.exports = (AnnouncementModal = (function () {
 
     constructor (options) {
       super(options)
-      this.onClickPurchaseButton = this.onClickPurchaseButton.bind(this)
       if (options == null) { options = {} }
       if (options.announcementId == null) { options.announcementId = 1 }
       ({
@@ -147,12 +144,6 @@ module.exports = (AnnouncementModal = (function () {
     hideTooltip () {
       $('#item-tooltip').hide()
       this.isHover = false
-    }
-
-    onClickPurchaseButton (e) {
-      this.playSound('menu-button-click')
-      this.openModalView(new SubscribeModal())
-      window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label: `announcement modal id: ${announcementId}` })
     }
 
     onHidden () {

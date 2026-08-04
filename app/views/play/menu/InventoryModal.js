@@ -17,16 +17,13 @@ const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/menu/inventory-modal')
 const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
 const ThangTypeLib = require('lib/ThangTypeLib')
 const CocoCollection = require('collections/CocoCollection')
 const ItemDetailsView = require('views/play/modal/ItemDetailsView')
 const Purchase = require('models/Purchase')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
-const SubscribeModal = require('views/core/SubscribeModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const utils = require('core/utils')
@@ -57,10 +54,7 @@ module.exports = (InventoryModal = (function () {
         'click .unlock-button': 'onUnlockButtonClicked',
         'click #equip-item-viewed': 'onClickEquipItemViewed',
         'click #unequip-item-viewed': 'onClickUnequipItemViewed',
-        'click #subscriber-item-viewed': 'onClickSubscribeItemViewed',
         'click #close-modal': 'hide',
-        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
-        'click .start-subscription-button': 'onSubscribeButtonClicked',
         click: 'onClickedSomewhere',
         'update #unequipped .nano': 'onScrollUnequipped'
       }
@@ -415,13 +409,6 @@ module.exports = (InventoryModal = (function () {
       this.equipSelectedItem()
       this.justClickedEquipItemButton = true
       return _.defer(() => { this.justClickedEquipItemButton = false })
-    }
-
-    onClickSubscribeItemViewed (e) {
-      this.openModalView(new SubscribeModal())
-      const itemElem = this.$el.find('.item.active')
-      const item = this.items.get(itemElem != null ? itemElem.data('item-id') : undefined)
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'inventory modal: ' + ((item != null ? item.get('slug') : undefined) || 'unknown') }) : undefined)
     }
 
     // - Select/equip higher-level, all encompassing methods the callbacks all use
@@ -903,12 +890,8 @@ module.exports = (InventoryModal = (function () {
         popoverTemplate = earnGemsPromptTemplate({})
       } else if (me.canBuyGems()) {
         popoverTemplate = buyGemsPromptTemplate({})
-      } else {
-        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-          popoverTemplate = subscribeForGemsPrompt({})
-        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
-          popoverTemplate = earnGemsPromptTemplate({})
-        }
+      } else { // user has subscription (internal) and yet not enough gems, just ask him to keep playing for more gems
+        popoverTemplate = earnGemsPromptTemplate({})
       }
 
       unlockButton.popover({
@@ -922,17 +905,6 @@ module.exports = (InventoryModal = (function () {
       const popover = unlockButton.data('bs.popover')
       __guard__(popover != null ? popover.$tip : undefined, x => x.i18n())
       return this.applyRTLIfNeeded()
-    }
-
-    onBuyGemsPromptButtonClicked (e) {
-      this.playSound('menu-button-click')
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
-    }
-
-    onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
     }
 
     onClickedSomewhere (e) {

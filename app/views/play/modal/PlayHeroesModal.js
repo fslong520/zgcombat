@@ -15,14 +15,11 @@ const ModalView = require('views/core/ModalView')
 const template = require('app/templates/play/modal/play-heroes-modal')
 const buyGemsPromptTemplate = require('app/templates/play/modal/buy-gems-prompt')
 const earnGemsPromptTemplate = require('app/templates/play/modal/earn-gems-prompt')
-const subscribeForGemsPrompt = require('app/templates/play/modal/subscribe-for-gems-prompt')
 const CocoCollection = require('collections/CocoCollection')
 const ThangType = require('models/ThangType')
 const AudioPlayer = require('lib/AudioPlayer')
 const utils = require('core/utils')
-const BuyGemsModal = require('views/play/modal/BuyGemsModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
-const SubscribeModal = require('views/core/SubscribeModal')
 const Purchase = require('models/Purchase')
 const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
@@ -43,9 +40,6 @@ module.exports = (PlayHeroesModal = (function () {
         'click #close-modal': 'hide',
         'click #confirm-button': 'saveAndHide',
         'click .unlock-button': 'onUnlockButtonClicked',
-        'click .subscribe-button': 'onSubscribeButtonClicked',
-        'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked',
-        'click .start-subscription-button': 'onSubscribeButtonClicked',
         click: 'onClickedSomewhere'
       }
 
@@ -327,12 +321,8 @@ module.exports = (PlayHeroesModal = (function () {
         popoverTemplate = earnGemsPromptTemplate({})
       } else if (me.canBuyGems()) {
         popoverTemplate = buyGemsPromptTemplate({})
-      } else {
-        if (!me.hasSubscription()) { // user does not have subscription ask him to subscribe to get more gems, china infra does not have 'buy gems' option
-          popoverTemplate = subscribeForGemsPrompt({})
-        } else { // user has subscription and yet not enough gems, just ask him to keep playing for more gems
-          popoverTemplate = earnGemsPromptTemplate({})
-        }
+      } else { // user has subscription (internal) and yet not enough gems, just ask him to keep playing for more gems
+        popoverTemplate = earnGemsPromptTemplate({})
       }
 
       unlockButton.popover({
@@ -348,19 +338,9 @@ module.exports = (PlayHeroesModal = (function () {
       return this.applyRTLIfNeeded()
     }
 
-    onBuyGemsPromptButtonClicked (e) {
-      if (me.get('anonymous')) { return this.askToSignUp() }
-      return this.openModalView(new BuyGemsModal())
-    }
-
     onClickedSomewhere (e) {
       if (this.destroyed) { return }
       return this.$el.find('.unlock-button').popover('destroy')
-    }
-
-    onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
     }
 
     // - Exiting
@@ -368,15 +348,6 @@ module.exports = (PlayHeroesModal = (function () {
     saveAndHide () {
       this.codeLanguage = this.changeLanguageView.codeLanguage
       this.codeFormat = this.changeLanguageView.codeFormat
-      this.subscriberCodeLanguageList = [{ id: 'cpp' }, { id: 'java' }]
-      let changed
-      if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
-        this.openModalView(new SubscribeModal())
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: experimental language' })
-        }
-        return
-      }
 
       let hero = this.selectedHero != null ? this.selectedHero.get('original') : undefined
       if ((this.visibleHero != null ? this.visibleHero.loaded : undefined) && !this.visibleHero.locked) { if (hero == null) { hero = this.visibleHero != null ? this.visibleHero.get('original') : undefined } }

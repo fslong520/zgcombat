@@ -10,8 +10,6 @@
 let ContactModal
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/contact')
-const SubscribeModal = require('views/core/SubscribeModal')
-
 const forms = require('core/forms')
 const { sendContactMessage } = require('core/contact')
 
@@ -41,14 +39,8 @@ module.exports = (ContactModal = (function () {
       this.prototype.closeButton = true
 
       this.prototype.events = {
-        'click #contact-submit-button': 'contact',
-        'click [data-toggle="coco-modal"][data-target="core/SubscribeModal"]': 'openSubscribeModal'
+        'click #contact-submit-button': 'contact'
       }
-    }
-
-    openSubscribeModal (e) {
-      e.stopPropagation()
-      return this.openModalView(new SubscribeModal())
     }
 
     contact () {

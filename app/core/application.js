@@ -53,10 +53,6 @@ const Application = {
     const i18next = require('i18next')
     const jqueryI18next = require('jquery-i18next')
     const CocoModel = require('models/CocoModel')
-    const FacebookHandler = require('core/social-handlers/FacebookHandler')
-    const GPlusHandler = require('core/social-handlers/GPlusHandler')
-    const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
-    const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
     const locale = require('locale/locale')
     const Tracker = require('core/Tracker2').default
     const api = require('core/api')
@@ -97,13 +93,7 @@ const Application = {
       .then(() => this.tracker.initialize())
       .catch(e => console.error('Tracker initialization failed', e))
 
-    if (me.useSocialSignOn()) {
-      this.facebookHandler = new FacebookHandler()
-      this.gplusHandler = new GPlusHandler()
-      this.schoologyHandler = new SchoologyHandler()
-      this.classlinkHandler = new ClassLinkHandler()
-    }
-    // @githubHandler = new GitHubHandler(@)  # Currently unused
+    // Social sign-on handlers removed for internal deployment
     $(document).bind('keydown', preventBackspace)
     CocoModel.pollAchievements()
     if (!me.get('anonymous')) {

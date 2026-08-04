@@ -18,9 +18,6 @@ const User = require('models/User')
 const errors = require('core/errors')
 const RecoverModal = require('views/core/RecoverModal')
 const storage = require('core/storage')
-const { logInWithClever } = require('core/social-handlers/CleverHandler')
-const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
-const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
 const globalVar = require('core/globalVar')
 const userUtils = require('../../lib/user-utils')
 
@@ -35,12 +32,6 @@ module.exports = (AuthModal = (function () {
         'click #switch-to-signup-btn': 'onSignupInstead',
         'submit form': 'onSubmitForm',
         'keyup #name': 'onNameChange',
-        'click #google-login-button': 'onClickGPlusLoginButton',
-        'click #facebook-login-btn': 'onClickFacebookLoginButton',
-        'click #clever-signup-btn': 'onClickCleverSignupButton',
-        'click #clever-login-btn': 'onClickCleverLoginButton',
-        'click #schoology-login-btn': 'onClickSchoologyLoginButton',
-        'click #classlink-login-btn': 'onClickClasslinkLoginButton',
         'click #close-modal': 'hide',
         'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal',
       }
@@ -63,22 +54,8 @@ module.exports = (AuthModal = (function () {
         window.nextURL = options.nextUrl
       }
 
-      if (me.useSocialSignOn()) {
-        // TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-        application.gplusHandler.loadAPI({
-          success: () => _.defer(() => {
-            this.$('#google-login-button').attr('disabled', false)
-            return this.onClickGPlusLoginButton()
-          }),
-        })
-        if (utils.iszgcombat) {
-          // No Facebook login in Ozaria
-          application.facebookHandler.loadAPI({ success: () => _.defer(() => this.$('#facebook-login-btn').attr('disabled', false)) })
-        }
-      }
       this.subModalContinue = options.subModalContinue
       this.showLibraryModal = userUtils.shouldShowLibraryLoginModal()
-      this.onFacebookLoginError = this.onFacebookLoginError.bind(this)
     }
 
     afterRender () {
@@ -159,184 +136,6 @@ module.exports = (AuthModal = (function () {
         })
     }
 
-    // Google Plus
-
-    onClickGPlusLoginButton () {
-      const btn = this.$('#google-login-button')
-      return application.gplusHandler.connect({
-        context: this,
-        success (resp) {
-          if (resp == null) { resp = {} }
-          btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
-          btn.attr('disabled', true)
-          return application.gplusHandler.loadPerson({
-            resp,
-            context: this,
-            success (gplusAttrs) {
-              const existingUser = new User()
-              return existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
-                success: () => {
-                  return me.loginGPlusUser(gplusAttrs.gplusID, {
-                    success: () => {
-                      application.tracker.identifyAfterNextPageLoad()
-                      return application.tracker.identify().finally(() => {
-                        return loginNavigate(this.subModalContinue)
-                      })
-                    },
-                    error: this.onGPlusLoginError,
-                  })
-                },
-                error: (res, jqxhr) => {
-                  if ((jqxhr.status === 409) && jqxhr.responseJSON.errorID && (jqxhr.responseJSON.errorID === 'account-with-email-exists')) {
-                    const mergeLogin = (gplusAttrs) => {
-                      return me.loginGPlusUser(gplusAttrs.gplusID, {
-                        data: { merge: true, email: gplusAttrs.email },
-                        success: () => {
-                          application.tracker.identifyAfterNextPageLoad()
-                          return application.tracker.identify().finally(() => {
-                            return loginNavigate(this.subModalContinue)
-                          })
-                        },
-                        error: this.onGPlusLoginError,
-                      })
-                    }
-
-                    // auto-merge since we roster and create accounts for them
-                    if (gplusAttrs.email?.includes(User.getNapervilleDomain())) {
-                      return mergeLogin(gplusAttrs)
-                    }
-                    return noty({
-                      text: $.i18n.t('login.accounts_merge_confirmation'),
-                      layout: 'topCenter',
-                      type: 'info',
-                      buttons: [
-                        {
-                          text: 'Yes',
-                          onClick ($noty) {
-                            $noty.close()
-                            return mergeLogin(gplusAttrs)
-                          },
-                        }, { text: 'No', onClick ($noty) { return $noty.close() } }],
-                    })
-                  } else {
-                    return this.onGPlusLoginError(res, jqxhr)
-                  }
-                },
-              })
-            },
-          })
-        },
-        error (e) {
-          this.onGPlusLoginError()
-          if ((e != null ? e.error : undefined) && (e != null ? e.details : undefined)) { if (!e.message) { e.message = `Google login failed: ${e.error} - ${e.details}` } }
-          return noty({ text: (e != null ? e.message : undefined) || (e != null ? e.details : undefined) || __guardMethod__(e, 'toString', o => o.toString()) || 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
-        },
-      })
-    }
-
-    onGPlusLoginError (res, jqxhr) {
-      if (((jqxhr != null ? jqxhr.status : undefined) === 401) && jqxhr.responseJSON.errorID && (jqxhr.responseJSON.errorID === 'individuals-not-supported')) {
-        forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
-      } else {
-        if (arguments.length) { errors.showNotyNetworkError(...arguments) }
-      }
-
-      const btn = this.$('#google-login-button')
-      btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_gplus'))
-      btn.attr('disabled', false)
-      if (arguments.length) { return errors.showNotyNetworkError(...arguments) }
-    }
-
-    // Facebook
-
-    onClickFacebookLoginButton () {
-      const btn = this.$('#facebook-login-btn')
-      return application.facebookHandler.connect({
-        context: this,
-        success (response) {
-          btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
-          btn.attr('disabled', true)
-          return application.facebookHandler.loadPerson({
-            context: this,
-            success (facebookAttrs) {
-              const existingUser = new User()
-              return existingUser.fetchFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
-                success: () => {
-                  return me.loginFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
-                    success: () => {
-                      application.tracker.identifyAfterNextPageLoad()
-                      return application.tracker.identify().then(() => {
-                        return loginNavigate(this.subModalContinue)
-                      })
-                    },
-                    error: this.onFacebookLoginError,
-                  })
-                },
-                error: this.onFacebookLoginError,
-              })
-            },
-          })
-        },
-      })
-    }
-
-    onFacebookLoginError (res) {
-      this?.$('#unknown-error-alert').addClass('hide')
-      if (res.errorID && (res.errorID === 'individuals-not-supported')) {
-        forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
-        this.$('#unknown-error-alert').removeClass('hide')
-      } else if (res.code === 404) {
-        forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('loading_error.user_not_found'))
-        this.$('#unknown-error-alert').removeClass('hide')
-      }
-
-      const btn = this.$('#facebook-login-btn')
-      btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
-      btn.attr('disabled', false)
-      return errors.showNotyNetworkError(...arguments)
-    }
-
-    // Clever
-
-    onClickCleverSignupButton () {
-      let cleverClientId, districtId, redirectTo
-      if (['next.flsong.iok.la', 'localhost'].includes(window.location.hostname)) {
-        cleverClientId = '943ece596555cac13fcc'
-        redirectTo = 'https://next.flsong.iok.la/auth/login-clever'
-        districtId = '5b2ad81a709e300001e2cd7a' // Clever Library test district
-      } else { // prod
-        cleverClientId = 'ffce544a7e02c0daabf2'
-        redirectTo = 'https://flsong.iok.la/auth/login-clever'
-      }
-      let url = `https://clever.com/oauth/authorize?response_type=code&redirect_uri=${encodeURIComponent(redirectTo)}&client_id=${cleverClientId}`
-      if (districtId) {
-        url += '&district_id=' + districtId
-      }
-      return window.open(url, '_blank')
-    }
-
-    onClickCleverLoginButton () {
-      return logInWithClever()
-    }
-
-    async onClickSchoologyLoginButton () {
-      const handler = new SchoologyHandler()
-      return this.onClickEdlinkLoginButton(handler)
-    }
-
-    async onClickClasslinkLoginButton () {
-      const handler = new ClassLinkHandler()
-      return this.onClickEdlinkLoginButton(handler)
-    }
-
-    async onClickEdlinkLoginButton (handler) {
-      const { loggedIn } = await handler.logInWithEdlink()
-      if (loggedIn) {
-        window.location.reload()
-      } else {
-        noty({ text: $.i18n.t('login.login_failed'), layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
-      }
-    }
 
     openRecoverModal (e) {
       e.stopPropagation()

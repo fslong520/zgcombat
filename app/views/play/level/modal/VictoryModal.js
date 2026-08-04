@@ -42,7 +42,6 @@ module.exports = (VictoryModal = (function () {
 
     constructor (options) {
       super(options)
-      application.router.initializeSocialMediaServices()
       const victory = options.level.get('victory', true)
       const body = utils.i18n(victory, 'body') || 'Sorry, this level has no victory message yet.'
       this.body = marked(body)

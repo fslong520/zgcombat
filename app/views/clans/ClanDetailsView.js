@@ -25,7 +25,6 @@ const EarnedAchievement = require('models/EarnedAchievement')
 const Tournament = require('models/Tournament')
 const Level = require('models/Level')
 const LevelSession = require('models/LevelSession')
-const SubscribeModal = require('views/core/SubscribeModal')
 const ThangType = require('models/ThangType')
 const User = require('models/User')
 const utils = require('core/utils')
@@ -572,13 +571,6 @@ module.exports = (ClanDetailsView = (function () {
     onJoinClan (e) {
       if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
       if (!this.clan.loaded) { return }
-      if ((this.clan.get('type') === 'private') && !me.isPremium()) {
-        this.openModalView(new SubscribeModal())
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'join clan' })
-        }
-        return
-      }
       const options = {
         url: `/db/clan/${this.clanID}/join`,
         method: 'PUT',

@@ -46,13 +46,6 @@ module.exports = (CocoRouter = (function () {
           }
 
           if (utils.isCodeCombat) {
-            if (utils.getQueryVariable('payment-homeSubscriptions')) {
-              return this.routeDirectly('HomeView')
-            }
-            if (!me.isAnonymous() && !me.isStudent() && !me.isTeacher() && !me.isAdmin() && !me.hasSubscription() && !me.isAPIClient() && !paymentUtils.hasTemporaryPremiumAccess() && !me.isParentHome()) {
-              delete window.alreadyLoadedView
-              return this.navigate('/premium', { trigger: true, replace: true })
-            }
             if (me.isAPIClient()) {
               delete window.alreadyLoadedView
               // return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
@@ -78,11 +71,6 @@ module.exports = (CocoRouter = (function () {
         'account/oauth-aiyouth': go('account/OAuthAIYouthView'),
 
         'account/settings': go('account/AccountSettingsRootView'),
-        'account/unsubscribe': go('account/UnsubscribeView'),
-        'account/payments': go('account/PaymentsView'),
-        'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true }),
-        'account/invoices': go('account/InvoicesView'),
-        'account/prepaid': go('account/PrepaidView'),
 
         ai: go('ai/AIView'),
         'ai/*path': go('ai/AIView'),
@@ -107,12 +95,10 @@ module.exports = (CocoRouter = (function () {
         'admin/design-elements': go('admin/DesignElementsView'),
         'admin/files': go('admin/FilesView'),
         'admin/analytics': go('admin/AnalyticsView'),
-        'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView'),
         'admin/level-hints': go('admin/AdminLevelHintsView'),
         'admin/level-sessions': go('admin/LevelSessionsView'),
         'admin/school-counts': go('admin/SchoolCountsView'),
         'admin/school-licenses': go('admin/SchoolLicensesView'),
-        'admin/sub-cancellations': go('admin/AdminSubCancellationsView'),
         'admin/base': go('admin/BaseView'),
         'admin/demo-requests': go('admin/DemoRequestsView'),
         'admin/trial-requests': go('admin/TrialRequestsView'),
@@ -360,9 +346,6 @@ module.exports = (CocoRouter = (function () {
         // Warning: In production debugging of third party iframe!
         'temporary-debug-timetap': go('core/SingletonAppVueComponentView'),
 
-        'paypal/subscribe-callback': go('play/CampaignView'),
-        'paypal/cancel-callback': go('account/SubscriptionView'),
-
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
 
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
@@ -450,8 +433,6 @@ module.exports = (CocoRouter = (function () {
           }
           if (me.isAdmin()) { return this.routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
-
-        premium: go('core/SingletonAppVueComponentView'),
 
         'ozaria/avatar-selector' () {
           if (me.isAdmin()) { return this.routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) }
@@ -579,7 +560,6 @@ module.exports = (CocoRouter = (function () {
         'users/switch-account': go('core/SingletonAppVueComponentView'),
         'users/switch-account/*path': go('core/SingletonAppVueComponentView'),
 
-        'payments/*path': go('core/SingletonAppVueComponentView'),
         'ladders/*path': go('core/SingletonAppVueComponentView'),
         'ed-link/*path': go('core/SingletonAppVueComponentView'),
         'teachers/licenses': go('core/SingletonAppVueComponentView'),
@@ -607,7 +587,6 @@ module.exports = (CocoRouter = (function () {
       // http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
       this.bind('route', this._trackPageView)
       Backbone.Mediator.subscribe('router:navigate', this.onNavigate, this)
-      this.initializeSocialMediaServices = _.once(this.initializeSocialMediaServices)
 
       // Lazily require and load VueRouter because it currently loads all of its dependencies
       // in a single Webpack bundle.  The app initialization logic assumes that all Views are
@@ -797,13 +776,6 @@ module.exports = (CocoRouter = (function () {
         $('html')[0].scrollTop = 0
         $('body')[0].scrollTop = 0
       }, 10)
-    }
-
-    initializeSocialMediaServices () {
-      if (application.testing || application.demoing || !me.useSocialSignOn()) { return }
-      application.facebookHandler.loadAPI()
-      application.gplusHandler.loadAPI()
-      return require('core/services/twitter')()
     }
 
     activateTab () {

@@ -16,7 +16,6 @@ try {
   console.warn(e)
   ai = { AI: () => { } }
 }
-const SubscribeModal = require('app/views/core/SubscribeModal')
 const CreateAccountModal = require('app/views/core/CreateAccountModal')
 
 module.exports = (AIView = (function () {
@@ -32,7 +31,6 @@ module.exports = (AIView = (function () {
       ai.AI({ domElement: this.$el.find('#ai-root')[0] })
       window.handleAICreditLimitReached = this.handleAICreditLimitReached.bind(this)
       window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg.bind(this)
-      window.openSubscribeModal = this.openSubscribeModal.bind(this)
       window.openCreateAccountModal = this.openCreateAccountModal.bind(this)
       return super.afterInsert()
     }
@@ -42,7 +40,6 @@ module.exports = (AIView = (function () {
       $('html').css('font-size', '62.5%')
       window.handleAICreditLimitReached = null
       window.AICreditLimitReachedMsg = null
-      window.openSubscribeModal = null
       window.openCreateAccountModal = null
       try {
         ai.AI.unmount?.(this.$el.find('#ai-root')[0])
@@ -68,12 +65,7 @@ module.exports = (AIView = (function () {
         this.openModalView(new CreateAccountModal({ mode: 'signup' }))
         window.tracker?.trackEvent('AI HS prompting signup', { path: window.location.pathname })
       } else if (me.isHomeUser()) {
-        if (me.hasSubscription()) {
-          message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
-        } else {
-          this.openModalView(new SubscribeModal())
-          window.tracker?.trackEvent('AI HS prompting subscribe', { path: window.location.pathname })
-        }
+        message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
       } else if (me.isStudent()) {
         if (me.isEnrolled()) {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
@@ -106,14 +98,6 @@ module.exports = (AIView = (function () {
         }
         return $.i18n.t('play_level.ask_teacher_for_credits')
       }
-    }
-
-    openSubscribeModal () {
-      if (me.isPremium()) {
-        return
-      }
-      this.openModalView(new SubscribeModal())
-      window.tracker?.trackEvent('HS open subscribe modal', { path: window.location.pathname })
     }
 
     openCreateAccountModal () {
