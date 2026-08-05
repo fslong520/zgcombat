@@ -1037,6 +1037,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     const file = path.join(publicPath, 'templates', 'static', 'main.html');
     return fs.readFile(file, 'utf8', (err, html) => {
       if (err) { return next(); }
+      // 注入 window.serverSession（原版后端在渲染时注入；MainAdminView 等依赖它，缺则崩）
+      const injection = '<script>window.serverSession = { amActually: null, switchingUserActualId: null, featureMode: null };</script>';
+      html = html.replace('<script src="/dev/javascripts/app.js"', injection + '<script src="/dev/javascripts/app.js"');
       return res.status(200).header('Cache-Control', 'no-cache').send(html);
     });
   });
