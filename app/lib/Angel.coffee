@@ -53,11 +53,9 @@ module.exports = class Angel extends CocoClass
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
   log: ->
-    # console.info.apply is undefined in IE9, CoffeeScript splats invocation won't work.
-    # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
+    # 内部部署：世界模拟台词/统计对玩家与教师无诊断价值，静音（仍记录 allLogs 供调试）
     message = "|#{@shared.godNick}'s #{@nick}|"
     message += " #{arg}" for arg in arguments
-    console.info message
     @allLogs.push message
 
   testWorker: =>

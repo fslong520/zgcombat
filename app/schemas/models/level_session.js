@@ -24,6 +24,9 @@ _.extend(LevelSessionSchema.properties, {
   browser: {
     type: 'object'
   },
+  campaign: { // 关卡来源战役（离线数据含 original 等引用），schema 原缺失致 session.save 校验失败
+    type: 'object'
+  },
   creatorName: {
     type: 'string'
   },

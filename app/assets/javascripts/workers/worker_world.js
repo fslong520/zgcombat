@@ -87,13 +87,13 @@ var ensureLanguageImported = function(language) {
     (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
     //console.log(`Using modern language plugin: ${language}`);
     myImportScripts("/javascripts/app/vendor/aether-" + language + ".modern.js");
-    console.log("Language plugin loaded:", language);
+    // console.log("Language plugin loaded:", language);  // 内部部署静音
   } catch (e) {
     console.error("Language plugin FAILED to load:", language, (e && e.message) || e, (e && e.stack) || '');
     try {
       // Fallback to legacy plugin
       myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
-      console.log("Language plugin loaded (legacy):", language);
+      // console.log("Language plugin loaded (legacy):", language);  // 内部部署静音
     } catch (e2) {
       console.error("Language plugin FAILED (legacy too):", language, (e2 && e2.message) || e2);
       throw e2;
@@ -499,7 +499,7 @@ self.onWorldLoaded = function onWorldLoaded() {
 
   if(worldEnded) {
     var t3 = new Date();
-    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms\nFPS          :", simulationFrameRate.toFixed(1));
+    // 模拟统计日志（Simulation/Serialization/FPS）内部部署静音
   }
 };
 

@@ -84,7 +84,7 @@ module.exports = class God extends CocoClass
     @createWorld e
 
   createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous, spellJustLoaded}) ->
-    console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
+    # console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"  # 内部部署静音
     userCodeMap = @getUserCodeMap spells
     if spellJustLoaded and not justBegin
       # If spellJustLoaded it signals that this is the first world after the level

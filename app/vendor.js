@@ -76,6 +76,7 @@ require('imports-loader?this=>window!npm-modernizr')
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vue.config.productionTip = false // 内部部署：隐藏 Vue 开发模式提示
+window.Vue.config.devtools = false // 内部部署：隐藏 Vue Devtools 下载提示
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')

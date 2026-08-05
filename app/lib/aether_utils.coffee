@@ -171,7 +171,7 @@ module.exports.fetchToken = (source, language) =>
   # kodekeeper API 有时会产生方向反了的 AST。
   try
     translated = javaCppToJS source, language
-    console.log '[aether_utils] client translated:', translated
+    # 每次代码变更都会翻译，console.log 刷屏；内部部署无需调试输出
     return Promise.resolve translated
   catch e
     console.warn '[aether_utils] client translation failed:', e?.message or e
