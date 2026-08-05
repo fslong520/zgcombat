@@ -83,15 +83,16 @@ javaCppToJS = (source, language) ->
   # （#include/#define 等预处理保留）转成 //。块注释已占位，不受影响。
   s = s.replace /^#\s+([^\n]*)$/gm, '// $1'
 
-  # --- 3. 去掉 main/类包裹，但保留其内部代码 ---
+  # --- 3. 去掉 main/类包裹的声明前缀，但保留其 { } 配对（JS 顶层块合法，
+  # 且 getFunctionBody 会提取块内代码；若删开括号而误删循环的 } 会致 JS 缺括号报错） ---
   # C++: int main() / void main(...) { ... }
   if language is 'cpp'
-    s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*\{/g, ''
+    s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*(\{)/g, '$1'
   # Java: public static void main(String[] args) { ... }
   if language is 'java'
-    s = s.replace /(?:public\s+)?(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*\{/g, ''
+    s = s.replace /(?:public\s+)?(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*(\{)/g, '$1'
     # Java 类声明：public class Foo ... { ... }
-    s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*\{/g, ''
+    s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*(\{)/g, '$1'
 
   # --- 4. 翻译变量声明 ---
   # int x = 5;  → var x = 5;
@@ -155,13 +156,7 @@ javaCppToJS = (source, language) ->
   # --- 11. 恢复块注释 ---
   s = s.replace /\/\*BLOCK_COMMENT_(\d+)\*\//g, (m, idx) -> blockComments[parseInt idx] or m
 
-  # --- 12. 去掉 main/类对应的多余闭合括号 ---
-  # 去掉末尾孤立的 }
-  s = s.replace /\n\}\s*$/g, ''
-  # 去掉空行中残留的 }（类/方法闭合）
-  s = s.replace /^\s*\}\s*$/gm, ''
-
-  # --- 13. 压缩多余空行 ---
+  # --- 12. 压缩多余空行 ---
   s = s.replace /\n{4,}/g, '\n\n\n'
 
   s = s.trim()
