@@ -30,10 +30,9 @@ module.exports.startServer = function(done) {
 var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
 
   const app = express();
-  if (config.forceCompression) {
-    const compression = require('compression');
-    app.use(compression());
-  }
+  // 内部部署：始终开启 gzip 压缩（/db/campaign 3MB、levels 7MB 等大 JSON，慢网络下不压缩易超时致 SuperModel 'Unknown Error'）
+  const compression = require('compression');
+  app.use(compression());
   const cookieParser = require('cookie-parser');
   app.use(cookieParser());
   serverSetup.setExpressConfigurationOptions(app);

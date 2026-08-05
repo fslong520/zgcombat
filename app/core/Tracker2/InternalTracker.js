@@ -60,7 +60,7 @@ export default class InternalTracker extends BaseTracker {
       delete properties.category
     }
     this.log('tracking internal analytics event:', event, properties)
-    api.analyticsLogEvents.post({ event, properties })
+    api.analyticsLogEvents.post({ event, properties }).catch(() => {}) // 内部部署无 analytics 后端，静音失败
   }
 
   trackReferrers () {
