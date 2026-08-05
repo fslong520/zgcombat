@@ -102,7 +102,12 @@ javaCppToJS = (source, language) ->
   # int[] arr = new int[5]; → var arr = new Array(5);
   # int[] arr = {1,2,3}; → var arr = [1,2,3];
   # 数组声明 int[] arr → var arr
-  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, 'var$2'
+  # 注：替换须保留尾随空格，否则 `auto enemy1` 会被吞成 `varenemy1`（引用时未定义）
+  # 先处理 new int[size] → new Array(size)，避免被下面的类型替换吞掉
+  s = s.replace /\bnew\s+(int|long|short|char|byte|float|double|boolean|String)\s*\[(\w+)\]/g, 'new Array($2)'
+  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, 'var$2 '
+  # int[] arr → var arr（去掉残留的 var[] 类型符）
+  s = s.replace /\bvar\[\]\s*/g, 'var '
 
   # --- 5. 翻译方法声明 ---
   # public void foo(int x, String y) { ... } → function foo(x, y) { ... }
