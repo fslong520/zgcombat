@@ -395,7 +395,7 @@ module.exports = (Level = (function () {
             let c2
             if (Array.from(sorted).includes(c)) { return }
             const lc = originalsToComponents[String(c.original)]
-            if (!lc) { console.error(thang.id || thang.name, 'couldn\'t find lc for', c, 'of', levelComponents) }
+            if (!lc) { console.warn(thang.id || thang.name, 'couldn\'t find lc for', c, 'of', levelComponents) }
             if (!lc) { return }
             if (namesToIgnore && Array.from(namesToIgnore).includes(lc.name)) { return }
             if (lc.name === 'Plans') {
@@ -410,7 +410,7 @@ module.exports = (Level = (function () {
                 if (!c2) {
                   let dependent = originalsToComponents[String(d.original)]
                   dependent = (dependent != null ? dependent.name : undefined) || d.original
-                  console.error(parentType, thang.id || thang.name, 'does not have dependent Component', dependent, 'from', lc.name)
+                  console.warn(parentType, thang.id || thang.name, 'does not have dependent Component', dependent, 'from', lc.name)
                 }
                 if (c2) { visit(c2) }
               }

@@ -81,6 +81,48 @@ module.exports = class GoalManager extends CocoClass
   worldGenerationWillBegin: ->
     @initGoalStates()
     @checkForInitialUserCodeProblems()
+    @countLinesOfCode()
+
+  # 行数目标判定：原版依赖 server 端 transpile 后发布的 world:lines-of-code-counted
+  # 事件（本部署无该发布者，目标因此永不判定、默认通过）。此处直接从用户代码统计
+  # 有效行数（排除 main 包裹 / 大括号 / return 0 / 注释 / include 样板），在生成开始时判定。
+  countLinesOfCode: ->
+    return unless @goals and @userCodeMap
+    for goal in @goals when goal.linesOfCode
+      for team, allowed of goal.linesOfCode
+        continue unless allowed
+        thangID = if team is 'ogres' then 'hero-placeholder-1' else 'hero-placeholder'
+        thangCode = @userCodeMap[thangID]
+        continue unless thangCode
+        code = thangCode['plan']?.raw ? (first.raw for _, first of thangCode when first?.raw)[0]
+        continue unless code
+        used = @countEffectiveLines(code)
+        who = {}
+        who[thangID] = allowed
+        @checkLinesOfCode goal.id, who, {id: thangID}, used, 0
+
+  countEffectiveLines: (code) ->
+    lines = code.split /\r?\n/
+    inBlockComment = false
+    count = 0
+    for line in lines
+      trimmed = line.trim()
+      continue if trimmed is ''
+      # 块注释 /* ... */ 跨行
+      if inBlockComment
+        inBlockComment = false if trimmed.indexOf('*/') isnt -1
+        continue
+      if /^\/\*/.test trimmed
+        inBlockComment = true unless trimmed.indexOf('*/') isnt -1
+        continue
+      continue if /^\/\//.test trimmed          # 整行 //
+      continue if /^#/.test trimmed             # #include 等预处理
+      continue if /^using\s+namespace/.test trimmed
+      continue if /^int\s+main/.test trimmed    # int main(...) {
+      continue if trimmed is '{' or trimmed is '}'
+      continue if /^return\s+0\s*;?/.test trimmed
+      ++count
+    count
 
   # World generator feeds world events to the goal manager to keep track
   submitWorldGenerationEvent: (channel, event, frameNumber) ->
@@ -287,9 +329,8 @@ module.exports = class GoalManager extends CocoClass
 
   checkLinesOfCode: (goalID, who, thang, linesUsed, frameNumber) ->
     return unless linesAllowed = who[thang.id] ? who[thang.team]
-    # C++/Java 有 main 包裹行（int main() { / return 0; / }），不计入用户行数
-    if @options?.codeLanguage in ['cpp', 'java']
-      linesUsed -= 3
+    # 注：countEffectiveLines 已排除 C++/Java 的 main 包裹行（int main() { / return 0; / }）
+    # 与注释，此处不再额外扣减，避免重复。
     @updateGoalState goalID, thang.id, 'lines', frameNumber if linesUsed > linesAllowed
     @goalStates[goalID].lines.used = linesUsed
     @goalStates[goalID].lines.allowed = linesAllowed
