@@ -349,6 +349,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.codeLanguage = this.changeLanguageView.codeLanguage
       this.codeFormat = this.changeLanguageView.codeFormat
 
+      let changed
       let hero = this.selectedHero != null ? this.selectedHero.get('original') : undefined
       if ((this.visibleHero != null ? this.visibleHero.loaded : undefined) && !this.visibleHero.locked) { if (hero == null) { hero = this.visibleHero != null ? this.visibleHero.get('original') : undefined } }
       if (!hero) {

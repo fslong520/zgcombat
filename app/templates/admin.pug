@@ -9,182 +9,136 @@ block content
         .col-sm-4
         .col-sm-1
       else
-        label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
+        label.control-label.col-sm-2(for="espionage-name-or-email") 身份切换
         .col-sm-4
-          input.form-control#espionage-name-or-email(placeholder="Email, username or id", type="text")
+          input.form-control#espionage-name-or-email(placeholder="邮箱、用户名或 ID", type="text")
         .col-sm-1
           button.btn.btn-primary.btn-large#enter-espionage-mode 007
       label.control-label.col-sm-5(for="espionage-name-or-email")
-        em you are currently #{me.get('name') || '(no username)'} at #{me.get('email') || '(no email)'}
+        em 你当前是 #{me.get('name') || '(无用户名)'}，邮箱 #{me.get('email') || '(无邮箱)'}
         if view.amActually
           br
-          em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
+          em 但实际以 #{view.amActually.get('name') || '(无用户名)'} 身份，邮箱 #{view.amActually.get('email') || '(无邮箱)'}
           br
-          button#stop-spying-btn.btn.btn-xs Stop Spying
+          button#stop-spying-btn.btn.btn-xs 停止切换
         if view.featureMode
           br
-          em and you are viewing feature mode "#{view.featureMode}"
+          em 当前处于功能模式 "#{view.featureMode}"
           =" "
-          button#clear-feature-mode-btn.btn.btn-sm Clear Feature Mode
+          button#clear-feature-mode-btn.btn.btn-sm 清除功能模式
   if me.isAdmin() || me.isOnlineTeacher()
     .form-horizontal
       form#user-search-form.form-group
-        label.control-label.col-sm-2(for="user-search") User Search
+        label.control-label.col-sm-2(for="user-search") 用户搜索
         .col-sm-4
-          input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
-          a.search-help-toggle(href="#") (search help)
+          input.form-control#user-search(placeholder="邮箱、用户名、姓名等", type="text")
+          a.search-help-toggle(href="#") (搜索帮助)
           .search-help
-            h4 Search Syntax
+            h4 搜索语法
             ul
-              li use <code>role:teacher</code> to limit a search by role
-              li By default parts of the search are matched exactly.
-              li <code>*</code> can be used as a wildcard character (ex. '<code>rob*@gmail.com</code>')
-              li Avoid special charaters and puncuation.  Consider replacing them with <code>*</code> in searches.
+              li 用 <code>role:teacher</code> 可按角色限定搜索
+              li 默认部分匹配。
+              li <code>*</code> 为通配符（例：'<code>rob*@gmail.com</code>'）
+              li 避免特殊字符与标点，建议搜索时用 <code>*</code> 代替。
               li
-                a(href='http://sphinxsearch.com/docs/latest/extended-syntax.html') Complete Syntax Guide
+                a(href='http://sphinxsearch.com/docs/latest/extended-syntax.html') 完整语法指南
         .col-sm-1
-          button.btn.btn-primary.btn-large#user-search-button  Search
+          button.btn.btn-primary.btn-large#user-search-button 搜索
     #user-search-result
 
   if me.isOnlineTeacher() && !me.isAdmin()
-    div.text-center Use the search box above to find and administer student accounts.
+    div.text-center 使用上方搜索框查找并管理学生账号。
   else if me.isParentAdmin() && !me.isAdmin()
-    p Set if admin is currently online / offline:
+    p 设置管理员当前在线 / 离线状态：
     div.btn-group.btn-group-toggle#toggle-admin-availability(data-toggle="buttons")
       label.btn.btn-secondary(data-value="on" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'on' ? 'active' : ''}`)
         input(type="radio" name="options" autocomplete="off" :)
-        | Online
+        | 在线
       label.btn.btn-secondary(data-value="off" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'off' ? 'active' : ''}`)
         input(type="radio" name="options" autocomplete="off")
-        | Offline
+        | 离线
       label.btn.btn-secondary(data-value="by-schedule" class=`${parentAdminUpdateInProgress ? 'disabled' : ''} ${parentAdminAvailabilityStatus == 'by-schedule' ? 'active' : ''}`)
         input(type="radio" name="options" autocomplete="off")
-        | By Schedule
+        | 按计划
   else if !me.isAdmin()
-    div.text-center You must be logged in as an admin to view this page.
+    div.text-center 需以管理员身份登录才能查看此页。
   else
-    h4 Entities
+    h4 实体
     ul
       li
-        a(href="/admin/trial-requests") Trial Requests
+        a(href="/admin/trial-requests") 试用申请
       li
-        a(href="/admin/user-code-problems") User Code Problems
+        a(href="/admin/user-code-problems") 用户代码问题
       li
-        a.edit-mandate(href="#mandate") Edit Mandate
+        a.edit-mandate(href="#mandate") 编辑授权
 
-    h4 Analytics
+    h4 数据分析
     ul
       li
-        a(href="/admin/classrooms-progress?startDay=2019-08-01&endDay=2019-12-31") Classroom Progress vs. Available Content
-      //- li
-      //-   a(href="/admin/classroom-content") Amount of Classroom Content
+        a(href="/admin/classrooms-progress?startDay=2019-08-01&endDay=2019-12-31") 课堂进度 vs 可用内容
       li
-        a(href="/admin/classroom-levels") Classroom Levels
+        a(href="/admin/classroom-levels") 课堂关卡
       li
-        a(href="/admin/analytics") Dashboard
+        a(href="/admin/analytics") 仪表盘
       li
-        a(href="/admin/level-hints") Level Hints
+        a(href="/admin/level-hints") 关卡提示
       li
-        a(href="/admin/school-licenses") School Active Licenses
+        a(href="/admin/school-licenses") 学校有效许可
       li
-        a(href="/admin/school-counts?batchsize=20000") School Counts
+        a(href="/admin/school-counts?batchsize=20000") 学校统计
       li
-        a(href="/admin/analytics/subscriptions") Subscriptions
+        a(href="/admin/demo-requests") 教师演示申请
       li
-        a(href="/admin/sub-cancellations") Subscription Cancellations
+        a(href="/admin/low-usage-users") 低活跃用户
       li
-        a(href="/admin/demo-requests") Teacher Demo Requests
-      li
-        a(href="/admin/low-usage-users") Low Usage Users
-      li
-        a(href="/admin/activation-code-usage") Activation Code Usage
+        a(href="/admin/activation-code-usage") 激活码使用
     p
-      button.classroom-progress-csv.btn.btn-sm.btn-success Classroom Progress CSV
-      input.classroom-progress-class-code(type=text placeholder="<class code>")
+      button.classroom-progress-csv.btn.btn-sm.btn-success 课堂进度 CSV
+      input.classroom-progress-class-code(type=text placeholder="<班级代码>")
 
-    h4 Other
+    h4 其他
     ul
       li
-        a(href="/admin/outcomes-report") Old outcomes report (use new one in user modal)
-      li
-        a(href="/admin/base") Base (for debugging base.pug)
+        a(href="/admin/base") Base（调试 base.pug）
       li
         a(href="/admin/clas") CLAs
       li
-        a(href="/admin/pending-patches") Patches
+        a(href="/admin/pending-patches") 补丁
       li
-        a(href="/admin/skipped-contacts") Sales — Contacts skipped by sales automation scripts
+        a(href="/admin/partial-unit-release") 分部发布
       li
-        a(href="/admin/partial-unit-release") Partial Unit Release
+        a(href="javascript:void(0)" id="maintenance-mode") 维护模式
       li
-        a(href="javascript:void(0)" id="maintenance-mode") Maintenance mode
-      li
-        a(href="javascript:void(0)" id="teacher-license-code") Teacher license code
+        a(href="javascript:void(0)" id="teacher-license-code") 教师许可码
 
 
     hr
-    h3 URL query parameters for *this page*
-    p You can create special URLs for this page to do things automatically.
+    h3 本页 URL 查询参数
+    p 可为本页创建特殊 URL 以自动执行操作。
     p
-      strong General format:
+      strong 一般格式：
       - var s = "/admin?parameter1=value1" + "&" + "parameter2=value2" + "&" + "parameter3=value3"
       span.spl= s
     p
-      strong search:
-      span.spl automatically searches for the given user
+      strong search：
+      span.spl 自动搜索给定用户
       div
         a(href="/admin?search=matt") /admin?search=matt
     p
-      strong spy:
-      span.spl automatically spys on a given user
+      strong spy：
+      span.spl 自动以给定用户身份查看
       div
         a(href="/admin?spy=matt@example.com") /admin?spy=matt@example.com
     p
-      strong user:
-      span.spl automatically open the user dialog for given user id
+      strong user：
+      span.spl 自动打开指定用户 ID 的用户对话框
       div
         a(href="/admin?user=1234567890") /admin?user=1234567890
 
     hr
-    h3 Prepaids
-    a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
-    span.spl.spr
-      if view.freeSubLink
-        input#free-sub-input(type="text", readonly, value=view.freeSubLink)
 
-    .form-inline
-      .form-group
-        label(for="users") Users
-        input#users.form-control(name="users", type="number", min=1)
-      .form-group
-        label(for="months") Months
-        input#months.form-control(name="months", type="number", min=1)
-      .form-group
-        label(for="endDate") Expiration Date
-        input#endDate.form-control(type="date" name="endDate" value=view.prepaidEndDate)
-
-      br
-      a#terminal-create.btn.btn-default Create Terminal Subscription Code
-      a#terminal-activation-create.btn.btn-default Create Terminal Subscription Activation Code
-
-
-    hr
-
-    h3 Achievements
-    p This is just some stuff for temporary achievement testing. Should be replaced by a demo system.
+    h3 成就
+    p 临时成就测试用，应由演示系统替换。
 
     input#increment-field(type="text")
-    a.btn.btn-secondary#increment-button(href="#") Increment
-
-    hr
-
-    .form-horizontal
-      h3 PayPal Search
-      form(action='/db/payments/-/all').form-group
-        label.control-label.col-sm-2(for="paypal-input") PayPal Search
-        .col-sm-4
-          input.form-control#paypal-input(name="payPalResource", placeholder="PayPal Transaction ID")
-          input(type="hidden", name="project", value="purchaser,recipient,created,service,amount,gems")
-          input(type="hidden", name="limit", value="10")
-        .col-sm-1
-          button.btn.btn-primary(type="submit") Search
+    a.btn.btn-secondary#increment-button(href="#") 增加
