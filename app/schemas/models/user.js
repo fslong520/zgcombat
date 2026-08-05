@@ -36,7 +36,8 @@ _.extend(UserSchema.properties, {
   gender: { type: 'string' }, // , 'enum': ['male', 'female', 'secret', 'trans', 'other']
   // NOTE: ageRange enum changed on 4/27/16 from ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   ageRange: { type: 'string' }, // 'enum': ['13-15', '16-17', '18-24', '25-34', '35-44', '45-100']
-  password: c.passwordString,
+  password: { type: 'string', maxLength: 64 }, // 放宽：内部账号可为空（原 c.passwordString 要求 minLength 4，空密码导致 validate 失败、me.patch 无法保存）
+  gems: { type: 'number', description: 'Gem balance (legacy field, spent 与 earned/purchased.gems 之差为可用宝石)' },
   passwordReset: { type: 'string' },
   passwordResetExpires: c.date(),
   newPasswordRequired: { type: 'boolean' }, // Whether the user needs to set a new password

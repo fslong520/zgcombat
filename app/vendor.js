@@ -13,7 +13,9 @@ window.Backbone.$ = window.jQuery // wat
 // 其全局原仅由 lib/world/world.coffee 经 require 'vendor/scripts/coffeescript' 注入；若该模块求值晚于组件编译或被判入
 // 其他 chunk，则报 `CoffeeScript is not defined`，Programmable 组件编译失败、可编程方法缺失、Spell 不建、角色不动。
 // 此处尽早显式注入，确保任何 LevelComponent 编译前全局已就绪。
-window.CoffeeScript = require('vendor/scripts/coffeescript')
+// 注：vendor/scripts/coffeescript.js（1.6.3 自改版）在 webpack 打包下导出为空对象（compile 缺失），
+// 改用 node_modules/coffee-script（1.12.7，CommonJS，compile 正常）。
+window.CoffeeScript = require('coffee-script')
 window.tv4 = require('tv4')
 window.lscache = require('lscache')
 window._.string = require('underscore.string')
@@ -73,6 +75,7 @@ require('bower_components/waypoints/lib/jquery.waypoints.min.js')
 require('imports-loader?this=>window!npm-modernizr')
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
+window.Vue.config.productionTip = false // 内部部署：隐藏 Vue 开发模式提示
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')

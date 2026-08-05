@@ -300,6 +300,13 @@ module.exports = (env) => {
       }),
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
+      // coffee-script 编译器顶层 require('fs'/'vm'/'path')：仅其在浏览器打包时报 Node 模块缺失，
+      // 定向替换为空 mock（compile 路径不用这些模块，其他库不受影响）。
+      new webpack.NormalModuleReplacementPlugin(/^(fs|vm|path|module|child_process)$/, (resource) => {
+        if (/coffee-script/.test(resource.context || '')) {
+          resource.request = path.resolve(__dirname, `app/lib/node-mocks/${resource.request}`)
+        }
+      }),
       new webpack.IgnorePlugin({ resourceRegExp: /.DS_Store$/ }),
       new webpack.IgnorePlugin({ contextRegExp: /blockly\/msg/, resourceRegExp: /.d\.ts$/ }),
 

@@ -426,6 +426,8 @@ me.RewardSchema = function (descriptionFragment) {
       levels: me.array({ uniqueItems: true, description: `Levels ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/level/{($)}/version' }], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference' })),
       gems: me.float({ description: `Gems ${descriptionFragment}.` }),
+      achievements: me.array({ description: `Achievement references ${descriptionFragment}.` },
+        me.stringID({ title: 'Achievement', description: 'A reference to an earned achievement.', format: 'achievement' })),
     },
   }
 }

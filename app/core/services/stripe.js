@@ -17,7 +17,7 @@ if (me.isAnonymous()) {
   module.exports.makeNewInstance = _.clone(module.exports)
 } else if ((typeof StripeCheckout === 'undefined' || StripeCheckout === null)) {
   module.exports = {}
-  console.log('Failure loading StripeCheckout API, returning empty object.')
+  // 内部部署无 StripeCheckout，静默（原 console.log 每次加载都打一条噪音）
 } else {
   const makeNewInstance = function () {
     var handler = StripeCheckout.configure({

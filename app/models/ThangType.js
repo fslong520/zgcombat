@@ -554,7 +554,7 @@ module.exports = (ThangType = (function () {
       let itemConfig, stat, value
       const components = this.get('components') || []
       if (!(itemConfig = __guard__(_.find(components, { original: LevelComponent.ItemID }), x => x.config))) {
-        console.warn(this.get('name'), 'is not an item, but you are asking for its stats.')
+        // 非物品 thangType（宠物/法术/Generic Item 等）被背包排序遍历是正常情况，静默返回
         return { props: [], stats: {} }
       }
       const stats = {}
