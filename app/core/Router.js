@@ -710,7 +710,7 @@ module.exports = (CocoRouter = (function () {
         view.render()
 
         if (window.alreadyLoadedView) {
-          console.log('Need to merge view')
+          // console.log('Need to merge view')  # 内部部署静音
           delete window.alreadyLoadedView
           this.mergeView(view)
         } else {

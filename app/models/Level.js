@@ -274,14 +274,14 @@ module.exports = (Level = (function () {
               const playerItemRequiredPropertiesForSlot = _.intersection(playerItemProperties, requiredPropertiesForSlot)
               if (playerItemRequiredPropertiesForSlot.length === 0 && playerItemRequiredPropertiesForSlot.length < requiredPropertiesForSlot.length) {
                 // Player's item does not cover required properties, so equip the default item
-                console.log(`Auto-equipping default item ${defaultItemOriginal} ${defaultItemThangType.get('name')} in slot ${slot} to get required properties ${requiredPropertiesForSlot} out of requiredProperties ${requiredProperties}, because player item ${playerItemOriginal} ${playerItemThangType?.get('name')} only has properties ${playerItemProperties}`)
+                // console.log(`Auto-equipping default item ${defaultItemOriginal}...`)  # 内部部署静音
                 inventory[slot] = defaultItemOriginal
               } else if (requiredGear?.length && !playerItemOriginal) {
                 // Player's item does not exist, so equip the default item. (Note that we do let them play with different items equipped in the slot.)
-                console.log(`Auto-equipping default item ${defaultItemOriginal} in slot ${slot} because player has no item equipped there and a required item is there`)
+                // console.log(`Auto-equipping default item ${defaultItemOriginal}...`)  # 内部部署静音
                 inventory[slot] = defaultItemOriginal
               } else if (restrictedGear?.length && restrictedGear.includes(playerItemOriginal)) {
-                console.log(`Auto-equipping default item ${defaultItemOriginal} ${defaultItemThangType.get('name')} in slot ${slot} because player item ${playerItemOriginal} ${playerItemThangType?.get('name')} is in restricted list`)
+                // console.log(`Auto-equipping default item ${defaultItemOriginal}...`)  # 内部部署静音
                 inventory[slot] = defaultItemOriginal
               }
             }

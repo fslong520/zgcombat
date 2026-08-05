@@ -304,7 +304,7 @@ module.exports = class PlayLevelView extends RootView
     return if @isEditorPreview
     @loadEndTime = new Date()
     @loadDuration = @loadEndTime - @loadStartTime
-    console.debug "Level unveiled after #{(@loadDuration / 1000).toFixed(2)}s"
+    # console.debug "Level unveiled after #{(@loadDuration / 1000).toFixed(2)}s"  # 内部部署静音
     unless @observing or @isEditorPreview
       application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: @loadDuration
       application.tracker?.trackTiming @loadDuration, 'Level Load Time', @levelID, @levelID

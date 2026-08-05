@@ -647,7 +647,7 @@ module.exports = class World
     firstChangedFrame = i
     if @frames.length is @totalFrames
       if @frames[i]
-        console.log 'First changed frame is', firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
+        # console.log 'First changed frame is', ...  # 内部部署静音
       else
         console.log 'No frames were changed out of all', @frames.length
     firstChangedFrame

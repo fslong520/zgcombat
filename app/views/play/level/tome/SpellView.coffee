@@ -1149,7 +1149,7 @@ module.exports = class SpellView extends CocoView
         @updateAether true, false
         if @spell.language in ['cpp', 'java']
           a = @spell.thang?.aether
-          console.log '[C++/Java] transpiled; hasAST=', Boolean(a?.ast), 'raw=', (a?.raw or '').slice(0, 40), 'cast=', cast, 'tokenLen=', (source or '').length
+          # console.log '[C++/Java] transpiled; ...'  # 内部部署静音
       if cast  #and (hasChanged or realTime)  # just always cast now
         if result?.then
           result.then => @cast(false, realTime, false, cinematic)

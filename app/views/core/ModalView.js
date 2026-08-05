@@ -95,9 +95,9 @@ module.exports = (ModalView = (function () {
       }
       try {
         this.focusTrap?.activate()
-        console.log(this.constructor?.name, 'trapping focus within modal')
+        // console.log(this.constructor?.name, 'trapping focus within modal')  # 内部部署静音
       } catch (e) {
-        console.log(this.constructor?.name, 'not trapping focus for modal with no focusable elements')
+        // console.log(this.constructor?.name, 'not trapping focus...')  # 内部部署静音
       }
     }
 

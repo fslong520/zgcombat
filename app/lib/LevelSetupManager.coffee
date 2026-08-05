@@ -19,10 +19,10 @@ module.exports = class LevelSetupManager extends CocoClass
     unless @level = @options.level
       @loadLevel()
     if @session
-      console.log 'LevelSetupManager given preloaded session:', @session.cid
+      # console.log 'LevelSetupManager given preloaded session:', @session.cid  # 内部部署静音
       @fillSessionWithDefaults()
     else
-      console.log 'LevelSetupManager given no preloaded session.'
+      # console.log 'LevelSetupManager given no preloaded session.'  # 内部部署静音
       @loadSession()
 
   loadLevel: ->

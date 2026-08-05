@@ -209,9 +209,8 @@ var setUpBackboneMediator = function (app) {
 
         return originalPublish.apply(Backbone.Mediator, arguments)
       }
-    } else {
-      return console.log("Not logging Backbone events. Turn on by typing this in your browser console: window.sessionStorage.setItem('COCO_DEBUG_LOGGING', 1)")
     }
+    // 未开 COCO_DEBUG_LOGGING 时不打提示（原 console.log 每次加载刷屏）
   }
 }
 

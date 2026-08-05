@@ -32,7 +32,11 @@ Object.defineProperties(module.exports, {
         return Promise.resolve()
       }
 
-      console.log('Loading locale:', langCode)
+      // 幂等：已加载过不再重复加载/打日志
+      if (this._loadedLanguageCodes == null) { this._loadedLanguageCodes = {} }
+      if (this._loadedLanguageCodes[langCode]) { return Promise.resolve() }
+      this._loadedLanguageCodes[langCode] = true
+
       const promises = [
         new Promise((resolve, reject) => require('bundle-loader?lazy&name=[name]!locale/' + langCode)(localeData => resolve(localeData))).then(localeData => {
           return this.storeLoadedLanguage(langCode, localeData)
