@@ -338,6 +338,50 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       return res.status(200).json([]);
     }
   });
+  // 关卡保存（编辑器）：PUT /db/level/:id —— 仅管理员可写
+  function isAdminUser(req) {
+    const uid = req.cookies && req.cookies.zg_userId;
+    if (!uid || !/^[a-f0-9]{24}$/i.test(uid) || !cocoDb) { return Promise.resolve(false); }
+    return cocoDb.collection('users').findOne({ _id: new ObjectId(uid) })
+      .then(function(u) {
+        return !!(u && Array.isArray(u.permissions) && u.permissions.indexOf('admin') !== -1);
+      })
+      .catch(function() { return false; });
+  }
+  app.put('/db/level/:id', express.json({ limit: '50mb', strict: false }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    isAdminUser(req).then(function (ok) {
+      if (!ok) { return res.status(403).json({ message: 'Forbidden' }); }
+      const id = req.params.id;
+      if (!/^[a-f0-9]{24}$/i.test(id)) { return res.status(200).json({}); }
+      const oid = new ObjectId(id);
+      const doc = req.body || {};
+      delete doc._id; // MongoDB 不允许 $set 修改 _id
+      // 关卡族模型：确保 original / version 存在
+      doc.original = doc.original || id;
+      if (!doc.version) { doc.version = { isLatestMinor: true, isLatestMajor: true, minor: 1, major: 0 }; }
+      cocoDb.collection('levels').updateOne({ _id: oid }, { $set: doc }, { upsert: true })
+        .then(function() { return cocoDb.collection('levels').findOne({ _id: oid }); })
+        .then(function(saved) { return res.status(200).json(saved || {}); })
+        .catch(function(e) { console.error('[db] /db/level PUT error', e.message); return res.status(200).json({}); });
+    });
+  });
+  // 创建新关卡：POST /db/level —— 仅管理员
+  app.post('/db/level', express.json({ limit: '50mb', strict: false }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    isAdminUser(req).then(function (ok) {
+      if (!ok) { return res.status(403).json({ message: 'Forbidden' }); }
+      const doc = req.body || {};
+      delete doc._id;
+      if (!doc.original) { doc.original = doc._id || null; }
+      if (!doc.version) { doc.version = { isLatestMinor: true, isLatestMajor: true, minor: 1, major: 0 }; }
+      if (!doc.created) { doc.created = new Date(); }
+      cocoDb.collection('levels').insertOne(doc)
+        .then(function(r) { return cocoDb.collection('levels').findOne({ _id: r.insertedId }); })
+        .then(function(saved) { return res.status(200).json(saved || {}); })
+        .catch(function(e) { console.error('[db] /db/level POST error', e.message); return res.status(200).json({}); });
+    });
+  });
   app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
     // 同 PUT 逻辑：仅更新请求体字段，剥离奖励累计字段，默认值仅在新建时应用
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
