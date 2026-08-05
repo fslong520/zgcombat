@@ -422,6 +422,50 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       return res.status(200).json({});
     });
   });
+  // 购买（装备/英雄）：POST /db/purchase —— 校验宝石、扣款、记录 purchased、写 purchases。
+  // 原版由 server 处理；本部署此前走 /db/* 兜底（假保存），导致购买不落库。
+  app.post('/db/purchase', express.json({ limit: '10mb', strict: false }), async function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const uid = req.cookies && req.cookies.zg_userId;
+    if (!uid || !/^[a-f0-9]{24}$/i.test(uid)) { return res.status(401).json({ message: 'Not logged in' }); }
+    const body = req.body || {};
+    const original = body.purchased && body.purchased.original;
+    if (!original) { return res.status(400).json({ message: 'No item specified' }); }
+    try {
+      const oid = new ObjectId(uid);
+      const lookups = [];
+      if (/^[a-f0-9]{24}$/i.test(original)) {
+        lookups.push({ _id: new ObjectId(original) });
+        // thangType 的 original 字段是 ObjectId，JSON 序列化后为 hex 字符串
+        lookups.push({ original: new ObjectId(original) });
+      }
+      lookups.push({ original: original });
+      const item = await cocoDb.collection('thang.types').findOne({ $or: lookups });
+      if (!item) { return res.status(404).json({ message: 'Item not found' }); }
+      const cost = item.gems || 0;
+      if (cost <= 0) { return res.status(400).json({ message: 'Item has no price' }); }
+      const user = await cocoDb.collection('users').findOne({ _id: oid });
+      if (!user) { return res.status(404).json({ message: 'User not found' }); }
+      const gemsEarned = (user.earned && user.earned.gems) || 0;
+      const gemsPurchased = (user.purchased && user.purchased.gems) || 0;
+      const spent = user.spent || 0;
+      const available = gemsEarned + gemsPurchased - spent;
+      if (available < cost) { return res.status(402).json({ message: 'Not enough gems' }); }
+      const isHero = item.kind === 'Hero';
+      const purchased = Object.assign({ heroes: [], items: [], levels: [], gems: 0 }, user.purchased || {});
+      const list = isHero ? 'heroes' : 'items';
+      if (!Array.isArray(purchased[list])) { purchased[list] = []; }
+      const itemRef = String(item.original || item._id);
+      if (purchased[list].indexOf(itemRef) === -1) { purchased[list].push(itemRef); }
+      const newSpent = spent + cost;
+      await cocoDb.collection('users').updateOne({ _id: oid }, { $set: { spent: newSpent, purchased: purchased } });
+      await cocoDb.collection('purchases').insertOne(Object.assign({}, body, { recipient: uid, purchaser: uid, created: new Date() }));
+      return res.status(200).json({ purchased: purchased, spent: newSpent });
+    } catch (e) {
+      console.error('[db] /db/purchase error', e && e.message);
+      return res.status(200).json({});
+    }
+  });
   // CocoModel.pollAchievements → GET /db/user/<id>/achievements?notified=false
   // Must return [] (collection), never 404, or console screams
   // "Miserably failed to fetch unnotified achievements".
