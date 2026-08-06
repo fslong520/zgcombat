@@ -118,7 +118,7 @@ module.exports = (BasicInfoView = (function () {
 
     afterRender () {
       this.$el.find('#first-name-input').focus()
-      if (!me.showChinaRegistration()) {
+      if (!me.showChinaRegistration() && (application.gplusHandler != null)) {
         // Load the Google Identity script, then eagerly mount the official GSI
         // button (replacing the styled placeholder row via .gsi-mount CSS) with
         // the full sign-up success chain registered. GIS offers no reliable way

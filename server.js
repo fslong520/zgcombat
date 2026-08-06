@@ -108,6 +108,12 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.post('/auth/login', express.json(), function(req, res) {
     const username = (req.body && req.body.username) || '';
     const password = (req.body && req.body.password) || '';
+    // 空凭据一律拒绝：$or 查询的空正则 /^$/ 会匹配 email/name 为空的存量用户
+    // （如 fslong email 为空且是 admin），导致空表单登录直通管理员账户。
+    if (!username || !password) {
+      console.log('[login] empty-credentials rejected body=' + JSON.stringify(req.body).slice(0,200));
+      return res.status(401).json({ errorID: 'not-found' });
+    }
     console.log('[login] attempt user=' + username + ' body=' + JSON.stringify(req.body).slice(0,200));
     if (!cocoDb) { console.log('[login] no db'); return res.status(401).json({ errorID: 'unknown' }); }
     const escaped = username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -219,6 +225,13 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
+      // 占位全零 id（0000...）是匿名游客保留值：仅当登录 cookie 指向该 id 时才视为
+      // 真实用户；否则一律按游客处理。库中曾存在全零 _id 的真实用户（SYH0405），
+      // 游客 GET /db/user/000000000000000000000000 会命中它，导致匿名玩家被误判为
+      // 已登录并显示该用户姓名（孙意涵）。
+      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+        return res.status(200).json(anonymousUser);
+      }
       cocoDb.collection('users').findOne({ _id: new ObjectId(id) })
         .then(function (u) { return res.status(200).json(u || anonymousUser); })
         .catch(function () { return res.status(200).json(anonymousUser); });
@@ -323,6 +336,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
+      // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则游客写库会命中/污染
+      // 库中遗留的全零 _id 用户（SYH0405），并使其 anonymous 被强制置 false。
+      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+        return res.status(200).json(anonymousUser);
+      }
       const oid = new ObjectId(id);
       const setData = stripProtectedUserFields(req.body);
       setData.anonymous = false;
@@ -386,6 +404,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
+      // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则按游客拦截，不落库。
+      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+        return res.status(200).json(anonymousUser);
+      }
       const oid = new ObjectId(id);
       const setData = stripProtectedUserFields(req.body);
       setData.anonymous = false;
@@ -420,6 +442,52 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       console.error('[db] user create error', err && err.message);
       return res.status(200).json({});
     });
+  });
+  // 注册：POST /db/user/<id>/signup-with-password —— 前端 BasicInfoView 走 me.signupWithPassword。
+  // 此前该路由缺失，请求落入 /db/* 兜底返回 {}，导致「注册假成功」：库里从未建户，
+  // 之后登录必失败，且空表单登录还会误入 email 为空的存量账户（见 /auth/login 守卫）。
+  // 此处真实创建用户（正常 ObjectId，非占位全零），并直接下发登录 cookie。
+  app.post('/db/user/:id/signup-with-password', express.json({ limit: '25mb', strict: false }), async function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const body = req.body || {};
+    const name = String(body.name || '').trim();
+    const password = String(body.password || '');
+    const email = String(body.email || '').trim();
+    if (!name || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+    }
+    const esc = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+    const orClauses = [{ name: { $regex: '^' + esc(name) + '$', $options: 'i' } }];
+    if (email) { orClauses.push({ email: { $regex: '^' + esc(email) + '$', $options: 'i' } }); }
+    try {
+      const exists = await cocoDb.collection('users').findOne({ $or: orClauses });
+      if (exists) {
+        console.log('[db] signup name/email conflict for ' + name);
+        return res.status(409).json({ message: 'That username or email is already in use' });
+      }
+      const doc = Object.assign({
+        anonymous: false,
+        name: name,
+        email: email,
+        password: password,
+        points: 0,
+        earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
+        purchased: { heroes: [], items: [], levels: [], gems: 0 },
+        gems: 0,
+        spent: 0,
+        dateCreated: new Date().toISOString(),
+        preferredLanguage: 'zh-HANS'
+      }, body);
+      delete doc._id; // 不允许请求体覆盖自动 ObjectId
+      const result = await cocoDb.collection('users').insertOne(doc);
+      const created = await cocoDb.collection('users').findOne({ _id: result.insertedId });
+      console.log('[db] signup created: ' + name + ' ' + result.insertedId.toString());
+      res.cookie('zg_userId', result.insertedId.toString(), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
+      return res.status(200).json(created);
+    } catch (e) {
+      console.error('[db] signup-with-password error', e && e.message);
+      return res.status(200).json({});
+    }
   });
   // 购买（装备/英雄）：POST /db/purchase —— 校验宝石、扣款、记录 purchased、写 purchases。
   // 原版由 server 处理；本部署此前走 /db/* 兜底（假保存），导致购买不落库。

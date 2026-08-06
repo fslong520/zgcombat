@@ -78,10 +78,22 @@ javaCppToJS = (source, language) ->
     blockComments.push m
     "/*BLOCK_COMMENT_#{blockComments.length-1}*/"
 
-  # --- 2.5 C++ 行注释用 //；部分关卡初始代码用 #（Python 风格），# 在 C++ 是
+  # --- 2.5 C++ 行注释用 //；部分关卡初始代码/玩家代码用 #（Python 风格），# 在 C++ 是
   # 预处理指令，会报 "invalid preprocessing directive" 之类错误。把 # 行注释
-  # （#include/#define 等预处理保留）转成 //。块注释已占位，不受影响。
-  s = s.replace /^#\s+([^\n]*)$/gm, '// $1'
+  # （#include/#define/#if/#ifdef/#ifndef/#else/#elif/#endif/#undef/#pragma 等预处理保留）
+  # 转成 //。块注释已占位，不受影响。旧正则只匹配行首无缩进的 "# 注释"：
+  # 块内（while/if 等缩进区域）的 "# 注释"、# 后无空格的 "#注释"、以及语句后的
+  # 行内 "# 注释" 都会漏网 → 转 JS 后残留裸 # → esprima 报 SyntaxError。
+  # 新正则保留缩进、放行预处理指令；字符串字面量先占位，避免误伤 "a # b"。
+  strings = []
+  s = s.replace /"(?:[^"\n\\]|\\.)*"|'(?:[^'\n\\]|\\.)*'/g, (m) ->
+    strings.push m
+    "STRING_#{strings.length-1}"
+  preprocessorDirectives = ['include', 'define', 'undef', 'if', 'ifdef', 'ifndef', 'else', 'elif', 'endif', 'error', 'pragma', 'line', 'import', 'using', 'once', 'warning']
+  s = s.replace /^(\s*)#\s*(\w+)?\s*([^\n]*)$/gm, (m, ws, kw, rest) ->
+    if kw and kw in preprocessorDirectives then m else "#{ws}// #{rest.trim()}"
+  s = s.replace /([^#\w'"])\s*#\s+([^\n]*?)\s*$/gm, (m, pre, comment) ->
+    "#{pre} // #{comment}"
 
   # --- 3. 去掉 main/类包裹的声明前缀，但保留其 { } 配对（JS 顶层块合法，
   # 且 getFunctionBody 会提取块内代码；若删开括号而误删循环的 } 会致 JS 缺括号报错） ---
@@ -160,6 +172,8 @@ javaCppToJS = (source, language) ->
 
   # --- 11. 恢复块注释 ---
   s = s.replace /\/\*BLOCK_COMMENT_(\d+)\*\//g, (m, idx) -> blockComments[parseInt idx] or m
+  # 恢复字符串字面量（2.5 步占位，防 # 注释转换误伤 "a # b" 之类）
+  s = s.replace /STRING_(\d+)/g, (m, idx) -> strings[parseInt idx] or m
 
   # --- 12. 压缩多余空行 ---
   s = s.replace /\n{4,}/g, '\n\n\n'

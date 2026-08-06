@@ -262,9 +262,14 @@ module.exports = (CreateAccountModal = (function () {
       this.insertSubView(new ConfirmationView({ signupState: this.signupState }))
 
       if (me.useSocialSignOn()) {
-        // TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-        application.facebookHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ facebookEnabled: true }) } } })
-        application.gplusHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ gplusEnabled: true }) } } })
+        // Handlers may be absent on internal deployments that removed social sign-on
+        if (application.facebookHandler != null) {
+          // TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+          application.facebookHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ facebookEnabled: true }) } } })
+        }
+        if (application.gplusHandler != null) {
+          application.gplusHandler.loadAPI({ success: () => { if (!this.destroyed) { return this.signupState.set({ gplusEnabled: true }) } } })
+        }
       }
 
       this.once('hidden', function () {
