@@ -23,7 +23,7 @@ module.exports = (OptionsView = (function () {
       this.prototype.template = template
       this.prototype.aceConfig = {}
       this.prototype.defaultConfig = {
-        language: 'python',
+        language: 'cpp',
         keyBindings: 'default',
         behaviors: false,
         liveCompletion: true
