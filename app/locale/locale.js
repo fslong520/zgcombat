@@ -33,7 +33,11 @@ Object.defineProperties(module.exports, {
       }
 
       // 幂等：已加载过不再重复加载/打日志
-      if (this._loadedLanguageCodes == null) { this._loadedLanguageCodes = {} }
+      // 用不可枚举属性存状态，否则会出现在 Object.keys(locale) 里，
+      // 被语言下拉的 for...in 遍历成一个 "undefined" 选项。
+      if (this._loadedLanguageCodes == null) {
+        Object.defineProperty(this, '_loadedLanguageCodes', { value: {}, writable: true, configurable: true })
+      }
       if (this._loadedLanguageCodes[langCode]) { return Promise.resolve() }
       this._loadedLanguageCodes[langCode] = true
 
