@@ -62,7 +62,6 @@ const GameMenuModal = require('views/play/menu/GameMenuModal')
 const TutorialPlayView = require('./TutorialPlayView').default
 const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
 const ScreenReaderSurfaceView = require('app/views/play/level/ScreenReaderSurfaceView')
-const AskAIHelpView = require('views/play/level/AskAIHelpView').default
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -1666,10 +1665,6 @@ class PlayLevelView extends RootView {
     window.Backbone.Mediator.publish('level:close-solution', {})
   }
 
-  onClickAIHint () {
-    this.openModalView(new AskAIHelpView({}))
-  }
-
   onSpellChanged () {
     // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
     // time, the code has not actually changed, but it is being built.
@@ -1774,7 +1769,6 @@ PlayLevelView.prototype.subscriptions = {
   'tome:spell-changed': 'onSpellChanged',
   'tome:update-aether-running': 'updateAetherRunning',
   'world:update-key-value-db': 'updateKeyValueDb',
-  'level:click-ai-hint': 'onClickAIHint'
 }
 
 PlayLevelView.prototype.events = {

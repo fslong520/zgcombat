@@ -1744,19 +1744,6 @@ const getUserTimeZone = function (user) {
   }
 }
 
-const shouldShowAiBotHelp = function (aceConfig) {
-  if (aceConfig.levelChat !== 'none') {
-    if (me.isAdmin()) {
-      return true
-    } else if (me.isHomeUser() && me.shouldShowLevelAIChat()) {
-      return true
-    } else if (!me.isHomeUser()) {
-      return true
-    }
-  }
-  return false
-}
-
 const isMobile = () => {
   // First try the modern way - navigator.userAgentData
   if (navigator.userAgentData?.mobile !== undefined) {
@@ -2058,7 +2045,6 @@ module.exports = {
   sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
-  shouldShowAiBotHelp,
   teamSpells,
   titleize,
   usStateCodes,

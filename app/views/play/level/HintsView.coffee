@@ -6,7 +6,6 @@ aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
 userUtils = require 'app/lib/user-utils'
 globalVar = require 'core/globalVar'
-AskAIHelpView = require('views/play/level/AskAIHelpView').default
 
 
 module.exports = class HintsView extends CocoView
@@ -18,7 +17,6 @@ module.exports = class HintsView extends CocoView
     'click .next-btn': 'onClickNextButton'
     'click .previous-btn': 'onClickPreviousButton'
     'click .close-hint-btn': 'hideView'
-    'click .ai-help-button': 'onAIHelpClicked'
 
   subscriptions:
     'level:show-victory': 'hideView'
@@ -43,7 +41,6 @@ module.exports = class HintsView extends CocoView
     unless globalVar.userCreditsMessage
       globalVar.userCredtisMessage = ''
     @creditMessage = globalVar.userCreditsMessage
-    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     clearInterval(@timerIntervalID)
@@ -142,12 +139,3 @@ module.exports = class HintsView extends CocoView
       @state.set('hintsUsed', hintsUsed)
       clearInterval(@timerIntervalID)
     @state.set('hintsViewTime', hintsViewTime)
-
-  onAIHelpClicked: (e) ->
-    # Close hints view before opening AI Help modal to prevent overlapping
-    @hideView()
-    @openModalView(new AskAIHelpView({
-      propsData: {
-        aiChatKind: (@options.level?.get('aiChatKind')) or 'level-chat',
-      },
-    }))

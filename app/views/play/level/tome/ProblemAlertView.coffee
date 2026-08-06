@@ -3,7 +3,6 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 userUtils = require 'app/lib/user-utils'
-{ shouldShowAiBotHelp } = require 'app/core/utils'
 globalVar = require 'core/globalVar'
 
 module.exports = class ProblemAlertView extends CocoView
@@ -42,7 +41,6 @@ module.exports = class ProblemAlertView extends CocoView
   events:
     'click .close': 'onRemoveClicked'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
-    'click .ai-help-button': 'onAIHelpClicked'
 
   constructor: (options) ->
     @supermodel = options.supermodel # Has to go before super so events are hooked up
@@ -60,7 +58,6 @@ module.exports = class ProblemAlertView extends CocoView
     unless globalVar.userCreditsMessage
       globalVar.userCredtisMessage = ''
     @creditMessage = globalVar.userCreditsMessage
-    @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -128,12 +125,6 @@ module.exports = class ProblemAlertView extends CocoView
     @playSound 'menu-button-click'
     @$el.hide()
     Backbone.Mediator.publish 'tome:focus-editor', {}
-
-  onAIHelpClicked: (e) ->
-    rand = _.random(1, 13)
-    message = $.i18n.t('ai.prompt_level_chat_' + rand)
-    Backbone.Mediator.publish 'level:add-user-chat', { message }
-    _.delay (=> @handleUserCreditsMessage()), 5000
 
   onWindowResize: (e) =>
     return unless @problem

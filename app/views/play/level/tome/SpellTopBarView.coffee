@@ -5,7 +5,6 @@ CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
-AskAIHelpView = require('views/play/level/AskAIHelpView').default
 store = require 'core/store'
 globalVar = require 'core/globalVar'
 
@@ -35,7 +34,6 @@ module.exports = class SpellTopBarView extends CocoView
     'click #switch-team': 'onSwitchTeam'
     'click .toggle-blocks': 'onToggleBlocks'
     'click #ask-teacher-for-help': 'onClickHelpButton'
-    'click .spell-chatbot-hint': 'onClickHintButton'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -177,10 +175,3 @@ module.exports = class SpellTopBarView extends CocoView
 
   destroy: ->
     super()
-
-  onClickHintButton: ->
-    @openModalView(new AskAIHelpView({
-      propsData: {
-        aiChatKind: (@options.level?.get('aiChatKind')) or 'level-chat'
-      }
-    }))

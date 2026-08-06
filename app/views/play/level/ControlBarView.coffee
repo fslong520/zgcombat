@@ -14,7 +14,6 @@ CourseInstance = require 'models/CourseInstance'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 CreateAccountModal = require 'views/core/CreateAccountModal'
-AskAIHelpView = require('views/play/level/AskAIHelpView').default
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -35,7 +34,6 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click .hints-button': 'onClickHintsButton'
-    'click .ai-help-button': 'onClickAIHelp'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -53,7 +51,6 @@ module.exports = class ControlBarView extends CocoView
     @product = @level.attributes.product
     @lastOverallStatus = null
     @aceConfig = options.classroomAceConfig or {}
-    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
     exam = userUtils.getStorageExam()
     if exam
@@ -197,13 +194,6 @@ module.exports = class ControlBarView extends CocoView
     Backbone.Mediator.publish 'level:hints-button', {state: @options.hintsState.get('hidden')}
     @options.hintsState.set('hidden', not @options.hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @levelSlug, hintCount: @options.hintsState.get('hints')?.length ? 0
-
-  onClickAIHelp: ->
-    @openModalView(new AskAIHelpView({
-      propsData: {
-        aiChatKind: @level.get('aiChatKind')
-      }
-    }))
 
   onOverallStatusChanged: (e) ->
     return if e?.overallStatus == @lastOverallStatus 

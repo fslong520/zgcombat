@@ -11,7 +11,6 @@ const template = require('app/templates/play/menu/my-code-view')
 const { me } = require('core/auth')
 
 const ReloadLevelModal = require('views/play/level/modal/ReloadLevelModal')
-const AskAIHelpView = require('views/play/level/AskAIHelpView').default
 const ImageGalleryModal = require('views/play/level/modal/ImageGalleryModal')
 const utils = require('core/utils')
 const store = require('core/store')
@@ -27,7 +26,6 @@ module.exports = (MyCodeView = (function () {
       this.prototype.events = {
         'click .reload-code': 'onClickReloadCode',
         'click .beautify-code': 'onClickBeautifyCode',
-        'click .ai-hint': 'onClickAIHint',
         'click .teacher-help': 'onClickTeacherHelp',
         'click .image-gallery': 'onClickImageGallery',
         'click .toggle-solution': 'onClickToggleSolution',
@@ -40,7 +38,6 @@ module.exports = (MyCodeView = (function () {
       super(options)
       this.wsBus = globalVar.application.wsBus
       this.teaching = utils.getQueryVariable('teaching')
-      this.askAiBot = options.classroomAceConfig?.levelChat !== 'none'
     }
 
     getRenderData (c) {
@@ -67,14 +64,6 @@ module.exports = (MyCodeView = (function () {
 
     onClickBeautifyCode (e) {
       return Backbone.Mediator.publish('tome:spell-beautify', {})
-    }
-
-    onClickAIHint (e) {
-      this.openModalView(new AskAIHelpView({
-        propsData: {
-          aiChatKind: this.options.level?.get('aiChatKind') || 'level-chat',
-        },
-      }))
     }
 
     onClickTeacherHelp (e) {

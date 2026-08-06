@@ -27,7 +27,6 @@ module.exports = class ProblemAlertView extends CocoView
   events:
     'click .close': 'onRemoveClicked'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
-    'click .ai-help-button': 'onAIHelpClicked'
 
   constructor: (options) ->
     @supermodel = options.supermodel # Has to go before super so events are hooked up
@@ -43,14 +42,6 @@ module.exports = class ProblemAlertView extends CocoView
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
     @creditMessage = ''
-    @showAiBotHelp = false
-    if @aceConfig.levelChat != 'none'
-      if me.isHomeUser() && me.shouldShowLevelAIChat()
-        @showAiBotHelp = true
-      else if me.isTeacher()
-        @showAiBotHelp = true
-      else if me.isStudent()
-        @showAiBotHelp = @aceConfig.levelChat and @aceConfig.levelChat != 'none' and typeof @aceConfig.levelChat == 'string'
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -121,12 +112,6 @@ module.exports = class ProblemAlertView extends CocoView
     @playSound 'menu-button-click'
     @$el.hide()
     Backbone.Mediator.publish 'tome:focus-editor', {}
-
-  onAIHelpClicked: (e) ->
-    rand = _.random(1, 13)
-    message = $.i18n.t('ai.prompt_level_chat_' + rand)
-    Backbone.Mediator.publish 'level:add-user-chat', { message }
-    _.delay (=> @handleUserCreditsMessage()), 5000
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

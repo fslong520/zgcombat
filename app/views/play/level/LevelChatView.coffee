@@ -9,7 +9,6 @@ fetchJson = require 'core/api/fetch-json'
 co = require 'co'
 userCreditApi = require 'core/api/user-credits'
 SubscribeModal = require 'views/core/SubscribeModal'
-AskAIHelpView = require('views/play/level/AskAIHelpView').default
 _ = require('lodash')
 
 module.exports = class LevelChatView extends CocoView
@@ -21,7 +20,6 @@ module.exports = class LevelChatView extends CocoView
   events:
     'keydown textarea': 'onChatKeydown'
     'keypress textarea': 'onChatKeypress'
-    'click .ai-helper-chat-icon': 'onAIHelperChatClick'
     'click .close-level-chat': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
@@ -72,7 +70,6 @@ module.exports = class LevelChatView extends CocoView
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
-    @$('.ai-helper-chat-icon').toggle @visible
     @onWindowResize {}
 
   regularlyClearOldMessages: ->
@@ -220,15 +217,7 @@ module.exports = class LevelChatView extends CocoView
     return false
 
   onAIHelperChatClick: (e) ->
-    # Check if chat has any messages
-    hasMessages = @chatMessages?.length > 0 or @$('.message-row').length > 0
-
-    # Show AI Hint modal only if chat is empty and not open
-    if not @open and not hasMessages
-      @openModalView(new AskAIHelpView({propsData: {aiChatKind: @aiChatKind}}))
-      return
-
-    # Otherwise, just toggle the chat open/closed
+    # Toggle the chat open/closed
     @open = not @open
     openPanel = @$('.open-chat-area', @$el).toggleClass('secret', not @open)
     closedPanel = @$('.closed-chat-area', @$el).toggle not @open
