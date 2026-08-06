@@ -978,7 +978,7 @@ module.exports = class SpellView extends CocoView
     if /\S/.test lastLine
       cursorPosition = @ace.getCursorPosition()
       wasAtEnd = cursorPosition.row is lineCount - 1 and cursorPosition.column is lastLine.length
-      @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
+      @aceDoc.insertMergedLines({ row: lineCount, column: 0 }, ['', ''])  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
       # Force the popup back
