@@ -54,7 +54,7 @@ module.exports = (LadderPlayModal = (function () {
       this.wizardType = ThangType.loadUniversalWizard()
       this.startLoadingChallengersMaybe()
       this.levelID = this.level.get('slug') || this.level.id
-      this.language = (left = (left1 = this.session?.get('codeLanguage')) != null ? left1 : me.get('aceConfig')?.language) != null ? left : 'python'
+      this.language = (left = (left1 = this.session?.get('codeLanguage')) != null ? left1 : me.get('aceConfig')?.language) != null ? left : 'cpp'
       this.languages = [
         { id: 'python', name: 'Python' },
         { id: 'javascript', name: 'JavaScript' },

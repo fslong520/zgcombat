@@ -9,6 +9,7 @@ require('coffee-script/register');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 const smp = new SpeedMeasurePlugin({
   disable: !process.env.MEASURE
@@ -41,7 +42,11 @@ module.exports = (env) => {
   devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   mode: 'production',
   optimization: {
-    // check if we need to manually mention terser or webpack prod mode does it by default
+    // 14G 内存机器上默认 TerserPlugin parallel(16 worker) 压缩阶段内存峰值过高会 OOM，
+    // 显式限制 worker 数为 2，牺牲构建速度换取稳定。
+    minimizer: [
+      new TerserPlugin({ parallel: 2 })
+    ]
   },
   plugins: baseConfig.plugins
     .concat(commonsPlugins)

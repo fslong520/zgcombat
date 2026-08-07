@@ -48,8 +48,8 @@ export default Vue.extend({
   position: relative;
 
   background: white;
-  background: url(/images/ozaria/modal/encouragement-modal/SpritLandReveal_Gradient.png) left bottom no-repeat, url(/images/ozaria/modal/encouragement-modal/Hero.png) left bottom no-repeat; /* Fallback */
-  background: url(/images/ozaria/modal/encouragement-modal/Hero.png) 22px bottom no-repeat, url(/images/ozaria/modal/encouragement-modal/SpritLandReveal_Gradient.png) left bottom no-repeat, linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%);
+  background: url(/images/ozaria/modal/encouragement-modal/SpritLandReveal_Gradient.webp) left bottom no-repeat, url(/images/ozaria/modal/encouragement-modal/Hero.png) left bottom no-repeat; /* Fallback */
+  background: url(/images/ozaria/modal/encouragement-modal/Hero.png) 22px bottom no-repeat, url(/images/ozaria/modal/encouragement-modal/SpritLandReveal_Gradient.webp) left bottom no-repeat, linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%);
 
 }
 

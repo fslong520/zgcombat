@@ -326,7 +326,7 @@ module.exports = class LevelLoader extends CocoClass
       session.set 'code', code
       session.unset 'interpret'
     if session.get('codeLanguage') in ['io', 'clojure']
-      session.set 'codeLanguage', 'python'
+      session.set 'codeLanguage', 'cpp'
     if session is @session
       @addSessionBrowserInfo session
       # hero-ladder games require the correct session team in level:loaded

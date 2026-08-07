@@ -113,10 +113,10 @@ $primary-color: #4DECF0;
 $primary-background: #31636F;
 
 .section {
-  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.webp) 0px -400px / 120% no-repeat, #021e27;
 
   @media (max-width: 768px) {
-    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat, #021e27;
+    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.webp) center -200px / 250% no-repeat, #021e27;
   }
 }
 
@@ -152,7 +152,7 @@ $primary-background: #31636F;
 }
 
 .background {
-  background-image: url('/images/pages/league/v2/compete-background.png');
+  background-image: url('/images/pages/league/v2/compete-background.webp');
   width: 100vw;
 
   background-size: 800px;

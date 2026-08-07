@@ -235,7 +235,7 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
-  currentLanguage = language or me.get('aceConfig')?.language or 'python'
+  currentLanguage = language or me.get('aceConfig')?.language or 'cpp'
   excludeCpp = 'cpp'
   unless /```cpp\n[^`]+```\n?/.test text
     excludeCpp = 'javascript'

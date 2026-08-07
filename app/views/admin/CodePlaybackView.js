@@ -51,7 +51,7 @@ module.exports = (CodePlaybackView = (function () {
     afterRender () {
       if (this.options.events == null) { return }
       const initialSource = this.options.events[0].difContent
-      let codeLanguageGuess = 'python'
+      let codeLanguageGuess = 'cpp'
       if (/^ *var /m.test(initialSource)) { codeLanguageGuess = 'javascript' }
       if (/^\/\//m.test(initialSource)) { codeLanguageGuess = 'javascript' }
       this.ace = aceUtils.initializeACE(this.$('#acearea')[0], codeLanguageGuess)

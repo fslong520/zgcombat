@@ -209,7 +209,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
       continue unless @scriptPrereqsSatisfied(script)
       # This allows the content team to filter scripts by language.
-      event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
+      event.codeLanguage ?= @session.get('codeLanguage') ? 'cpp'
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
       console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts

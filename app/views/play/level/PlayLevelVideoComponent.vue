@@ -174,7 +174,7 @@ export default Vue.extend({
     width: 100%
     height: 100%
     position: absolute
-    background: transparent url('/images/level/videos/videos_background_dungeon.png') no-repeat
+    background: transparent url('/images/level/videos/videos_background_dungeon.webp') no-repeat
     background-position: 0px 0px
     background-size: 100% 100%
 

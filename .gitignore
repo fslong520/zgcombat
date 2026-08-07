@@ -67,6 +67,8 @@ tmp/
 public/
 public_coco/
 public_ozar/
+# Local backup of dev-build output (505M), not for git
+public_coco.dev.bak/
 
 # Redis?
 dump.rdb

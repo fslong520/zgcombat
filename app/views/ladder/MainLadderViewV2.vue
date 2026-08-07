@@ -418,7 +418,7 @@ $primary-background: #31636F;
 
 .ladder-view-v2-full {
   width: 100vw;
-  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.webp) 0px -400px / 120% no-repeat, #021e27;
 }
 
 .ladder-view-v2 {

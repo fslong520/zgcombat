@@ -105,7 +105,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       .catch(function() { return res.json({ exists: false }); });
   });
   // 登录：POST /auth/login
-  app.post('/auth/login', express.json(), function(req, res) {
+  // 前端 AuthModal 经 Backbone fetch 默认发 application/x-www-form-urlencoded，
+  // 仅 express.json() 解析不到 → body 恒空 → 误判空凭据报 not-found。两种格式都解析。
+  app.post('/auth/login', express.json(), express.urlencoded({ extended: true }), function(req, res) {
     const username = (req.body && req.body.username) || '';
     const password = (req.body && req.body.password) || '';
     // 空凭据一律拒绝：$or 查询的空正则 /^$/ 会匹配 email/name 为空的存量用户

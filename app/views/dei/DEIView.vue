@@ -243,7 +243,7 @@ export default {
   #jumbotron-background-section {
     padding-top: 43%;
     margin-top: -24%;
-    background: transparent url(/images/pages/dei/dei-jumbotron.png) no-repeat bottom 0 right 0;
+    background: transparent url(/images/pages/dei/dei-jumbotron.webp) no-repeat bottom 0 right 0;
     background-size: 100%;
     z-index: 0;
   }
