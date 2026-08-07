@@ -75,7 +75,7 @@ export default {
   },
   data () {
     return {
-      codeLanguage: 'python',
+      codeLanguage: 'cpp',
       timer: false,
       loading: false,
       disableCodeLang: false,

@@ -164,7 +164,7 @@ export default {
         levels: (options.project || {}).levels || defaultProjections.levels,
       }
 
-      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true, language: language || 'python' }, callOz: options.callOz })
+      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true, language: language || 'cpp' }, callOz: options.callOz })
         .then(res => {
           if (res) {
             commit('addContentForCampaign', {

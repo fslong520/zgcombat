@@ -13,8 +13,8 @@ const LevelSessionSchema = c.object({
   title: 'Session',
   description: 'A single session for a given level.',
   default: {
-    codeLanguage: 'python',
-    submittedCodeLanguage: 'python',
+    codeLanguage: 'cpp',
+    submittedCodeLanguage: 'cpp',
     playtime: 0
   }
 })

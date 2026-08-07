@@ -66,7 +66,7 @@ export default {
   data () {
     return {
       selectedCampaignId: null,
-      selectedCodeLanguage: 'python',
+      selectedCodeLanguage: 'cpp',
       loading: true,
       levelsAndLsLoading: false
     }

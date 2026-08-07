@@ -254,7 +254,7 @@ module.exports = (StudentSolutionsView = (function () {
     parseSource (src, lang) {
       let ast
       if (lang === 'python') {
-        const aether = new Aether({ language: 'python' })
+        const aether = new Aether({ language: 'cpp' })
         const tsrc = aether.transpile(src);
         ({
           ast

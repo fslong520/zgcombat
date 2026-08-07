@@ -56,7 +56,7 @@ module.exports = (ClassroomSettingsModal = (function () {
       this.isGoogleClassroom = false
       this.enableCpp = me.enableCpp()
       this.enableJava = me.enableJava()
-      this.enableBlocks = ['python', 'javascript', 'lua'].includes(this.classroom.get('aceConfig')?.language || 'python')
+      this.enableBlocks = ['python', 'javascript', 'lua'].includes(this.classroom.get('aceConfig')?.language || 'cpp')
       this.uploadFilePath = `db/classroom/${this.classroom.id}`
       initializeFilePicker()
       if (this.shouldShowLMSButton()) {

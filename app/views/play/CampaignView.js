@@ -685,7 +685,7 @@ class CampaignView extends RootView {
     if (this.classroom) {
       const classroomLevels = this.classroom.getLevels()
       this.classroomLevelMap = Object.fromEntries(classroomLevels.map(l => [l.get('original'), l]))
-      const defaultLanguage = this.classroom.get('aceConfig')?.language || 'python'
+      const defaultLanguage = this.classroom.get('aceConfig')?.language || 'cpp'
       for (const session of this.sessions.slice()) {
         const classroomLevel = this.classroomLevelMap[session.get('level').original]
         if (!classroomLevel) {

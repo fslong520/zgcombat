@@ -113,7 +113,7 @@ module.exports = (ItemDetailsView = (function () {
         if (c.stats.length) { _.last(c.stats).isLast = true }
         c.props = []
         stats.props = _.union(stats.props, _.keys(this.spellDocs))
-        const codeLanguage = ((left = me.get('aceConfig')) != null ? left : {}).language || 'python'
+        const codeLanguage = ((left = me.get('aceConfig')) != null ? left : {}).language || 'cpp'
         for (const prop of Array.from(stats.props)) {
           let left1
           const doc = (left1 = this.propDocs[prop] != null ? this.propDocs[prop] : this.spellDocs[prop]) != null ? left1 : {}

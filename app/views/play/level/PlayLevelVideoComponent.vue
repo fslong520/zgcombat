@@ -109,7 +109,7 @@ export default Vue.extend({
       let link = ''
       if (me.isSessionless()){
         link = "/play/level/"+this.levelSlug+"?course="+this.courseID+"&codeLanguage="
-        link += this.codeLanguage || 'python'
+        link += this.codeLanguage || 'cpp'
       }
       else {
         link = "/play/level/"+this.levelSlug+"?course="+this.courseID+"&course-instance="+this.courseInstanceID

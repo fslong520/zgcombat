@@ -58,7 +58,7 @@ module.exports = (SystemsDocumentationView = (function () {
       const c = super.getRenderData()
       c.systems = this.systemDocs.models
       c.marked = marked
-      c.codeLanguage = (left = __guard__(me.get('aceConfig'), x => x.language)) != null ? left : 'python'
+      c.codeLanguage = (left = __guard__(me.get('aceConfig'), x => x.language)) != null ? left : 'cpp'
       return c
     }
 

@@ -111,7 +111,7 @@ module.exports = (CoursesView = (function () {
       this.supermodel.loadCollection(this.classrooms, { data: { memberID: me.id }, cache: false })
       this.supermodel.addPromiseResource(store.dispatch('courses/fetchReleased'))
       this.hourOfCodeOptions = utils.hourOfCodeOptions
-      this.hocCodeLanguage = (me.get('hourOfCodeOptions') || {}).hocCodeLanguage || 'python'
+      this.hocCodeLanguage = (me.get('hourOfCodeOptions') || {}).hocCodeLanguage || 'cpp'
       this.hocStats = {}
       this.listenTo(this.classrooms, 'sync', function () {
         if (utils.isOzaria && this.showHocProgress()) {

@@ -794,7 +794,7 @@ module.exports = (HeroVictoryModal = (function () {
     onClickShareGameWithTeacherButton (e) {
       const email = _.string.trim(this.$('#share-game-with-teacher-input').attr('disabled', true).val())
       this.$('#share-game-with-teacher-btn').attr('disabled', true).text($.i18n.t('common.sending'))
-      return contact.sendTeacherGameDevProjectShare({ teacherEmail: email, sessionId: this.session.id, codeLanguage: this.session.get('codeLanguage') || 'python', levelName: utils.i18n(this.level.attributes, 'name') })
+      return contact.sendTeacherGameDevProjectShare({ teacherEmail: email, sessionId: this.session.id, codeLanguage: this.session.get('codeLanguage') || 'cpp', levelName: utils.i18n(this.level.attributes, 'name') })
         .then(() => {
           return this.$('#share-game-with-teacher-btn').text($.i18n.t('common.sent'))
         }).catch(() => {

@@ -53,7 +53,7 @@ module.exports = (ChangeLanguageTab = (function () {
           this.codeFormat = blockFormat
         }
       }
-      this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
+      this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'cpp'
 
       this.updateCodeFormatList()
       this.updateCodeLanguageList()

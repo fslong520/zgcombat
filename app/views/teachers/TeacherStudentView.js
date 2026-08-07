@@ -55,7 +55,7 @@ module.exports = (TeacherStudentView = (function () {
       const solutionIndex = link.data('solution-index')
       if (utils.iszgcombat) {
         let left, levelOriginal
-        let lang = (left = this.classroom.get('aceConfig').language) != null ? left : 'python'
+        let lang = (left = this.classroom.get('aceConfig').language) != null ? left : 'cpp'
         if ([utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(this.selectedCourseId) !== -1) {
           lang = 'html'
         }
@@ -187,7 +187,7 @@ module.exports = (TeacherStudentView = (function () {
       const {
         aceEditors
       } = this
-      const classLang = this.classroom.get('aceConfig')?.language || 'python'
+      const classLang = this.classroom.get('aceConfig')?.language || 'cpp'
       this.$el.find('pre:has(code[class*="lang-"])').each(function () {
         let lang
         const codeElem = $(this).first().children().first()
