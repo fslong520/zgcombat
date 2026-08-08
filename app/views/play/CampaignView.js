@@ -42,7 +42,6 @@ const AmazonHocModal = require('views/play/modal/AmazonHocModal')
 const PromotionModal = require('views/play/modal/PromotionModal')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
-const HoCModal = require('views/special_event/HoC2018InterstitialModal')
 const CourseVideosModal = require('views/play/level/modal/CourseVideosModal')
 const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -318,26 +317,7 @@ class CampaignView extends RootView {
       })
     }
 
-    if (utils.getQueryVariable('hour_of_code') || (this.terrain === 'hoc-2018')) {
-      if (!sessionStorage.getItem(this.terrain)) {
-        sessionStorage.setItem(this.terrain, 'seen-modal')
-        clearTimeout(this.playMusicTimeout)
-        setTimeout(() => {
-          let activity = 'ai-league'
-          if (this.terrain === 'hoc-2018') { activity = 'teacher-gd' }
-          if (this.terrain === 'goblins-hoc') { activity = 'goblins' }
-          this.openModalView(new HoCModal({
-            activity,
-            showVideo: this.terrain === 'hoc-2018',
-            onDestroy: () => {
-              if (this.destroyed) { return }
-              this.highlightNextLevel()
-            },
-          }))
-        }, 0)
-      }
-    }
-
+    
     this.isMto = me.isMto()
     window.tracker?.trackEvent('Loaded World Map', { category: 'World Map', label: this.terrain })
   }
@@ -358,10 +338,6 @@ class CampaignView extends RootView {
     }
 
     const hocRedirect = () => {
-      if (this.terrain === 'hoc-2018') {
-        $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
-      }
-
       if (utils.getQueryVariable('hour_of_code')) {
         if (me.isStudent() || me.isTeacher()) {
           if (this.terrain === 'dungeon') {
