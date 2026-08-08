@@ -1,0 +1,29 @@
+extends /templates/base
+
+//- DO NOT TRANSLATE
+
+block content
+
+  if me.isAdmin()
+    h1 Subscription Cancellations
+    .small Returning #{view.limit} max latest cancellations, set 'limit' query variable to change.
+    br
+    if view.cancelEvents
+      table.table-striped.table-condensed
+        tr
+          td Date
+          td User Id
+          td Message
+          td Comment
+        each event in view.cancelEvents
+          - var msg = event.properties && (event.properties.message || event.properties.feedback)
+          - var comment = event.properties && event.properties.comment
+          if !msg
+            - continue;
+          tr
+            td #{view.objectIdToDate(event._id).toISOString()}
+            td #{event.user}
+            td #{msg}
+            td #{comment}
+    else
+      h3 Loading..

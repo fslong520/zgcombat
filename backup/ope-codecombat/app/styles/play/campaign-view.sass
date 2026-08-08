@@ -1,0 +1,1466 @@
+@use "sass:math"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+$mapHeight: 1280
+$mapWidth: 1920
+$campaignPortalWidth: 317px
+$campaignPortalHeight: 484px
+$marginTopBase: 20px
+$sideCampaignPortalWidth: 200px
+$sideCampaignPortalHeight: 300px
+$sideCampaignImagesWidth: 1902px
+$campaignHoverScale: 1.2
+$betaImagesWidth: 951px
+$levelDotWidth: 2%
+$levelDotHeight: math.div($levelDotWidth * $mapWidth, $mapHeight)
+$levelDotZ: $levelDotHeight * 0.25
+$levelDotHoverZ: $levelDotZ * 1.5
+$levelDotShadowWidth: 0.8 * $levelDotWidth
+$levelDotShadowHeight: 0.8 * $levelDotHeight
+$levelClickRadius: 20px
+$gameControlSize: 80px
+$gameControlMargin: 30px
+$glowingPortalColor: #E57F15
+$glowingPortalSizeBase: 5px
+$hackstackGlowColor: #2E231F
+$hackstackGlowSizeBase: 5px
+$scenarioDotWidth: 3%
+$scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
+
+
++keyframes(portalGlow)
+  from
+    filter: drop-shadow(0 0 $glowingPortalSizeBase #fff) drop-shadow(0 0 (3 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (6 * $glowingPortalSizeBase) $glowingPortalColor)
+  50%
+    filter: drop-shadow(0 0 (2 * $glowingPortalSizeBase) #fff) drop-shadow(0 0 (4 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (8 * $glowingPortalSizeBase) $glowingPortalColor)
+  to
+    filter: drop-shadow(0 0 $glowingPortalSizeBase #fff) drop-shadow(0 0 (3 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (6 * $glowingPortalSizeBase) $glowingPortalColor)
+
+// Reusable portal glow class
+.portal-glow
+  @include animation(portalGlow 2s infinite)
+  transform-style: preserve-3d
+  will-change: filter
+
+  &:hover
+    @include animation(portalGlow 1s infinite)
+
+@keyframes hackstackIconGlow
+  0%, 100%
+    filter: drop-shadow(0 0 $hackstackGlowSizeBase #555) drop-shadow(0 0 (2 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (4 * $hackstackGlowSizeBase) $hackstackGlowColor)
+  50%
+    filter: drop-shadow(0 0 (1.5 * $hackstackGlowSizeBase) #555) drop-shadow(0 0 (3 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (6 * $hackstackGlowSizeBase) $hackstackGlowColor)
+
+#campaign-view
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  position: absolute
+
+  .gradient
+    position: absolute
+    z-index: 0
+
+    &.horizontal-gradient
+      left: 0
+      right: 0
+      height: 3%
+
+    &.vertical-gradient
+      top: 0
+      bottom: 0
+      width: 3%
+
+    &.top-gradient
+      top: 0
+
+    &.right-gradient
+      right: 0
+
+    &.bottom-gradient
+      bottom: 0
+
+    &.left-gradient
+      left: 0
+
+  .map
+    position: relative
+
+    #brain-pop-done-banner-wrapper
+      position: absolute
+      top: 20%
+      width: 100%
+      z-index: 3
+      #brain-pop-done-banner
+        background: url("/images/pages/base/modal_background.png")
+        background-size: 100% 100%
+        width: 400px
+        margin: 0 auto
+        padding: 20px 40px
+        text-align: center
+        img
+          margin-bottom: 10px
+
+    .map-background
+      width: 100%
+      height: 100%
+      background-size: 100%
+      @include user-select(none)
+
+    // Module portals (child campaigns) rendered on top of the map.
+    // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
+    .module-portal
+      position: absolute
+      z-index: 2
+      @include user-select(none)
+      @include transition(transform 0.2s ease-out)
+      // Don't scale when this extra class is present (used by CampaignView in editor).
+      &:not(.in-editor):hover
+        transform: scale(1.2)
+      // Cursor pointer when not in editor (module is clickable to play).
+      &:not(.in-editor)
+        cursor: pointer
+
+      // Locked module (e.g. need-premium): grey look, still clickable to show reason.
+      &.locked
+        .module-portal-image
+          filter: grayscale(1) brightness(0.75)
+        .module-label .module-name, .module-label .module-levels-completed
+          color: #999
+
+      .module-portal-image
+        display: block
+        width: 100%
+        height: auto
+        vertical-align: top
+
+      // Module overlay content.
+      .module-label
+        position: absolute
+        top: 45%
+        left: 0
+        right: 0
+        width: 100%
+        text-align: center
+        pointer-events: none
+
+        .module-name, .module-levels-completed, .module-locked
+          margin: 0
+
+        // Make module name prominent, like an h1.
+        .module-name
+          color: #ffd31a
+          font-size: 32px
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        .module-levels-completed
+          color: #ffd31a
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        // Keep lock state text readable over the map.
+        .module-locked
+          color: white
+          text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+
+        .module-description-container
+          margin: 10px auto
+          width: 80%
+          opacity: 0
+          visibility: hidden
+          transition: opacity 0.4s ease, visibility 0.4s ease
+          transition-delay: 0s
+
+          .module-description
+            background: transparent url('/images/level/popover_border_background.png') no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
+            font-size: 14px
+            line-height: 1.2
+            margin: 0
+            white-space: pre-line
+
+            .module-description-locked-prefix
+              font-weight: bold
+
+      // Show description only on hover (when not in editor).
+      &:not(.in-editor):hover .module-description-container
+        opacity: 1
+        visibility: visible
+        transition-delay: 0.15s
+
+    .level, .level-shadow
+      position: absolute
+      border-radius: 50%
+      -webkit-transform: scaleY(0.75)
+      transform: scaleY(0.75)
+
+    .level
+      z-index: 2
+      width: $levelDotWidth
+      height: $levelDotHeight
+      margin-left: -0.5 * $levelDotWidth
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
+      border: 2px groove white
+      @include transition(margin-bottom 0.5s ease)
+      cursor: pointer
+
+      .treasure-chest
+        position: absolute
+        left: 50%
+        width: 150%
+        transform: translateX(-50%) translateX(50%) translateY(-130%) scaleY(1.33) scale(0.75)
+        cursor: pointer
+        z-index: -1
+        filter: drop-shadow(0px 0px 4px gold)
+
+      &.disabled, &.locked
+        //background-image: url(/images/pages/game-menu/lock.png)
+        //background-size: 75%
+        //background-repeat: no-repeat
+        //background-position: 50% 50%
+        opacity: 0.7
+        width: $levelDotWidth * 0.67
+        height: $levelDotHeight * 0.67
+        margin-left: -0.5 * 0.67 * $levelDotWidth
+        margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 0.67 + $levelDotZ, 2)
+
+        .treasure-chest
+          transform: translateX(-50%) translateY(-200%) scaleY(1.33) scale(0.95)
+
+
+      &.started, &.next
+        border: 3px solid #EBD689
+        @include box-shadow(0px 0px 35px skyblue)
+
+
+      &.complete
+        border: 3px solid #90EE90
+        @include box-shadow(0px 0px 35px skyblue)
+
+      .level-difficulty-banner-text
+        position: absolute
+        bottom: 160%
+        pointer-events: none
+        color: rgb(246, 208, 2)
+        text-shadow: 0px 1px 0px black
+        font-size: 1.8vw
+        z-index: 1
+        width: 100%
+        text-align: center
+
+      img.banner
+        position: absolute
+        bottom: 38%
+        width: 170%
+        left: -35%
+
+      img.level-star
+        width: 100%
+        bottom: 4%
+        position: absolute
+        pointer-events: none
+
+      .level-acronym, .level-kind
+        position: absolute
+        pointer-events: none
+        left: 0
+        top: 0
+        right: 0
+        bottom: 0
+        color: black
+        text-align: center
+        font-size: 0.8vw
+        text-shadow: 0px 1px 0px white
+
+      .level-kind
+        bottom: auto
+        top: 100%
+        color: white
+        text-shadow: 0px 1px 0px black, 0px -1px 0px black, -1px 0px 0px black, 1px 0px 0px black
+
+        &.demo
+          color: rgb(128, 255, 128)
+        &.usage
+          color: rgb(128, 128, 255)
+        &.mastery
+          color: rgb(255, 128, 128)
+        &.practice
+          color: rgb(128, 128, 255)
+        &.advanced
+          color: rgb(128, 255, 255)
+        &.challenge
+          color: rgb(255, 255, 128)
+
+      img.hero-portrait, img.item-portrait
+        width: 120%
+        height: auto
+        bottom: 75%
+        left: 75%
+        margin-left: 0
+        margin-bottom: 0
+
+    img.premium-hero-banner
+      position: absolute
+      height: 250%
+      transform: translate(-50%, -100%) translateX(-20%) translateY(-10%) scaleY(1.33)
+      filter: drop-shadow(0px 0px 10px black)
+      z-index: 3
+
+    img.pet-banner
+      position: absolute
+      height: 250%
+      transform: translate(-50%, -80%) translateX(-20%) translateY(-10%) scaleY(1.33) scale(0.625)
+      filter: drop-shadow(0px 0px 10px black)
+      z-index: 3
+
+    img.hero-portrait, img.item-portrait
+      position: absolute
+      border: 1px solid black
+      border-radius: 50%
+      background: white
+      width: $levelDotWidth * 1.5
+      height: math.div($levelDotHeight * 1.5, 1.75)
+      margin-left: -0.5 * $levelDotWidth * 1.5
+      margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 1.5, 1.75)
+
+      &.hero-portrait-on-banner, &.item-portrait-on-banner
+        bottom: 170%
+        left: 0%
+        width: 100%
+
+      &.item-portrait-on-banner
+        background: transparent
+        border: 0
+        border-radius: 0
+
+    .level-shadow
+      z-index: 1
+      width: $levelDotShadowWidth
+      height: $levelDotShadowHeight
+      margin-left: -0.5 * $levelDotShadowWidth
+      margin-bottom: math.div(-$levelDotShadowHeight, 3)
+      background-color: black
+      @include box-shadow(0px 0px 10px black)
+      @include opacity(0.75)
+
+      &.locked
+        @include opacity(0.5)
+        width: $levelDotShadowWidth * 0.67
+        height: $levelDotShadowHeight * 0.67
+        margin-left: -0.5 * 0.67 * $levelDotShadowWidth
+        margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
+
+    .level:hover
+      -moz-transform: rotate(0)
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
+      @include box-shadow(0px 0px 35px skyblue)
+
+    .level
+      a
+        display: block
+        padding: $levelClickRadius
+        margin-left: -0.5 * $levelClickRadius
+        margin-top: -0.5 * $levelClickRadius
+        border-radius: $levelClickRadius
+
+    .scenario
+      position: absolute
+      z-index: 2
+      width: $scenarioDotWidth
+      height: $scenarioDotHeight
+      margin-left: -0.5 * $scenarioDotWidth
+      margin-bottom: -0.5 * $scenarioDotHeight
+      border-radius: 50%
+      box-sizing: border-box
+      background-color: #9B59B6
+      border: 2px solid #8E44AD
+      @include transition(transform 0.3s ease)
+      cursor: pointer
+
+      a
+        display: block
+        padding: $levelClickRadius
+        margin-left: -0.5 * $levelClickRadius
+        margin-top: -0.5 * $levelClickRadius
+        border-radius: $levelClickRadius
+
+      .scenario-acronym
+        position: absolute
+        pointer-events: none
+        left: 0
+        top: 0
+        right: 0
+        bottom: 0
+        color: white
+        text-align: center
+        font-size: 0.7vw
+        text-shadow: 0px 1px 0px black
+        display: flex
+        align-items: center
+        justify-content: center
+
+    .tooltip
+      z-index: 3
+      pointer-events: none
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        direction: rtl
+
+      .tooltip-arrow
+        display: none
+
+    .level-info-container
+      display: none
+      position: absolute
+      z-index: 7
+      width: 362px
+      //min-height: 179px
+      padding: 17px 20px 20px 20px
+      border: 0
+      background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
+      background-size: 100% 100%
+
+      &.has-loading-error
+        .level-error-message
+          display: block
+          margin: 20px
+          font-size: 16px
+        .level-info > *:not(.level-error-message, h3, .level-status)
+          display: none
+
+      .level-info
+
+        h3
+          color: rgb(232, 217, 87)
+          text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+          padding: 0 2px
+          margin: 0 0 10px 31px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+
+        .level-description
+          color: black
+
+          img
+            display: block
+            margin: 0px auto
+            max-width: 100%
+
+        kbd
+          margin: 0 2px 2px 0
+          display: inline-block
+          font-size: 12px
+
+        .level-status
+          background: transparent url(/images/pages/play/level-info-status-spritesheet.png) no-repeat 0 0
+          width: 60px
+          height: 60px
+          position: absolute
+          left: -15px
+          top: -15px
+
+        &.complete .level-status
+          background-position: -60px 0
+
+        &.premium .level-status
+          background-position: -120px 0
+
+        &.complete.premium .level-status
+          background-position: -180px 0
+
+        .start-level
+          min-width: 200px
+          display: block
+          margin: 10px auto 0 auto
+          position: relative
+
+          .badge
+            position: absolute
+            top: auto
+            left: auto
+            right: -25px
+            bottom: -25px
+            font-size: 20px
+            color: black
+            border: 1px solid black
+            background-color: rgb(232, 217, 87)
+            border-radius: 50%
+            opacity: 1
+            padding: 3px 9px
+
+        &.shows-leaderboard
+          .start-level, .view-solutions
+            min-width: calc(50% - 5px)
+            display: inline-block
+            width: calc(50% - 5px)
+
+          .start-level
+            margin: 10px 0 0 5px
+
+          .view-solutions
+            margin: 10px 5px 0 0
+
+        .course-version, .home-version
+          text-align: center
+
+        .threshold-icon
+          height: 40px
+          filter: drop-shadow(2px 2px 0px #222)
+          position: absolute
+          right: -13px
+          top: -17px
+
+        .practice-license-message
+          font-style: italic
+
+      &.has-practice-levels
+        .course-version, .home-version
+          float: right
+
+          .btn
+            height: 33px
+
+          .btn-success
+            @include animation(winnablePulse 3s infinite)
+
+            span
+              opacity: 1
+
+      .practice-level
+        h3
+          margin-left: 0
+
+    .campaign-switch
+      color: purple
+      position: absolute
+      z-index: 1
+      font-size: 2vw
+      text-shadow: 0 0 0.3vw white, 0 0 0.3vw white
+
+      &:hover
+        text-decoration: none
+
+  .next-level-line
+    height: 8px
+    position: absolute
+
+    .line
+      width: calc(100% - 24px)
+      float: left
+      margin-top: 2px
+      margin-bottom: 2px
+      height: 4px
+      background: repeating-linear-gradient(-45deg, #AF9F7D, #DFC89C 5px, #F1EAC0 5px, #AF9F7D 10px)
+      box-shadow: 0px 0px 4px black
+
+    .point
+      width: 24px
+      height: 24px
+      float: right
+      margin-top: -8px
+      border-top: 12px solid transparent
+      border-bottom: 12px solid transparent
+      border-left: 24px solid lighten(#F1EAC0, 10%)
+
+  // Editor-only handles for visual connection endpoints
+  .visual-connection-handle
+    position: absolute
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.2)
+    border: 2px solid rgba(255, 0, 0, 0.7)
+    z-index: 6
+    cursor: move
+
+  // Editor: highlight the connection on the map when its node is selected in the sidebar
+  #visual-connections-svg path.connection-highlighted
+    stroke: #ffc800
+    filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
+
+  // Render thinner connection lines for invisible connections, with no arrowhead
+  .next-level-line.thin-connection
+    height: 4px
+    .line
+      height: 2px
+      margin-top: 1px
+      margin-bottom: 1px
+      background: repeating-linear-gradient(-45deg, rgba(#AF9F7D, 0.7), rgba(#DFC89C, 0.7) 5px, rgba(#F1EAC0, 0.7) 5px, rgba(#AF9F7D, 0.7) 10px)
+      box-shadow: 0px 0px 2px rgba(0,0,0,0.6)
+
+  .game-controls
+    position: absolute
+    left: 2%
+    top: 50%
+    transform: translateY(-50%)
+    z-index: 1
+    display: flex
+    flex-direction: column
+    gap: 10px
+
+
+    .btn
+      &:not(:first-child)
+        margin-left: 0
+        margin-top: $gameControlMargin
+        @media only screen and (max-height: 650px)
+          margin-top: 10px
+
+      width: $gameControlSize
+      height: $gameControlSize
+
+      background: url(/images/pages/play/menu_icons_flag.webp) no-repeat center center
+
+      position: relative
+      img
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+
+      background-size: cover
+      @include transition(0.5s ease)
+      @include box-shadow(2px 2px 4px black)
+      border: 0
+      border-radius: 12px
+      // IE9 shows a blank white button with this MS gradient filter in place
+      filter: none
+
+      &:hover
+        @include box-shadow(0 0 12px #bbf)
+
+      &:active, &.highlighted
+        @include box-shadow(0 0 20px white)
+
+      &.items
+        background: url(/images/pages/play/menu_icons_chest.webp) no-repeat center center
+        background-size: contain
+      &.heroes
+        background: url(/images/pages/play/menu_icons_heroes.webp) no-repeat center center
+        background-size: contain
+      &.pets
+        background: url(/images/pages/play/menu_icons_pets.webp) no-repeat center center
+        background-size: contain
+      &.achievements
+        background: url(/images/pages/play/menu_icons_cup.webp) no-repeat center center
+        background-size: contain
+      &.account
+        background: url(/images/pages/play/menu_icons_gear.webp) no-repeat center center
+        background-size: contain
+      &.settings
+        background: url(/images/pages/play/menu_icons_gear.webp) no-repeat center center
+        background-size: contain
+      &.gems
+        background: url(/images/pages/play/menu_icons_gems.webp) no-repeat center center
+        background-size: contain
+      &.poll
+        background: url(/images/pages/play/menu_icons_note.webp) no-repeat center center
+        background-size: contain
+      &.premium-menu-icon
+        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(1.31) translateY(-5px) translateX(-6px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+        // Jiggle animation
+        +keyframes(jiggle)
+          0%
+            transform: scale(1.1) translateY(-1px) rotate(0deg)
+          25%
+            transform: scale(1.1) translateY(-1px) rotate(1deg)
+          50%
+            transform: scale(1.1) translateY(-1px) rotate(0deg)
+          75%
+            transform: scale(1.1) translateY(-1px) rotate(-1deg)
+          100%
+            transform: scale(1.1) translateY(-1px) rotate(0deg)
+
+        &.highlighted
+          @include animation(jiggle .3s 20)
+
+    .tooltip
+      font-size: 24px
+
+      .tooltip-arrow
+        display: none
+
+    &:not(.in-campaign)
+      .btn
+        @media only screen and (max-height: 650px)
+          @include scale(0.67)
+
+    &.in-campaign
+      left: 2%
+      width: 6%
+
+      .btn
+        width: 100%
+        height: auto
+        aspect-ratio: 1 / 1
+        min-width: 0
+        padding: 0
+        border-radius: 0
+        background-size: contain
+        box-shadow: none
+        filter: drop-shadow(2px 2px 4px black)
+
+        &:hover
+          box-shadow: none
+          filter: drop-shadow(0 0 8px #bbf)
+
+        &:active, &.active, &.highlighted
+          box-shadow: none
+          filter: drop-shadow(0 0 12px white)
+
+        &:not(:first-child)
+          margin-top: 35%
+
+  .other-products
+    position: absolute
+    right: 2%
+    top: 50%
+    transform: translateY(-50%)
+    z-index: 1
+    display: flex
+    flex-direction: column
+    gap: 10px
+
+    .btn
+      &:not(:first-child)
+        margin-left: 0
+        margin-top: $gameControlMargin
+        @media only screen and (max-height: 650px)
+          margin-top: 10px
+
+      width: $gameControlSize
+      height: $gameControlSize
+
+      background: url(/images/pages/play/menu_icons.png) no-repeat
+
+      position: relative
+      img
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+
+      background-size: cover
+      @include transition(0.5s ease)
+      @include box-shadow(2px 2px 4px black)
+      border: 0
+      border-radius: 12px
+      // IE9 shows a blank white button with this MS gradient filter in place
+      filter: none
+
+      &:hover
+        @include box-shadow(0 0 12px #bbf)
+
+      &:active, &.highlighted
+        @include box-shadow(0 0 20px white)
+
+      &.roblox-menu-icon
+        background: url('/images/pages/roblox/Code-Combat-Worlds-Small.png') no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        margin-top: 20px
+        transform: scale(1.4) translateY(-3px) translateX(-15px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.hackstack-menu-icon
+        background: url('/images/pages/hackstack/Code-Combat-AI-Hack-Stack-Full-Colour-Small.png') no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        border-radius: 0
+        transform: scale(1.7) translateX(-17px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.ai-league-menu-icon
+        background: url('/images/pages/league/Code-Combat-AI-League-Small.png') no-repeat
+        background-position: 50% 50%
+        background-size: 90%
+        margin-top: 40px
+        transform: scale(1.2) translateY(-3px) translateX(-15px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.junior-menu-icon
+        background: url(/images/pages/junior/CodeCombat-Junior-Small.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(1.6) translateX(-15px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        margin-top: 10px
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.cchome-menu-icon
+        background: url(/images/pages/junior/CodeCombat-Home-Small.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(2) translateX(-15px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        margin-top: 10px
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+    .tooltip
+      font-size: 24px
+
+      .tooltip-arrow
+        display: none
+
+    &:not(.in-campaign)
+      .btn
+        @media only screen and (max-height: 650px)
+          @include scale(0.67)
+
+    &.in-campaign
+      right: 2%
+      width: 6%
+
+      .btn
+        width: 100%
+        height: auto
+        aspect-ratio: 1 / 1
+        min-width: 0
+        padding: 0
+        border-radius: 0
+        margin-top: 0
+        background-size: contain
+        box-shadow: none
+        filter: drop-shadow(2px 2px 4px black)
+
+        &:hover
+          box-shadow: none
+          filter: drop-shadow(0 0 8px #bbf)
+
+        &:active, &.active, &.highlighted
+          box-shadow: none
+          filter: drop-shadow(0 0 12px white)
+
+        --icon-scale: 1
+        --icon-shift-x: 0px
+        --icon-shift-y: 0px
+        transform: translate(var(--icon-shift-x), var(--icon-shift-y)) scale(var(--icon-scale))
+
+        &:not(:first-child)
+          margin-top: 10%
+
+      // Per-icon tuning knobs for in-campaign proportional mode.
+      .hackstack-menu-icon
+        --icon-scale: 1.15
+      .junior-menu-icon
+        --icon-scale: 1.12
+        &:not(:first-child)
+          margin-top: -15%
+      .cchome-menu-icon
+        --icon-scale: 1.2
+      .roblox-menu-icon
+        --icon-scale: 1.05
+        &:not(:first-child)
+          margin-top: -5%
+      .ai-league-menu-icon
+        --icon-scale: 0.8
+
+  .user-status
+    position: absolute
+    top: 10px
+    right: 30px
+    text-align: right
+    font-size: 26px
+    color: white
+    text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
+    height: auto
+    line-height: normal
+
+    .user-status-line
+      position: relative
+      display: flex
+      align-items: flex-start
+      justify-content: flex-end
+
+      .status-stats
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        gap: 2px
+
+      .status-stat-row
+        display: inline-flex
+        align-items: center
+
+      .btn.btn-illustrated
+        margin-left: 10px
+        min-width: 90px
+        height: 40px
+        color: white
+
+        option
+          color: black
+
+      .rtl-allowed
+        display: inline-block
+        margin-right: 10px
+
+      .gem
+        position: relative
+        top: auto
+
+      #gems-count
+        margin-left: 5px
+        display: inline-flex
+        align-items: center
+
+      .player-level
+        margin-left: 5px
+        display: inline-flex
+        align-items: center
+
+      a
+        color: white
+
+      $spriteSheetSize: 30px
+
+  
+
+      .level-indicator
+        margin-left: 15px
+        color: white
+        display: inline-block
+        margin: 0 2px
+
+     
+
+  .campaign-control-button
+    padding: 3px 8px
+    @include opacity(0.75)
+
+    &:hover
+      @include opacity(1.0)
+
+    .glyphicon
+      font-size: 28px
+
+  #volume-button
+    .glyphicon
+      display: none
+
+    &.vol-up .glyphicon.glyphicon-volume-up
+      display: inline-block
+
+    &.vol-off .glyphicon.glyphicon-volume-off
+      display: inline-block
+      @include opacity(0.50)
+      &:hover
+        @include opacity(0.75)
+
+    &.vol-down .glyphicon.glyphicon-volume-down
+      display: inline-block
+
+  #clear-storage-button
+    position: absolute
+    right: 70px
+    right: -webkit-calc(1% + 55px)
+    right: calc(1% + 55px)
+
+  #campaign-status
+    position: absolute
+    left: 0
+    top: 51px
+    width: 100%
+    margin: 0
+    text-align: center
+    color: rgb(232, 217, 87)
+    font-size: 28px
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+    z-index: 30
+    pointer-events: none
+
+    .campaign-status-background
+      background: transparent url(/images/pages/play/campaign-banner.png) no-repeat center center
+      background-size: 80%
+      border-radius: 8px
+      padding-top: 12px
+      display: inline-block
+      min-width: 200px
+      height: 85px
+
+      .campaign-name
+        line-height: 26px
+
+        &.campaign-name-large
+          font-size: 48px
+          line-height: 50px
+
+      .levels-completed
+        font-size: 22px
+
+  #anonymous-classroom-signup-dialog
+    border-width: 0px
+    padding: 0
+    padding-bottom: 0
+    width: 230px
+    position: absolute
+    right: 1%
+    top: 5%
+    top: -webkit-calc(1% + 50px)
+    top: calc(1% + 50px)
+    z-index: 30
+    margin: 0
+    text-align: center
+    .modal-header
+      padding: 8px
+      background-color: #0E4C60
+      h4, span
+        color: white
+        font-size: 13px
+        line-height: 16px
+        font-weight: bold
+    .modal-body
+      padding: 10px
+      font-size: 13px
+      line-height: 16px
+      .strong
+        font-weight: bold
+      input
+        width: 50%
+        margin: 4px 4px 13px 0px
+      #anon-classroom-signup-btn
+        margin-top: 8px
+      #anon-classroom-join-btn
+        margin-top: -4px
+
+    @media screen and (max-width: 800px)
+      display: none
+
+  .portals-container
+    position: relative
+    width: 100%
+    height: 100%
+    overflow-y: auto
+    padding: 20px
+    $description-transition-time: 0.4s
+
+    .portals
+      display: flex
+      flex-direction: column
+      align-items: center
+      width: 100%
+
+      .campaign-rows
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: 20px
+
+        .campaign-row
+          display: flex
+          justify-content: center
+          align-items: center
+          position: relative
+          width: 100%
+          height: $campaignPortalHeight
+          margin-bottom: 0
+          margin-top: $marginTopBase
+
+          // first row has a different margin-top
+          &:first-child
+            margin-top: 0px
+            margin-bottom: -20px
+          //the third row has a different margin-top
+          &:nth-child(3)
+            margin-top: $marginTopBase - 20px
+          // the last row has a different margin-top
+          // &:last-child
+          //   margin-top: $marginTopBase + 20px
+
+          .main-campaign
+            width: $campaignPortalWidth
+            height: $campaignPortalHeight
+            background: transparent no-repeat center
+            background-size: contain
+            position: absolute
+            cursor: pointer
+            z-index: 0
+            left: 50%
+            transform: translateX(-50%)
+            transition: transform 0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42)
+
+            &:hover
+              transform: translateX(-50%) scale($campaignHoverScale)
+
+            &.silhouette
+              @include filter(contrast(50%) brightness(65%))
+              pointer-events: none
+
+            &.locked
+              @include filter(contrast(80%) brightness(80%))
+              cursor: default
+
+            &.forest
+              background-image: url(/images/pages/play/portals/forest.webp)
+            &.desert
+              background-image: url(/images/pages/play/portals/desert.webp)
+            &.mountain
+              background-image: url(/images/pages/play/portals/mountain.webp)
+            &.glacier
+              background-image: url(/images/pages/play/portals/glacier.webp)
+            &.volcano
+              background-image: url(/images/pages/play/portals/volcano.webp)
+            &.dungeon
+              background-image: url(/images/pages/play/portals/dungeon.webp)
+
+            .campaign-label
+              position: absolute
+              top: 45%
+              width: 100%
+              text-align: center
+
+              .play-button
+                margin: 15px 0
+                min-width: 100px
+
+              .campaign-name, .levels-completed, .campaign-locked
+                margin: 0
+                color: white
+                text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+
+              .campaign-description-container
+                margin: 10px auto
+                width: 80%
+                transition: opacity $description-transition-time ease, visibility $description-transition-time ease
+                transition-delay: 0.15s
+
+                .campaign-description
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
+                  background-size: 100% 100%
+                  padding: 12px
+                  color: black
+                  font-size: 14px
+                  line-height: 1.2
+                  margin: 0
+
+
+          .side-campaign-container
+            position: absolute
+            width: $campaignPortalWidth
+            height: $sideCampaignPortalHeight
+            z-index: 0
+            top: $campaignPortalHeight - $sideCampaignPortalHeight * 0.5
+
+            // Left side campaign container (first in the row)
+            &.left-campaign
+              left: calc(50% - $sideCampaignPortalWidth * 2)
+
+            // Right side campaign container (last in the row)
+            &.right-campaign
+              right: calc(50% - $sideCampaignPortalWidth * 2.5)
+
+            &.empty
+              visibility: hidden
+
+            .side-campaign
+              width: $sideCampaignPortalWidth
+              height: $sideCampaignPortalHeight
+              position: relative
+              cursor: pointer
+              @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
+
+              &:hover
+                @include scale($campaignHoverScale)
+
+              &.silhouette
+                @include filter(contrast(50%) brightness(65%))
+                pointer-events: none
+
+              &.locked
+                @include filter(contrast(80%) brightness(80%))
+                cursor: default
+
+              .campaign-label
+                position: absolute
+                top: 40%
+                width: 100%
+                text-align: center
+                z-index: 1
+
+                .play-button
+                  margin: 15px 0
+                  min-width: 100px
+
+                .campaign-name, .levels-completed, .campaign-locked
+                  margin: 0
+                  color: white
+                  text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+                .campaign-description
+                  margin: 0px 40px
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
+                  background-size: 100% 100%
+                  padding: 12px
+                  color: black
+                  font-size: 12px
+                  transition: opacity $description-transition-time ease, visibility $description-transition-time ease
+                  transition-delay: 0.15s
+
+
+              .background-container
+                position: absolute
+                top: 0
+                left: 0
+                width: $sideCampaignPortalWidth
+                height: 100%
+                background: transparent no-repeat center
+                background-size: contain
+
+                // Game Dev campaigns
+                &.campaign-game-dev-1
+                  background-image: url(/images/pages/play/portals/game-dev-1.webp)
+                &.campaign-game-dev-2
+                  background-image: url(/images/pages/play/portals/game-dev-2.webp)
+                &.campaign-game-dev-3
+                  background-image: url(/images/pages/play/portals/game-dev-2.webp)
+
+                // Web Dev campaigns
+                &.campaign-web-dev-1
+                  background-image: url(/images/pages/play/portals/web-dev-1.webp)
+                &.campaign-web-dev-2
+                  background-image: url(/images/pages/play/portals/web-dev-2.webp)
+
+    .campaign
+      &.highlighted
+        @extend .portal-glow
+
+    .main-campaign
+      &.highlighted
+        @extend .portal-glow
+
+    .side-campaign
+      &.highlighted
+        @extend .portal-glow
+
+  .small-nav-logo
+    position: absolute
+    top: 1%
+    left: 1%
+    height: 60px
+    z-index: 1
+
+  .under-logo
+    position: absolute
+    top: 2%
+    left: 1%
+    z-index: 1
+    width: 193px
+
+  .code-ninjas-logo
+    top: calc(1% + 5px)
+    left: calc(1% + 200px)
+
+  .gameplay-container
+    position: absolute
+    top: 71px
+    height: calc(100% - 71px)
+    width: 100%
+
+    &.in-portals
+      background: transparent url(/images/pages/play/portal-background.png)
+      .resizable-gameplay-content
+        width: 100%
+        height: 100%
+
+  .resizable-gameplay-content
+    position: relative
+    overflow: hidden
+
+    .campaign-action-buttons
+      position: absolute
+      top: 2%
+      left: 1%
+      z-index: 2
+      width: 193px
+      display: flex
+      flex-direction: column
+      gap: 8px
+
+      #back-button, #back-to-classroom-button, #videos-button
+        width: 100%
+
+  .gameplay-container.in-campaign
+    .resizable-gameplay-content
+      .campaign-action-buttons
+        width: 15%
+        min-width: 110px
+        gap: 3%
+
+        #back-button, #back-to-classroom-button, #videos-button
+          aspect-ratio: 3.5 / 1
+          height: auto
+          min-height: 0
+          padding: 0
+          font-size: clamp(6px, 1.3vw, 30px)
+          line-height: 1
+          display: flex
+          align-items: center
+          justify-content: center
+          text-align: center
+
+          .back-button-label
+            transform: translateY(2px)
+
+  #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo, #houston-logo
+    cursor: pointer
+    width: 200px
+
+  #burnaby-logo,#airdrie-logo
+    cursor: pointer
+    height: 55px
+    border-radius: 10%
+
+  #liverpool-logo, #shreve-logo, #lafourche-logo
+    cursor: pointer
+    width: 100px
+    border-radius: 5%
+
+  #shreve-logo
+    width: 150px
+
+  #library-logo
+    cursor: pointer
+    width: 180px
+    border-radius: 5%
+    background: white
+
+  #library-logo-container
+    display: flex
+    justify-content: center
+
+  #shreve-logo-container
+    width: 269px
+
+  #santa-clara-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+
+  #garfield-logo
+    margin: 20px
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+
+  #arapahoe-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #houston-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #burnaby-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #liverpool-logo, #shreve-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
+
+  #game-dev-hoc-license-alert
+    position: absolute
+    z-index: 1
+    bottom: -20px
+    left: 0
+    right: 0
+    text-align: center
+    padding: 5px
+
+body.ipad #campaign-view
+  // iPad only supports up to Kithgard Gates for now.
+  .campaign-switch
+    display: none
+
+body[lang='ru'] .portals h2
+  font-size: 26px
+
+.utility-controls
+  position: absolute
+  right: 4%
+  bottom: 4%
+  z-index: 10
+  display: flex
+  gap: 10px
+
+  .btn
+    width: 40px
+    height: 40px
+    padding: 3px 8px
+    @include opacity(0.75)
+    @include box-shadow(2px 2px 4px black)
+    border: 0
+    border-radius: 12px
+
+    &:hover
+      @include opacity(1.0)
+      @include box-shadow(0 0 12px #bbf)
+
+    &:active, &.highlighted
+      @include box-shadow(0 0 20px white)
+
+    .glyphicon
+      font-size: 28px
+
+    #volume-button
+      margin-right: 10px
+
+  &.in-campaign
+    width: 2.5%
+
+    .btn
+      width: 100%
+      height: auto
+      aspect-ratio: 1 / 1
+      min-width: 0
+      padding: 0
+      display: flex
+      align-items: center
+      justify-content: center
+
+      .glyphicon
+        font-size: clamp(16px, 1.4vw, 30px)
+
+
+
+
+
