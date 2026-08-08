@@ -322,6 +322,17 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // 会清空奖励 → 经验/宝石"不累加"、道具丢失。故 PUT/PATCH 一律剥离这些字段，
   // 默认值仅在 upsert 新建用户时通过 $setOnInsert 应用。
   const PROTECTED_USER_FIELDS = ['earned', 'points', 'gems', 'spent', 'purchased'];
+  // 服务端独占字段：客户端请求体一律剥离，防提权/篡改（permissions 提权漏洞修复：
+  // 此前注册与 PUT/PATCH 直接透传，任意用户可自封 admin/godmode）
+  const SERVER_ONLY_USER_FIELDS = [
+    'permissions', 'passwordHash', 'passwordReset', 'lastIP',
+    'emailLower', 'nameLower', 'anonymous', 'dateCreated', 'testGroupNumber'
+  ];
+  const stripServerOnlyUserFields = function (body) {
+    const b = Object.assign({}, body || {});
+    for (const f of SERVER_ONLY_USER_FIELDS) { delete b[f]; }
+    return b;
+  };
   const USER_DEFAULTS = {
     points: 0, gems: 0, spent: 0,
     earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
@@ -344,7 +355,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         return res.status(200).json(anonymousUser);
       }
       const oid = new ObjectId(id);
-      const setData = stripProtectedUserFields(req.body);
+      const setData = stripServerOnlyUserFields(stripProtectedUserFields(req.body));
       setData.anonymous = false;
       // 去掉 _id（来自请求体），MongoDB 不允许 $set 修改 _id
       delete setData._id;
@@ -411,7 +422,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         return res.status(200).json(anonymousUser);
       }
       const oid = new ObjectId(id);
-      const setData = stripProtectedUserFields(req.body);
+      const setData = stripServerOnlyUserFields(stripProtectedUserFields(req.body));
       setData.anonymous = false;
       const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
       cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
@@ -437,7 +448,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       gems: 0,
       spent: 0,
       dateCreated: new Date().toISOString()
-    }, body);
+    }, stripServerOnlyUserFields(body));
     cocoDb.collection('users').insertOne(doc).then(function (result) {
       return res.status(200).json(doc);
     }).catch(function (err) {
@@ -479,7 +490,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         spent: 0,
         dateCreated: new Date().toISOString(),
         preferredLanguage: 'zh-HANS'
-      }, body);
+      }, stripServerOnlyUserFields(body));
       delete doc._id; // 不允许请求体覆盖自动 ObjectId
       const result = await cocoDb.collection('users').insertOne(doc);
       const created = await cocoDb.collection('users').findOne({ _id: result.insertedId });
@@ -1153,7 +1164,27 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       // 注入 window.serverSession（原版后端在渲染时注入；MainAdminView 等依赖它，缺则崩）
       const injection = '<script>window.serverSession = { amActually: null, switchingUserActualId: null, featureMode: null };</script>';
       html = html.replace('<script src="/dev/javascripts/app.js"', injection + '<script src="/dev/javascripts/app.js"');
-      return res.status(200).header('Cache-Control', 'no-cache').send(html);
+      // 登录态竞态修复：/user-data 是网络请求，async app.js（auth.js 在模块加载时
+      // new User(window.userObject)）可能在它返回前执行 → me 匿名 → 整页跳转后导航掉登录。
+      // 服务端把 userObject 内联进 HTML（同步脚本），顺序即确定。
+      const inlineUid = req.cookies && req.cookies.zg_userId;
+      const inlineUserScript = function (userObj) {
+        const u = userObj || anonymousUser;
+        return '<script>window.userObject = ' + JSON.stringify(u) + ';</script>';
+      };
+      const render = function (userObj) {
+        const inlineUser = inlineUserScript(userObj);
+        // 内联 userObject 置于 app.js 之前：同步脚本先执行，async app.js 后执行必读到登录态
+        html = html.replace('<script src="/user-data?sha=dev"></script>', '');
+        html = html.replace('<script src="/dev/javascripts/app.js"', inlineUser + '<script src="/dev/javascripts/app.js"');
+        return res.status(200).header('Cache-Control', 'no-cache').send(html);
+      };
+      if (inlineUid && /^[a-f0-9]{24}$/i.test(inlineUid) && cocoDb) {
+        return cocoDb.collection('users').findOne({ _id: new ObjectId(inlineUid) })
+          .then(render)
+          .catch(() => render(null));
+      }
+      return render(null);
     });
   });
 

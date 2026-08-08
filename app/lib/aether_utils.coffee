@@ -95,16 +95,20 @@ javaCppToJS = (source, language) ->
   s = s.replace /([^#\w'"])\s*#\s+([^\n]*?)\s*$/gm, (m, pre, comment) ->
     "#{pre} // #{comment}"
 
-  # --- 3. 去掉 main/类包裹的声明前缀，但保留其 { } 配对（JS 顶层块合法，
-  # 且 getFunctionBody 会提取块内代码；若删开括号而误删循环的 } 会致 JS 缺括号报错） ---
+  # --- 3. 去掉 main/类包裹的声明前缀，但保留其 { } 配对 ---
+  # 注意：不能替换成裸 `{`（顶层块会被 JSHint 误判为对象字面量，
+  # C++ 的 while/if 等关键字当属性名报 W095 "Expected a string and instead saw while."）。
+  # 用恒真 if (1) 包裹：JSHint/esprima/esper 均视为合法顶层语句块。
+  # 前缀 /*__MAIN__*/ 块注释：GoalManager.countEffectiveLines 的 /^\/\*/ 规则自动跳过该行，
+  # 使行数目标统计不受 main 包裹污染（此前转译后 if (1) 被计 1 行，3 语句计成 4）。
   # C++: int main() / void main(...) { ... }
   if language is 'cpp'
-    s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*(\{)/g, '$1'
+    s = s.replace /(?:int|void)\s+main\s*\([^)]*\)\s*(\{)/g, '/*__MAIN__*/ if (1) $1'
   # Java: public static void main(String[] args) { ... }
   if language is 'java'
-    s = s.replace /(?:public\s+)?(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*(\{)/g, '$1'
+    s = s.replace /(?:public\s+)?(?:static\s+)?(?:void|int|String|boolean|float|double)\s+main\s*\(String\[\]\s*\w*\)\s*(\{)/g, '/*__MAIN__*/ if (1) $1'
     # Java 类声明：public class Foo ... { ... }
-    s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*(\{)/g, '$1'
+    s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*(\{)/g, '/*__MAIN__*/ if (1) $1'
 
   # --- 4. 翻译变量声明 ---
   # int x = 5;  → var x = 5;
@@ -117,9 +121,21 @@ javaCppToJS = (source, language) ->
   # 注：替换须保留尾随空格，否则 `auto enemy1` 会被吞成 `varenemy1`（引用时未定义）
   # 先处理 new int[size] → new Array(size)，避免被下面的类型替换吞掉
   s = s.replace /\bnew\s+(int|long|short|char|byte|float|double|boolean|String)\s*\[(\w+)\]/g, 'new Array($2)'
-  s = s.replace /\b(int|long|short|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, 'var$2 '
-  # int[] arr → var arr（去掉残留的 var[] 类型符）
+  # 先处理复合类型：unsigned long long / long long / unsigned int 等整体替换，
+  # 避免逐词替换产生 `var var x`（保留字错误）
+  # 类型转换 (int)x / (float)y：括号形式不参与变量类型替换（否则变 (var)x）；
+  # 此处直接转成 JS 转换调用 parseInt(x)（含闭合括号），随后的类型替换不会误伤
+  s = s.replace /\(int\)\s*(\w+)/g, 'parseInt($1)'
+  s = s.replace /\(float\)\s*(\w+)/g, 'parseFloat($1)'
+  s = s.replace /\(double\)\s*(\w+)/g, 'parseFloat($1)'
+  s = s.replace /\(String\)\s*(\w+)/g, 'String($1)'
+  s = s.replace /\(boolean\)\s*(\w+)/g, 'Boolean($1)'
+  s = s.replace /\(char\)\s*(\w+)/g, 'String.fromCharCode($1)'
+  s = s.replace /\b(?:unsigned\s+|signed\s+)?(?:long\s+long|short\s+int|long\s+int|long|short|int|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, (m, br) ->
+    if br then "var#{br} " else 'var '
   s = s.replace /\bvar\[\]\s*/g, 'var '
+  # 数组初始化 int[] arr = {1,2,3} → var arr = [1,2,3]（C++ 花括号列表在 JS 中是块，需转方括号）
+  s = s.replace /(\bvar\s+\w+\s*=\s*)\{([^{}]*)\}/g, '$1[$2]'
 
   # --- 5. 翻译方法声明 ---
   # public void foo(int x, String y) { ... } → function foo(x, y) { ... }
@@ -138,10 +154,11 @@ javaCppToJS = (source, language) ->
 
   # 去掉方法参数中的类型：void foo(int x, String y) → function foo(x, y)
   # 匹配函数参数列表内部的类型关键字
+  # 注：回调必须拼接 prefix（function foo(），此前漏拼导致方法声明被吞成参数残片
   s = s.replace /(function\s+\w+\s*\()([^)]*)\)/g, (m, prefix, params) ->
     cleaned = params.replace /\b(int|long|short|char|byte|float|double|boolean|String|var|const|unsigned|signed|\[\])\b\s*/g, ''
     cleaned = cleaned.replace /\s*,\s*/g, ', '
-    "#{cleaned})"
+    "#{prefix}#{cleaned})"
 
   # --- 6. 翻译循环/条件中的变量声明 ---
   # for (int i = 0; ...) → for (var i = 0; ...)
@@ -150,15 +167,13 @@ javaCppToJS = (source, language) ->
   s = s.replace /\bcatch\s*\(\s*\w+\s+(\w+)\s*\)/g, 'catch ($1)'
 
   # --- 7. 翻译方法链调用中的类型转换（Java 特有）---
-  # (int) someValue → parseInt(someValue)
-  # (float) someValue → parseFloat(someValue)
-  # (String) someObj → String(someObj)
-  s = s.replace /\(int\)\s*/g, 'parseInt('
-  s = s.replace /\(float\)\s*/g, 'parseFloat('
-  s = s.replace /\(double\)\s*/g, 'parseFloat('
-  s = s.replace /\(String\)\s*/g, 'String('
-  s = s.replace /\(boolean\)\s*/g, 'Boolean('
-  s = s.replace /\(char\)\s*/g, 'String.fromCharCode('
+  # (int)x → parseInt(x) 等已在步骤 4 前完成（见上），此处保留占位以兼容旧注释
+  s = s.replace /__INT_CAST__/g, 'parseInt('
+  s = s.replace /__FLOAT_CAST__/g, 'parseFloat('
+  s = s.replace /__DOUBLE_CAST__/g, 'parseFloat('
+  s = s.replace /__STRING_CAST__/g, 'String('
+  s = s.replace /__BOOLEAN_CAST__/g, 'Boolean('
+  s = s.replace /__CHAR_CAST__/g, 'String.fromCharCode('
 
   # --- 8. 数组声明 new type[size] → new Array(size) ---
   s = s.replace /\bnew\s+(int|long|short|char|byte|float|double|boolean|String)\s*\[(\w+)\]/g, 'new Array($2)'
