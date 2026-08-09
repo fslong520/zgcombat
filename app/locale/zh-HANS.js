@@ -2091,6 +2091,7 @@ module.exports = {
       not_logged_in: '登录或创建一个账户来修改设置。',
       me_tab: '我',
       picture_tab: '图片',
+      upload_avatar: '上传头像',
       delete_account_tab: '注销账户',
       wrong_email: '邮箱地址错误',
       wrong_password: '密码错误',

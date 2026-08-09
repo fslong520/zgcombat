@@ -23,7 +23,6 @@ const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const globalVar = require('core/globalVar')
 const utils = require('core/utils')
-const RobloxButton = require('./robloxButton.vue').default
 const DashboardToggle = require('ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue').default
 
 module.exports = (AccountSettingsView = (function () {
@@ -35,8 +34,9 @@ module.exports = (AccountSettingsView = (function () {
 
       this.prototype.events = {
         'change .panel input': 'onChangePanelInput',
+        'keyup .panel input': 'onChangePanelInput',
         'change #name-input': 'onChangeNameInput',
-        'click #toggle-all-btn': 'onClickToggleAllButton',
+        'change #avatar-upload': 'onAvatarUpload',
         'click #delete-account-btn': 'onClickDeleteAccountButton',
         'click #reset-progress-btn': 'onClickResetProgressButton',
         'click .resend-verification-email': 'onClickResendVerificationEmail',
@@ -59,7 +59,6 @@ module.exports = (AccountSettingsView = (function () {
       this.listenTo(this, 'save-user-success', this.onUserSaveSuccess)
       this.listenTo(this, 'save-user-error', this.onUserSaveError)
 
-      this.robloxButton = new RobloxButton({ propsData: { size: 'small' }, el: this.$el.find('#roblox-button')[0] })
       this.dashboardToggle = new DashboardToggle({ propsData: { size: 'small' }, el: this.$el.find('#dashboard-toggle')[0] })
     }
 
@@ -118,10 +117,41 @@ module.exports = (AccountSettingsView = (function () {
       return this.trigger('input-changed')
     }
 
-    onClickToggleAllButton () {
-      const subs = this.getSubscriptions()
-      $('#email-panel input[type="checkbox"]', this.$el).prop('checked', !_.any(_.values(subs))).addClass('changed')
-      return this.trigger('input-changed')
+    onAvatarUpload (e) {
+      const file = e.target.files && e.target.files[0]
+      if (!file) { return }
+      const status = this.$el.find('#avatar-upload-status')
+      // file.type 可能为空（系统未识别 MIME），按扩展名兜底
+      const ext = (file.name.split('.').pop() || '').toLowerCase()
+      const typeMap = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp' }
+      const contentType = file.type || typeMap[ext] || ''
+      if (!contentType) {
+        status.text('无法识别图片格式，请选择 PNG/JPG/GIF/WebP')
+        return
+      }
+      if (file.size > 512 * 1024) {
+        status.text('图片过大，请选择 512KB 以内的图片')
+        return
+      }
+      status.text('上传中...')
+      // 直接传原始文件字节（服务端 express.raw 接收）
+      const xhr = new XMLHttpRequest()
+      xhr.open('PUT', `/db/user/${me.id}/avatar`)
+      xhr.setRequestHeader('Content-Type', contentType)
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          status.text('头像已更新')
+          // 刷新预览（加时间戳防缓存）
+          this.$el.find('#avatar-preview').attr('src', `${me.getPhotoURL(120)}?t=${Date.now()}`)
+          this.trigger('input-changed')
+        } else {
+          let msg = '上传失败'
+          try { msg = JSON.parse(xhr.responseText).message || msg } catch (err) { /* ignore */ }
+          status.text(msg)
+        }
+      }
+      xhr.onerror = () => { status.text('上传失败') }
+      xhr.send(file)
     }
 
     onChangeNameInput () {
@@ -418,7 +448,7 @@ module.exports = (AccountSettingsView = (function () {
 
       const permissions = []
 
-      if (!application.isProduction()) {
+      if (me.isAdmin()) {
         const adminCheckbox = this.$el.find('#admin')
         if (adminCheckbox.length) {
           if (adminCheckbox.prop('checked')) { permissions.push('admin') }
@@ -432,9 +462,6 @@ module.exports = (AccountSettingsView = (function () {
     }
 
     destroy () {
-      if (this.robloxButton != null) {
-        this.robloxButton.$destroy()
-      }
       if (this.dashboardToggle != null) {
         this.dashboardToggle.$destroy()
       }

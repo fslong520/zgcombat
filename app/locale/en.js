@@ -2091,6 +2091,7 @@ module.exports = {
       not_logged_in: 'Log in or create an account to change your settings.',
       me_tab: 'Me',
       picture_tab: 'Picture',
+      upload_avatar: 'Upload Avatar',
       delete_account_tab: 'Delete Your Account',
       wrong_email: 'Wrong Email or Username',
       wrong_password: 'Wrong Password',
