@@ -236,8 +236,24 @@ module.exports = class PlayLevelView extends RootView
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
 
+  # 关卡解锁校验：未解锁关卡禁止进入（防 URL 直开跳关）。
+  # 预览/观察/教学/课程/上帝/管理员/竞技场/赛事关豁免。
+  canEnterLevel: (level) ->
+    return true if @isEditorPreview or @observing or @teaching
+    return true if @courseID or @courseInstanceID
+    return true if me.isInGodMode() or me.isAdmin()
+    return true if level.isType('course-ladder', 'ladder')
+    return true if @hasAccessThroughClan(level)
+    return true if level.get('slug') in ['peasants-and-munchkins',
+                                         'game-dev-2-tournament-project',
+                                         'game-dev-3-tournament-project']
+    me.ownsLevel(level.get('original') or level.id)
+
   onLevelLoaded: (e) ->
     return if @destroyed
+    unless @canEnterLevel(e.level)
+      noty text: '此关卡尚未解锁，请先完成前面的关卡。', type: 'error', timeout: 3000
+      return _.defer -> application.router.redirectHome()
     if _.all([
       ((me.isStudent() or me.isTeacher()) and !application.getHocCampaign()),
       not @courseID,

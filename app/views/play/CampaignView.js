@@ -1246,7 +1246,8 @@ class CampaignView extends RootView {
       level.locked = !me.ownsLevel(level.original)
       if ((level.slug === 'kithgard-mastery') && (this.calculateExperienceScore() === 0)) { level.locked = true }
       if (level.requiresSubscription && this.requiresSubscription && me.isInHourOfCode()) { level.locked = true }
-      if ([STARTED_STATUS, COMPLETE_STATUS].includes(this.levelStatusMap[level.slug])) { level.locked = false }
+      // 仅通关(COMPLETE)强制解锁；STARTED(点开过)不再解锁——防"点开即解锁"高级关卡
+      if (COMPLETE_STATUS === this.levelStatusMap[level.slug]) { level.locked = false }
       if (this.editorMode) { level.locked = false }
       if (['Auditions', 'Intro'].includes(campaign?.get('name'))) { level.locked = false }
       if (me.isInGodMode()) { level.locked = false }

@@ -150,19 +150,21 @@ module.exports = class CastButtonView extends CocoView
     # （state/level 等动态字段）致 49 条校验错、save 被拦、发奖 POST 永不触发。
     # 数据本身合法（落盘后复验 0 错），仅客户端多出字段，故发奖存档跳过校验。
     @options.session.save(null, { validate: false })  # 后端据 level.session 通关事件发 XP/宝石(登录) + 解锁
-    LocalProgress.markComplete(slug, original)
-    LocalProgress.addUnlocked([original])
-    # 游客/匿名用户：本关 XP/宝石/物品累计入缓存，并即时刷新头部。
-    # 注意：须用 isLocalProgressUser 而非 isAnonymous——匿名用户的 anonymous 字段
-    # 会被服务端 PUT/PATCH /db/user/:id 覆盖为 false，isAnonymous() 失效，导致
-    # grantAnonRewards 不执行 → 经验/宝石不累加、物品不进仓库。
     if me.isLocalProgressUser()
+      LocalProgress.markComplete(slug, original)
+      LocalProgress.addUnlocked([original])
+      # 游客/匿名用户：本关 XP/宝石/物品累计入缓存，并即时刷新头部。
+      # 注意：须用 isLocalProgressUser 而非 isAnonymous——匿名用户的 anonymous 字段
+      # 会被服务端 PUT/PATCH /db/user/:id 覆盖为 false，isAnonymous() 失效，导致
+      # grantAnonRewards 不执行 → 经验/宝石不累加、物品不进仓库。
       @grantAnonRewards(original)
     @unlockNextLevel(campaignSlug, original)
 
-  # 拉取本战役后继关卡并加入已解锁集合（含 nextLevels 分支、rewards 引用关卡、按序 next）
+  # 拉取本战役直接后继并加入已解锁集合（仅 next.original，不批量 allLevels）。
+  # 登录用户跳过：earned.levels 由服务端发放，本地写入无意义。
   unlockNextLevel: (campaignSlug, original) ->
     return unless campaignSlug and original
+    return unless me.isLocalProgressUser()
     LocalProgress = require 'lib/localProgress'
     $.ajax
       url: "/db/campaign/#{campaignSlug}/levels/#{original}/next"
@@ -171,8 +173,6 @@ module.exports = class CastButtonView extends CocoView
         return unless next
         if next.original
           LocalProgress.addUnlocked([next.original])
-        if next.allLevels and next.allLevels.length
-          LocalProgress.addUnlocked(next.allLevels)
       error: -> # 后端路由缺失则忽略，已通本关仍可解锁
 
   # 匿名用户：拉取本关关联成就的 worth(xp)、rewards.gems 与 rewards.items，累计到缓存并刷新头部
