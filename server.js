@@ -345,6 +345,51 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     for (const f of PROTECTED_USER_FIELDS) { delete b[f]; }
     return b;
   };
+  // 头像：GET /db/user/:id/avatar 返回存储的图片（photoData base64）或 404；
+  // PUT /db/user/:id/avatar 接收原始图片二进制（multipart 免依赖，express.raw），仅本人可改。
+  const avatarDataUrlRe = /^data:image\/(png|jpe?g|gif|webp);base64,([A-Za-z0-9+/=]+)$/;
+  const avatarExtRe = /^image\/(png|jpe?g|gif|webp)$/;
+  app.get('/db/user/:id/avatar', function (req, res) {
+    if (!cocoDb || !/^[a-f0-9]{24}$/i.test(req.params.id)) { return res.status(404).end(); }
+    return cocoDb.collection('users').findOne(
+      { _id: new ObjectId(req.params.id) },
+      { projection: { photoData: 1 } }
+    ).then(function (u) {
+      if (!u || !u.photoData) { return res.status(404).end(); }
+      const m = avatarDataUrlRe.exec(u.photoData);
+      if (!m) { return res.status(404).end(); }
+      const buf = Buffer.from(m[2], 'base64');
+      const type = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp' }[m[1]] || 'image/png';
+      res.setHeader('Content-Type', type);
+      res.setHeader('Cache-Control', 'public, max-age=300');
+      return res.status(200).end(buf);
+    }).catch(function () { return res.status(404).end(); });
+  });
+  app.put('/db/user/:id/avatar', express.raw({ type: (req) => /^image\/(png|jpe?g|gif|webp)(;|$)/.test(String(req.headers['content-type'] || '')), limit: '512kb' }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const id = req.params.id;
+    if (!/^[a-f0-9]{24}$/i.test(id)) { return res.status(400).json({ message: 'bad id' }); }
+    const cookieUid = req.cookies && req.cookies.zg_userId;
+    if (!cookieUid || cookieUid !== id) { return res.status(403).json({ message: 'Not allowed' }); }
+    const buf = req.body;
+    if (!Buffer.isBuffer(buf) || buf.length === 0) { return res.status(400).json({ message: 'Invalid image data' }); }
+    if (buf.length > 512 * 1024) { return res.status(400).json({ message: 'Image too large (max 512KB)' }); }
+    const ctype = req.headers['content-type'] || '';
+    const mime = (ctype.split(';')[0] || '').toLowerCase();
+    const ext = { 'image/png': 'png', 'image/jpeg': 'jpeg', 'image/jpg': 'jpeg', 'image/gif': 'gif', 'image/webp': 'webp' }[mime];
+    if (!ext) { return res.status(400).json({ message: 'Unsupported image type' }); }
+    const photoData = 'data:image/' + ext + ';base64,' + buf.toString('base64');
+    return cocoDb.collection('users').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { photoData: photoData } }
+    ).then(function () {
+      console.log('[avatar] updated for user', id, Math.round(buf.length / 1024) + 'KB', mime);
+      return res.status(200).json({ ok: true });
+    }).catch(function (e) {
+      console.error('[avatar] update error', e && e.message);
+      return res.status(200).json({});
+    });
+  });
   app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
@@ -576,17 +621,13 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const levelOriginal = req.params.levelOriginal;
       const entry = campDoc.levels[levelOriginal];
       if (!entry) { return res.status(200).json(null); }
-      // 收集本关全部后继关卡（original）：nextLevels 各分支 + rewards 引用关卡 + 按序 fallback next
+      // 收集本关直接后继（original）：nextLevels 各分支 + 按序 fallback next。
+      // 不含 rewards 引用关卡（跨 campaign 课程入口），防前端批量解锁全部后继。
       const nexts = [];
       if (entry.nextLevels) {
         for (const nid of Object.keys(entry.nextLevels)) {
           const ne = entry.nextLevels[nid];
           if (ne && ne.original) { nexts.push(ne.original); }
-        }
-      }
-      if (Array.isArray(entry.rewards)) {
-        for (const r of entry.rewards) {
-          if (r && r.level) { nexts.push(r.level); }
         }
       }
       const keys = Object.keys(campDoc.levels);
@@ -769,6 +810,78 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     let d = await c.findOne({ slug: id });
     if (!d) { d = await c.findOne({ name: id }); }
     return d;
+  }
+
+  // --- 关卡解锁可达性（防"很快解锁高级关卡"） ---
+  // 课程 campaign 首关几乎全靠他 campaign 的 rewards 引用解锁（course-2~6/web-dev/
+  // game-dev/js-primer 等），故不能禁跨 campaign 解锁；改以可达性把关：仅已解锁关
+  // 或其直系后继（nextLevels/rewards 引用）可通关，URL 直开未解锁关不再解锁/发奖。
+  const ALWAYS_UNLOCKED_LEVELS = new Set(['5411cb3769152f1707be029c', '65c55febd2ca2055e6566b2b']);
+  let campaignIndexCache = null;   // { levelByOrig, firstLevels }
+  let campaignIndexAt = 0;
+  const CAMPAIGN_INDEX_TTL = 60000;
+  async function getCampaignIndex() {
+    if (campaignIndexCache && (Date.now() - campaignIndexAt) < CAMPAIGN_INDEX_TTL) { return campaignIndexCache; }
+    const camps = await cocoDb.collection('campaigns').find({})
+      .project({ slug: 1, name: 1, levels: 1 }).toArray();
+    // 同一 original 可能出现在多个 campaign（如 Dungeons of Kithgard 在 dungeon/
+    // game-dev-hoc/intro），须保留全部记录，否则引用解析错链。
+    const levelRefs = new Map();   // original -> [{nexts:[orig], rewards:[orig]}, ...]
+    const firstLevels = new Set(); // 各 campaign 顺序首关，恒可达
+    for (const camp of camps) {
+      if (!camp.levels) { continue; }
+      const keys = Object.keys(camp.levels);
+      keys.forEach(function (k, i) {
+        const v = camp.levels[k];
+        if (!v) { return; }
+        const orig = String(v.original || k);
+        const rec = {
+          nexts: v.nextLevels
+            ? Object.keys(v.nextLevels).map(function (nid) {
+                const ne = v.nextLevels[nid];
+                return ne && ne.original ? String(ne.original) : null;
+              }).filter(Boolean)
+            : [],
+          rewards: Array.isArray(v.rewards)
+            ? v.rewards.filter(function (r) { return r && r.level; }).map(function (r) { return String(r.level); })
+            : []
+        };
+        const arr = levelRefs.get(orig) || [];
+        arr.push(rec);
+        levelRefs.set(orig, arr);
+        if (i === 0) { firstLevels.add(orig); }
+      });
+    }
+    campaignIndexCache = { levelRefs, firstLevels };
+    campaignIndexAt = Date.now();
+    return campaignIndexCache;
+  }
+  async function canPlayLevel(creatorId, levelOriginal) {
+    try {
+      if (!levelOriginal || !creatorId || /^0{24}$/.test(creatorId)) { return true; } // 游客由前端管理
+      if (ALWAYS_UNLOCKED_LEVELS.has(levelOriginal)) { return true; }
+      const idx = await getCampaignIndex();
+      if (idx.firstLevels.has(levelOriginal)) { return true; }
+      const user = await cocoDb.collection('users').findOne(
+        { _id: new ObjectId(creatorId) },
+        { projection: { 'earned.levels': 1 } }
+      );
+      const earned = ((user && user.earned && user.earned.levels) || []).map(String);
+      if (earned.indexOf(levelOriginal) !== -1) { return true; }
+      for (const e of earned) {
+        const recs = idx.levelRefs.get(e);
+        if (!recs) { continue; }
+        for (const rec of recs) {
+          if (rec.nexts.indexOf(levelOriginal) !== -1) { return true; }
+          if (rec.rewards.indexOf(levelOriginal) !== -1) { return true; }
+        }
+      }
+      return false;
+    } catch (e) {
+      // 异常保守拦截留痕，宁拒一次不放行跳关
+      console.error('[db] canPlayLevel error', creatorId, levelOriginal, e && e.message);
+      return false;
+    }
   }
 
   // --- File serving (mirrors the upstream CodeCombat /file route) ---
@@ -970,13 +1083,15 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const levels = (a.rewards && a.rewards.levels) || [];
         const heroes = (a.rewards && a.rewards.heroes) || [];
         const isNew = !already.has(a._id.toString());
-        // 物品/关卡/英雄奖励每次通关都补发（$addToSet 去重，不会重复拥有）：
+        // 物品/英雄奖励每次通关都补发（$addToSet 去重，不会重复拥有）：
         // 修复早期 PUT bug 清空 earned.items 后，重玩（成就已赚）不再给奖励的问题。
         // 例如 shadow-guard 掉 simple-sword，若首次被清空，重玩必须能补回。
+        // 关卡奖励（rewards.levels）仅成就首达时发放：重玩旧关不得再解锁新关卡，
+        // 否则玩家反复刷旧关即可绕过顺序解锁，快速解锁高级关卡。
         for (const it of items) { if (it) { earnedItems.add(String(it)); } }
-        for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
         for (const h of heroes) { if (h) { earnedHeroes.add(String(h)); } }
         if (isNew) {
+          for (const lv of levels) { if (lv) { earnedLevels.add(String(lv)); } }
           // 首次通关：全额宝石 + 经验 + 成就记录
           gemInc += gems;
           xpInc += worth; earnedAch.push(a._id.toString());
@@ -1089,6 +1204,15 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const creator = cookieCreator || (fullDoc && fullDoc.creator) || body.creator;
         console.info('[db] resolved completion: levelOriginal=', levelOriginal, 'campaign=', campaign, 'creator=', creator);
         if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
+          // 可达性校验：未解锁关卡通关不产生解锁/发奖，且落库 session 剥离 complete，
+          // 防止前端 levelStatusMap 借 COMPLETE 状态强制显示"已解锁"（CampaignView）。
+          if (!(await canPlayLevel(creator, levelOriginal))) {
+            console.warn('[db] block unlock: level', levelOriginal, 'not reachable for user', creator);
+            try {
+              if (docId) { await coll.updateOne({ _id: docId }, { $set: { 'state.complete': false } }); }
+            } catch (e) { /* ignore */ }
+            return res.status(200).json(docId ? { _id: docId.toString() } : {});
+          }
           const unlocked = [levelOriginal];
           const campDoc = await resolveCampaign(campaign);
           if (campDoc && campDoc.levels) {
@@ -1167,10 +1291,22 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       // 登录态竞态修复：/user-data 是网络请求，async app.js（auth.js 在模块加载时
       // new User(window.userObject)）可能在它返回前执行 → me 匿名 → 整页跳转后导航掉登录。
       // 服务端把 userObject 内联进 HTML（同步脚本），顺序即确定。
+      // 注意：user-data 脚本还定义 window.serverConfig（Navigation.vue 的 partnerLogo 依赖
+      // this.serverConfig.codeNinjas），移除脚本时必须同时内联 serverConfig，否则导航渲染崩。
       const inlineUid = req.cookies && req.cookies.zg_userId;
+      const serverConfigObj = {
+        codeNinjas: false,
+        static: true,
+        picoCTF: false,
+        showCodePlayAds: false,
+        production: false,
+        stripe: false,
+        buildInfo: { sha: (config.buildInfo && config.buildInfo.sha) || 'dev' }
+      };
       const inlineUserScript = function (userObj) {
         const u = userObj || anonymousUser;
-        return '<script>window.userObject = ' + JSON.stringify(u) + ';</script>';
+        return '<script>window.userObject = ' + JSON.stringify(u) + ';</script>' +
+               '<script>window.serverConfig = ' + JSON.stringify(serverConfigObj) + ';</script>';
       };
       const render = function (userObj) {
         const inlineUser = inlineUserScript(userObj);
