@@ -323,15 +323,27 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // 默认值仅在 upsert 新建用户时通过 $setOnInsert 应用。
   const PROTECTED_USER_FIELDS = ['earned', 'points', 'gems', 'spent', 'purchased'];
   // 服务端独占字段：客户端请求体一律剥离，防提权/篡改（permissions 提权漏洞修复：
-  // 此前注册与 PUT/PATCH 直接透传，任意用户可自封 admin/godmode）
+  // 此前注册与 PUT/PATCH 直接透传，任意用户可自封 admin/godmode）。
+  // permissions 不在其中：单独由 stripUnauthorizedPermissions 做条件剥离——
+  // 登录 admin 可修改（设置页 God Mode/Admin 开关），非 admin 一律剥离防提权。
   const SERVER_ONLY_USER_FIELDS = [
-    'permissions', 'passwordHash', 'passwordReset', 'lastIP',
+    'passwordHash', 'passwordReset', 'lastIP',
     'emailLower', 'nameLower', 'anonymous', 'dateCreated', 'testGroupNumber'
   ];
   const stripServerOnlyUserFields = function (body) {
     const b = Object.assign({}, body || {});
     for (const f of SERVER_ONLY_USER_FIELDS) { delete b[f]; }
     return b;
+  };
+  // 仅登录 admin 可写 permissions（返回 Promise<body>）；非 admin 提交 permissions 一律剥离
+  const stripUnauthorizedPermissions = function (req, body) {
+    if (!body || !Object.prototype.hasOwnProperty.call(body, 'permissions')) { return Promise.resolve(body); }
+    return isAdminUser(req).then(function (admin) {
+      if (admin) { return body; }
+      const b = Object.assign({}, body);
+      delete b.permissions;
+      return b;
+    });
   };
   const USER_DEFAULTS = {
     points: 0, gems: 0, spent: 0,
@@ -390,27 +402,33 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       return res.status(200).json({});
     });
   });
-  app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
-    if (!cocoDb) { return res.status(200).json(anonymousUser); }
-    const id = req.params.id;
-    if (/^[a-f0-9]{24}$/i.test(id)) {
-      // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则游客写库会命中/污染
-      // 库中遗留的全零 _id 用户（SYH0405），并使其 anonymous 被强制置 false。
-      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
-        return res.status(200).json(anonymousUser);
+  app.put('/db/user/:id', express.json({ limit: '25mb', strict: false }), async function (req, res) {
+    try {
+      if (!cocoDb) { return res.status(200).json(anonymousUser); }
+      const id = req.params.id;
+      if (/^[a-f0-9]{24}$/i.test(id)) {
+        // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则游客写库会命中/污染
+        // 库中遗留的全零 _id 用户（SYH0405），并使其 anonymous 被强制置 false。
+        if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+          return res.status(200).json(anonymousUser);
+        }
+        const oid = new ObjectId(id);
+        const body = await stripUnauthorizedPermissions(req, req.body);
+        const setData = stripServerOnlyUserFields(stripProtectedUserFields(body));
+        setData.anonymous = false;
+        // 去掉 _id（来自请求体），MongoDB 不允许 $set 修改 _id
+        delete setData._id;
+        const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
+        cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
+          .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
+          .then(function (u) { return res.status(200).json(u || anonymousUser); })
+          .catch(function () { return res.status(200).json(anonymousUser); });
+      } else {
+        return res.status(200).json([]);
       }
-      const oid = new ObjectId(id);
-      const setData = stripServerOnlyUserFields(stripProtectedUserFields(req.body));
-      setData.anonymous = false;
-      // 去掉 _id（来自请求体），MongoDB 不允许 $set 修改 _id
-      delete setData._id;
-      const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
-      cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
-        .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
-        .then(function (u) { return res.status(200).json(u || anonymousUser); })
-        .catch(function () { return res.status(200).json(anonymousUser); });
-    } else {
-      return res.status(200).json([]);
+    } catch (e) {
+      console.error('[db] PUT /db/user error', e && e.message);
+      return res.status(200).json(anonymousUser);
     }
   });
   // 关卡保存（编辑器）：PUT /db/level/:id —— 仅管理员可写
@@ -457,25 +475,31 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         .catch(function(e) { console.error('[db] /db/level POST error', e.message); return res.status(200).json({}); });
     });
   });
-  app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), function (req, res) {
+  app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), async function (req, res) {
     // 同 PUT 逻辑：仅更新请求体字段，剥离奖励累计字段，默认值仅在新建时应用
-    if (!cocoDb) { return res.status(200).json(anonymousUser); }
-    const id = req.params.id;
-    if (/^[a-f0-9]{24}$/i.test(id)) {
-      // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则按游客拦截，不落库。
-      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
-        return res.status(200).json(anonymousUser);
+    try {
+      if (!cocoDb) { return res.status(200).json(anonymousUser); }
+      const id = req.params.id;
+      if (/^[a-f0-9]{24}$/i.test(id)) {
+        // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则按游客拦截，不落库。
+        if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+          return res.status(200).json(anonymousUser);
+        }
+        const oid = new ObjectId(id);
+        const body = await stripUnauthorizedPermissions(req, req.body);
+        const setData = stripServerOnlyUserFields(stripProtectedUserFields(body));
+        setData.anonymous = false;
+        const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
+        cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
+          .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
+          .then(function (u) { return res.status(200).json(u || anonymousUser); })
+          .catch(function () { return res.status(200).json(anonymousUser); });
+      } else {
+        return res.status(200).json([]);
       }
-      const oid = new ObjectId(id);
-      const setData = stripServerOnlyUserFields(stripProtectedUserFields(req.body));
-      setData.anonymous = false;
-      const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
-      cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
-        .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
-        .then(function (u) { return res.status(200).json(u || anonymousUser); })
-        .catch(function () { return res.status(200).json(anonymousUser); });
-    } else {
-      return res.status(200).json([]);
+    } catch (e) {
+      console.error('[db] PATCH /db/user error', e && e.message);
+      return res.status(200).json(anonymousUser);
     }
   });
   // 创建用户（注册）：POST /db/user 不带 id → 插入新用户到 MongoDB
