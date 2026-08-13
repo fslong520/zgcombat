@@ -18,6 +18,7 @@ const co = require('co');
 const config = require('./server_config');
 const Promise = require('bluebird');
 const { publicFolderName } = require('./development/utils');
+const crypto = require('crypto');
 const publicPath = path.join(__dirname, publicFolderName);
 
 module.exports.startServer = function(done) {
@@ -47,6 +48,52 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     permissions: [],
     preferredLanguage: 'zh-HANS'
   };
+
+  // --- 安全工具区：cookie 签名 / 密码哈希 / 敏感字段剥离 ---
+  // Cookie 签名（防伪造冒充）：zg_userId 为 uid.hexsig，验签失败一律视为未登录。
+  const COOKIE_SECRET = process.env.COCO_COOKIE_SECRET || 'coco-dev-secret-2026';
+  function signUid(uid) { return uid + '.' + crypto.createHmac('sha256', COOKIE_SECRET).update(uid).digest('hex'); }
+  function verifyUidCookie(cookie) {
+    if (!cookie) { return null; }
+    const dot = cookie.lastIndexOf('.');
+    if (dot <= 0) { return null; }
+    const uid = cookie.slice(0, dot);
+    const sig = cookie.slice(dot + 1);
+    if (!/^[a-f0-9]{24}$/i.test(uid)) { return null; }
+    const expect = crypto.createHmac('sha256', COOKIE_SECRET).update(uid).digest('hex');
+    if (sig.length !== expect.length) { return null; }
+    try { if (!crypto.timingSafeEqual(Buffer.from(sig, 'hex'), Buffer.from(expect, 'hex'))) { return null; } } catch (e) { return null; }
+    return uid;
+  }
+  // 密码哈希（scrypt，node 内置零依赖）：格式 scrypt$salt$hash
+  async function hashPassword(pw) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    return new Promise(function (resolve, reject) {
+      crypto.scrypt(pw, salt, 32, function (err, key) { return err ? reject(err) : resolve('scrypt$' + salt + '$' + key.toString('hex')); });
+    });
+  }
+  async function verifyPassword(pw, user) {
+    if (!user) { return false; }
+    if (user.passwordHash) {
+      const parts = String(user.passwordHash).split('$');
+      if (parts.length !== 3 || parts[0] !== 'scrypt') { return false; }
+      const salt = parts[1]; const hash = parts[2];
+      return new Promise(function (resolve) {
+        crypto.scrypt(pw, salt, 32, function (err, key) { return resolve(!err && key.toString('hex') === hash); });
+      });
+    }
+    if (typeof user.password === 'string') { return user.password === pw; } // 明文兼容（调用方负责懒迁移）
+    return false;
+  }
+  // 敏感字段剥离：任何出网的用户文档一律走此函数，杜绝密码/哈希/重置令牌/IP 泄露
+  function stripUserSensitive(u) {
+    if (!u) { return u; }
+    const out = Object.assign({}, u);
+    delete out.password; delete out.passwordHash; delete out.passwordReset; delete out.lastIP;
+    return out;
+  }
+  // SPA 内联 userObject/serverConfig 转义：防 JSON 内含 </script> 逃逸出 script 标签（XSS）
+  const escapeJs = function (s) { return String(s).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026').replace(/'/g, '\\u0027'); };
   app.get('/user-data', function(req, res) {
     res.setHeader('Content-Type', 'application/javascript');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -59,8 +106,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       stripe: false,
       buildInfo: { sha: (config.buildInfo && config.buildInfo.sha) || 'dev' }
     };
-    // 检查登录 cookie，返回对应用户，否则返回匿名用户
-    const uid = req.cookies && req.cookies.zg_userId;
+    // 检查登录 cookie（验签），返回对应用户，否则返回匿名用户
+    const uid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
     let userPromise;
     if (uid && /^[a-f0-9]{24}$/i.test(uid)) {
       userPromise = cocoDb ? cocoDb.collection('users').findOne({ _id: new ObjectId(uid) }) : Promise.resolve(null);
@@ -68,18 +115,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       userPromise = Promise.resolve(null);
     }
     userPromise.then(function(u) {
-      return res.send('window.userObject = ' + JSON.stringify(u || anonymousUser) + ';\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+      return res.send('window.userObject = ' + escapeJs(JSON.stringify(stripUserSensitive(u || anonymousUser))) + ';\nwindow.serverConfig = ' + escapeJs(JSON.stringify(serverConfig)) + ';');
     }).catch(function() {
-      return res.send('window.userObject = ' + JSON.stringify(anonymousUser) + ';\nwindow.serverConfig = ' + JSON.stringify(serverConfig) + ';');
+      return res.send('window.userObject = ' + escapeJs(JSON.stringify(anonymousUser)) + ';\nwindow.serverConfig = ' + escapeJs(JSON.stringify(serverConfig)) + ';');
     });
   });
   app.get('/auth/whoami', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    const uid = req.cookies && req.cookies.zg_userId;
+    const uid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
     if (uid && /^[a-f0-9]{24}$/i.test(uid) && cocoDb) {
       cocoDb.collection('users').findOne({ _id: new ObjectId(uid) })
-        .then(function(u) { return res.json(u || anonymousUser); })
+        .then(function(u) { return res.json(stripUserSensitive(u) || anonymousUser); })
         .catch(function() { return res.json(anonymousUser); });
     } else {
       return res.json(anonymousUser);
@@ -126,10 +173,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     cocoDb.collection('users').findOne(query)
       .then(function(u) {
         if (!u) { console.log('[login] not-found for ' + username); return res.status(401).json({ errorID: 'not-found' }); }
-        if (u.password !== password) { console.log('[login] wrong-password for ' + username); return res.status(401).json({ errorID: 'wrong-password' }); }
-        console.log('[login] success: ' + u.name + ' ' + u._id);
-        res.cookie('zg_userId', u._id.toString(), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
-        return res.json(u);
+        return Promise.resolve(verifyPassword(password, u)).then(function(ok) {
+          if (!ok) { console.log('[login] wrong-password for ' + username); return res.status(401).json({ errorID: 'wrong-password' }); }
+          // 明文密码懒迁移：登录成功且为明文时，单条迁移为 scrypt 哈希并清除明文（绝不批量扫库）
+          const migratePlain = (typeof u.password === 'string' && !u.passwordHash);
+          console.log('[login] success: ' + u.name + ' ' + u._id);
+          res.cookie('zg_userId', signUid(u._id.toString()), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
+          const respond = function () { return res.json(stripUserSensitive(u)); };
+          if (!migratePlain) { return respond(); }
+          return hashPassword(password).then(function (h) {
+            return cocoDb.collection('users').updateOne({ _id: u._id }, { $set: { passwordHash: h }, $unset: { password: '' } });
+          }).then(respond).catch(respond);
+        });
       })
       .catch(function() { return res.status(401).json({ errorID: 'unknown' }); });
   });
@@ -227,15 +282,26 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(200).json(anonymousUser); }
     const id = req.params.id;
     if (/^[a-f0-9]{24}$/i.test(id)) {
-      // 占位全零 id（0000...）是匿名游客保留值：仅当登录 cookie 指向该 id 时才视为
+      // 占位全零 id（0000...）是匿名游客保留值：仅当登录 cookie（验签）指向该 id 时才视为
       // 真实用户；否则一律按游客处理。库中曾存在全零 _id 的真实用户（SYH0405），
       // 游客 GET /db/user/000000000000000000000000 会命中它，导致匿名玩家被误判为
       // 已登录并显示该用户姓名（孙意涵）。
-      if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+      if (/^0+$/.test(id) && verifyUidCookie(req.cookies && req.cookies.zg_userId) !== id) {
         return res.status(200).json(anonymousUser);
       }
       cocoDb.collection('users').findOne({ _id: new ObjectId(id) })
-        .then(function (u) { return res.status(200).json(u || anonymousUser); })
+        .then(function (u) {
+          if (!u) { return res.status(200).json(anonymousUser); }
+          // 隐私剥离：本人（或 admin）可看全量（去敏感字段）；他人仅可看展示字段（email 属隐私）
+          const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+          if (cookieUid === id) { return res.status(200).json(stripUserSensitive(u)); }
+          return isAdminUser(req).then(function (admin) {
+            if (admin) { return res.status(200).json(stripUserSensitive(u)); }
+            const pub = stripUserSensitive(u);
+            delete pub.email;
+            return res.status(200).json(pub);
+          });
+        })
         .catch(function () { return res.status(200).json(anonymousUser); });
     } else {
       // Non-objectId sub-resources such as /db/user/announcements are
@@ -302,7 +368,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const original = String(levelDoc.original || levelDoc._id);
       const sessColl = cocoDb.collection('level.sessions');
       const matchLevel = { $or: [{ levelID: slug }, { 'level.original': original }, { level: original }] };
-      const uid = req.cookies && req.cookies.zg_userId;
+      const uid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
       // 占位 id（0000...）：匿名玩家共享，服务端 session 是他人数据，不加载（返回 {} 新建）。
       if (uid && /^[a-f0-9]{24}$/i.test(uid) && !/^0+$/.test(uid)) {
         const session = await sessColl.findOne(Object.assign({ creator: uid }, matchLevel), { sort: { changed: -1 } });
@@ -381,7 +447,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     if (!cocoDb) { return res.status(200).json({}); }
     const id = req.params.id;
     if (!/^[a-f0-9]{24}$/i.test(id)) { return res.status(400).json({ message: 'bad id' }); }
-    const cookieUid = req.cookies && req.cookies.zg_userId;
+    const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
     if (!cookieUid || cookieUid !== id) { return res.status(403).json({ message: 'Not allowed' }); }
     const buf = req.body;
     if (!Buffer.isBuffer(buf) || buf.length === 0) { return res.status(400).json({ message: 'Invalid image data' }); }
@@ -407,12 +473,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (!cocoDb) { return res.status(200).json(anonymousUser); }
       const id = req.params.id;
       if (/^[a-f0-9]{24}$/i.test(id)) {
-        // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则游客写库会命中/污染
+        // 占位全零 id：仅登录 cookie（验签）指向它时可写（真实用户），否则游客写库会命中/污染
         // 库中遗留的全零 _id 用户（SYH0405），并使其 anonymous 被强制置 false。
-        if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+        if (/^0+$/.test(id) && verifyUidCookie(req.cookies && req.cookies.zg_userId) !== id) {
           return res.status(200).json(anonymousUser);
         }
         const oid = new ObjectId(id);
+        // IDOR 越权写防护：仅本人（验签 cookie）或 admin 可写用户文档，否则 403
+        const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+        if (!cookieUid || cookieUid !== id) {
+          const adminOk = cookieUid && (await isAdminUser(req));
+          if (!adminOk) { return res.status(403).json({ message: 'Forbidden' }); }
+        }
         const body = await stripUnauthorizedPermissions(req, req.body);
         const setData = stripServerOnlyUserFields(stripProtectedUserFields(body));
         setData.anonymous = false;
@@ -421,7 +493,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
         cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
           .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
-          .then(function (u) { return res.status(200).json(u || anonymousUser); })
+          .then(function (u) { return res.status(200).json(stripUserSensitive(u || anonymousUser)); })
           .catch(function () { return res.status(200).json(anonymousUser); });
       } else {
         return res.status(200).json([]);
@@ -433,7 +505,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   });
   // 关卡保存（编辑器）：PUT /db/level/:id —— 仅管理员可写
   function isAdminUser(req) {
-    const uid = req.cookies && req.cookies.zg_userId;
+    const uid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
     if (!uid || !/^[a-f0-9]{24}$/i.test(uid) || !cocoDb) { return Promise.resolve(false); }
     return cocoDb.collection('users').findOne({ _id: new ObjectId(uid) })
       .then(function(u) {
@@ -481,18 +553,24 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (!cocoDb) { return res.status(200).json(anonymousUser); }
       const id = req.params.id;
       if (/^[a-f0-9]{24}$/i.test(id)) {
-        // 占位全零 id：仅登录 cookie 指向它时可写（真实用户），否则按游客拦截，不落库。
-        if (/^0+$/.test(id) && (!req.cookies || req.cookies.zg_userId !== id)) {
+        // 占位全零 id：仅登录 cookie（验签）指向它时可写（真实用户），否则按游客拦截，不落库。
+        if (/^0+$/.test(id) && verifyUidCookie(req.cookies && req.cookies.zg_userId) !== id) {
           return res.status(200).json(anonymousUser);
         }
         const oid = new ObjectId(id);
+        // IDOR 越权写防护：仅本人（验签 cookie）或 admin 可写用户文档，否则 403
+        const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+        if (!cookieUid || cookieUid !== id) {
+          const adminOk = cookieUid && (await isAdminUser(req));
+          if (!adminOk) { return res.status(403).json({ message: 'Forbidden' }); }
+        }
         const body = await stripUnauthorizedPermissions(req, req.body);
         const setData = stripServerOnlyUserFields(stripProtectedUserFields(body));
         setData.anonymous = false;
         const update = { $set: setData, $setOnInsert: USER_DEFAULTS };
         cocoDb.collection('users').updateOne({ _id: oid }, update, { upsert: true })
           .then(function () { return cocoDb.collection('users').findOne({ _id: oid }); })
-          .then(function (u) { return res.status(200).json(u || anonymousUser); })
+          .then(function (u) { return res.status(200).json(stripUserSensitive(u || anonymousUser)); })
           .catch(function () { return res.status(200).json(anonymousUser); });
       } else {
         return res.status(200).json([]);
@@ -506,20 +584,24 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   app.post('/db/user', express.json({ limit: '25mb', strict: false }), function (req, res) {
     if (!cocoDb) { return res.status(200).json({}); }
     const body = req.body || {};
-    const doc = Object.assign({
+    // 白名单过滤：仅接受 name/email/preferredLanguage，其余字段一律用默认值——
+    // 杜绝请求体注入 permissions/earned/gems/points/spent/purchased/passwordHash 等
+    const doc = {
       anonymous: false,
       name: body.name || 'Anonymous',
       email: body.email || '',
-      password: body.password || '',
+      preferredLanguage: body.preferredLanguage || 'zh-HANS',
+      passwordHash: '', // 无密码注册：不存明文
       points: 0,
       earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
       purchased: { heroes: [], items: [], levels: [], gems: 0 },
       gems: 0,
       spent: 0,
       dateCreated: new Date().toISOString()
-    }, stripServerOnlyUserFields(body));
+    };
     cocoDb.collection('users').insertOne(doc).then(function (result) {
-      return res.status(200).json(doc);
+      res.cookie('zg_userId', signUid(result.insertedId.toString()), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
+      return res.status(200).json(stripUserSensitive(doc));
     }).catch(function (err) {
       console.error('[db] user create error', err && err.message);
       return res.status(200).json({});
@@ -547,25 +629,26 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         console.log('[db] signup name/email conflict for ' + name);
         return res.status(409).json({ message: 'That username or email is already in use' });
       }
-      const doc = Object.assign({
+      // 白名单过滤：仅接受 name/email/preferredLanguage，其余字段一律用默认值（防注入提权字段）
+      const doc = {
         anonymous: false,
         name: name,
         email: email,
-        password: password,
+        preferredLanguage: body.preferredLanguage || 'zh-HANS',
+        passwordHash: await hashPassword(password), // 明文不入库，只存 scrypt 哈希
         points: 0,
         earned: { heroes: [], items: [], levels: [], gems: 0, achievements: [] },
         purchased: { heroes: [], items: [], levels: [], gems: 0 },
         gems: 0,
         spent: 0,
-        dateCreated: new Date().toISOString(),
-        preferredLanguage: 'zh-HANS'
-      }, stripServerOnlyUserFields(body));
+        dateCreated: new Date().toISOString()
+      };
       delete doc._id; // 不允许请求体覆盖自动 ObjectId
       const result = await cocoDb.collection('users').insertOne(doc);
       const created = await cocoDb.collection('users').findOne({ _id: result.insertedId });
       console.log('[db] signup created: ' + name + ' ' + result.insertedId.toString());
-      res.cookie('zg_userId', result.insertedId.toString(), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
-      return res.status(200).json(created);
+      res.cookie('zg_userId', signUid(result.insertedId.toString()), { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
+      return res.status(200).json(stripUserSensitive(created));
     } catch (e) {
       console.error('[db] signup-with-password error', e && e.message);
       return res.status(200).json({});
@@ -575,7 +658,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // 原版由 server 处理；本部署此前走 /db/* 兜底（假保存），导致购买不落库。
   app.post('/db/purchase', express.json({ limit: '10mb', strict: false }), async function (req, res) {
     if (!cocoDb) { return res.status(200).json({}); }
-    const uid = req.cookies && req.cookies.zg_userId;
+    const uid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
     if (!uid || !/^[a-f0-9]{24}$/i.test(uid)) { return res.status(401).json({ message: 'Not logged in' }); }
     const body = req.body || {};
     const original = body.purchased && body.purchased.original;
@@ -605,9 +688,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const list = isHero ? 'heroes' : 'items';
       if (!Array.isArray(purchased[list])) { purchased[list] = []; }
       const itemRef = String(item.original || item._id);
-      if (purchased[list].indexOf(itemRef) === -1) { purchased[list].push(itemRef); }
+      // 重复购买拒绝：已拥有该物品/英雄 → 400（原幂等跳过会重复扣款路径不清）
+      if (purchased[list].indexOf(itemRef) !== -1) { return res.status(400).json({ message: 'Already owned' }); }
+      purchased[list].push(itemRef);
       const newSpent = spent + cost;
-      await cocoDb.collection('users').updateOne({ _id: oid }, { $set: { spent: newSpent, purchased: purchased } });
+      // 竞态防丢失更新：spent 作为乐观锁条件，若并发下已变化（matchedCount=0）→ 409 重试
+      const updRes = await cocoDb.collection('users').updateOne(
+        { _id: oid, spent: spent },
+        { $set: { spent: newSpent, purchased: purchased } }
+      );
+      if (!updRes || updRes.matchedCount === 0) { return res.status(409).json({ message: 'Conflict, please retry' }); }
       await cocoDb.collection('purchases').insertOne(Object.assign({}, body, { recipient: uid, purchaser: uid, created: new Date() }));
       return res.status(200).json({ purchased: purchased, spent: newSpent });
     } catch (e) {
@@ -780,7 +870,30 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const filter = {};
       if (req.query.slug) { filter.slug = req.query.slug; }
       if (req.query.related) { filter.related = req.query.related; }
-      const docs = await coll.find(filter, opts).toArray();
+      // 官方 API 兼容：view 过滤仅用于 thang.type（items=可购买道具 Item+Hero，heroes=Hero，heroes-junior=Junior Hero）
+      if (req.params.collection === 'thang.type' && req.query.view) {
+        const kindMap = {
+          items: { $in: ['Item', 'Hero'] },
+          heroes: 'Hero',
+          'heroes-junior': 'Junior Hero'
+        };
+        if (kindMap[req.query.view]) { filter.kind = kindMap[req.query.view]; }
+      }
+      const queryOpts = Object.assign({}, opts);
+      const skipRaw = parseInt(req.query.skip, 10);
+      const limitRaw = parseInt(req.query.limit, 10);
+      if (Number.isFinite(skipRaw) && skipRaw >= 0) { queryOpts.skip = skipRaw; }
+      if (Number.isFinite(limitRaw) && limitRaw > 0) { queryOpts.limit = limitRaw; }
+      // level.session 全量列表防泄露：非 admin 仅可查自己的（query.creator 必须等于本人验签 uid）
+      if (req.params.collection === 'level.session' && !id) {
+        const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+        const adminOk = cookieUid && (await isAdminUser(req));
+        if (!adminOk) {
+          if (!cookieUid || req.query.creator !== cookieUid) { return res.status(200).json([]); }
+          filter.creator = cookieUid;
+        }
+      }
+      const docs = await coll.find(filter, queryOpts).toArray();
       return res.status(200).json(docs);
     } catch (e) {
       console.error('[db] route error', req.method, req.path, e.message);
@@ -852,6 +965,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     // game-dev-hoc/intro），须保留全部记录，否则引用解析错链。
     const levelRefs = new Map();   // original -> [{nexts:[orig], rewards:[orig]}, ...]
     const firstLevels = new Set(); // 各 campaign 顺序首关，恒可达
+    const seqNext = new Map();     // original -> 直接后继 original（campaign 顺序，仅两者都有 original）
     for (const camp of camps) {
       if (!camp.levels) { continue; }
       const keys = Object.keys(camp.levels);
@@ -859,6 +973,12 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         const v = camp.levels[k];
         if (!v) { return; }
         const orig = String(v.original || k);
+        // 直接后继：本关之后即顺序下一关（修复 kithgard-mastery 等最终关
+        // 无 nextLevels/rewards 引用时，通关后序列无法推进、终关永不可完成）
+        if (v.original && i > 0) {
+          const prevV = camp.levels[keys[i - 1]];
+          if (prevV && prevV.original) { seqNext.set(String(prevV.original), orig); }
+        }
         const rec = {
           nexts: v.nextLevels
             ? Object.keys(v.nextLevels).map(function (nid) {
@@ -876,7 +996,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         if (i === 0) { firstLevels.add(orig); }
       });
     }
-    campaignIndexCache = { levelRefs, firstLevels };
+    campaignIndexCache = { levelRefs, firstLevels, seqNext };
     campaignIndexAt = Date.now();
     return campaignIndexCache;
   }
@@ -893,6 +1013,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const earned = ((user && user.earned && user.earned.levels) || []).map(String);
       if (earned.indexOf(levelOriginal) !== -1) { return true; }
       for (const e of earned) {
+        // 序列直接后继：仅一关一关推进，防批量解锁
+        if (idx.seqNext && idx.seqNext.get(e) === levelOriginal) { return true; }
         const recs = idx.levelRefs.get(e);
         if (!recs) { continue; }
         for (const rec of recs) {
@@ -1120,8 +1242,8 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           gemInc += gems;
           xpInc += worth; earnedAch.push(a._id.toString());
         } else {
-          // 重复通关（刷旧关）：只发一半宝石，经验/成就不再给
-          gemInc += Math.max(1, Math.floor(gems / 2));
+          // 重复通关（刷旧关）：只发一半宝石，经验/成就不再给（0 宝石成就不再兜底发 1 宝石）
+          gemInc += Math.floor(gems / 2);
         }
       }
       if (!earnedAch.length && !gemInc && !xpInc) { return; }
@@ -1155,15 +1277,22 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const coll = cocoDb.collection('level.sessions');
       let docId;
       const doc = Object.assign({}, body);
-      // 落库时以服务端登录 cookie 为准覆盖 creator：前端 session 可能带着旧值
+      // 落库时以服务端登录 cookie（验签）为准覆盖 creator：前端 session 可能带着旧值
       // （转储 level 文档的关卡作者 creator），或更新请求体缺 creator；只有 cookie
       // 能保证 session 归属当前用户，否则同一转储 session 被多玩家互相覆盖。
-      const sessionCookieUid = req.cookies && req.cookies.zg_userId;
-      if (sessionCookieUid && /^[a-f0-9]{24}$/i.test(sessionCookieUid)) {
-        doc.creator = sessionCookieUid;
-      }
+      // 无 cookie 一律占位（0000...）：不再信任 body.creator，防伪造他人 creator 冒领归属。
+      const sessionVerifiedUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+      doc.creator = sessionVerifiedUid || '000000000000000000000000';
       if (id && /^[a-f0-9]{24}$/i.test(id)) {
         docId = new ObjectId(id);
+        // 归属校验（IDOR）：session 已存在且非本人（验签 cookie）且非 admin → 403，防篡改他人存档
+        const existing = await coll.findOne({ _id: docId }, { projection: { creator: 1 } });
+        if (existing) {
+          if (!sessionVerifiedUid || existing.creator !== sessionVerifiedUid) {
+            const adminOk = sessionVerifiedUid && (await isAdminUser(req));
+            if (!adminOk) { return res.status(403).json({ message: 'Forbidden' }); }
+          }
+        }
         doc._id = docId;
         await coll.updateOne({ _id: docId }, { $set: doc }, { upsert: true });
       } else {
@@ -1221,11 +1350,12 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
             campaign = lvlDoc && lvlDoc.campaign;
           } catch (e) { /* ignore */ }
         }
-        // creator 以服务端登录 cookie 为准：SPA 加载的 session 可能带旧值（转储 level 文档的
+        // creator 以服务端登录 cookie 验签为准：SPA 加载的 session 可能带旧值（转储 level 文档的
         // 关卡作者 creator），或更新请求体缺 creator，只有 cookie 才能保证归属当前用户。
-        const cookieUid = req.cookies && req.cookies.zg_userId;
-        const cookieCreator = (cookieUid && /^[a-f0-9]{24}$/i.test(cookieUid)) ? cookieUid : null;
-        const creator = cookieCreator || (fullDoc && fullDoc.creator) || body.creator;
+        // 回退链不信任 body.creator：落盘时 creator 已按 cookie 覆盖，恒为 cookie 或 0000 占位。
+        const cookieUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
+        const cookieCreator = cookieUid || null;
+        const creator = cookieCreator || (fullDoc && fullDoc.creator) || '000000000000000000000000';
         console.info('[db] resolved completion: levelOriginal=', levelOriginal, 'campaign=', campaign, 'creator=', creator);
         if (levelOriginal && creator && !/^0{24}$/.test(creator)) {
           // 可达性校验：未解锁关卡通关不产生解锁/发奖，且落库 session 剥离 complete，
@@ -1317,7 +1447,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       // 服务端把 userObject 内联进 HTML（同步脚本），顺序即确定。
       // 注意：user-data 脚本还定义 window.serverConfig（Navigation.vue 的 partnerLogo 依赖
       // this.serverConfig.codeNinjas），移除脚本时必须同时内联 serverConfig，否则导航渲染崩。
-      const inlineUid = req.cookies && req.cookies.zg_userId;
+      const inlineUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
       const serverConfigObj = {
         codeNinjas: false,
         static: true,
@@ -1329,8 +1459,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       };
       const inlineUserScript = function (userObj) {
         const u = userObj || anonymousUser;
-        return '<script>window.userObject = ' + JSON.stringify(u) + ';</script>' +
-               '<script>window.serverConfig = ' + JSON.stringify(serverConfigObj) + ';</script>';
+        // escapeJs 转义 </script> 逃逸：用户名等字段含 HTML 特殊字符时防 XSS
+        return '<script>window.userObject = ' + escapeJs(JSON.stringify(u)) + ';</script>' +
+               '<script>window.serverConfig = ' + escapeJs(JSON.stringify(serverConfigObj)) + ';</script>';
       };
       const render = function (userObj) {
         const inlineUser = inlineUserScript(userObj);
