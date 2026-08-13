@@ -110,6 +110,16 @@ javaCppToJS = (source, language) ->
     # Java 类声明：public class Foo ... { ... }
     s = s.replace /(?:public\s+)?(?:abstract\s+)?(?:class|interface|struct)\s+\w+(?:\s*extends\s+\w+)?(?:\s*implements\s+[\w,\s]+)?\s*(\{)/g, '/*__MAIN__*/ if (1) $1'
 
+  # --- 3.5 Java 泛型擦除：List<String> → List（须在类型替换之前，否则 <String> 里的
+  # String 已被换成 var，正则不再匹配）---
+  # 旧正则 <[^>]+> 会误删比较运算（if (a < b) 的 < b) 乃至 a < b && c > d），致括号残缺。
+  # 新正则仅匹配类型参数形态（大写开头的类型名/参数名，逗号分隔，如 <String>、
+  # <Integer, String>），不碰小写变量/数字/表达式的比较。菱形 <>（new ArrayList<>()）单独删除。
+  # C++ 的 < > 是比较运算符，不擦除。
+  if language is 'java'
+    s = s.replace /<[A-Z]\w*(?:\s*,\s*[A-Z]\w*)*>/g, ''
+    s = s.replace /<>/g, ''
+
   # --- 4. 翻译变量声明 ---
   # int x = 5;  → var x = 5;
   # String name = "hello"; → var name = "hello";
@@ -119,38 +129,54 @@ javaCppToJS = (source, language) ->
   # int[] arr = {1,2,3}; → var arr = [1,2,3];
   # 数组声明 int[] arr → var arr
   # 注：替换须保留尾随空格，否则 `auto enemy1` 会被吞成 `varenemy1`（引用时未定义）
+  # 保护 new 构造：new String(...) / new Integer(...) 不被类型替换误伤（JS 有原生 String）。
+  # 占位符 __CTOR_X__ 两侧为下划线（单词字符），类型替换正则的 \b 边界不会命中其内部，
+  # 步骤 11 恢复字符串后还原。
+  s = s.replace /\bnew\s+(String|Integer|Boolean|Float|Double|Character)\s*\(/g, 'new __CTOR_$1__('
   # 先处理 new int[size] → new Array(size)，避免被下面的类型替换吞掉
   s = s.replace /\bnew\s+(int|long|short|char|byte|float|double|boolean|String)\s*\[(\w+)\]/g, 'new Array($2)'
   # 先处理复合类型：unsigned long long / long long / unsigned int 等整体替换，
   # 避免逐词替换产生 `var var x`（保留字错误）
   # 类型转换 (int)x / (float)y：括号形式不参与变量类型替换（否则变 (var)x）；
-  # 此处直接转成 JS 转换调用 parseInt(x)（含闭合括号），随后的类型替换不会误伤
-  s = s.replace /\(int\)\s*(\w+)/g, 'parseInt($1)'
-  s = s.replace /\(float\)\s*(\w+)/g, 'parseFloat($1)'
-  s = s.replace /\(double\)\s*(\w+)/g, 'parseFloat($1)'
-  s = s.replace /\(String\)\s*(\w+)/g, 'String($1)'
-  s = s.replace /\(boolean\)\s*(\w+)/g, 'Boolean($1)'
-  s = s.replace /\(char\)\s*(\w+)/g, 'String.fromCharCode($1)'
+  # 此处直接转成 JS 转换调用 parseInt(x)（含闭合括号），随后的类型替换不会误伤。
+  # 目标支持成员访问/下标：`(int) this.speed` → parseInt(this.speed)（旧 \w+ 只吃一个 token，
+  # 会截断成 parseInt(this).speed）；`(int) arr[0]` → parseInt(arr[0])。`(int) x + 1` 的 + 1 不在捕获组（只转 x）。
+  s = s.replace /\(int\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, 'parseInt($1)'
+  s = s.replace /\(float\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, 'parseFloat($1)'
+  s = s.replace /\(double\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, 'parseFloat($1)'
+  s = s.replace /\(String\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, '__STRING_CAST__$1)'
+  s = s.replace /\(boolean\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, '__BOOLEAN_CAST__$1)'
+  s = s.replace /\(char\)\s*([\w$]+(?:\.[\w$]+|\[[^\]]*\])*)/g, '__CHAR_CAST__$1)'
   s = s.replace /\b(?:unsigned\s+|signed\s+)?(?:long\s+long|short\s+int|long\s+int|long|short|int|char|byte|float|double|boolean|String|auto|unsigned|signed)\b\s*(\[\])?/g, (m, br) ->
     if br then "var#{br} " else 'var '
   s = s.replace /\bvar\[\]\s*/g, 'var '
+  # C++ 指针/引用/const：int* x → var x（丢弃声明处的 * &）；const int x → var x。
+  # `int* ptr = &x;` 的 &x 取址非声明位，前无 var/auto，不受影响（运行时无指针语义但语法合法）。
+  s = s.replace /(var|auto)\s*\*\s*/g, 'var '
+  s = s.replace /(var|auto)\s*&\s*/g, 'var '
+  s = s.replace /\bconst\s+(var|auto)\b/g, '$1'
   # 数组初始化 int[] arr = {1,2,3} → var arr = [1,2,3]（C++ 花括号列表在 JS 中是块，需转方括号）
   s = s.replace /(\bvar\s+\w+\s*=\s*)\{([^{}]*)\}/g, '$1[$2]'
+  # 泛型容器声明转 var：List names = / Map m = / ArrayList nums;（泛型已擦除，容器类名残留，
+  # JS 无 List/Map 类型）。仅匹配「大写类名 + 空格 + 变量名 + (= 或 ;)」，
+  # 不碰比较运算（A < B 的 < 后非空格标识符）、不碰方法声明（List getNames() 后是 ( 不是 =/;）
+  if language is 'java'
+    s = s.replace /\b[A-Z]\w*\s+([A-Za-z_$][\w$]*)\s*(?=[=;])/g, 'var $1'
 
   # --- 5. 翻译方法声明 ---
   # public void foo(int x, String y) { ... } → function foo(x, y) { ... }
   # public int add(int a, int b) → function add(a, b)
   # private boolean canAttack() → function canAttack()
-  s = s.replace /(?:public|private|protected|static|virtual|override|final|abstract|synchronized|transient|volatile|native|strictfp\s+)*(?:void|int|String|boolean|float|double|long|short|char|byte|var)\s+/g, (m, offset, str) ->
+  s = s.replace /(?:public\s+|private\s+|protected\s+|static\s+|virtual\s+|override\s+|final\s+|abstract\s+|synchronized\s+|transient\s+|volatile\s+|native\s+|strictfp\s+)*(?:void|int|String|boolean|float|double|long|short|char|byte|var)\s+/g, (m, offset, str) ->
     # 检查后面是否跟着一个标识符和左括号（方法声明）还是变量名（变量声明）
     rest = str.slice offset + m.length
     if /^\w+\s*\(/.test rest
       # 是方法声明 → function
       return 'function '
     else
-      # 是变量声明（已在第4步处理过，这里去掉多余的访问修饰符）
-      return '' if /^(public|private|protected|static|final|abstract)\b/.test m.trim()
-      return m
+      # 修饰符+变量声明：public var x = 5 → var x = 5（只删修饰符，保留 var，防隐式全局。
+      # 旧逻辑整段返回 '' 会把 public var 全删，剩 x = 5; 隐式全局，esprima/strict 模式下报错）
+      return m.replace /(?:public|private|protected|static|final|abstract|synchronized|transient|volatile|native)\s+/g, ''
 
   # 去掉方法参数中的类型：void foo(int x, String y) → function foo(x, y)
   # 匹配函数参数列表内部的类型关键字
@@ -163,6 +189,10 @@ javaCppToJS = (source, language) ->
   # --- 6. 翻译循环/条件中的变量声明 ---
   # for (int i = 0; ...) → for (var i = 0; ...)
   s = s.replace /\b(for|while)\s*\(/g, (m) -> "#{m.replace /\b(int|long|short|char|byte|float|double|boolean|String|var)\b/g, 'var'}"
+  # Java for-each：for (Item item : items) { → for (const item of items) {（JS for-of）。
+  # 仅匹配大写开头的类型名（Java 类型名惯例），`for (int i = 0; ...)` 不受影响。
+  # (\s*\{)? 捕获保留原括号：无花括号的单语句体（for (Item x : xs) act();）不强行补 {，防括号不配
+  s = s.replace /\bfor\s*\(\s*[A-Z]\w*\s+(\w+)\s*:\s*([\w$]+)\s*\)(\s*\{)?/g, 'for (const $1 of $2)$3'
   # catch (Exception e) → catch (e)
   s = s.replace /\bcatch\s*\(\s*\w+\s+(\w+)\s*\)/g, 'catch ($1)'
 
@@ -182,13 +212,12 @@ javaCppToJS = (source, language) ->
   s = s.replace /\bSystem\.out\.println\s*\(/g, 'console.log('
   s = s.replace /\bSystem\.out\.print\s*\(/g, 'console.log('
 
-  # --- 10. Java 泛型擦除：List<String> list → list (类型已去掉) ---
-  s = s.replace /<[^>]+>/g, ''
-
   # --- 11. 恢复块注释 ---
   s = s.replace /\/\*BLOCK_COMMENT_(\d+)\*\//g, (m, idx) -> blockComments[parseInt idx] or m
   # 恢复字符串字面量（2.5 步占位，防 # 注释转换误伤 "a # b" 之类）
   s = s.replace /STRING_(\d+)/g, (m, idx) -> strings[parseInt idx] or m
+  # 恢复 new 构造占位：new __CTOR_String__( → new String(
+  s = s.replace /new __CTOR_(\w+)__\(/g, 'new $1('
 
   # --- 12. 压缩多余空行 ---
   s = s.replace /\n{4,}/g, '\n\n\n'
@@ -201,26 +230,24 @@ module.exports.fetchToken = (source, language) =>
   if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
     return Promise.resolve(source)
 
-  # 先走客户端翻译（已验证 moveLeft/moveRight 方向正确），
-  # kodekeeper API 有时会产生方向反了的 AST。
-  try
-    translated = javaCppToJS source, language
-    # 每次代码变更都会翻译，console.log 刷屏；内部部署无需调试输出
-    return Promise.resolve translated
-  catch e
-    console.warn '[aether_utils] client translation failed:', e?.message or e
-    # kodekeeper 兜底
-    headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-    return fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-      .then (x) =>
-        if !x.ok then throw new Error("kodekeeper status #{x.status}")
-        x.json()
-      .then (x) =>
-        if x?.token then return x.token
-        throw new Error('kodekeeper returned no token')
-      .catch (e2) =>
-        console.error '[aether_utils] kodekeeper also failed:', e2?.message or e2
+  # kodekeeper 优先（官方 AWS 服务，2026-08-13 实测可达、方向正确、AST 完整
+  # ESTree+Flow 兼容，CORS allow-origin:*）。失败时回退客户端正则翻译
+  # javaCppToJS，断网亦可用（离线兜底）。
+  headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+  service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
+  return fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) =>
+      if !x.ok then throw new Error("kodekeeper status #{x.status}")
+      x.json()
+    .then (x) =>
+      if x?.token then return x.token
+      throw new Error('kodekeeper returned no token')
+    .catch (e) =>
+      console.warn '[aether_utils] kodekeeper failed, fallback to client translation:', e?.message or e
+      try
+        return javaCppToJS source, language
+      catch e2
+        console.error '[aether_utils] client translation also failed:', e2?.message or e2
         throw e2
 
 module.exports.generateSpellsObject = (options) ->
