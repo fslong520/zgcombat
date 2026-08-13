@@ -81,22 +81,26 @@ const setupExpressMiddleware = function(app) {
     return next();
   });
 
-  // 内部部署：JS/CSS 强制 no-store，避免浏览器长缓存旧包致修复（如 CastButtonView 发奖）不生效。
-  app.use('/', express.static(path.join(publicPath, 'templates', 'static'), {
-    maxAge: 0,
-    setHeaders: (res, filePath) => {
-      if (/\.(js|css|map)$/.test(filePath)) {
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
-      }
-    }
-  }));
-
-  // 内部部署：所有 JS/CSS/Map 强制 no-store，避免浏览器长缓存旧前端包（如 CastButtonView 发奖修复）不生效。
-  const noStoreHeaders = (res, filePath) => {
-    if (/\.(js|css|map)$/.test(filePath)) {
+  // 内部部署：缓存策略——webpack contenthash bundle（*.bundle.js/css，内容变则文件名变）可长缓存 immutable；
+  // 无 hash 之 js/css/map（app.js、boot.js、aether.js、stylesheets 等）强制 no-store，
+  // 避免浏览器长缓存旧包致修复（如 CastButtonView 发奖）不生效。
+  const setStaticCacheHeaders = (res, filePath) => {
+    if (/\.bundle\.(js|css)(\.map)?$/.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (/\.(png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot|mp3|ogg|wav|mp4|webm)(\.map)?$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    } else if (/\.(js|css|map)$/.test(filePath)) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
     }
   };
+
+  app.use('/', express.static(path.join(publicPath, 'templates', 'static'), {
+    maxAge: 0,
+    setHeaders: setStaticCacheHeaders
+  }));
+
+  // 同上：bundle 长缓存，无 hash JS/CSS/Map 强制 no-store。
+  const noStoreHeaders = setStaticCacheHeaders;
 
   if ((config.buildInfo.sha !== 'dev') && config.isProduction) {
     app.use(`/${config.buildInfo.sha}`, express.static(publicPath, {maxAge: '1y', setHeaders: noStoreHeaders}));
