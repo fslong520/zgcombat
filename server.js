@@ -245,6 +245,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   // 简单内存缓存，减少重复 DB 查询
   const cache = {};
   const DEFAULT_TTL = 60000; // 60秒
+  // 静态集合全量列表查询缓存（60s TTL），避免每次请求重复 mongo 查询
+  const LIST_CACHE_TTL = 60000;
+  const listCache = {};
+  const campLevelsCache = {};
+  const STATIC_LIST_COLLECTIONS = ['thang.type', 'achievement', 'article', 'concept', 'level.component', 'level.system', 'campaign', 'level', 'poll'];
   function cachedQuery(mongoColl, id, opts) {
     if (!cocoDb) { return Promise.resolve({}); }
     const key = mongoColl + ':' + id;
@@ -259,6 +264,12 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     }).catch(function () {
       return { _id: oid, original: oid, name: 'stub', components: [], slug: 'stub', kind: 'stub' };
     });
+    // 惰性清理：键数超限时删除全部过期项，防内存无限增长（无定时器）
+    if (Object.keys(cache).length > 2000) {
+      Object.keys(cache).forEach(function (k) {
+        if (cache[k].expiry <= Date.now()) { delete cache[k]; }
+      });
+    }
     cache[key] = { promise: p, expiry: now + DEFAULT_TTL };
     return p;
   }
@@ -796,6 +807,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         // Campaign.levels is keyed by level `original` (family id), NOT document `_id`.
         // Offline dump has distinct _id/original, so query both.
         if (req.params.collection === 'campaign') {
+          const levelsCacheKey = 'camp-levels:' + id;
+          const levelsHit = campLevelsCache[levelsCacheKey];
+          if (levelsHit && levelsHit.expiry > Date.now()) { return res.status(200).json(levelsHit.docs); }
           const campDoc = await resolveCampaign(id);
           if (campDoc && campDoc.levels) {
             const levelIds = Object.keys(campDoc.levels)
@@ -805,6 +819,15 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
               const docs = await cocoDb.collection('levels')
                 .find({ $or: [{ _id: { $in: levelIds } }, { original: { $in: levelIds } }] })
                 .toArray();
+              // 只缓存成功路径；空结果不缓存，避免前端数据变化后缓存空
+              if (docs.length > 0) {
+                if (Object.keys(campLevelsCache).length > 2000) {
+                  Object.keys(campLevelsCache).forEach(function (k) {
+                    if (campLevelsCache[k].expiry <= Date.now()) { delete campLevelsCache[k]; }
+                  });
+                }
+                campLevelsCache[levelsCacheKey] = { docs: docs, expiry: Date.now() + DEFAULT_TTL };
+              }
               return res.status(200).json(docs);
             }
           }
@@ -893,7 +916,21 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           filter.creator = cookieUid;
         }
       }
+      const listKey = req.params.collection + ':' + (req.query.view || '') + ':' + (req.query.skip || '') + ':' + (req.query.limit || '') + ':' + (req.query.project || '') + ':' + (req.query.slug || '') + ':' + (req.query.related || '');
+      const isStaticList = STATIC_LIST_COLLECTIONS.indexOf(req.params.collection) >= 0;
+      if (isStaticList) {
+        const listHit = listCache[listKey];
+        if (listHit && listHit.expiry > Date.now()) { return res.status(200).json(listHit.docs); }
+      }
       const docs = await coll.find(filter, queryOpts).toArray();
+      if (isStaticList) {
+        if (Object.keys(listCache).length > 2000) {
+          Object.keys(listCache).forEach(function (k) {
+            if (listCache[k].expiry <= Date.now()) { delete listCache[k]; }
+          });
+        }
+        listCache[listKey] = { docs: docs, expiry: Date.now() + LIST_CACHE_TTL };
+      }
       return res.status(200).json(docs);
     } catch (e) {
       console.error('[db] route error', req.method, req.path, e.message);
@@ -936,16 +973,29 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
   });
 
   // Helper: resolve a campaign doc by _id / original / slug / name.
+  const campaignDocCache = {};   // campaigns 为静态数据，60s TTL 内存缓存
   async function resolveCampaign(id) {
+    if (!id) { return null; }
+    const now = Date.now();
+    if (campaignDocCache[id] && campaignDocCache[id].expiry > now) { return campaignDocCache[id].doc; }
     const c = cocoDb.collection('campaigns');
+    let d = null;
     if (/^[a-f0-9]{24}$/i.test(id)) {
       const oid = new ObjectId(id);
-      let d = await c.findOne({ _id: oid });
+      d = await c.findOne({ _id: oid });
       if (!d) { d = await c.findOne({ original: oid }); }
-      return d;
+    } else {
+      d = await c.findOne({ slug: id });
+      if (!d) { d = await c.findOne({ name: id }); }
     }
-    let d = await c.findOne({ slug: id });
-    if (!d) { d = await c.findOne({ name: id }); }
+    if (d) {
+      if (Object.keys(campaignDocCache).length > 2000) {
+        Object.keys(campaignDocCache).forEach(function (k) {
+          if (campaignDocCache[k].expiry <= Date.now()) { delete campaignDocCache[k]; }
+        });
+      }
+      campaignDocCache[id] = { doc: d, expiry: now + DEFAULT_TTL };
+    }
     return d;
   }
 
@@ -1431,22 +1481,18 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
 
   // SPA fallback: serve the app shell (main.html) for client-side routes (e.g. /dungeon)
   // that the static server does not map. Assets and API routes fall through to 404.
+  let cachedMainHtml = null;
+  let mainHtmlCacheAt = 0;
+  const MAIN_HTML_TTL = 60000; // 60s 内不重复读盘
   app.get('*', function(req, res, next) {
     const p = req.path;
     if (/\.[a-zA-Z0-9]+$/.test(p)) { return next(); }
     if (/^\/(db|api|auth|javascripts|stylesheets|images|fonts|dev|esports|user-data)\b/i.test(p)) { return next(); }
     if (!req.accepts('html')) { return next(); }
-    const file = path.join(publicPath, 'templates', 'static', 'main.html');
-    return fs.readFile(file, 'utf8', (err, html) => {
-      if (err) { return next(); }
-      // 注入 window.serverSession（原版后端在渲染时注入；MainAdminView 等依赖它，缺则崩）
+    // 注入逻辑基于缓存原始字符串每次执行（勿缓存注入后结果）
+    const serveMain = function (html) {
       const injection = '<script>window.serverSession = { amActually: null, switchingUserActualId: null, featureMode: null };</script>';
       html = html.replace('<script src="/dev/javascripts/app.js"', injection + '<script src="/dev/javascripts/app.js"');
-      // 登录态竞态修复：/user-data 是网络请求，async app.js（auth.js 在模块加载时
-      // new User(window.userObject)）可能在它返回前执行 → me 匿名 → 整页跳转后导航掉登录。
-      // 服务端把 userObject 内联进 HTML（同步脚本），顺序即确定。
-      // 注意：user-data 脚本还定义 window.serverConfig（Navigation.vue 的 partnerLogo 依赖
-      // this.serverConfig.codeNinjas），移除脚本时必须同时内联 serverConfig，否则导航渲染崩。
       const inlineUid = verifyUidCookie(req.cookies && req.cookies.zg_userId);
       const serverConfigObj = {
         codeNinjas: false,
@@ -1459,13 +1505,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       };
       const inlineUserScript = function (userObj) {
         const u = userObj || anonymousUser;
-        // escapeJs 转义 </script> 逃逸：用户名等字段含 HTML 特殊字符时防 XSS
         return '<script>window.userObject = ' + escapeJs(JSON.stringify(u)) + ';</script>' +
                '<script>window.serverConfig = ' + escapeJs(JSON.stringify(serverConfigObj)) + ';</script>';
       };
       const render = function (userObj) {
         const inlineUser = inlineUserScript(userObj);
-        // 内联 userObject 置于 app.js 之前：同步脚本先执行，async app.js 后执行必读到登录态
         html = html.replace('<script src="/user-data?sha=dev"></script>', '');
         html = html.replace('<script src="/dev/javascripts/app.js"', inlineUser + '<script src="/dev/javascripts/app.js"');
         return res.status(200).header('Cache-Control', 'no-cache').send(html);
@@ -1476,6 +1520,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           .catch(() => render(null));
       }
       return render(null);
+    };
+    const file = path.join(publicPath, 'templates', 'static', 'main.html');
+    if (cachedMainHtml && (Date.now() - mainHtmlCacheAt) < MAIN_HTML_TTL) {
+      return serveMain(cachedMainHtml);
+    }
+    return fs.readFile(file, 'utf8', (err, html) => {
+      if (err) { return next(); }
+      cachedMainHtml = html;
+      mainHtmlCacheAt = Date.now();
+      return serveMain(html);
     });
   });
 
