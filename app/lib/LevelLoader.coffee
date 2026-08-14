@@ -833,10 +833,8 @@ module.exports = class LevelLoader extends CocoClass
         for sprite in noteGroup.sprites when sprite.say?.sound
           AudioPlayer.preloadSoundReference(sprite.say.sound)
 
-    thangTypes = @supermodel.getModels(ThangType)
-    for thangType in thangTypes
-      for trigger, sounds of thangType.get('soundTriggers') or {} when trigger isnt 'say'
-        AudioPlayer.preloadSoundReference sound for sound in sounds
+    # 本地优化：不再全量预加载所有 thangType 的 soundTriggers（60+ mp3 请求拖慢关卡加载）。
+    # 音效改为按需加载——Lank.playSound 播放前自动 AudioPlayer.preloadSoundReference，首次播放微延迟（~100ms）可接受。
 
   # everything else sound wise is loaded as needed as worlds are generated
 

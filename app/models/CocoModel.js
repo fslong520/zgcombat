@@ -201,8 +201,8 @@ class CocoModel extends Backbone.Model {
         for (const error of Array.from(errors)) {
           console.debug('\t', error.dataPath, ':', error.message)
         }
-        if (typeof console.trace === 'function') {
-          console.trace('cm err', errors)
+        if (typeof console.debug === 'function') {
+          console.debug('cm err', errors)
         }
       }
       return errors

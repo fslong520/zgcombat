@@ -22,6 +22,9 @@ const utils = require('core/utils')
 const translateUtils = require('lib/translate-utils')
 const store = require('core/store')
 
+// Module-level dedup: missing dependencies are data problems; warn once per (thang, dependent, parent), not per level load
+const warnedDependencies = {}
+
 // Pure functions for use in Vue
 // First argument is always a raw Level.attributes
 // Accessible via eg. `Level.isProject(levelObj)`
@@ -410,7 +413,11 @@ module.exports = (Level = (function () {
                 if (!c2) {
                   let dependent = originalsToComponents[String(d.original)]
                   dependent = (dependent != null ? dependent.name : undefined) || d.original
-                  console.warn(parentType, thang.id || thang.name, 'does not have dependent Component', dependent, 'from', lc.name)
+                  const depKey = `${parentType}|${dependent}|${lc.name}`
+                  if (!warnedDependencies[depKey]) {
+                    console.warn(parentType, thang.id || thang.name, 'does not have dependent Component', dependent, 'from', lc.name)
+                    warnedDependencies[depKey] = true
+                  }
                 }
                 if (c2) { visit(c2) }
               }

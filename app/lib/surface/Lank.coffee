@@ -11,6 +11,9 @@ createjs = require 'lib/createjs-parts'
 
 store = require 'core/store'
 
+# Module-level dedup: missing actions are data problems; warn once per action, not per Lank instance
+warnedActions = {}
+
 # We'll get rid of this once level's teams actually have colors
 healthColors =
   ogres: [64, 128, 212]
@@ -40,7 +43,7 @@ module.exports = Lank = class Lank extends CocoClass
     thang: null
     camera: null
     showInvisible: false
-    preloadSounds: true
+    preloadSounds: false  # 本地优化：音效按需加载（playSound 时自动注册），避免关卡加载时全量预加载 60+ mp3 拖慢世界构建
 
   possessed: false
   flipped: false
@@ -455,9 +458,8 @@ module.exports = Lank = class Lank extends CocoClass
         @randomizedIdleAction = idles[Math.floor(Math.random() * idles.length)]
         action = @randomizedIdleAction
     unless @actions[action]?
-      @warnedFor ?= {}
-      console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
-      @warnedFor[action] = true
+      console.debug 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless warnedActions[action]
+      warnedActions[action] = true
       return if @action is 'idle' then null else 'idle'
     #action = 'break' if @actions.break? and @thang?.erroredOut  # This makes it looks like it's dead when it's not: bad in Brawlwood.
     action = 'die' if @actions.die? and thang?.health? and thang.health <= 0

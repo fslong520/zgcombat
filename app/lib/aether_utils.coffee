@@ -243,7 +243,7 @@ module.exports.fetchToken = (source, language) =>
       if x?.token then return x.token
       throw new Error('kodekeeper returned no token')
     .catch (e) =>
-      console.warn '[aether_utils] kodekeeper failed, fallback to client translation:', e?.message or e
+      console.debug '[aether_utils] kodekeeper failed, fallback to client translation:', e?.message or e
       try
         return javaCppToJS source, language
       catch e2

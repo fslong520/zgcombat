@@ -76,6 +76,7 @@ module.exports = (LevelComponent = (function () {
 
     compile (code) {
       let js
+      if (!code) { return this.get('js') }
       if (this.get('codeLanguage') && (this.get('codeLanguage') === 'javascript')) { return code }
       if (this.get('codeLanguage') && (this.get('codeLanguage') !== 'coffeescript')) {
         return console.error('Can\'t compile', this.get('codeLanguage'), '-- only CoffeeScript/JavaScript.', this)

@@ -794,11 +794,10 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     const isStatic = /^\/(thang\.type|achievement|article|concept|level\.component|level\.system)\b/.test(path);
     const isCollection = /\/names(\?|$)/.test(path);
     if (isStatic || isCollection) {
-      res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60'); // 5min
+      res.set('Cache-Control', 'public, max-age=86400, stale-while-revalidate=600'); // 静态数据缓存 1 天（组件/系统/类型/成就等不改动）
     } else {
       res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     }
-    res.set('Pragma', 'no-cache');
     return next();
   });
 
