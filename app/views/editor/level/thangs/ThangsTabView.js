@@ -233,7 +233,6 @@ module.exports = (ThangsTabView = (function () {
       $('.tab-content').mousedown(this.selectAddThang)
       $('#thangs-list').bind('mousewheel', this.preventBodyScrollingInThangList)
       this.$el.find('#extant-thangs-filter button:first').button('toggle')
-      $(window).on('resize', this.onWindowResize)
       const addThangsView = this.options.previouslyLoadedData.addThangsView || new AddThangsView({ world: this.world, supermodel: this.supermodel })
       this.addThangsView = this.insertSubView(addThangsView)
       this.buildInterface() // refactor to not have this trigger when this view re-renders?
@@ -257,7 +256,8 @@ module.exports = (ThangsTabView = (function () {
     }
 
     preventBodyScrollingInThangList (e) {
-      this.scrollTop += (e.deltaY < 0 ? 1 : -1) * 30
+      const el = this.$el.find('#thangs-list')[0]
+      if (el) { el.scrollTop += (e.deltaY < 0 ? 1 : -1) * 30 }
       e.preventDefault()
     }
 
@@ -383,7 +383,8 @@ module.exports = (ThangsTabView = (function () {
       if (this.surface != null) {
         this.surface.destroy()
       }
-      $(window).off('resize', this.onWindowResize)
+      $('.tab-content').off('mousedown', this.selectAddThang)
+      $('#thangs-list').off('mousewheel', this.preventBodyScrollingInThangList)
       $(document).unbind('contextmenu', this.preventDefaultContextMenu)
       if (this.thangsTreema != null) {
         this.thangsTreema.destroy()
@@ -729,6 +730,7 @@ module.exports = (ThangsTabView = (function () {
       const components = []
       for (const raw of mockThang.components) {
         const comp = _.find(allComponents, { original: raw.original })
+        if (!comp) { continue }
         if (['Selectable', 'Attackable'].includes(comp.name)) { continue } // Don't draw health bars or intercept clicks
         const componentClass = this.world.loadClassFromCode(comp.js, comp.name, 'component')
         components.push([componentClass, raw.config])
@@ -853,6 +855,7 @@ module.exports = (ThangsTabView = (function () {
 
     deleteEmptyTreema (thang) {
       const thangType = this.supermodel.getModelByOriginal(ThangType, thang.thangType)
+      if (!thangType) { return }
       const children = this.thangsTreema.childrenTreemas
       const thangKind = children[thangType.get('kind', true)].data
       const thangName = thangKind[thangType.get('name', true)]
@@ -1044,6 +1047,9 @@ module.exports = (ThangsTabView = (function () {
         thangData = this.getThangByID(e.thangID)
       }
       if (!thangData) { return }
+      if (this.editThangView) {
+        this.removeSubView(this.editThangView)
+      }
       this.editThangView = new LevelThangEditView({ thangData, level: this.level, world: this.world, supermodel: this.supermodel, oldPath: this.pathForThang(thangData) }) // supermodel needed for checkForMissingSystems
       this.insertSubView(this.editThangView)
       this.$el.find('>').hide()

@@ -144,7 +144,7 @@ class SaveLevelModal extends SaveVersionModal {
           await newModel.save(null, { type: 'POST' }) // Override PUT so we can trigger postNewVersion logic
           modelsToSave = _.without(modelsToSave, newModel)
           const oldModel = _.find(this.supermodel.models, m => m.get('original') === newModel.get('original'))
-          oldModel.clearBackup() // Otherwise looking at old versions is confusing.
+          if (oldModel) { oldModel.clearBackup() } // Otherwise looking at old versions is confusing.
         } catch (error) {
           console.log('Got errors:', error)
           forms.applyErrorsToForm($(form), error)

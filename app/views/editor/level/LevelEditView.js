@@ -553,6 +553,7 @@ module.exports = (LevelEditView = (function () {
         return noty({ timeout: 4000, text: 'Error: child window disconnected, you will have to reload this page to preview.', type: 'error', layout: 'top' })
       }
       const sendLevel = () => {
+        if (!this.childWindow) { return }
         return this.childWindow.Backbone.Mediator.publish('level:reload-from-data', { level: this.level, supermodel: this.supermodel })
       }
       if (this.childWindow && !this.childWindow.closed && (this.playClassMode === newClassMode) && (this.playClassLanguage === newClassLanguage)) {
@@ -576,6 +577,9 @@ module.exports = (LevelEditView = (function () {
         } else {
           this.childWindow = window.open(`/play/level/${scratchLevelID}`, 'child_window', 'width=1280,height=640,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
         }
+        if (!this.childWindow) {
+          return noty({ timeout: 4000, text: 'Error: popup window blocked, please allow popups for this site to preview.', type: 'error', layout: 'top' })
+        }
         this.childWindow.onPlayLevelViewLoaded = e => sendLevel() // still a hack
       }
       return this.childWindow.focus()
@@ -590,12 +594,14 @@ module.exports = (LevelEditView = (function () {
     }
 
     showUndoDescription () {
-      const undoDescription = TreemaNode.getLastTreemaWithFocus().getUndoDescription()
+      const undoDescription = TreemaNode.getLastTreemaWithFocus()?.getUndoDescription()
+      if (undoDescription == null) { return }
       return this.$el.find('#undo-button').attr('title', $.i18n.t('general.undo_prefix') + ' ' + undoDescription + ' ' + $.i18n.t('general.undo_shortcut'))
     }
 
     showRedoDescription () {
-      const redoDescription = TreemaNode.getLastTreemaWithFocus().getRedoDescription()
+      const redoDescription = TreemaNode.getLastTreemaWithFocus()?.getRedoDescription()
+      if (redoDescription == null) { return }
       return this.$el.find('#redo-button').attr('title', $.i18n.t('general.redo_prefix') + ' ' + redoDescription + ' ' + $.i18n.t('general.redo_shortcut'))
     }
 
@@ -652,6 +658,7 @@ module.exports = (LevelEditView = (function () {
         for (let thangComponentIndex = 0; thangComponentIndex < thang.components.length; thangComponentIndex++) {
           const thangComponent = thang.components[thangComponentIndex]
           const component = levelComponentMap[thangComponent.original]
+          if (!component) { continue }
           const configSchema = component.get('configSchema')
           const path = `/thangs/${thangIndex}/components/${thangComponentIndex}/config`
           totalChanges += this.level.populateI18N(thangComponent.config, configSchema, path)
@@ -742,6 +749,7 @@ module.exports = (LevelEditView = (function () {
     async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
       this.levelStats = await fetchLevelStats(this.level.get('original'))
+      if (this.levelStats == null) { return }
       if (this.levelStats.completionRate == null || !this.levelStats.playtime?.p50) {
         return // No stats yet
       }

@@ -218,6 +218,7 @@ module.exports = (ThangComponentsEditView = (function () {
         for (const componentRef of Array.from(_.values(componentMap))) {
           const componentModel = this.supermodel.getModelByOriginalAndMajorVersion(
             LevelComponent, componentRef.original, componentRef.majorVersion)
+          if (!componentModel) { continue }
           for (const dependency of Array.from(componentModel.get('dependencies') || [])) {
             if (!componentMap[dependency.original] && !thangComponentMap[dependency.original]) {
               delete componentMap[componentRef.original]
