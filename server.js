@@ -549,13 +549,77 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       if (!ok) { return res.status(403).json({ message: 'Forbidden' }); }
       const doc = req.body || {};
       delete doc._id;
-      if (!doc.original) { doc.original = doc._id || null; }
+      const hadOriginal = Boolean(doc.original);
       if (!doc.version) { doc.version = { isLatestMinor: true, isLatestMajor: true, minor: 1, major: 0 }; }
       if (!doc.created) { doc.created = new Date(); }
       cocoDb.collection('levels').insertOne(doc)
-        .then(function(r) { return cocoDb.collection('levels').findOne({ _id: r.insertedId }); })
-        .then(function(saved) { return res.status(200).json(saved || {}); })
-        .catch(function(e) { console.error('[db] /db/level POST error', e.message); return res.status(200).json({}); });
+        .then(function (result) {
+          // 请求未带 original 时，插入后以新 _id 为族根（此前 delete _id 后再取 doc._id 恒 null）
+          if (!hadOriginal) {
+            return cocoDb.collection('levels').updateOne({ _id: result.insertedId }, { $set: { original: result.insertedId } })
+              .then(function () { return result.insertedId; });
+          }
+          return result.insertedId;
+        })
+        .then(function (insertedId) { return cocoDb.collection('levels').findOne({ _id: insertedId }); })
+        .then(function (created) { return res.status(200).json(created || {}); })
+        .catch(function (e) { console.error('[db] /db/level POST error', e.message); return res.status(200).json({}); });
+    });
+  });
+  // 保存新版本（编辑器 saveNewMinorVersion/saveNewMajorVersion）：POST /db/level/:id/new-version
+  // 简化实现：复制当前文档为新 _id（original 保留、version.minor+1、isLatestMinor:true），
+  // 原文档 version.isLatestMinor=false 降级。注册于 POST /db/level/:id 之前（更具体路径先匹配）。
+  app.post('/db/level/:id/new-version', express.json({ limit: '50mb', strict: false }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const id = req.params.id;
+    if (!/^[a-f0-9]{24}$/i.test(id)) { return res.status(400).json({ message: 'Bad id' }); }
+    isAdminUser(req).then(function (ok) {
+      if (!ok) { return res.status(403).json({ message: 'Forbidden' }); }
+      const oid = new ObjectId(id);
+      cocoDb.collection('levels').findOne({ _id: oid })
+        .then(function (existing) {
+          if (!existing) { return res.status(200).json({}); }
+          const clone = Object.assign({}, existing);
+          delete clone._id; // 复制为新 _id
+          delete clone.slug; // levels.slug 唯一索引：版本复制不能继承 slug，新版本待命名（用户保存时设）
+          const ver = Object.assign({ isLatestMinor: false, isLatestMajor: false, minor: 0, major: 0 }, existing.version || {});
+          clone.version = Object.assign({}, ver, { minor: (ver.minor || 0) + 1, isLatestMinor: true });
+          clone.created = new Date();
+          return cocoDb.collection('levels').insertOne(clone)
+            .then(function (result) {
+              const newId = result.insertedId;
+              // 旧文档降级为非最新 minor（isLatestMajor 保留）
+              return cocoDb.collection('levels').updateOne({ _id: oid }, { $set: { 'version.isLatestMinor': false } })
+                .then(function () { return cocoDb.collection('levels').findOne({ _id: newId }); });
+            });
+        })
+        .then(function (created) { return res.status(200).json(created || {}); })
+        .catch(function (e) { console.error('[db] /db/level/:id/new-version error', e && e.message); return res.status(200).json({}); });
+    });
+  });
+  // 编辑器保存主路径：前端 SaveLevelModal 用 type:'POST' 调 /db/level/:id（覆盖 PUT 触发版本逻辑）。
+  // 本部署简化：等价于 PUT 保存（更新文档），保留 original/version 完整性。
+  app.post('/db/level/:id', express.json({ limit: '50mb', strict: false }), function (req, res) {
+    if (!cocoDb) { return res.status(200).json({}); }
+    const id = req.params.id;
+    if (!/^[a-f0-9]{24}$/i.test(id)) { return res.status(400).json({ message: 'Bad id' }); }
+    isAdminUser(req).then(function (ok) {
+      if (!ok) { return res.status(403).json({ message: 'Forbidden' }); }
+      const body = req.body || {};
+      const oid = new ObjectId(id);
+      const doc = Object.assign({}, body);
+      delete doc._id;
+      // original 保留已有（若请求带则用请求值，否则保持库中原值）
+      return cocoDb.collection('levels').findOne({ _id: oid }, { projection: { original: 1 } })
+        .then(function (existing) {
+          if (doc.original == null && existing && existing.original) { doc.original = existing.original; }
+          if (doc.original == null) { doc.original = id; } // 无族谱则自为根
+          if (!doc.version) { doc.version = { isLatestMinor: true, isLatestMajor: true, minor: (existing && existing.version && existing.version.minor) || 1, major: (existing && existing.version && existing.version.major) || 0 }; }
+          return cocoDb.collection('levels').updateOne({ _id: oid }, { $set: doc }, { upsert: false });
+        })
+        .then(function () { return cocoDb.collection('levels').findOne({ _id: oid }); })
+        .then(function (saved) { return res.status(200).json(saved || {}); })
+        .catch(function (e) { console.error('[db] POST /db/level/:id error', e && e.message); return res.status(200).json({}); });
     });
   });
   app.patch('/db/user/:id', express.json({ limit: '25mb', strict: false }), async function (req, res) {
@@ -834,6 +898,16 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         }
         return res.status(200).json([]);
       }
+      if (action === 'patches' && req.params.collection === 'level') {
+        // 编辑器 PatchesView（CocoModel.fetchPatchesWithStatus）：GET /db/level/<original>/patches?status=pending
+        // 期望 ARRAY。patches.target.original 存储格式兼容 hex 字符串与 ObjectId。
+        const origCond = /^[a-f0-9]{24}$/i.test(id)
+          ? { $or: [{ 'target.original': id }, { 'target.original': new ObjectId(id) }] }
+          : { 'target.original': id };
+        const patches = await cocoDb.collection('patches')
+          .find(origCond).sort({ created: -1 }).limit(100).toArray();
+        return res.status(200).json(patches);
+      }
       if (action === 'rankings') {
         return res.status(200).json([]);
       }
@@ -893,6 +967,14 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       const filter = {};
       if (req.query.slug) { filter.slug = req.query.slug; }
       if (req.query.related) { filter.related = req.query.related; }
+      if (req.query.term) {
+        // 编辑器搜索（LevelSearchView/SearchView）：按 slug/name 正则匹配
+        const esc = String(req.query.term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        filter.$or = [
+          { slug: { $regex: esc, $options: 'i' } },
+          { name: { $regex: esc, $options: 'i' } }
+        ];
+      }
       // 官方 API 兼容：view 过滤仅用于 thang.type（items=可购买道具 Item+Hero，heroes=Hero，heroes-junior=Junior Hero）
       if (req.params.collection === 'thang.type' && req.query.view) {
         const kindMap = {
@@ -916,7 +998,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           filter.creator = cookieUid;
         }
       }
-      const listKey = req.params.collection + ':' + (req.query.view || '') + ':' + (req.query.skip || '') + ':' + (req.query.limit || '') + ':' + (req.query.project || '') + ':' + (req.query.slug || '') + ':' + (req.query.related || '');
+      const listKey = req.params.collection + ':' + (req.query.view || '') + ':' + (req.query.skip || '') + ':' + (req.query.limit || '') + ':' + (req.query.project || '') + ':' + (req.query.slug || '') + ':' + (req.query.related || '') + ':' + (req.query.term || '');
       const isStaticList = STATIC_LIST_COLLECTIONS.indexOf(req.params.collection) >= 0;
       if (isStaticList) {
         const listHit = listCache[listKey];
