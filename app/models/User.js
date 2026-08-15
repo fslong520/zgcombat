@@ -173,7 +173,7 @@ module.exports = (User = (function () {
       return this.get('library')?.name === NAPERVILLE_UNIQUE_KEY
     }
 
-    isAnonymous () { return this.get('anonymous', true) }
+    isAnonymous () { return this.get('anonymous') === true || /^0+$/.test(String(this.get('_id') || '')) }
     // 内部部署：游客/匿名用户（0000... 占位 id）的 anonymous 字段可能被服务端写入流程
     // 覆盖为 false（见 server.js PUT/PATCH /db/user/:id），致 isAnonymous() 失效。
     // 其通关/解锁/物品进度存于浏览器 localStorage，须以占位 id 判定是否读取本地进度。

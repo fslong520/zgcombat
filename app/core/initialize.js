@@ -116,6 +116,9 @@ var init = function () {
     options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
     $.ajax('/auth/whoami', options).then(function (res) {
       window.userObject = res
+      // 竞态兜底：main.html 的 app.js 若早于 /user-data 执行，auth.js 用空 userObject 建了匿名 me；
+      // whoami 回来（cookie 验签）后同步 me，避免"userObject 已登录但 me 仍匿名"的判定错误。
+      if (window.me) { window.me.set(res) }
       return init()
     })
     return

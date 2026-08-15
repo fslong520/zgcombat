@@ -719,8 +719,10 @@ module.exports = (HeroVictoryModal = (function () {
       if ((this.level.get('slug') === 'lost-viking') && !((needle1 = me.get('age'), ['0-13', '14-17'].includes(needle1)))) {
         return this.showOffer(navigationEvent)
       } else {
+        // 内部部署：整页跳转而非 SPA router:navigate——胜利弹窗"继续"后 SPA 导航偶发 me 登录态
+        // 判定错误（匿名），整页刷新由 server 按 cookie 重新注入 userObject，登录态稳定。
         this.hide()
-        return Backbone.Mediator.publish('router:navigate', navigationEvent)
+        window.location.href = continueLink
       }
     }
 
