@@ -825,7 +825,11 @@ module.exports = Lank = class Lank extends CocoClass
 
     if @thang?.variableNames?
       ls = @addLabel 'variableNames', Label.STYLE_VAR
-      ls.setText @thang?.variableNames
+      names = @thang?.variableNames
+      names = _.keys(names) if _.isObject(names) and not _.isArray(names)
+      names = [names] unless _.isArray names
+      cleanNames = (String(n).replace(/^globalThis\[(.*)\]$/, '$1') for n in names)
+      ls.setText cleanNames.join ', '
     else if @labels.variableNames
       @labels.variableNames.destroy()
       delete @labels.variableNames
