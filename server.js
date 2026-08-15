@@ -961,6 +961,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         }
         if (!doc) { doc = await coll.findOne({ slug: id }, opts); }
         if (!doc) { doc = await coll.findOne({ name: id }, opts); }
+        // 前端本地化请求的 id 常为 original 旧 id（如 heroConfig 引用 529ec584，本地文档 original=529ec584），
+        // 不查 original 会返回 {} 空 stub → 英雄/装备/组件加载不到 → 渲染占位闪烁、目标无法达成。
+        if (!doc && /^[a-f0-9]{24}$/i.test(id)) {
+          doc = await coll.findOne({ original: new ObjectId(id) }, opts);
+        }
         return res.status(200).json(doc || {});
       }
       const filter = {};
