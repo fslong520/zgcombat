@@ -1158,6 +1158,11 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
           if (rec.rewards.indexOf(levelOriginal) !== -1) { return true; }
         }
       }
+      // 关卡不在任何 campaign 索引（独立/练习关，或 campaign 数据缺失）——无法判定序列前置，
+      // 不误拦正常通关保存（否则完成关卡被强制 complete=false，地图进度回退）。
+      if (!idx.levelRefs.has(levelOriginal) && !idx.firstLevels.has(levelOriginal) && !idx.seqNext.has(levelOriginal)) {
+        return true;
+      }
       return false;
     } catch (e) {
       // 异常保守拦截留痕，宁拒一次不放行跳关
