@@ -143,7 +143,6 @@ module.exports = class LevelLoader extends CocoClass
 
   onAccessibleLevelLoaded: ->
     console.debug 'LevelLoader: loaded level:', @level if LOG
-    @seedStaticBundleFromLevel() if @level.attributes._staticBundle
     @level.set('thangs', @thangsOverride) if @thangsOverride
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
@@ -447,35 +446,6 @@ module.exports = class LevelLoader extends CocoClass
     @session.set 'state', state
 
   # Grabbing the rest of the required data for the level
-
-  seedStaticBundleFromLevel: ->
-    # 本地优化：server 已在 /db/level 响应内联组件/系统/thangType（_staticBundle），
-    # 预置进 SuperModel 缓存，populateLevel 的 maybeLoadURL 命中缓存后不再逐个请求（关卡加载提速）。
-    bundle = @level.attributes._staticBundle
-    @level.unset '_staticBundle'
-    return unless bundle
-    seed = (ModelClass, docs, makeUrls) =>
-      for doc in docs when doc?._id
-        urls = makeUrls doc
-        continue if @supermodel.getModelByURL urls[0]
-        model = new ModelClass().set doc
-        model.loaded = true
-        for url in urls
-          model.setURL url
-          @supermodel.registerModel model
-        @supermodel.addModelResource(model, 'static', undefined, 0).markLoaded()
-    urlsFor = (d, coll) ->
-      base = "/db/#{coll}/#{d._id}"
-      urls = ["#{base}/version/#{d.version?.major or 0}"]
-      urls.push("/db/#{coll}/#{d.original}/version/#{d.version?.major or 0}") if d.original
-      urls
-    seed LevelComponent, bundle.components, (d) -> urlsFor d, 'level.component'
-    seed LevelSystem, bundle.systems, (d) -> urlsFor d, 'level.system'
-    seed ThangType, bundle.thangTypes, (d) ->
-      project = 'project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData'
-      urls = ["/db/thang.type/#{d._id}/version?#{project}"]
-      urls.push("/db/thang.type/#{d.original}/version?#{project}") if d.original
-      urls
 
   populateLevel: ->
     thangIDs = []
