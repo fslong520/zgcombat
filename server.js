@@ -285,6 +285,52 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
     return Object.keys(proj).length ? proj : undefined;
   };
 
+  // 关卡静态数据 bundle：一次查齐组件/系统/thangType（含本地化），附加到 /db/level 响应。
+  // 前端 LevelLoader 预置进 SuperModel 缓存后，maybeLoadURL 命中缓存不再逐个请求（关卡加载提速）。
+  // 内存缓存 1 小时（静态数据不改动），容量 50 个关卡上限。
+  const staticBundleCache = {};
+  const getLevelStaticBundle = async function (levelDoc) {
+    const levelId = String(levelDoc._id);
+    const hit = staticBundleCache[levelId];
+    if (hit && hit.expiry > Date.now()) { return hit.bundle; }
+    const componentIds = [];
+    const thangTypeIds = [];
+    for (const thang of levelDoc.thangs || []) {
+      if (thang.thangType) { thangTypeIds.push(String(thang.thangType)); }
+      for (const comp of thang.components || []) {
+        if (comp.original) { componentIds.push(String(comp.original)); }
+      }
+    }
+    const systemIds = (levelDoc.systems || []).map(function (s) { return String(s.original); }).filter(Boolean);
+    const toOid = function (x) { return new ObjectId(x); };
+    const [systems, thangTypes] = await Promise.all([
+      systemIds.length
+        ? cocoDb.collection('level.systems').find({ $or: [{ _id: { $in: systemIds.map(toOid) } }, { original: { $in: systemIds.map(toOid) } }] }).toArray()
+        : [],
+      thangTypeIds.length
+        ? cocoDb.collection('thang.types').find({ $or: [{ _id: { $in: thangTypeIds.map(toOid) } }, { original: { $in: thangTypeIds.map(toOid) } }] }).toArray()
+        : []
+    ]);
+    // 前端 Level.denormalize 会把关卡 thang 组件替换为 thangType 组件（其 original 为本地化组件 id），
+    // 故组件查询须同时覆盖关卡 thang 引用与 thangType 组件引用，否则预置 URL 对不上。
+    for (const tt of thangTypes) {
+      for (const comp of tt.components || []) {
+        if (comp.original) { componentIds.push(String(comp.original)); }
+      }
+    }
+    const components = componentIds.length
+      ? await cocoDb.collection('level.components').find({ $or: [{ _id: { $in: componentIds.map(toOid) } }, { original: { $in: componentIds.map(toOid) } }] }).toArray()
+      : [];
+    const bundle = { components: components, systems: systems, thangTypes: thangTypes };
+    staticBundleCache[levelId] = { expiry: Date.now() + 3600e3, bundle: bundle };
+    if (Object.keys(staticBundleCache).length > 50) {
+      for (const k of Object.keys(staticBundleCache)) {
+        if (staticBundleCache[k].expiry <= Date.now()) { delete staticBundleCache[k]; }
+      }
+    }
+    return bundle;
+  };
+
   // Anonymous user lookup: the SPA injects a placeholder _id for anonymous users
   // and then fetches /db/user/<that id>. Always answer 200 (GET for read, PUT/PATCH
   // for the writes the SPA issues to persist anonymous state) with the anonymous
@@ -961,6 +1007,9 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
         }
         if (!doc) { doc = await coll.findOne({ slug: id }, opts); }
         if (!doc) { doc = await coll.findOne({ name: id }, opts); }
+        if (mongoColl === 'levels' && doc && !project) {
+          doc = Object.assign({}, doc, { _staticBundle: await getLevelStaticBundle(doc) });
+        }
         return res.status(200).json(doc || {});
       }
       const filter = {};
