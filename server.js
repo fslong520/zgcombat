@@ -1596,7 +1596,7 @@ var createAndConfigureApp = (module.exports.createAndConfigureApp = function() {
       };
       const render = function (userObj) {
         const inlineUser = inlineUserScript(userObj);
-        html = html.replace('<script src="/user-data?sha=dev"></script>', '');
+        html = html.replace('<script src="/user-data?sha=dev"></script>', '').replace('<script src="/user-data?sha=dev">', '');
         html = html.replace('<script src="/dev/javascripts/app.js"', inlineUser + '<script src="/dev/javascripts/app.js"');
         return res.status(200).header('Cache-Control', 'no-cache').send(html);
       };
