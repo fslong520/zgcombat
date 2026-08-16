@@ -1950,14 +1950,7 @@ module.exports = class SpellView extends CocoView
     @renderSelectors('.programming-language')
 
   onInsertSnippet: (e) ->
-    snippetCode = null
-    if e.doc.snippets?[e.language]?.code
-      snippetCode = e.doc.snippets[e.language].code
-    else if (e.formatted.type isnt 'snippet') and e.formatted.shortName?
-      snippetCode = e.formatted.shortName
-    return unless snippetCode?
-    snippetManager = ace.require('ace/snippets').snippetManager
-    snippetManager.insertSnippet @ace, snippetCode
+    # 禁用点击填入代码（2026-08-16）：学生须手动打字，禁止点击法术面板条目插入整段代码
     return
 
   dismiss: ->

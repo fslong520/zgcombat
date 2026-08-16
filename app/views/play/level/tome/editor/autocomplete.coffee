@@ -220,6 +220,10 @@ module.exports = class Autocomplete
               Autocomplete.prototype.commands["Shift-Return"] = exitAndReturn
 
             editor.completer = new Autocomplete()
+            # 提示可显示，但点击/回车填入无效（2026-08-16）：学生须手动打字，拦截一切确认插入
+            editor.completer.insertMatch = (data, options) ->
+              editor.completer.detach()
+              return null
             getCompletionPrefix = @getCompletionPrefix
             editor.completer.gatherCompletions = (editor, callback) ->
               session = editor.getSession()
