@@ -468,7 +468,21 @@ module.exports = Lank = class Lank extends CocoClass
   updateActionDirection: (@wallGrid=null) ->
     # wallGrid is only needed for wall grid face updates; should refactor if this works
     return unless action = @getActionDirection()
-    @playAction(action) if action isnt @currentAction
+    if action isnt @currentAction
+      # 方向滞回（2026-08-16 修复宠物/角色移动时造型闪烁）：
+      # 宠物跟随英雄移动时 rotation 每帧重算，在 ±45°/±135° 边界附近微抖即令
+      # move_side/fore/back 每帧交替 → SegmentedSprite.goto 每帧 removeAllChildren 重建 → 闪烁。
+      # 方向切换后须偏离上次切换点 ≥15° 才允许再次切换，消除边界抖动。
+      # 墙面格动作（relatedActions 为 '111111111111'/'111111111'）基于离散位置格切换、rotation 恒定，跳过滞回。
+      wallGridActions = @currentRootAction?.relatedActions?['111111111111'] or @currentRootAction?.relatedActions?['111111111']
+      unless wallGridActions
+        if @directionSwitchRotation?
+          rotation = @getRotation()
+          delta = Math.abs(rotation - @directionSwitchRotation)
+          delta = 360 - delta if delta > 180
+          return if delta < 15
+        @directionSwitchRotation = @getRotation()
+      @playAction(action)
 
   lockAction: -> (@actionLocked=true)
 
